@@ -1,0 +1,14 @@
+{
+  "name": "react",
+  "main": [
+    "react.js",
+    "react-dom.js"
+  ],
+  "ignore": [],
+  "_source": "nexus+http://10.10.69.17:8081/repository/bower-group/react",
+  "_target": "^v15.0.2",
+  "_release": "v15.0.2",
+  "version": "v15.0.2",
+  "_originalSource": "react",
+  "_direct": true
+}

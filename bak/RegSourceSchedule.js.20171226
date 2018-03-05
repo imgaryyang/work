@@ -1,0 +1,220 @@
+import React, { Component, PureComponent } from 'react';
+import {
+  InteractionManager,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+} from 'react-native';
+
+import Button from 'rn-easy-button';
+import Picker from 'rn-easy-picker';
+import Global from '../../../Global';
+import PlaceholderView from '../../../modules/PlaceholderView';
+import { testData, testMenuData } from './TestData';
+
+class Item extends PureComponent {
+  onPress = () => {
+    // this.props.onPressItem(this.props.data, this.props.index);
+  };
+
+  render() {
+    return (
+      <View style={styles.item}>
+        <View style={{ flex: 6, flexDirection: 'column' }}>
+          <View style={[Global.styles.CENTER, { flex: 3 }]}>
+            <Text style={{ fontSize: 17 }}>
+              {this.props.data.docName}
+            </Text>
+          </View>
+          <View style={[Global.styles.CENTER, { flex: 1, flexDirection: 'row' }]}>
+            <Text>{this.props.data.area}</Text>
+            <Text style={{ marginLeft: 10 }} >{this.props.data.docSex}</Text>
+            <Text style={{ marginLeft: 10 }} >{this.props.data.docJobTitle}</Text>
+          </View>
+        </View>
+        <View style={{ flex: 4, flexDirection: 'column' }} >
+          <View style={{ alignItems: 'center', flex: 3, flexDirection: 'row' }}>
+            <Text>{this.props.data.clinicDate}</Text>
+            <Text style={{ marginLeft: 5 }}>{this.props.data.shiftName}</Text>
+          </View>
+          <View style={{ justifyContent: 'center', flex: 1 }}>
+            <Text>{this.props.data.clinicType}</Text>
+          </View>
+        </View>
+        <View style={[Global.styles.CENTER, { flex: 3 }]}>
+          <Button
+            text={this.props.data.enableNum > 0 ? `余:${this.props.data.enableNum}` : '约满'}
+            disabled={!this.props.data.enableNum > 0}
+            style={styles.button}
+            onPress={this.onPress}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+class RegSourceSchedule extends Component {
+  static displayName = 'RegSourceSchedule';
+  static description = '这里填写该组件的名称';
+
+  constructor(props) {
+    super(props);
+
+    this.datePickerRef = null;
+    this.titlePickerRef = null;
+    this.shiftPickerRef = null;
+    this.areaPickerRef = null;
+    this.fetchData = this.fetchData.bind(this);
+
+    this.state = {
+      doRenderScene: false,
+
+      data: [],
+      datePickerData: [],
+      titlePickerData: [],
+      shiftPickerData: [],
+      areaPickerData: [],
+
+      datePicked: null,
+      titlePicked: null,
+      shiftPicked: null,
+      areaPicked: null,
+    };
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState(
+        { doRenderScene: true },
+        () => { this.fetchData(); },
+      );
+    });
+  }
+
+  showAppoint() {
+    console.log('this', this);
+  }
+
+  async fetchData() {
+    this.setState({
+      data: testData,
+      datePickerData: testMenuData[0],
+      titlePickerData: testMenuData[1],
+      shiftPickerData: testMenuData[2],
+      areaPickerData: testMenuData[3],
+    });
+  }
+
+  render() {
+    const {
+      doRenderScene,
+      data,
+      datePickerData,
+      titlePickerData,
+      shiftPickerData,
+      areaPickerData,
+      datePicked,
+      titlePicked,
+      shiftPicked,
+      areaPicked,
+    } = this.state;
+
+    // 场景过渡动画未完成前，先渲染过渡场景
+    if (!doRenderScene) {
+      return <PlaceholderView />;
+    }
+
+    return (
+      <View style={Global.styles.CONTAINER}>
+        <View style={{ flexDirection: 'row' }}>
+          <Button onPress={() => this.datePickerRef.toggle()} text={datePicked || '选择日期'} />
+          <Button onPress={() => this.titlePickerRef.toggle()} text={titlePicked || '选择职称'} />
+          <Button onPress={() => this.shiftPickerRef.toggle()} text={shiftPicked || '选择班次'} />
+          <Button onPress={() => this.areaPickerRef.toggle()} text={areaPicked || '选择院区'} />
+        </View>
+        <FlatList
+          data={data}
+          style={styles.list}
+          keyExtractor={(item, index) => `${item}${index + 1}`}
+          renderItem={({ item, index }) => <Item data={item} index={index} onPress={this.showAppoint} />}
+        />
+        <Picker
+          ref={(ref) => {
+              this.datePickerRef = ref;
+            }}
+          dataSource={datePickerData}
+          selected={datePicked}
+          onChange={(item) => {
+              this.setState({
+                datePicked: item ? item.label : null,
+              });
+            }}
+          center
+        />
+        <Picker
+          ref={(ref) => {
+              this.titlePickerRef = ref;
+            }}
+          dataSource={titlePickerData}
+          selected={titlePicked}
+          onChange={(item) => {
+              this.setState({
+                titlePicked: item ? item.label : null,
+              });
+            }}
+          center
+        />
+        <Picker
+          ref={(ref) => {
+              this.shiftPickerRef = ref;
+            }}
+          dataSource={shiftPickerData}
+          selected={shiftPicked}
+          onChange={(item) => {
+              this.setState({
+                shiftPicked: item ? item.label : null,
+              });
+            }}
+          center
+        />
+        <Picker
+          ref={(ref) => {
+              this.areaPickerRef = ref;
+            }}
+          dataSource={areaPickerData}
+          selected={areaPicked}
+          onChange={(item) => {
+              this.setState({
+                areaPicked: item ? item.label : null,
+              });
+            }}
+          center
+        />
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderBottomWidth: Global.lineWidth,
+    borderBottomColor: Global.colors.LINE,
+  },
+  pickerButton: {
+
+  },
+  button: {
+    marginTop: 2,
+    marginBottom: 2,
+    width: 60,
+    height: 30,
+  },
+});
+
+export default RegSourceSchedule;

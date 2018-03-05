@@ -1,0 +1,122 @@
+.container {
+  background-color: #002967;
+	background-size: auto 90%;
+	background-repeat: no-repeat;
+	background-position: left center;
+  min-height:500px;
+  min-width:500px;
+  position: relative;
+}
+.rightBgContainer {
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  background-position: right center;
+  width: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+}
+
+.loginContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.wrapper{
+  width: 400px;
+  height: 100%;
+  display: flex;
+  align-items: center; /*定义body的元素垂直居中*/
+  justify-content: center; /*定义body的里的元素水平居中*/
+  margin: auto;
+}
+.logo {
+  z-index: 999;
+  margin-bottom: 40px;
+}
+.card {
+  width: 400px;
+	height: 230px;
+  display: block;
+}
+.card > div {
+  padding-top: 40px;
+}
+.title {
+  height: 130px;
+  line-height: 60px;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 8px;
+}
+
+.form {
+	height : 80%;
+	width:100%;
+	margin:auto 0;
+}
+.form label {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: @primary-color !important;
+}
+.form > div {
+	margin-bottom:30px;
+}
+.input{
+	height : 40px;
+}
+.button{
+	width: 100%;
+}
+
+.verticalCenterModal {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.verticalCenterModal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.verticalCenterModal > div {
+  display: inline-block;
+  vertical-align: middle;
+  top: 0;
+  text-align: left;
+}
+
+.verticalCenterModal > div > div > div:last-child {
+	padding: 0px;
+	padding-bottom: 10px;
+}
+
+.selectDeptTitle {
+  color: #002967;
+  font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 10px;
+  line-height: 40px;
+}
+
+.selectDeptSepLine {
+	height: 1px;
+	background-color: rgb(233, 233, 233);
+}
+
+.selectDeptRow {
+	cursor: pointer;
+	font-size: 20px;
+	text-align: center;
+	line-height: 50px;
+}

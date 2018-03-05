@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<bean id="patientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.lenovohit.elh.base.model.Patient" />
+	</bean>
+	<bean id="userPatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.lenovohit.elh.base.model.UserPatient" />
+	</bean>
+	
+	<bean id="patientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="patientDao" />
+	</bean>
+	<bean id="userPatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="userPatientDao" />
+	</bean>
+</beans>

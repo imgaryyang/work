@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+	default-lazy-init="false">
+
+	<description>Shiro安全配置</description>
+	
+	<!-- 項目自定义的Realm -->
+	<!-- <bean id="shiroDbRealm" class="com.infohold.bdrp.authority.manager.impl.ShiroDbRealmImpl">
+		<property name="authzUserDao" ref="authUserDao"/>
+	</bean> -->
+	
+	
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityShiroManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="sessionManager" ref="sessionManager" />
+	</bean>
+
+	<bean id="hashCredentialsMatcher"
+        class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="SHA-256" />
+    </bean>
+    
+	<!-- <bean id="chainDefinitionSectionMetaSource" class = "com.infohold.bdrp.security.manager.impl.ChainDefinitionSectionMetaSourceManagerImpl"> 
+		<property name="authzPermissionDao" ref="authzPermissionDao" /> 
+	       
+	    <property name="filterChainDefinitions"> 
+	        <value> 
+	           /login = anon
+	        </value> 
+	    </property> 
+	</bean> 
+	 -->
+	
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="com.infohold.bdrp.authority.shiro.web.ShiroFilterFactoryBeanWrapper">
+		<property name="securityManager" ref="securityShiroManager" />
+		<property name="loginUrl" value="${app.login.url}" />
+		<property name="successUrl" value="${app.login.success.url}" />
+		<property name="pageUrl" value="${app.auth.page.url}" />
+		<property name="unauthorizedUrl" value="${app.auth.unauthorized.url}" />
+		<property name="anonymousUrl" value="${app.auth.anonymous.url}" />
+		<property name="filterChainDefinitions">
+			<value>
+				/** = authority
+			</value>
+		</property>
+		<!-- 
+			shiro连接约束配置,在这里使用自定义的动态获取资源类
+		 <property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" /> 
+		-->
+	</bean>
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<!-- <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:config/ehcache-shiro.xml"/>
+	</bean> -->
+	
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	<!-- <bean id="cacheManager" class="com.infohold.bdrp.authority.shiro.session.dao.impl.RedisCacheManagerImpl" /> -->
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<!-- AOP式方法级权限检查
+	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>  -->
+	<bean class="com.infohold.bdrp.authority.shiro.aop.AuthorizatioWithPathAdvisor">
+    	<property name="securityManager" ref="securityShiroManager"/>
+	</bean>
+	
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	    <property name="sessionDAO" ref="redisSessionDao" />
+	    <property name="globalSessionTimeout" value="31536000000"/> 
+	</bean>
+	
+</beans>

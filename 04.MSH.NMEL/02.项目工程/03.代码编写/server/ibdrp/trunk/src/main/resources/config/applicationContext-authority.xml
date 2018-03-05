@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<!-- **************** 权限 Menu START **************** -->
+	<bean id="menuDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.bdrp.authority.model.Menu" />
+	</bean>
+	<bean id="menuManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="menuDao" />
+	</bean>
+	<!-- **************** 权限 Menu END **************** -->
+       
+	<!-- **************** 权限 authorityResource START **************** -->
+	<bean id="authResourceDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.bdrp.authority.model.AuthResource" />
+	</bean>
+	<bean id="authResourceManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="authResourceDao" />
+	</bean>
+	<!-- **************** 权限 authorityResource END **************** -->
+
+	<!-- **************** 权限 Function START **************** -->
+	<bean id="functionDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.bdrp.authority.model.Function" />
+	</bean>
+	<bean id="functionManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="functionDao" />
+	</bean>
+	<!-- **************** 权限 Function END **************** -->
+	
+	<!-- **************** 权限 access START **************** -->
+	<bean id="authAccessDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.bdrp.authority.model.AuthzAccess" />
+	</bean>
+	<bean id="authAccessManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="authAccessDao" />
+	</bean>
+	<bean id="authRoleAccessDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.bdrp.authority.model.AuthRoleAccess" />
+	</bean>
+	<bean id="authRoleAccessManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="authRoleAccessDao" />
+	</bean>
+	<!-- **************** 权限 access END **************** -->
+	
+	<bean id="authPermissionDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.infohold.bdrp.authority.model.AuthPermission" />
+	</bean>
+	<bean id="authPermissionManager" class="com.infohold.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="authPermissionDao" />
+	</bean>
+	
+</beans>

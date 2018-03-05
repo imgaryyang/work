@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	
+	<!-- **************** 业务渠道 BizChannel START **************** -->
+	<bean id="bizChannelDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BizChannel" />
+	</bean>
+	<bean id="bizChannelManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="bizChannelDao" />
+	</bean>
+	<!-- **************** 业务渠道 BizChannel END **************** -->
+	
+	<!-- **************** 支付渠道 BizChannel START **************** -->
+	<bean id="payChannelDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.PayChannel" />
+	</bean>
+	<bean id="payChannelManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payChannelDao" />
+	</bean>
+	<!-- **************** 支付渠道 BizChannel END **************** -->
+	
+	<!-- **************** 账单类别渠道 BizChannel START **************** -->
+	<bean id="billCatalogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BillCatalog" />
+	</bean>
+	<bean id="billCatalogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="billCatalogDao" />
+	</bean>
+	<!-- **************** 账单类别渠道 BizChannel END **************** -->
+	
+	<!-- **************** 账单类型渠道 BizChannel START **************** -->
+	<bean id="billTypeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BillType" />
+	</bean>
+	<bean id="billTypeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="billTypeDao" />
+	</bean>
+	<!-- **************** 账单类型渠道 BizChannel END **************** -->
+	
+	<!-- **************** 账单实例渠道 BizChannel START **************** -->
+	<bean id="billInstanceDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BillInstance" />
+	</bean>
+	<bean id="billInstanceManager" class="com.lenovohit.ebpp.bill.manager.impl.BillInstanceManagerImpl">
+		<constructor-arg ref="billInstanceDao" />
+	</bean>
+	<!-- **************** 账单实例渠道 BizChannel END **************** -->
+	
+	<!-- **************** 账单流转日志渠道 BizChannel START **************** -->
+	<bean id="billInstanceLogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BillInstanceLog" />
+	</bean>
+	<bean id="billInstanceLogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="billInstanceLogDao" />
+		
+	</bean>
+	<!-- **************** 业务渠道 BizChannel END **************** -->
+	
+	<!-- **************** 支付信息渠道 BizChannel START **************** -->
+	<bean id="payInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.PayInfo" />
+	</bean>
+	<bean id="payInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payInfoDao" />
+	</bean>
+	<!-- **************** 支付信息渠道 BizChannel END **************** -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- **************** 账单实例日终信息 BillInstanceEnd START **************** -->
+	<bean id="billInstanceEndDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.BillInstanceEnd" />
+	</bean>
+	<bean id="billInstanceEndManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="billInstanceEndDao" />
+	</bean>
+	<!-- **************** 账单实例日终信息BillInstanceEnd END **************** -->
+	
+	<!-- **************** 付款实例日终信息 PayInfoEnd START **************** -->
+	<bean id="payInfoEndDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.PayInfoEnd"/>
+	</bean>
+	<bean id="payInfoEndManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payInfoEndDao" />
+	</bean>
+	<!-- **************** 付款实例日终信息 PayInfoEnd END **************** -->
+	
+	<!-- **************** 接口日志 IfcLog START ********************** -->
+	<bean id="ifcLogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.IfcLog" />
+	</bean>
+	<bean id="ifcLogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="ifcLogDao" />
+	</bean>
+	<!-- **************** 接口日志 IfcLog END ************************ -->
+	
+	
+	
+	<!-- **************** 日终定时器计划表 START ********************** -->
+	<bean id="endDaySchPlanDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.EndDaySchPlan" />
+	</bean>
+	<bean id="endDaySchPlanManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="endDaySchPlanDao" />
+	</bean>
+	<!-- **************** 日终定时器计划表 END ************************ -->
+	
+	<!-- **************** 日终对账状态表 EndDayComSta START **************** -->
+	<bean id="endDayComStaDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.EndDayComSta" />
+	</bean>
+	<bean id="endDayComStaManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="endDayComStaDao" />
+	</bean>
+	<!-- **************** 日终对账状态表 EndDayComSta END **************** -->
+	
+	<!-- **************** 日终日志表 EndDayLog START **************** -->
+	<bean id="endDayLogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ebpp.bill.model.EndDayLog" />
+	</bean>
+	<bean id="endDayLogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="endDayLogDao" />
+	</bean>
+	<!-- **************** 日终日志表 EndDayLog END **************** -->
+	
+	
+</beans>

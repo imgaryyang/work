@@ -1,0 +1,118 @@
+/**
+ *初始化数据,选用js格式而不是json是为了避免乱码
+ *
+ **/
+{
+	version:0,
+	data : 	
+	[
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960001",
+			"name" : "何权瀛",
+			"gender" : "1",
+			"jobNum" : "01203",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "教授,主任医师",
+			"speciality" : "擅长诊治感染性肺部疾病、气道阻塞性疾病、睡眠呼吸暂停综合征、间质性肺病、少见的肺部疑难杂症等",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920001",
+			"deptName" : "呼吸内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc01.jpg",
+			"clinic" : "1;am;300|3;am;300",
+			"clinicDesc" : "周一上午，挂号费300<br>周三上午，挂号费300"
+		},
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960002",
+			"name" : "高占成",
+			"gender" : "1",
+			"jobNum" : "01069",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "教授,主任医师",
+			"speciality" : "擅长（1）诊治感染性肺部疾病、慢性阻塞性肺病、哮喘、间质性肺病、少见肺部疑难杂症和呼吸危重症等呼吸系统疾病；（2）呼吸系统疾病介入诊疗，包括经支气管镜活瓣植入肺减容术、气道内冷冻治疗等。",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920001",
+			"deptName" : "呼吸内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc02.jpg",
+			"clinic" : "4;am;300",
+			"clinicDesc" : "周四上午，挂号费300"
+		},
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960003",
+			"name" : "曹照龙",
+			"gender" : "1",
+			"jobNum" : "01138",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "主任医师",
+			"speciality" : "擅长诊治感染性肺部疾病、气道阻塞性疾病、睡眠呼吸暂停综合征、间质性肺病、少见的肺部疑难杂症等",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920001",
+			"deptName" : "呼吸内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc03.jpg",
+			"clinic" : "2;pm;200|4;pm;200",
+			"clinicDesc" : "周二下午，挂号费200<br>周四下午，挂号费200"
+		},
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960004",
+			"name" : "韩芳",
+			"gender" : "1",
+			"jobNum" : "02711",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "主任医师",
+			"speciality" : "擅长诊治睡眠呼吸暂停综合征、睡眠相关疾病等。",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920001",
+			"deptName" : "呼吸内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc04.jpg",
+			"clinic" : "1;pm;100|4;pm;14",
+			"clinicDesc" : "周一下午，挂号费100<br>周四下午，挂号费14"
+		},
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960005",
+			"name" : "屈汉廷",
+			"gender" : "1",
+			"jobNum" : "00111",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "教授,主任医师",
+			"speciality" : "消化系统疾病：包括肝病及消化系内镜等。",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920002",
+			"deptName" : "消化内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc05.jpg",
+			"clinic" : "1;am;200|2;am;200|3;am;200",
+			"clinicDesc" : "周一上午，挂号费200<br>周二上午，挂号费200<br>周三上午，挂号费200"
+		},
+		{
+			"id" : "8a81a7db4dae02b0014dae02b0960006",
+			"name" : "刘玉兰",
+			"gender" : "0",
+			"jobNum" : "02140",
+			"certNum" : "",
+			"degrees" : "",
+			"major" : "",
+			"jobTitle" : "主任医师",
+			"speciality" : "1.炎症性肠病（溃疡性结肠炎以及克罗恩病）的诊断和治疗 2. 慢性肝病，尤其是疑难肝病的诊疗； 3.脂肪肝诊治；4.早期食管癌，胃癌及结肠癌的诊断及治疗 5. 食管疾病的内镜下治疗，如贲门失弛缓、各种原因食管狭窄的内镜下治疗等",
+			"entryTime" : "",
+			"department" : "8a81a7db4dadd943014dadd943920002",
+			"deptName" : "消化内科",
+			"hospital" : "8a81a7db4dad2271014dad2271e20001",
+			"portrait" : "h01doc06.jpg",
+			"clinic" : "4;am;100",
+			"clinicDesc" : "周四上午，挂号费100"
+		} ]	
+}
+	

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	<!-- **************** Sample START **************** -->
+	<bean id="sampleDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Sample" />
+	</bean>
+	<bean id="sampleManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="sampleDao" />
+	</bean>
+	<!-- **************** Sample   END **************** -->
+	
+	<!-- **************** Application START **************** -->
+	<bean id="applicationDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.app.model.Application" />
+	</bean>
+	<bean id="applicationManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="applicationDao" />
+	</bean>
+	<!-- **************** Application   END **************** -->
+
+	<!-- **************** UserPatient START **************** -->
+	<bean id="userPatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.UserPatient" />
+	</bean>
+	<bean id="userPatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="userPatientDao" />
+	</bean>
+	<!-- **************** UserPatient   END **************** -->
+	
+	<!-- **************** Feedback START **************** -->
+	<bean id="feedbackDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Feedback" />
+	</bean>
+	<bean id="feedbackManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="feedbackDao" />
+	</bean>
+	<!-- **************** Feedback END **************** -->
+
+	<!-- **************** PatientProfileRela START **************** -->
+	<bean id="userPatientProfileDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.UserPatientProfile" />
+	</bean>
+	<bean id="userPatientProfileManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="userPatientProfileDao" />
+	</bean>
+	<!-- **************** PatientProfileRela END **************** -->
+	
+	<!-- **************** Disease START **************** -->
+	<bean id="diseaseDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Disease" />
+	</bean>
+	<bean id="diseaseManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="diseaseDao" />
+	</bean>
+	<!-- **************** Disease END **************** -->
+
+	<!-- **************** Symptom START **************** -->
+	<bean id="symptomDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Symptom" />
+	</bean>
+	<bean id="symptomManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="symptomDao" />
+	</bean>
+	<!-- **************** Symptom END **************** -->
+		
+	<!-- **************** Dic START **************** -->
+	<bean id="dicDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.base.model.Dic" />
+	</bean>
+	<bean id="dicManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="dicDao" />
+	</bean>
+	<!-- **************** Dic END **************** -->
+	
+	<!-- **************** DrugInfo START **************** -->
+	<bean id="drugDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.DrugInfo" />
+	</bean>
+	<bean id="drugManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="drugDao" />
+	</bean>
+	<!-- **************** DrugInfo END **************** -->
+	
+	<!-- **************** Emergency START **************** -->
+	<bean id="emergencyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Emergency" />
+	</bean>
+	<bean id="emergencyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="emergencyDao" />
+	</bean>
+	<!-- **************** Emergency END **************** -->
+	
+	<!-- **************** DicItem START **************** -->
+	<bean id="dicItemDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.base.model.DicItem" />
+	</bean>
+	<bean id="dicItemManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="dicItemDao" />
+	</bean>
+	<!-- **************** DicItem END **************** -->
+	
+	<!-- **************** AppBodyPart START **************** -->
+	<bean id="bodyPartDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.AppBodyPart" />
+	</bean>
+	<bean id="bodyPartManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="bodyPartDao" />
+	</bean>
+	<!-- **************** AppBodyPart END **************** -->
+	
+	<!-- **************** Classification START **************** -->
+	<bean id="classificationDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Classification" />
+	</bean>
+	<bean id="classificationManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="classificationDao" />
+	</bean>
+	<!-- **************** Classification END **************** -->
+	
+	<!-- **************** Laboratory START **************** -->
+	<bean id="laboratoryDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Laboratory" />
+	</bean>
+	<bean id="laboratoryManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="laboratoryDao" />
+	</bean>
+	<!-- **************** Laboratory END **************** -->
+	
+	<!-- **************** Vaccine START **************** -->
+	<bean id="vaccineDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.core.model.Vaccine" />
+	</bean>
+	<bean id="vaccineManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="vaccineDao" />
+	</bean>
+	<!-- **************** Vaccine END **************** -->
+	
+</beans>

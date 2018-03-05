@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+
+    <parent>
+        <groupId>com.lenovohit.hcp</groupId>
+        <artifactId>hcp-root</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>hcp-appointment</artifactId>
+    <name>HCP :: Appointment</name>
+    <packaging>jar</packaging>
+	
+	
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>com.lenovohit.core.IcoreApplication</start-class>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.lenovohit.hcp</groupId>
+			<artifactId>hcp-base</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+		          <execution>
+		            <goals>
+		              <goal>repackage</goal>
+		            </goals>
+		            <configuration>
+		              <classifier>exec</classifier>
+		              <attach>true</attach>
+		            </configuration>
+		          </execution>
+        		</executions>
+			</plugin>
+			<plugin>  
+		     	<groupId>org.apache.maven.plugins</groupId>  
+		     	<artifactId>maven-surefire-plugin</artifactId>
+		     	<version>2.12.4</version>  
+		     	<configuration>
+		     		<skipTests>true</skipTests>
+		        	<testFailureIgnore>true</testFailureIgnore>  
+		    	</configuration>  
+	        </plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>install</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<aggregate>true</aggregate>
+					<tags>
+						<tag>
+							<name>created</name>
+							<placement>a</placement>
+							<head>创建日期</head>
+						</tag>
+					</tags>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

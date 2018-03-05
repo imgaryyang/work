@@ -1,0 +1,2403 @@
+<HTML>
+<HEAD>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<TITLE> Documentation for IDoc record types or IDoc type             </TITLE>
+</HEAD>
+<BODY>
+<HR>
+<h1><A NAME = "IDOCTYPE">Structure of basic type CREMAS05                      </A></h1>
+<h1>
+Vendor master data distribution
+</h1><p><hr>
+<ul>
+<p>
+<li><b>E1LFA1M                     : Segment for general vendor data                                                                                                     </b>
+<p>
+Status: Required    ,
+min. number :          1     , max. number :          1      <p>
+<p>
+<A HREF = "#E1LFA1M                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFA1B                     : Segment for CCR Vendor Data                                                                                                         </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :          1      <p>
+<p>
+<A HREF = "#E1LFA1B                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFA1A                     : Segment for standard vendor data -  enhancement                                                                                     </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :          1      <p>
+<p>
+<A HREF = "#E1LFA1A                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFA1H                     : Vendor Master Basic Data: Texts, Header                                                                                             </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFA1H                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFA1L                     : Vendor Master Basic Data: Text Lines                                                                                                </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFA1L                    STRUCT"><i>Structure</i></A>
+</ul>
+<p>
+<li><b>E1LFB1M                     : Segment for company code data for vendors SMD                                                                                       </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFB1M                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFBWM                     : Segment for withholding tax types in vendor master                                                                                  </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFBWM                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFB5M                     : Reminder data for vendor SMD                                                                                                        </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFB5M                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFB1H                     : Vendor Master Company Code: Texts, Header                                                                                           </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFB1H                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFB1L                     : Vendor Master Company Code: Text Lines                                                                                              </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFB1L                    STRUCT"><i>Structure</i></A>
+</ul>
+</ul>
+<p>
+<li><b>E1LFM1M                     : Segment for purchasing organization data vendor SMD                                                                                 </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFM1M                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFM2M                     : Segment purchasing data for vendor MMS SMD                                                                                          </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFM2M                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1WYT3M                     : Segment for addresses of vendors MMS SMD                                                                                            </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1WYT3M                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFM1H                     : Vendor Master Purchasing Organization: Texts, Header                                                                                </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFM1H                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1LFM1L                     : Vendor Master Purchasing Organization: Text Line                                                                                    </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFM1L                    STRUCT"><i>Structure</i></A>
+</ul>
+</ul>
+<p>
+<li><b>E1LFBKM                     : Segment for bank details of vendor SMD                                                                                              </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFBKM                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1LFASM                     : Segment for EU tax numbers vendors                                                                                                  </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1LFASM                    STRUCT"><i>Structure</i></A>
+<p>
+<li><b>E1WYT1M                     : Segment for vendor sub-range MMS SMD                                                                                                </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :       9999      <p>
+<p>
+<A HREF = "#E1WYT1M                    STRUCT"><i>Structure</i></A>
+<ul>
+<p>
+<li><b>E1WYTTM                     : Segment for vendor sub-range identification SMD                                                                                     </b>
+<p>
+Status: Optional    ,
+min. number :          1     , max. number :        999      <p>
+<p>
+<A HREF = "#E1WYTTM                    STRUCT"><i>Structure</i></A>
+</ul>
+</ul>
+</ul>
+<hr>
+<h1>
+<A NAME = "SEGMENTSTRUCT">Segment structures</A>
+</h1><p><hr>
+<ul>
+<p><li><h2><A NAME = "E1LFA1M                    STRUCT">E1LFA1M                     : Segment for general vendor data                                                                                                     </A></h2>
+<p>
+Segment definition E2LFA1M002
+Released since Release 700 , Segment length: 0992
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>ANRED                          : <b>Title                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000015<br>
+<li>BAHNS                          : <b>Train station                                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 004, Offset : 0091. external length : 000025<br>
+<li>BBBNR                          : <b>International location number  (part 1)                                                                                             </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000007 characters<br>
+Position in segment : 005, Offset : 0116. external length : 000007<br>
+<li>BBSNR                          : <b>International location number (Part 2)                                                                                              </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000005 characters<br>
+Position in segment : 006, Offset : 0123. external length : 000005<br>
+<li>BEGRU                          : <b>Authorization Group                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 007, Offset : 0128. external length : 000004<br>
+<li>BRSCH                          : <b>Industry key                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 008, Offset : 0132. external length : 000004<br>
+<li>BUBKZ                          : <b>Check digit for the international location number                                                                                   </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000001 characters<br>
+Position in segment : 009, Offset : 0136. external length : 000001<br>
+<li>DATLT                          : <b>Data communication line no.                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000014 characters<br>
+Position in segment : 010, Offset : 0137. external length : 000014<br>
+<li>DTAMS                          : <b>Report key for data medium exchange                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 011, Offset : 0151. external length : 000001<br>
+<li>DTAWS                          : <b>Instruction key for data medium exchange                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 012, Offset : 0152. external length : 000002<br>
+<li>ERDAT                          : <b>Date on which the Record Was Created                                                                                                </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 013, Offset : 0154. external length : 000008<br>
+<li>ERNAM                          : <b>Name of Person who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 014, Offset : 0162. external length : 000012<br>
+<li>ESRNR                          : <b>POR subscriber number                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 015, Offset : 0174. external length : 000011<br>
+<li>KONZS                          : <b>Group key                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 016, Offset : 0185. external length : 000010<br>
+<li>KTOKK                          : <b>Vendor account group                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 017, Offset : 0195. external length : 000004<br>
+<li>KUNNR                          : <b>Customer Number                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 018, Offset : 0199. external length : 000010<br>
+<li>LAND1                          : <b>Country of Company                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 019, Offset : 0209. external length : 000003<br>
+<li>LNRZA                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 020, Offset : 0212. external length : 000010<br>
+<li>LOEVM                          : <b>Central Deletion Flag for Master Record                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 021, Offset : 0222. external length : 000001<br>
+<li>NAME1                          : <b>Employee's last name                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 022, Offset : 0223. external length : 000035<br>
+<li>NAME2                          : <b>Employee's last name                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 023, Offset : 0258. external length : 000035<br>
+<li>NAME3                          : <b>Employee's last name                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 024, Offset : 0293. external length : 000035<br>
+<li>NAME4                          : <b>Employee's last name                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 025, Offset : 0328. external length : 000035<br>
+<li>ORT01                          : <b>City                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 026, Offset : 0363. external length : 000035<br>
+<li>ORT02                          : <b>District                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 027, Offset : 0398. external length : 000035<br>
+<li>PFACH                          : <b>PO Box                                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 028, Offset : 0433. external length : 000010<br>
+<li>PSTL2                          : <b>Postal Code                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 029, Offset : 0443. external length : 000010<br>
+<li>PSTLZ                          : <b>Postal Code                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 030, Offset : 0453. external length : 000010<br>
+<li>REGIO                          : <b>Region (State, Province, County)                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 031, Offset : 0463. external length : 000003<br>
+<li>SORTL                          : <b>Character Field Length = 10                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 032, Offset : 0466. external length : 000010<br>
+<li>SPERR                          : <b>Central posting block                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 033, Offset : 0476. external length : 000001<br>
+<li>SPERM                          : <b>Centrally imposed purchasing block                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 034, Offset : 0477. external length : 000001<br>
+<li>SPRAS                          : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 035, Offset : 0478. external length : 000001<br>
+<li>STCD1                          : <b>Tax Number 1                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 036, Offset : 0479. external length : 000016<br>
+<li>STCD2                          : <b>Tax Number 2                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 037, Offset : 0495. external length : 000011<br>
+<li>STKZA                          : <b>Indicator: Business Partner Subject to Equalization Tax?                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 038, Offset : 0506. external length : 000001<br>
+<li>STKZU                          : <b>Liable for VAT                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 039, Offset : 0507. external length : 000001<br>
+<li>STRAS                          : <b>Street and House Number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 040, Offset : 0508. external length : 000035<br>
+<li>TELBX                          : <b>Telebox number                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 041, Offset : 0543. external length : 000015<br>
+<li>TELF1                          : <b>First telephone number                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 042, Offset : 0558. external length : 000016<br>
+<li>TELF2                          : <b>Second telephone number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 043, Offset : 0574. external length : 000016<br>
+<li>TELFX                          : <b>Fax Number                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000031 characters<br>
+Position in segment : 044, Offset : 0590. external length : 000031<br>
+<li>TELTX                          : <b>Teletex number                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 045, Offset : 0621. external length : 000030<br>
+<li>TELX1                          : <b>Telex number                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 046, Offset : 0651. external length : 000030<br>
+<li>XCPDK                          : <b>Indicator: Is the account a one-time account?                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 047, Offset : 0681. external length : 000001<br>
+<li>XZEMP                          : <b>Indicator: Alternative payee in document allowed ?                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 048, Offset : 0682. external length : 000001<br>
+<li>VBUND                          : <b>Company ID of trading partner                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 049, Offset : 0683. external length : 000006<br>
+<li>FISKN                          : <b>Account number of the master record with fiscal address                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 050, Offset : 0689. external length : 000010<br>
+<li>STCEG                          : <b>VAT Registration Number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 051, Offset : 0699. external length : 000020<br>
+<li>STKZN                          : <b>Natural Person                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 052, Offset : 0719. external length : 000001<br>
+<li>SPERQ                          : <b>Function That Will Be Blocked                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 053, Offset : 0720. external length : 000002<br>
+<li>ADRNR                          : <b>Address                                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 054, Offset : 0722. external length : 000010<br>
+<li>MCOD1                          : <b>Search term for matchcode search                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 055, Offset : 0732. external length : 000025<br>
+<li>MCOD2                          : <b>Search term for matchcode search                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 056, Offset : 0757. external length : 000025<br>
+<li>MCOD3                          : <b>Search term for matchcode search                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 057, Offset : 0782. external length : 000025<br>
+<li>GBORT                          : <b>Place of birth of the person subject to withholding tax                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 058, Offset : 0807. external length : 000025<br>
+<li>GBDAT                          : <b>Date of Birth                                                                                                                       </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 059, Offset : 0832. external length : 000008<br>
+<li>SEXKZ                          : <b>Key for the Sex of the Person Subject to Withholding Tax                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 060, Offset : 0840. external length : 000001<br>
+<li>KRAUS                          : <b>Credit information number                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 061, Offset : 0841. external length : 000011<br>
+<li>REVDB                          : <b>Last review (external)                                                                                                              </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 062, Offset : 0852. external length : 000008<br>
+<li>QSSYS                          : <b>Vendor's QM system                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 063, Offset : 0860. external length : 000004<br>
+<li>KTOCK                          : <b>Reference Account Group for One-Time Account (Vendor)                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 064, Offset : 0864. external length : 000004<br>
+<li>PFORT                          : <b>PO Box city                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 065, Offset : 0868. external length : 000035<br>
+<li>WERKS                          : <b>Plant                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 066, Offset : 0903. external length : 000004<br>
+<li>LTSNA                          : <b>Indicator: vendor sub-range relevant                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 067, Offset : 0907. external length : 000001<br>
+<li>WERKR                          : <b>Indicator: plant level relevant                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 068, Offset : 0908. external length : 000001<br>
+<li>PLKAL                          : <b>Factory calendar key                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 069, Offset : 0909. external length : 000002<br>
+<li>DUEFL                          : <b>Status of Data Transfer into Subsequent Release                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 070, Offset : 0911. external length : 000001<br>
+<li>TXJCD                          : <b>Tax Jurisdiction                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 071, Offset : 0912. external length : 000015<br>
+<li>SCACD                          : <b>Standard carrier access code                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 072, Offset : 0927. external length : 000004<br>
+<li>SFRGR                          : <b>Forwarding agent freight group                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 073, Offset : 0931. external length : 000004<br>
+<li>LZONE                          : <b>Transportation zone to or from which the goods are delivered                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 074, Offset : 0935. external length : 000010<br>
+<li>DLGRP                          : <b>Service agent procedure group                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 075, Offset : 0945. external length : 000004<br>
+<li>FITYP                          : <b>Tax type                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 076, Offset : 0949. external length : 000002<br>
+<li>STCDT                          : <b>Tax Number Type                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 077, Offset : 0951. external length : 000002<br>
+<li>REGSS                          : <b>Registered for Social Insurance                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 078, Offset : 0953. external length : 000001<br>
+<li>ACTSS                          : <b>Activity Code for Social Insurance                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 079, Offset : 0954. external length : 000003<br>
+<li>STCD3                          : <b>Tax Number 3                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000018 characters<br>
+Position in segment : 080, Offset : 0957. external length : 000018<br>
+<li>STCD4                          : <b>Tax Number 4                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000018 characters<br>
+Position in segment : 081, Offset : 0975. external length : 000018<br>
+<li>IPISP                          : <b>Tax Split                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 082, Offset : 0993. external length : 000001<br>
+<li>TAXBS                          : <b>Tax Base in Percentage                                                                                                              </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000001 characters<br>
+Position in segment : 083, Offset : 0994. external length : 000001<br>
+<li>PROFS                          : <b>Profession                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 084, Offset : 0995. external length : 000030<br>
+<li>STGDL                          : <b>Shipment: statistics group, transportation service agent                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 085, Offset : 1025. external length : 000002<br>
+<li>EMNFR                          : <b>External manufacturer code name or number                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 086, Offset : 1027. external length : 000010<br>
+<li>NODEL                          : <b>Central deletion block for master record                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 087, Offset : 1037. external length : 000001<br>
+<li>CARRIER_CONF                   : <b>Carrier confirmation is expected                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 088, Offset : 1038. external length : 000001<br>
+<li>TRANSPORT_CHAIN                : <b>Transportation Chain                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 089, Offset : 1039. external length : 000010<br>
+<li>STAGING_TIME                   : <b>Staging Time in Days                                                                                                                </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 090, Offset : 1049. external length : 000004<br>
+<li>SUBMI_RELEVANT                 : <b>Cross Docking: Relevant for Collective Numbering                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 091, Offset : 1053. external length : 000001<br>
+<li>SCHEDULING_TYPE                : <b>Scheduling Procedure                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 092, Offset : 1054. external length : 000001<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFA1B                    STRUCT">E1LFA1B                     : Segment for CCR Vendor Data                                                                                                         </A></h2>
+<p>
+Segment definition E2LFA1B000
+Released since Release 700 , Segment length: 0028
+<p>
+<ol>
+<li>DUNS                           : <b>Character field of 9 digits                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000009 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000009<br>
+<li>DUNS4                          : <b>Not More Closely Defined Area, Possibly Used for Patchlevels                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 002, Offset : 0072. external length : 000004<br>
+<li>CAGE                           : <b>R/2 table                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000005 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000005<br>
+<li>RENDATE                        : <b>Date (batch input)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000008 characters<br>
+Position in segment : 004, Offset : 0081. external length : 000008<br>
+<li>REG_IND                        : <b>Single-Character Flag                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 005, Offset : 0089. external length : 000001<br>
+<li>REG_STAT                       : <b>Single-Character Flag                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0090. external length : 000001<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFA1A                    STRUCT">E1LFA1A                     : Segment for standard vendor data -  enhancement                                                                                     </A></h2>
+<p>
+Segment definition E2LFA1A006
+Released since Release 740 , Segment length: 0582
+<p>
+<ol>
+<li>LFURL                          : <b>Uniform resource locator                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000132 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000132<br>
+<li>J_1KFREPRE                     : <b>Name of Representative                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0195. external length : 000010<br>
+<li>J_1KFTBUS                      : <b>Type of Business                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 003, Offset : 0205. external length : 000030<br>
+<li>J_1KFTIND                      : <b>Type of Industry                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 004, Offset : 0235. external length : 000030<br>
+<li>QSSYSDAT                       : <b>Validity date of certification                                                                                                      </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 005, Offset : 0265. external length : 000008<br>
+<li>PODKZB                         : <b>Vendor indicator relevant for proof of delivery                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0273. external length : 000001<br>
+<li>FISKU                          : <b>Account Number of Master Record of Tax Office Responsible                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 007, Offset : 0274. external length : 000010<br>
+<li>STENR                          : <b>Tax Number at Responsible Tax Authority                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000018 characters<br>
+Position in segment : 008, Offset : 0284. external length : 000018<br>
+<li>PSOIS                          : <b>Subledger acct preprocessing procedure                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 009, Offset : 0302. external length : 000020<br>
+<li>PSON1                          : <b>Name 1                                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 010, Offset : 0322. external length : 000035<br>
+<li>PSON2                          : <b>Name 1                                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 011, Offset : 0357. external length : 000035<br>
+<li>PSON3                          : <b>Name 1                                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 012, Offset : 0392. external length : 000035<br>
+<li>PSOVN                          : <b>First Name                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 013, Offset : 0427. external length : 000035<br>
+<li>PSOTL                          : <b>Title                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 014, Offset : 0462. external length : 000020<br>
+<li>STCD5                          : <b>Tax Number 5                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000060 characters<br>
+Position in segment : 015, Offset : 0482. external length : 000060<br>
+<li>MIN_COMP                       : <b>Micro company indicator                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 016, Offset : 0542. external length : 000001<br>
+<li>TERM_LI                        : <b>Terms of Liability                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 017, Offset : 0543. external length : 000001<br>
+<li>CRC_NUM                        : <b>CRC number                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 018, Offset : 0544. external length : 000025<br>
+<li>RG                             : <b>RG Number                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 019, Offset : 0569. external length : 000011<br>
+<li>EXP                            : <b>Issued by                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 020, Offset : 0580. external length : 000003<br>
+<li>UF                             : <b>State                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 021, Offset : 0583. external length : 000002<br>
+<li>RGDATE                         : <b>RG Issuing Date                                                                                                                     </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 022, Offset : 0585. external length : 000008<br>
+<li>RIC                            : <b>RIC Number                                                                                                                          </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000011 characters<br>
+Position in segment : 023, Offset : 0593. external length : 000011<br>
+<li>RNE                            : <b>Foreign National Registration                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 024, Offset : 0604. external length : 000010<br>
+<li>RNEDATE                        : <b>RNE Issuing Date                                                                                                                    </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 025, Offset : 0614. external length : 000008<br>
+<li>CNAE                           : <b>CNAE                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000007 characters<br>
+Position in segment : 026, Offset : 0622. external length : 000007<br>
+<li>LEGALNAT                       : <b>Legal Nature                                                                                                                        </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000004 characters<br>
+Position in segment : 027, Offset : 0629. external length : 000004<br>
+<li>CRTN                           : <b>CRT Number                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 028, Offset : 0633. external length : 000001<br>
+<li>ICMSTAXPAY                     : <b>ICMS Taxpayer                                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 029, Offset : 0634. external length : 000002<br>
+<li>INDTYP                         : <b>Industry Main Type                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 030, Offset : 0636. external length : 000002<br>
+<li>TDT                            : <b>Tax Declaration Type                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 031, Offset : 0638. external length : 000002<br>
+<li>COMSIZE                        : <b>Company Size                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 032, Offset : 0640. external length : 000002<br>
+<li>DECREGPC                       : <b>Declaration Regimen for PIS/COFINS                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 033, Offset : 0642. external length : 000002<br>
+<li>CVP_XBLCK                      : <b>Business Purpose Completed Flag                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 034, Offset : 0644. external length : 000001<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFA1H                    STRUCT">E1LFA1H                     : Vendor Master Basic Data: Texts, Header                                                                                             </A></h2>
+<p>
+Segment definition E2LFA1H000
+Released since Release 46A , Segment length: 0096
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDOBJECT                       : <b>Texts: application object                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>TDNAME                         : <b>Name                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000070 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000070<br>
+<li>TDID                           : <b>Text ID                                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 004, Offset : 0146. external length : 000004<br>
+<li>TDSPRAS                        : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 005, Offset : 0150. external length : 000001<br>
+<li>TDTEXTTYPE                     : <b>SAPscript: Format of Text                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 006, Offset : 0151. external length : 000006<br>
+<li>TDSPRASISO                     : <b>2-Character SAP Language Code                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 007, Offset : 0157. external length : 000002<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFA1L                    STRUCT">E1LFA1L                     : Vendor Master Basic Data: Text Lines                                                                                                </A></h2>
+<p>
+Segment definition E2LFA1L000
+Released since Release 46A , Segment length: 0137
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDFORMAT                       : <b>Tag column                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000002<br>
+<li>TDLINE                         : <b>Text Line                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000132 characters<br>
+Position in segment : 003, Offset : 0068. external length : 000132<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFB1M                    STRUCT">E1LFB1M                     : Segment for company code data for vendors SMD                                                                                       </A></h2>
+<p>
+Segment definition E2LFB1M007
+Released since Release 740 , Segment length: 0741
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>BUKRS                          : <b>Company Code                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>ERDAT                          : <b>Date on which the Record Was Created                                                                                                </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000008<br>
+<li>ERNAM                          : <b>Name of Person who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 005, Offset : 0090. external length : 000012<br>
+<li>SPERR                          : <b>Posting block for company code                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0102. external length : 000001<br>
+<li>LOEVM                          : <b>Deletion Flag for Master Record (Company Code Level)                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 007, Offset : 0103. external length : 000001<br>
+<li>ZUAWA                          : <b>Key for sorting according to assignment numbers                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 008, Offset : 0104. external length : 000003<br>
+<li>AKONT                          : <b>Reconciliation Account in General Ledger                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 009, Offset : 0107. external length : 000010<br>
+<li>BEGRU                          : <b>Authorization Group                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 010, Offset : 0117. external length : 000004<br>
+<li>VZSKZ                          : <b>Interest calculation indicator                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 011, Offset : 0121. external length : 000002<br>
+<li>ZWELS                          : <b>List of Respected Payment Methods                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 012, Offset : 0123. external length : 000010<br>
+<li>XVERR                          : <b>Indicator: Clearing between customer and vendor?                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 013, Offset : 0133. external length : 000001<br>
+<li>ZAHLS                          : <b>Block Key for Payment                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 014, Offset : 0134. external length : 000001<br>
+<li>ZTERM                          : <b>Terms of Payment Key                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 015, Offset : 0135. external length : 000004<br>
+<li>EIKTO                          : <b>Shipper's (Our) Account Number at the Customer or Vendor                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 016, Offset : 0139. external length : 000012<br>
+<li>ZSABE                          : <b>Clerk at vendor                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 017, Offset : 0151. external length : 000015<br>
+<li>KVERM                          : <b>Memo                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 018, Offset : 0166. external length : 000030<br>
+<li>FDGRV                          : <b>Planning group                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 019, Offset : 0196. external length : 000010<br>
+<li>BUSAB                          : <b>Accounting clerk                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 020, Offset : 0206. external length : 000002<br>
+<li>LNRZE                          : <b>Head office account number                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 021, Offset : 0208. external length : 000010<br>
+<li>LNRZB                          : <b>Account number of the alternative payee                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 022, Offset : 0218. external length : 000010<br>
+<li>ZINDT                          : <b>Key Date of Last Interest Calculation                                                                                               </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 023, Offset : 0228. external length : 000008<br>
+<li>ZINRT                          : <b>Interest Calculation Frequency in Months                                                                                            </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000002 characters<br>
+Position in segment : 024, Offset : 0236. external length : 000008<br>
+<li>DATLZ                          : <b>Date of the last interest calculation run                                                                                           </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 025, Offset : 0244. external length : 000008<br>
+<li>XDEZV                          : <b>Indicator: Local processing?                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 026, Offset : 0252. external length : 000001<br>
+<li>WEBTR                          : <b>Bill of exchange limit (in local currency)                                                                                          </b><p>
+<p>
+internal data type : CURR<br>
+Internal length : 000013 characters<br>
+000002 decimal places, without sign<br>
+Position in segment : 027, Offset : 0253. external length : 000015<br>
+<li>KULTG                          : <b>Probable time until check is paid                                                                                                   </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 028, Offset : 0268. external length : 000003<br>
+<li>REPRF                          : <b>Check Flag for Double Invoices or Credit Memos                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 029, Offset : 0271. external length : 000001<br>
+<li>TOGRU                          : <b>Tolerance group for the business partner/G/L account                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 030, Offset : 0272. external length : 000004<br>
+<li>HBKID                          : <b>Short key for a house bank                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000005 characters<br>
+Position in segment : 031, Offset : 0276. external length : 000005<br>
+<li>XPORE                          : <b>Indicator: Pay all items separately ?                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 032, Offset : 0281. external length : 000001<br>
+<li>QSZNR                          : <b>Certificate Number of the Withholding Tax Exemption                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 033, Offset : 0282. external length : 000010<br>
+<li>QSZDT                          : <b>Validity Date for Withholding Tax Exemption Certificate                                                                             </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 034, Offset : 0292. external length : 000008<br>
+<li>QSSKZ                          : <b>Withholding Tax Code                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 035, Offset : 0300. external length : 000002<br>
+<li>BLNKZ                          : <b>Subsidy Indicator for Determining the Reduction Rates                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 036, Offset : 0302. external length : 000002<br>
+<li>MINDK                          : <b>Minority Indicators                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 037, Offset : 0304. external length : 000003<br>
+<li>ALTKN                          : <b>Previous Master Record Number                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 038, Offset : 0307. external length : 000010<br>
+<li>ZGRUP                          : <b>Key for Payment Grouping                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 039, Offset : 0317. external length : 000002<br>
+<li>MGRUP                          : <b>Key for dunning notice grouping                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 040, Offset : 0319. external length : 000002<br>
+<li>UZAWE                          : <b>Payment method supplement                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 041, Offset : 0321. external length : 000002<br>
+<li>QSREC                          : <b>Vendor Recipient Type                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 042, Offset : 0323. external length : 000002<br>
+<li>QSBGR                          : <b>Authority for Exemption from Withholding Tax                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 043, Offset : 0325. external length : 000001<br>
+<li>QLAND                          : <b>Withholding Tax Country Key                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 044, Offset : 0326. external length : 000003<br>
+<li>XEDIP                          : <b>Indicator: Send Payment Advices by EDI                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 045, Offset : 0329. external length : 000001<br>
+<li>FRGRP                          : <b>Release Approval Group                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 046, Offset : 0330. external length : 000004<br>
+<li>TLFXS                          : <b>Accounting clerk's fax number at the customer/vendor                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000031 characters<br>
+Position in segment : 047, Offset : 0334. external length : 000031<br>
+<li>INTAD                          : <b>Internet address of partner company clerk                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000130 characters<br>
+Position in segment : 048, Offset : 0365. external length : 000130<br>
+<li>GUZTE                          : <b>Payment Terms Key for Credit Memos                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 049, Offset : 0495. external length : 000004<br>
+<li>GRICD                          : <b>Activity Code for Gross Income Tax                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 050, Offset : 0499. external length : 000002<br>
+<li>GRIDT                          : <b>Distribution Type for Employment Tax                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 051, Offset : 0501. external length : 000002<br>
+<li>XAUSZ                          : <b>Indicator for periodic account statements                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 052, Offset : 0503. external length : 000001<br>
+<li>CERDT                          : <b>Certification date                                                                                                                  </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 053, Offset : 0504. external length : 000008<br>
+<li>TOGRR                          : <b>Tolerance group; Invoice Verification                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 054, Offset : 0512. external length : 000004<br>
+<li>PERNR                          : <b>Personnel Number                                                                                                                    </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000008 characters<br>
+Position in segment : 055, Offset : 0516. external length : 000008<br>
+<li>NODEL                          : <b>Deletion bock for master record (company code level)                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 056, Offset : 0524. external length : 000001<br>
+<li>TLFNS                          : <b>Accounting clerk's telephone number at business partner                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 057, Offset : 0525. external length : 000030<br>
+<li>GMVKZK                         : <b>Vendor is in execution                                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 058, Offset : 0555. external length : 000001<br>
+<li>PREPAY_RELEVANT                : <b>Prepayment Relevance (Vendor Master)                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 059, Offset : 0556. external length : 000001<br>
+<li>ASSIGN_TEST                    : <b>Assignment Test Group                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 060, Offset : 0557. external length : 000004<br>
+<li>AVSND                          : <b>Indicator: Send Payment Advice by XML                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 061, Offset : 0561. external length : 000001<br>
+<li>SMTP_ADDR                      : <b>E-mail Address                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000241 characters<br>
+Position in segment : 062, Offset : 0562. external length : 000241<br>
+<li>CVP_XBLCK_B                    : <b>Business Purpose Completed Flag                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 063, Offset : 0803. external length : 000001<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFBWM                    STRUCT">E1LFBWM                     : Segment for withholding tax types in vendor master                                                                                  </A></h2>
+<p>
+Segment definition E2LFBWM000
+Released since Release 620 , Segment length: 0085
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>BUKRS                          : <b>Company Code                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000004<br>
+<li>WITHT                          : <b>Indicator for withholding tax type                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 004, Offset : 0080. external length : 000002<br>
+<li>WT_SUBJCT                      : <b>Indicator: Subject to withholding tax?                                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 005, Offset : 0082. external length : 000001<br>
+<li>QSREC                          : <b>Type of recipient                                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 006, Offset : 0083. external length : 000002<br>
+<li>WT_WTSTCD                      : <b>Withholding tax identification number                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 007, Offset : 0085. external length : 000016<br>
+<li>WT_WITHCD                      : <b>Withholding tax code                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 008, Offset : 0101. external length : 000002<br>
+<li>WT_EXNR                        : <b>Exemption certificate number                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 009, Offset : 0103. external length : 000015<br>
+<li>WT_EXRT                        : <b>Exemption Rate (Extended Withholding Tax) for ALE                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 010, Offset : 0118. external length : 000006<br>
+<li>WT_EXDF                        : <b>Date (batch input)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000008 characters<br>
+Position in segment : 011, Offset : 0124. external length : 000008<br>
+<li>WT_EXDT                        : <b>Date (batch input)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000008 characters<br>
+Position in segment : 012, Offset : 0132. external length : 000008<br>
+<li>WT_WTEXRS                      : <b>Reason for exemption                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 013, Offset : 0140. external length : 000002<br>
+<li>BUKRS_GL                       : <b>Company Code                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 014, Offset : 0142. external length : 000006<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFB5M                    STRUCT">E1LFB5M                     : Reminder data for vendor SMD                                                                                                        </A></h2>
+<p>
+Segment definition E2LFB5M
+Released since Release 30A , Segment length: 0055
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>BUKRS                          : <b>Company Code                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>MABER                          : <b>Dunning Area                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000002<br>
+<li>MAHNA                          : <b>Dunning Procedure                                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 005, Offset : 0084. external length : 000004<br>
+<li>MANSP                          : <b>Dunning Block                                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0088. external length : 000001<br>
+<li>MADAT                          : <b>Date of Last Dunning Notice                                                                                                         </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 007, Offset : 0089. external length : 000008<br>
+<li>MAHNS                          : <b>Character field of length 1                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 008, Offset : 0097. external length : 000001<br>
+<li>LFRMA                          : <b>Account number of the dunning recipient                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 009, Offset : 0098. external length : 000010<br>
+<li>GMVDT                          : <b>Date of the legal dunning proceedings                                                                                               </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 010, Offset : 0108. external length : 000008<br>
+<li>BUSAB                          : <b>Accounting clerk                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 011, Offset : 0116. external length : 000002<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFB1H                    STRUCT">E1LFB1H                     : Vendor Master Company Code: Texts, Header                                                                                           </A></h2>
+<p>
+Segment definition E2LFB1H000
+Released since Release 46A , Segment length: 0096
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDOBJECT                       : <b>Texts: application object                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>TDNAME                         : <b>Name                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000070 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000070<br>
+<li>TDID                           : <b>Text ID                                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 004, Offset : 0146. external length : 000004<br>
+<li>TDSPRAS                        : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 005, Offset : 0150. external length : 000001<br>
+<li>TDTEXTTYPE                     : <b>SAPscript: Format of Text                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 006, Offset : 0151. external length : 000006<br>
+<li>TDSPRASISO                     : <b>2-Character SAP Language Code                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 007, Offset : 0157. external length : 000002<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFB1L                    STRUCT">E1LFB1L                     : Vendor Master Company Code: Text Lines                                                                                              </A></h2>
+<p>
+Segment definition E2LFB1L000
+Released since Release 46A , Segment length: 0137
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDFORMAT                       : <b>Tag column                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000002<br>
+<li>TDLINE                         : <b>Text Line                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000132 characters<br>
+Position in segment : 003, Offset : 0068. external length : 000132<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFM1M                    STRUCT">E1LFM1M                     : Segment for purchasing organization data vendor SMD                                                                                 </A></h2>
+<p>
+Segment definition E2LFM1M007
+Released since Release 701 , Segment length: 0265
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Vendor's account number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>EKORG                          : <b>Purchasing Organization                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>ERDAT                          : <b>Date on Which Record Was Created                                                                                                    </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000008<br>
+<li>ERNAM                          : <b>Name of Person Who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 005, Offset : 0090. external length : 000012<br>
+<li>SPERM                          : <b>Purchasing block at purchasing organization level                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0102. external length : 000001<br>
+<li>LOEVM                          : <b>Delete flag for vendor at purchasing level                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 007, Offset : 0103. external length : 000001<br>
+<li>LFABC                          : <b>ABC indicator                                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 008, Offset : 0104. external length : 000001<br>
+<li>WAERS                          : <b>Purchase order currency                                                                                                             </b><p>
+<p>
+internal data type : CUKY<br>
+Internal length : 000005 characters<br>
+Position in segment : 009, Offset : 0105. external length : 000005<br>
+<li>VERKF                          : <b>Responsible Salesperson at Vendor's Office                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 010, Offset : 0110. external length : 000030<br>
+<li>TELF1                          : <b>Vendor's telephone number                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 011, Offset : 0140. external length : 000016<br>
+<li>MINBW                          : <b>Minimum order value                                                                                                                 </b><p>
+<p>
+internal data type : CURR<br>
+Internal length : 000013 characters<br>
+000002 decimal places, without sign<br>
+Position in segment : 012, Offset : 0156. external length : 000013<br>
+<li>ZTERM                          : <b>Terms of Payment Key                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 013, Offset : 0169. external length : 000004<br>
+<li>INCO1                          : <b>Incoterms (Part 1)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 014, Offset : 0173. external length : 000003<br>
+<li>INCO2                          : <b>Incoterms (Part 2)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000028 characters<br>
+Position in segment : 015, Offset : 0176. external length : 000028<br>
+<li>WEBRE                          : <b>Indicator: GR-Based Invoice Verification                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 016, Offset : 0204. external length : 000001<br>
+<li>KZABS                          : <b>Order Acknowledgment Requirement                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 017, Offset : 0205. external length : 000001<br>
+<li>KALSK                          : <b>Group for Calculation Schema (Vendor)                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 018, Offset : 0206. external length : 000002<br>
+<li>KZAUT                          : <b>Automatic Generation of Purchase Order Allowed                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 019, Offset : 0208. external length : 000001<br>
+<li>EXPVZ                          : <b>Mode of Transport for Foreign Trade                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 020, Offset : 0209. external length : 000001<br>
+<li>ZOLLA                          : <b>Customs Office: Office of Exit/Entry for Foreign Trade                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 021, Offset : 0210. external length : 000006<br>
+<li>MEPRF                          : <b>Price Determination (Pricing) Date Control                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 022, Offset : 0216. external length : 000001<br>
+<li>EKGRP                          : <b>Purchasing group                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 023, Offset : 0217. external length : 000003<br>
+<li>BOLRE                          : <b>Indicator: vendor subject to subseq. settlement accounting                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 024, Offset : 0220. external length : 000001<br>
+<li>UMSAE                          : <b>Comparison/agreement of business volumes necessary                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 025, Offset : 0221. external length : 000001<br>
+<li>XERSY                          : <b>Evaluated Receipt Settlement (ERS)                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 026, Offset : 0222. external length : 000001<br>
+<li>PLIFZ                          : <b>Planned delivery time in days                                                                                                       </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 027, Offset : 0223. external length : 000005<br>
+<li>MRPPP                          : <b>Planning calendar                                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 028, Offset : 0228. external length : 000003<br>
+<li>LFRHY                          : <b>Planning cycle                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 029, Offset : 0231. external length : 000003<br>
+<li>LIEFR                          : <b>Delivery cycle                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 030, Offset : 0234. external length : 000004<br>
+<li>LIBES                          : <b>Order entry by vendor                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 031, Offset : 0238. external length : 000001<br>
+<li>LIPRE                          : <b>Price marking, vendor                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 032, Offset : 0239. external length : 000002<br>
+<li>LISER                          : <b>Rack-jobbing: vendor                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 033, Offset : 0241. external length : 000001<br>
+<li>BOIND                          : <b>Indicator: index compilation for subseq. settlement active                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 034, Offset : 0242. external length : 000001<br>
+<li>PRFRE                          : <b>Indicator: "relev. to price determination (vend. hierarchy)                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 035, Offset : 0243. external length : 000001<br>
+<li>NRGEW                          : <b>Indicator whether discount in kind granted                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 036, Offset : 0244. external length : 000001<br>
+<li>BLIND                          : <b>Indicator: Doc. index compilation active for purchase orders                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 037, Offset : 0245. external length : 000001<br>
+<li>KZRET                          : <b>Indicates whether vendor is returns vendor                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 038, Offset : 0246. external length : 000001<br>
+<li>SKRIT                          : <b>Vendor sort criterion for materials                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 039, Offset : 0247. external length : 000001<br>
+<li>BSTAE                          : <b>Confirmation Control Key                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 040, Offset : 0248. external length : 000004<br>
+<li>RDPRF                          : <b>Rounding Profile                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 041, Offset : 0252. external length : 000004<br>
+<li>MEGRU                          : <b>Unit of Measure Group                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 042, Offset : 0256. external length : 000004<br>
+<li>VENSL                          : <b>Vendor service level                                                                                                                </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000004 characters<br>
+000001 decimal places, without sign<br>
+Position in segment : 043, Offset : 0260. external length : 000007<br>
+<li>BOPNR                          : <b>Restriction Profile for PO-Based Load Building                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 044, Offset : 0267. external length : 000004<br>
+<li>XERSR                          : <b>Automatic evaluated receipt settlement for return items                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 045, Offset : 0271. external length : 000001<br>
+<li>EIKTO                          : <b>Our account number with the vendor                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 046, Offset : 0272. external length : 000012<br>
+<li>PAPRF                          : <b>Profile for transferring material data via IDoc PROACT                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 047, Offset : 0284. external length : 000004<br>
+<li>AGREL                          : <b>Indicator: Relevant for agency business                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 048, Offset : 0288. external length : 000001<br>
+<li>XNBWY                          : <b>Revaluation allowed                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 049, Offset : 0289. external length : 000001<br>
+<li>VSBED                          : <b>Shipping Conditions                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 050, Offset : 0290. external length : 000002<br>
+<li>LEBRE                          : <b>Indicator for Service-Based Invoice Verification                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 051, Offset : 0292. external length : 000001<br>
+<li>MINBW2                         : <b>Minimum order value (batch input field)                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 052, Offset : 0293. external length : 000016<br>
+<li>ACTIVITY_PROFIL                : <b>Activity Profile for PO Controlling                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 053, Offset : 0309. external length : 000004<br>
+<li>TRANSPORT_CHAIN                : <b>Transportation Chain                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 054, Offset : 0313. external length : 000010<br>
+<li>STAGING_TIME                   : <b>Staging Time in Days                                                                                                                </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 055, Offset : 0323. external length : 000004<br>
+<li>VENDOR_RMA_REQ                 : <b>Vendor RMA Number Required                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 056, Offset : 0327. external length : 000001<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFM2M                    STRUCT">E1LFM2M                     : Segment purchasing data for vendor MMS SMD                                                                                          </A></h2>
+<p>
+Segment definition E2LFM2M004
+Released since Release 700 , Segment length: 0259
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>EKORG                          : <b>Purchasing Organization                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>LTSNR                          : <b>Vendor Subrange                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000006<br>
+<li>WERKS                          : <b>Plant                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 005, Offset : 0088. external length : 000006<br>
+<li>ERDAT                          : <b>Date on Which Record Was Created                                                                                                    </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 006, Offset : 0094. external length : 000008<br>
+<li>ERNAM                          : <b>Name of Person Who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 007, Offset : 0102. external length : 000012<br>
+<li>SPERM                          : <b>Purchasing block at purchasing organization level                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 008, Offset : 0114. external length : 000001<br>
+<li>LOEVM                          : <b>Deletion Indicator                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 009, Offset : 0115. external length : 000001<br>
+<li>LFABC                          : <b>ABC indicator                                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 010, Offset : 0116. external length : 000001<br>
+<li>WAERS                          : <b>Purchase order currency                                                                                                             </b><p>
+<p>
+internal data type : CUKY<br>
+Internal length : 000005 characters<br>
+Position in segment : 011, Offset : 0117. external length : 000013<br>
+<li>VERKF                          : <b>Responsible Salesperson at Vendor's Office                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 012, Offset : 0130. external length : 000030<br>
+<li>TELF1                          : <b>Vendor's telephone number                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 013, Offset : 0160. external length : 000016<br>
+<li>MINBW                          : <b>Minimum order value                                                                                                                 </b><p>
+<p>
+internal data type : CURR<br>
+Internal length : 000013 characters<br>
+000002 decimal places, without sign<br>
+Position in segment : 014, Offset : 0176. external length : 000013<br>
+<li>ZTERM                          : <b>Terms of Payment Key                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 015, Offset : 0189. external length : 000004<br>
+<li>INCO1                          : <b>Incoterms (Part 1)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 016, Offset : 0193. external length : 000003<br>
+<li>INCO2                          : <b>Incoterms (Part 2)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000028 characters<br>
+Position in segment : 017, Offset : 0196. external length : 000028<br>
+<li>WEBRE                          : <b>Indicator: GR-Based Invoice Verification                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 018, Offset : 0224. external length : 000001<br>
+<li>KZABS                          : <b>Order Acknowledgment Requirement                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 019, Offset : 0225. external length : 000001<br>
+<li>KALSK                          : <b>Group for Calculation Schema (Vendor)                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 020, Offset : 0226. external length : 000002<br>
+<li>KZAUT                          : <b>Automatic Generation of Purchase Order Allowed                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 021, Offset : 0228. external length : 000001<br>
+<li>EXPVZ                          : <b>Mode of Transport for Foreign Trade                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 022, Offset : 0229. external length : 000001<br>
+<li>ZOLLA                          : <b>Customs Office: Office of Exit/Entry for Foreign Trade                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 023, Offset : 0230. external length : 000006<br>
+<li>MEPRF                          : <b>Price Determination (Pricing) Date Control                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 024, Offset : 0236. external length : 000001<br>
+<li>EKGRP                          : <b>Purchasing group                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 025, Offset : 0237. external length : 000003<br>
+<li>BOLRE                          : <b>Indicator: vendor subject to subseq. settlement accounting                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 026, Offset : 0240. external length : 000001<br>
+<li>UMSAE                          : <b>Comparison/agreement of business volumes necessary                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 027, Offset : 0241. external length : 000001<br>
+<li>XERSY                          : <b>Evaluated Receipt Settlement (ERS)                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 028, Offset : 0242. external length : 000001<br>
+<li>PLIFZ                          : <b>Planned delivery time in days                                                                                                       </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 029, Offset : 0243. external length : 000005<br>
+<li>MRPPP                          : <b>Planning calendar                                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 030, Offset : 0248. external length : 000003<br>
+<li>LFRHY                          : <b>Planning cycle                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 031, Offset : 0251. external length : 000003<br>
+<li>LIEFR                          : <b>Delivery cycle                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 032, Offset : 0254. external length : 000004<br>
+<li>LIBES                          : <b>Order entry by vendor                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 033, Offset : 0258. external length : 000001<br>
+<li>LIPRE                          : <b>Price marking, vendor                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 034, Offset : 0259. external length : 000002<br>
+<li>LISER                          : <b>Rack-jobbing: vendor                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 035, Offset : 0261. external length : 000001<br>
+<li>DISPO                          : <b>MRP controller                                                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 036, Offset : 0262. external length : 000003<br>
+<li>BSTAE                          : <b>Confirmation Control Key                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 037, Offset : 0265. external length : 000004<br>
+<li>RDPRF                          : <b>Rounding Profile                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 038, Offset : 0269. external length : 000004<br>
+<li>MEGRU                          : <b>Unit of Measure Group                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 039, Offset : 0273. external length : 000004<br>
+<li>BOPNR                          : <b>Restriction Profile for PO-Based Load Building                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 040, Offset : 0277. external length : 000004<br>
+<li>XERSR                          : <b>Automatic evaluated receipt settlement for return items                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 041, Offset : 0281. external length : 000001<br>
+<li>ABUEB                          : <b>Release Creation Profile                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 042, Offset : 0282. external length : 000004<br>
+<li>PAPRF                          : <b>Profile for transferring material data via IDoc PROACT                                                                              </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 043, Offset : 0286. external length : 000004<br>
+<li>XNBWY                          : <b>Revaluation allowed                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 044, Offset : 0290. external length : 000001<br>
+<li>LEBRE                          : <b>Indicator for Service-Based Invoice Verification                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 045, Offset : 0291. external length : 000001<br>
+<li>MINBW2                         : <b>Minimum order value (batch input field)                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 046, Offset : 0292. external length : 000016<br>
+<li>TRANSPORT_CHAIN                : <b>Transportation Chain                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 047, Offset : 0308. external length : 000010<br>
+<li>STAGING_TIME                   : <b>Staging Time in Days                                                                                                                </b><p>
+<p>
+internal data type : DEC <br>
+Internal length : 000003 characters<br>
+No decimal places, without sign<br>
+Position in segment : 048, Offset : 0318. external length : 000004<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1WYT3M                    STRUCT">E1WYT3M                     : Segment for addresses of vendors MMS SMD                                                                                            </A></h2>
+<p>
+Segment definition E2WYT3M001
+Released since Release 45A , Segment length: 0075
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>EKORG                          : <b>Purchasing Organization                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>LTSNR                          : <b>Vendor Subrange                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000006<br>
+<li>WERKS                          : <b>Plant                                                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 005, Offset : 0088. external length : 000006<br>
+<li>PARVW                          : <b>Partner Function                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 006, Offset : 0094. external length : 000002<br>
+<li>PARZA                          : <b>Partner counter                                                                                                                     </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000003 characters<br>
+Position in segment : 007, Offset : 0096. external length : 000003<br>
+<li>ERNAM                          : <b>Name of Person Who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 008, Offset : 0099. external length : 000012<br>
+<li>ERDAT                          : <b>Date on Which Record Was Created                                                                                                    </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 009, Offset : 0111. external length : 000008<br>
+<li>LIFN2                          : <b>Reference to other vendor                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 010, Offset : 0119. external length : 000010<br>
+<li>DEFPA                          : <b>Default Partner                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 011, Offset : 0129. external length : 000001<br>
+<li>PERNR                          : <b>Personnel Number                                                                                                                    </b><p>
+<p>
+internal data type : NUMC<br>
+Internal length : 000008 characters<br>
+Position in segment : 012, Offset : 0130. external length : 000008<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFM1H                    STRUCT">E1LFM1H                     : Vendor Master Purchasing Organization: Texts, Header                                                                                </A></h2>
+<p>
+Segment definition E2LFM1H000
+Released since Release 46A , Segment length: 0096
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDOBJECT                       : <b>Texts: application object                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>TDNAME                         : <b>Name                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000070 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000070<br>
+<li>TDID                           : <b>Text ID                                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 004, Offset : 0146. external length : 000004<br>
+<li>TDSPRAS                        : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 005, Offset : 0150. external length : 000001<br>
+<li>TDTEXTTYPE                     : <b>SAPscript: Format of Text                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 006, Offset : 0151. external length : 000006<br>
+<li>TDSPRASISO                     : <b>2-Character SAP Language Code                                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 007, Offset : 0157. external length : 000002<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFM1L                    STRUCT">E1LFM1L                     : Vendor Master Purchasing Organization: Text Line                                                                                    </A></h2>
+<p>
+Segment definition E2LFM1L000
+Released since Release 46A , Segment length: 0137
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>TDFORMAT                       : <b>Tag column                                                                                                                          </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000002<br>
+<li>TDLINE                         : <b>Text Line                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000132 characters<br>
+Position in segment : 003, Offset : 0068. external length : 000132<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFBKM                    STRUCT">E1LFBKM                     : Segment for bank details of vendor SMD                                                                                              </A></h2>
+<p>
+Segment definition E2LFBKM004
+Released since Release 700 , Segment length: 0490
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>BANKS                          : <b>Bank country key                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000003<br>
+<li>BANKL                          : <b>Bank Keys                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 004, Offset : 0079. external length : 000015<br>
+<li>BANKN                          : <b>Bank account number                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000018 characters<br>
+Position in segment : 005, Offset : 0094. external length : 000018<br>
+<li>BKONT                          : <b>Bank Control Key                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 006, Offset : 0112. external length : 000002<br>
+<li>BVTYP                          : <b>Partner bank type                                                                                                                   </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000004 characters<br>
+Position in segment : 007, Offset : 0114. external length : 000004<br>
+<li>XEZER                          : <b>Indicator: Is there collection authorization ?                                                                                      </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 008, Offset : 0118. external length : 000001<br>
+<li>BANKA                          : <b>Name of bank                                                                                                                        </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000060 characters<br>
+Position in segment : 009, Offset : 0119. external length : 000060<br>
+<li>PROVZ                          : <b>Region (no longer used as of release 3.0D!!!)                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 010, Offset : 0179. external length : 000002<br>
+<li>STRAS                          : <b>Street (no longer used as of release 3.0D!!!)                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000030 characters<br>
+Position in segment : 011, Offset : 0181. external length : 000030<br>
+<li>ORT01                          : <b>Location                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000025 characters<br>
+Position in segment : 012, Offset : 0211. external length : 000025<br>
+<li>SWIFT                          : <b>SWIFT/BIC for International Payments                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 013, Offset : 0236. external length : 000011<br>
+<li>BGRUP                          : <b>Bank group (bank network)                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000002 characters<br>
+Position in segment : 014, Offset : 0247. external length : 000002<br>
+<li>XPGRO                          : <b>Checkbox                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000001 characters<br>
+Position in segment : 015, Offset : 0249. external length : 000001<br>
+<li>BNKLZ                          : <b>Bank number                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 016, Offset : 0250. external length : 000015<br>
+<li>PSKTO                          : <b>Account Number of Bank Account At Post Office                                                                                       </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000016 characters<br>
+Position in segment : 017, Offset : 0265. external length : 000016<br>
+<li>BKREF                          : <b>Reference specifications for bank details                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 018, Offset : 0281. external length : 000020<br>
+<li>BRNCH                          : <b>Bank Branch                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000040 characters<br>
+Position in segment : 019, Offset : 0301. external length : 000040<br>
+<li>PROV2                          : <b>Region (State, Province, County)                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 020, Offset : 0341. external length : 000003<br>
+<li>STRA2                          : <b>Street and House Number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 021, Offset : 0344. external length : 000035<br>
+<li>ORT02                          : <b>City                                                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000035 characters<br>
+Position in segment : 022, Offset : 0379. external length : 000035<br>
+<li>KOINH                          : <b>Account Holder Name                                                                                                                 </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000060 characters<br>
+Position in segment : 023, Offset : 0414. external length : 000060<br>
+<li>KOVON                          : <b>Date (batch input)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000008 characters<br>
+Position in segment : 024, Offset : 0474. external length : 000008<br>
+<li>KOBIS                          : <b>Date (batch input)                                                                                                                  </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000008 characters<br>
+Position in segment : 025, Offset : 0482. external length : 000008<br>
+<li>IBAN_BANKS                     : <b>Bank country key                                                                                                                    </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 026, Offset : 0490. external length : 000003<br>
+<li>IBAN_BANKL                     : <b>Bank Keys                                                                                                                           </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000015 characters<br>
+Position in segment : 027, Offset : 0493. external length : 000015<br>
+<li>IBAN_BIC                       : <b>SWIFT/BIC for International Payments                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000011 characters<br>
+Position in segment : 028, Offset : 0508. external length : 000011<br>
+<li>IBAN                           : <b>IBAN (International Bank Account Number)                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000034 characters<br>
+Position in segment : 029, Offset : 0519. external length : 000034<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1LFASM                    STRUCT">E1LFASM                     : Segment for EU tax numbers vendors                                                                                                  </A></h2>
+<p>
+Segment definition E2LFASM
+Released since Release 30A , Segment length: 0036
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>LAND1                          : <b>Country Key                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000003<br>
+<li>STCEG                          : <b>VAT Registration Number                                                                                                             </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 004, Offset : 0079. external length : 000020<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1WYT1M                    STRUCT">E1WYT1M                     : Segment for vendor sub-range MMS SMD                                                                                                </A></h2>
+<p>
+Segment definition E2WYT1M
+Released since Release 30A , Segment length: 0060
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000010<br>
+<li>LTSNR                          : <b>Vendor Subrange                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 003, Offset : 0076. external length : 000006<br>
+<li>ERNAM                          : <b>Name of Person Who Created the Object                                                                                               </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000012 characters<br>
+Position in segment : 004, Offset : 0082. external length : 000012<br>
+<li>ERDAT                          : <b>Date on Which Record Was Created                                                                                                    </b><p>
+<p>
+internal data type : DATS<br>
+Internal length : 000008 characters<br>
+Position in segment : 005, Offset : 0094. external length : 000008<br>
+<li>SPRAS                          : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 006, Offset : 0102. external length : 000001<br>
+<li>LTSBZ                          : <b>Description                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 007, Offset : 0103. external length : 000020<br>
+</ol>
+<p>
+<p><li><h2><A NAME = "E1WYTTM                    STRUCT">E1WYTTM                     : Segment for vendor sub-range identification SMD                                                                                     </A></h2>
+<p>
+Segment definition E2WYTTM
+Released since Release 30A , Segment length: 0040
+<p>
+<ol>
+<li>MSGFN                          : <b>Function                                                                                                                            </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000003 characters<br>
+Position in segment : 001, Offset : 0063. external length : 000003<br>
+<li>SPRAS                          : <b>Language Key                                                                                                                        </b><p>
+<p>
+internal data type : LANG<br>
+Internal length : 000001 characters<br>
+Position in segment : 002, Offset : 0066. external length : 000001<br>
+<li>LIFNR                          : <b>Account Number of Vendor or Creditor                                                                                                </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000010 characters<br>
+Position in segment : 003, Offset : 0067. external length : 000010<br>
+<li>LTSNR                          : <b>Vendor Subrange                                                                                                                     </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000006 characters<br>
+Position in segment : 004, Offset : 0077. external length : 000006<br>
+<li>LTSBZ                          : <b>Description                                                                                                                         </b><p>
+<p>
+internal data type : CHAR<br>
+Internal length : 000020 characters<br>
+Position in segment : 005, Offset : 0083. external length : 000020<br>
+</ol>
+<p>
+</ul>
+<p>
+<hr>
+<p>
+<h2><A NAME = "INFO"> Info... </A></h2>
+Automatically created HTML doc.<br>
+created on 09.10.2017           at 13:46:23             <br>
+Client 001
+<br>
+System C11
+<br>
+Release 750
+<br>
+Lang. E
+<br>
+Transaction WE60
+<p>
+Display for Release 750  <br>
+Version 3 of IDoc record types : IDoc record types for SAP Release 4.0
+</BODY>
+</HTML>

@@ -1,0 +1,35 @@
+{
+  "name": "hosp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "elapp": "../../../app/trunk/el/application",
+    "moment": "^2.13.0",
+    "react": "^15.1.0",
+    "react-native": "^0.28.0",
+    "react-native-barcode-scanner-universal": "^1.0.5",
+    "react-native-barcodescanner": "^1.0.1",
+    "react-native-calendar": "^0.7.0",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "react-native-gesture-password": "^0.2.0",
+    "react-native-icon-badge": "^1.1.0",
+    "react-native-jpush": "^1.0.8",
+    "react-native-scrollable-tab-view": "^0.4.3",
+    "react-native-swiper": "^1.4.6",
+    "react-native-vector-icons": "^2.0.3",
+    "reflux": "^0.4.1",
+    "rn-easy-button": "file:../../../modules/rn-easy-button",
+    "rn-easy-card": "file:../../../modules/rn-easy-card",
+    "rn-easy-icon": "file:../../../modules/rn-easy-icon",
+    "rn-easy-navbar": "file:../../../modules/rn-easy-navbar",
+    "rn-easy-picker": "file:../../../modules/rn-easy-picker",
+    "rn-easy-portrait": "file:../../../modules/rn-easy-portrait",
+    "rn-easy-separator": "file:../../../modules/rn-easy-separator",
+    "rn-easy-switcher": "file:../../../modules/rn-easy-switcher",
+    "rn-easy-text": "file:../../../modules/rn-easy-text",
+    "tcomb-form-native": "^0.5.1"
+  }
+}

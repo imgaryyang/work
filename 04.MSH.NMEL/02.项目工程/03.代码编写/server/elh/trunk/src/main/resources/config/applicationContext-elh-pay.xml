@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<bean id="chargeDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.pay.model.Charge" />
+	</bean>
+	<bean id="orderDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.pay.model.Order" />
+	</bean>
+	
+	<bean id="chargeManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="chargeDao" />
+	</bean>
+	<bean id="orderManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="orderDao" />
+	</bean>
+</beans>

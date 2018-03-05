@@ -1,0 +1,5 @@
+svn访问地址：http://10.10.69.16:8888/svn/epl
+开发服务器：10.10.69.17  root/,ki89ol.
+测试服务器：10.10.69.18  root/,ki89ol.
+域名：
+elife、1life、nmelife、nmlife、imlife、imelife、nmyms、livelihood、easylife、ElHood

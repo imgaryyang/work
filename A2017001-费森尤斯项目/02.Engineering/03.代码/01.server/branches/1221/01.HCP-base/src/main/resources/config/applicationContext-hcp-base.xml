@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	default-lazy-init="false" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- **************** REDIS 连接 **************** -->
+	<context:property-placeholder
+		location="classpath:application-config-hcp-base.properties"
+		ignore-unresolvable="true" />
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${spring.redis.maxIdle}" />
+		<property name="maxTotal" value="${spring.redis.maxTotal}" />
+		<property name="maxWaitMillis" value="${spring.redis.maxWaitMillis}" />
+		<property name="testOnBorrow" value="${spring.redis.testOnBorrow}" />
+	</bean>
+
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:host-name="${spring.redis.host}" p:port="${spring.redis.port}"
+		p:password="${spring.redis.password}" p:pool-config-ref="jedisPoolConfig" />
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+	</bean>
+
+	<bean id="redisSequenceDao" class="com.lenovohit.hcp.base.dao.impl.RedisSequenceDao" />
+	<bean id="redisSequenceManager" class="com.lenovohit.hcp.base.manager.impl.RedisSequenceManager" />
+	
+	<bean id="commonRedisSequenceDao" class="com.lenovohit.hcp.base.dao.impl.CommonRedisSequenceDao" />
+	<bean id="commonRedisSequenceManager" class="com.lenovohit.hcp.base.manager.impl.CommonRedisSequenceManager" />
+
+	<!-- **************** 机构 START **************** -->
+	<bean id="hcpOrgDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpOrg" />
+	</bean>
+	<bean id="hcpOrgManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpOrgDao" />
+	</bean>
+	<!-- **************** 机构 END **************** -->
+	<!-- **************** 人员 user START **************** -->
+	<bean id="hcpUserDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpUser" />
+	</bean>
+	<bean id="hcpUserManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpUserDao" />
+	</bean>
+	<!-- **************** 人员 user END **************** -->
+	<!-- **************** 人员科室关系 START **************** -->
+	<bean id="hcpUserDeptDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpUserDept" />
+	</bean>
+	<bean id="hcpUserDeptManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpUserDeptDao" />
+	</bean>
+
+	<!-- **************** 角色 role START **************** -->
+	<bean id="hcpRoleDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpRole" />
+	</bean>
+	<bean id="hcpRoleManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpRoleDao" />
+	</bean>
+	<!-- **************** 角色 role END **************** -->
+	<!-- **************** 人员角色关系 role START **************** -->
+	<bean id="hcpUserRoleRelaDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpUserRoleRela" />
+	</bean>
+	<bean id="hcpUserRoleRelaManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpUserRoleRelaDao" />
+	</bean>
+	<!-- **************** 人员角色关系 role END **************** -->
+	<!-- **************** 角色菜单关系 role START **************** -->
+	<bean id="hcpRoleMenuRelaDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpRoleMenuRela" />
+	</bean>
+	<bean id="hcpRoleMenuRelaManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpRoleMenuRelaDao" />
+	</bean>
+	<!-- **************** 角色菜单关系 role END **************** -->
+	<!-- **************** 账户account START **************** -->
+	<bean id="hcpAccountDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpAccount" />
+	</bean>
+	<bean id="hcpAccountManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpAccountDao" />
+	</bean>
+	<!-- **************** 账户account END **************** -->
+
+	<!-- **************** 医院基本信息 hospital START **************** -->
+	<bean id="hospitalDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Hospital" />
+	</bean>
+	<bean id="hospitalManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hospitalDao" />
+	</bean>
+	<!-- **************** 系统基本信息 HcpSystem START **************** -->
+	<bean id="systemDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpSystem" />
+	</bean>
+	<bean id="systemManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="systemDao" />
+	</bean>
+	<!-- **************** 数据字典息 dictionary START **************** -->
+	<bean id="dictionaryDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Dictionary" />
+	</bean>
+	<bean id="dictionaryManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="dictionaryDao" />
+	</bean>
+
+	<bean id="treeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Tree" />
+	</bean>
+	<bean id="treeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="treeDao" />
+	</bean>
+
+	<!-- **************** 诊断字典 diagnosis START **************** -->
+	<bean id="diagnosisDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Diagnosis" />
+	</bean>
+	<bean id="diagnosisManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="diagnosisDao" />
+	</bean>
+
+	<!-- **************** 频次字典 freq START **************** -->
+	<bean id="frequencyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Frequency" />
+	</bean>
+	<bean id="frequencyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="frequencyDao" />
+	</bean>
+
+	<!-- **************** 收费套餐维护 chargePkg START **************** -->
+	<bean id="chargePkgDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.ChargePkg" />
+	</bean>
+	<bean id="chargePkgManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="chargePkgDao" />
+	</bean>
+	<!-- **************** 收费套餐明细维护 chargeDetail START **************** -->
+	<bean id="chargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.ChargeDetail" />
+	</bean>
+	<bean id="chargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="chargeDetailDao" />
+	</bean>
+	<!-- **************** 科室维护 chargePkg START **************** -->
+	<bean id="departmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Department" />
+	</bean>
+	<bean id="departmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="departmentDao" />
+	</bean>
+
+	<!-- **************** 菜单信息 dictionary START **************** -->
+	<bean id="menuDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Menu" />
+	</bean>
+	<bean id="menuManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="menuDao" />
+	</bean>
+
+	<!-- **************** 收费项目信息 itemInfo START **************** -->
+	<bean id="itemInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.ItemInfo" />
+	</bean>
+	<bean id="itemInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="itemInfoDao" />
+	</bean>
+	<!-- **************** 控制变量信息 itemInfo START **************** -->
+	<bean id="phaCtrlParamDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpCtrlParam"></constructor-arg>
+	</bean>
+	<bean id="phaCtrlParamUtil" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="phaCtrlParamDao" />
+	</bean>
+	<!-- **************** 公用项目信息 **************** -->
+	<bean id="commonItemInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.CommonItemInfo"></constructor-arg>
+	</bean>
+	<bean id="commonItemInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="commonItemInfoDao" />
+	</bean>
+	<!-- **************** 订单信息 **************** -->
+	<bean id="hisOrderDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HisOrder"></constructor-arg>
+	</bean>
+	<bean id="hisOrderManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hisOrderDao" />
+	</bean>
+	<!-- **************** 打印模板信息 **************** -->
+	<bean id="hcpPrintTemplateDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.HcpPrintTemplate"></constructor-arg>
+	</bean>
+	<bean id="hcpPrintTemplateManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpPrintTemplateDao" />
+	</bean>
+	
+	<!-- **************** 厂商信息 **************** -->
+	<bean id="companyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Company" />
+	</bean>
+	<bean id="companyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="companyDao" />
+	</bean>
+	<!-- **************** 复合项目信息 **************** -->
+	<bean id="itemShortDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.ItemShortDetail" />
+	</bean>
+	<bean id="itemShortDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="itemShortDetailDao" />
+	</bean>
+	<!-- **************** 用户培训经历信息 **************** -->
+	<bean id="trainExperienceDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.TrainExperience" />
+	</bean>
+	<bean id="trainExperienceManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="trainExperienceDao" />
+	</bean>
+
+	<!-- **************** 医保对照 **************** -->
+	<bean id="miHisCompareDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.MiHisCompare" />
+	</bean>
+	<bean id="miHisCompareManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="miHisCompareDao" />
+	</bean>
+	<!-- **************** 接口配置信息 **************** -->
+	<bean id="hcpinterfaceconfigDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.InterfaceConfig" />
+	</bean>
+	<bean id="hcpinterfaceconfigManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hcpinterfaceconfigDao" />
+	</bean>
+
+
+	<aop:aspectj-autoproxy expose-proxy="true"></aop:aspectj-autoproxy>
+
+	<!-- 切面 -->
+	<bean id="hcpModelAspect" class="com.lenovohit.hcp.base.aop.HcpModelAspect"></bean>
+	<aop:config>
+		<aop:pointcut id="bussinessJob"
+			expression="execution(* com.lenovohit.hcp.odws.job.BaseJob.*(..))" />
+		<aop:advisor pointcut-ref="bussinessJob" advice-ref="txAdvice" />
+	</aop:config>
+
+	<!-- 切入点 -->
+	<aop:config>
+		<aop:aspect id="hcpModelAOP" ref="hcpModelAspect">
+			<aop:before method="audit"
+				pointcut="execution(* com.lenovohit.core.dao.impl.GenericDaoJpaImpl.save(..))" />
+		</aop:aspect>
+		<aop:aspect id="hcpModelAOP" ref="hcpModelAspect">
+			<aop:before method="audit"
+				pointcut="execution(* com.lenovohit.core.dao.impl.GenericDaoJpaImpl.batchSave(..))" />
+		</aop:aspect>
+ 	</aop:config>
+
+
+	<!-- <aop:config> <aop:advisor id="webTx" advice-ref="txAdvice" pointcut="execution(* 
+		com.lenovohit.*.dao.*Dao.save(..))" order="2" /> </aop:config> <tx:advice 
+		id="txAdvice"> <tx:attributes> <tx:method name="*" rollback-for="Exception" 
+		/> </tx:attributes> </tx:advice> -->
+
+</beans>

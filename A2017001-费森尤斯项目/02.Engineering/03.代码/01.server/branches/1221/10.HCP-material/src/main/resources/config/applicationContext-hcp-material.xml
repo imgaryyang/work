@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	
+	<!-- 物资信息 -->
+	<bean id="matInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatInfo" />
+	</bean>
+	<bean id="matInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matInfoDao" />
+	</bean>
+	<!-- 物资价格 -->
+	<bean id="matPriceDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatPrice" />
+	</bean>
+	<bean id="matPriceManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matPriceDao" />
+	</bean>
+	<!-- 物资价格视图 -->
+	<bean id="matPriceViewDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatPriceView" />
+	</bean>
+	<bean id="matPriceViewManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matPriceViewDao" />
+	</bean>
+	<!-- 物资盘点 -->
+	<bean id="matCheckInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatCheckInfo" />
+	</bean>
+	<bean id="matCheckInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matCheckInfoDao" />
+	</bean>
+	<!-- 物资库存-->
+	<bean id="matStoreInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatStoreInfo" />
+	</bean>
+	<bean id="matStoreInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matStoreInfoDao" />
+	</bean>
+		<!-- 物资汇总 -->
+	<bean id="matStoreSumInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatStoreSumInfo" />
+	</bean>
+	<bean id="matStoreSumInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matStoreSumInfoDao" />
+	</bean>
+		<!-- 物资入库申请单-->
+	<bean id="matApplyInDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatApplyIn" />
+	</bean>
+	<bean id="matApplyInManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matApplyInDao" />
+	</bean>
+		<!-- 物资采购单信息-->
+	<bean id="matBuyBillDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatBuyBill" />
+	</bean>
+	<bean id="matBuyBillManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matBuyBillDao" />
+	</bean>
+		<!-- 物资采购单明细信息-->
+	<bean id="matBuyDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatBuyDetail" />
+	</bean>
+	<bean id="matBuyDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matBuyDetailDao" />
+	</bean>
+	<!-- 物资证书 -->
+	<bean id="materialCertificateDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatCertificate" />
+	</bean>
+	<bean id="materialCertificateManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="materialCertificateDao" />
+	</bean>
+	<!-- 物资商信息 -->
+	<bean id="matCompanyInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.Company" />
+	</bean>
+	<bean id="matCompanyInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matCompanyInfoDao" />
+	</bean>
+	<!-- 物资入库信息 -->
+	<bean id="matInputInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatInputInfo" />
+	</bean>
+	<bean id="matInputInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matInputInfoDao" />
+	</bean>
+	<!-- 物资出库信息 -->
+	<bean id="matOutputInfoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatOutputInfo" />
+	</bean>
+	<bean id="matOutputInfoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matOutputInfoDao" />
+	</bean>
+	<!-- 盘点单信息查询 -->
+	<bean id="matCheckbillDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatCheckbill" />
+	</bean>
+	<bean id="matCheckbillManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matCheckbillDao" />
+	</bean>
+	<!-- 入库单 -->
+	<bean id="inputInfoBillDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatInputInfoBill" />
+	</bean>
+	<bean id="inputInfoBillManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inputInfoBillDao" />
+	</bean>
+	<!-- 出库单 -->
+	<bean id="outputInfoBillDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatOutputInfoBill" />
+	</bean>
+	<bean id="outputInfoBillManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="outputInfoBillDao" />
+	</bean>
+	<!-- 出库单 -->
+	<bean id="matMonthCheckDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.material.model.MatMonthCheck" />
+	</bean>
+	<bean id="matMonthCheckManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="matMonthCheckDao" />
+	</bean>
+</beans>

@@ -1,0 +1,19 @@
+.editorCard > div {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  padding-left: 15px;
+  padding-right: 0;
+}
+
+.iconBtn {
+  width: 100%;
+}
+
+.iconBtn i {
+  font-size: 15px;
+  color: #ff3000;
+}
+
+.blankIconBtn i {
+  color: #ffffff;
+}

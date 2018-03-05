@@ -1,0 +1,237 @@
+'use strict';
+
+import classnames from 'classnames';
+import React, { Component, PropTypes } from 'react';
+import ReactDom from 'react-dom';
+/*import * as Events from 'rctui/utils/events';
+import { nextUid, format } from 'rctui/utils/strings';
+import { getGrid } from 'rctui/utils/grids';
+import upload from 'rctui/utils/upload';
+import { register } from 'rctui/higherOrders/FormItem';
+
+import { requireCss } from 'rctui/themes';
+requireCss('upload');
+
+import { getLang, setLang } from 'rctui/lang';
+setLang('validation', 'buttons');*/
+
+class IHUpload extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      files: {}
+    };
+    this.addFile = this.addFile.bind(this);
+    this.files = {};
+  }
+
+  isCompleted () {
+    let completed = true,
+        files = this.state.files;
+    Object.keys(files).forEach((id) => {
+      if (files[id].status !== 2) {
+        completed = false;
+      }
+    });
+    return completed;
+  }
+
+  getValue () {
+    let values = [],
+        files = this.state.files;
+    const { sep } = this.props;
+    Object.keys(files).forEach((id) => {
+      //if (autoUpload) {
+        values.push(files[id].value);
+      //} else {
+      //  values.push(files[id].file.files[0]);
+      //}
+    });
+    if (sep) {
+      values = values.join(sep);
+    }
+    return values;
+  }
+
+  handleChange (value) {
+    const { onChange } = this.props;
+    if (value === undefined) {
+      if (this.isCompleted()) {
+        value = this.getValue();
+      } else {
+        value = new Error('');
+      }
+    }
+    if (onChange) {
+      onChange(value);
+    }
+  }
+
+  addFile () {
+    const { accept, autoUpload, disabled, readOnly, fileSize } = this.props;
+    if (disabled || readOnly) {
+      return;
+    }
+    
+
+    let files = this.state.files;
+        // file = document.createElement('input');
+    let file = ReactDom.findDOMNode(this.refs.container);
+    // file.type = 'file';
+    file.accept = accept;
+    file.click();
+    Events.on(file, 'change', () => {
+      let blob = file.files[0];
+      if (blob.size / 1024 > fileSize) {
+        this.handleChange(new Error(format(getLang('validation.tips.fileSize'), fileSize)));
+        return;
+      }
+
+      let id = nextUid();
+      files[id] = {
+        file,
+        name: file.files[0].name,
+        status: autoUpload ? 1 : 0
+      };
+
+      if (autoUpload) {
+        files[id].xhr = this.uploadFile(file, id);
+      }
+      this.setState({ files });
+    });
+  }
+
+  removeFile (id) {
+    if (this.props.disabled || this.props.readOnly) {
+      return;
+    }
+
+    let files = this.state.files;
+    let file = files[id];
+    if (file.xhr) {
+      file.xhr.abort();
+    }
+    delete files[id];
+    this.setState({ files });
+    this.handleChange();
+  }
+
+  uploadFile (file, id) {
+    let { onUpload } = this.props;
+    return upload({
+      url: this.props.action,
+      name: this.props.name,
+      cors: this.props.cors,
+      params: this.props.params,
+      withCredentials: this.props.withCredentials,
+      file: file.files[0],
+      onProgress: (e) => {
+        let progress = this.files[id];
+        progress.style.width = (e.loaded / e.total) * 100 + '%';
+        this.handleChange(new Error(''));
+      },
+      onLoad: (e) => {
+        let files = this.state.files;
+        let value = e.currentTarget.responseText;
+        if (onUpload) {
+          value = onUpload(value);
+        }
+
+        if (value instanceof Error) {
+          files[id].status = 3;
+          files[id].name = value.message;
+        } else {
+          files[id].status = 2;
+          files[id].value = value;
+        }
+
+        this.setState({ files });
+        this.handleChange();
+      },
+      onError: () => {
+        let files = this.state.files;
+        files[id].status = 3;
+        this.setState({ files });
+        this.handleChange();
+      }
+    });
+  }
+
+  start () {
+    let files = this.state.files;
+    Object.keys(files).forEach((id) => {
+      this.uploadFile(files[id].file, id);
+    });
+  }
+  
+  renderFiles () {
+    let files = this.state.files;
+    return Object.keys(files).map((id, i) => {
+      let file = this.state.files[id];
+      let className = classnames({
+        'uploaded': file.status === 2,
+        'has-error': file.status === 3
+      });
+      return (
+        <div key={i} className={className} >
+          <div className="rct-file">
+            <span>{file.name}</span>
+            <a className="remove" onClick={this.removeFile.bind(this, id)}>&times; {getLang('buttons.cancel')}</a>
+          </div>
+          <div ref={(c) => this.files[id] = c} className={'rct-upload-progress'}></div>
+        </div>
+      );
+    });
+  }
+
+  render () {
+    let { className, grid, limit, style, content } = this.props;
+    className = classnames(
+      getGrid(grid),
+      'rct-upload-container',
+      className
+    );
+    // let fileHiddenInput = ;
+    return (
+      <div className={className} style={style} >
+       <input type="file" ref='container' style={{ display: 'none'}} />
+        { Object.keys(this.state.files).length < limit && <div onClick={this.addFile}>{content}</div> }
+        { this.renderFiles() }
+      </div>
+    );
+  }
+}
+
+IHUpload.propTypes = {
+  accept: PropTypes.string,
+  action: PropTypes.string.isRequired,
+  autoUpload: PropTypes.bool,
+  className: PropTypes.string,
+  content: PropTypes.object,
+  cors: PropTypes.bool,
+  disabled: PropTypes.bool,
+  fileSize: PropTypes.number,
+  grid: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object
+  ]),
+  limit: PropTypes.number,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  onUpload: PropTypes.func,
+  params: PropTypes.object,
+  readOnly: PropTypes.bool,
+  sep: PropTypes.string,
+  style: PropTypes.object,
+  withCredentials: PropTypes.bool
+};
+
+IHUpload.defaultProps = {
+  autoUpload: false,
+  cors: true,
+  fileSize: 4096,
+  limit: 1,
+  withCredentials: false
+};
+
+module.exports = register(IHUpload, 'ihupload', {valueType: 'array'});

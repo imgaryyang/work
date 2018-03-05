@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<bean id="departmentDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.Department" />
+	</bean>
+	<bean id="designatedHosDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.DesignatedHos" />
+	</bean>
+	<bean id="doctorDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.Doctor" />
+	</bean>
+	<bean id="doctorDutyDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.DoctorDuty" />
+	</bean>
+	<bean id="elhOrgDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.ElhOrg" />
+	</bean>
+	<bean id="hospitalDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.Hospital" />
+	</bean>
+	<bean id="medicalCardDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.MedicalCard" />
+	</bean>
+	<bean id="supportCardDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.base.model.SupportCard" />
+	</bean>
+	
+	
+	<bean id="departmentManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="departmentDao" />
+	</bean>
+	<bean id="designatedHosManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="designatedHosDao" />
+	</bean>
+	<bean id="doctorManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="doctorDao" />
+	</bean>
+	<bean id="doctorDutyManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="doctorDutyDao" />
+	</bean>
+	<bean id="elhOrgManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="elhOrgDao" />
+	</bean>
+	<bean id="hospitalManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="hospitalDao" />
+	</bean>
+	<bean id="medicalCardManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="medicalCardDao" />
+	</bean>
+	
+	<bean id="supportCardManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="supportCardDao" />
+	</bean>
+	
+</beans>

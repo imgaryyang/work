@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.lenovohit.ebpp</groupId>
+	<artifactId>ebpp-bill</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>账单记录系统</name>
+	<packaging>jar</packaging>
+	<description>账单信息记录</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-parent</artifactId>
+		<version>1.2.5.RELEASE</version>
+	</parent>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>com.lenovohit.core.IcoreApplication</start-class>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.lenovohit</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>1.2.5.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<skipTests>true</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<!-- <execution> <id>exec</id> <phase>package</phase> <goals> <goal>jar</goal> 
+						</goals> <configuration> <classifier>exec</classifier> </configuration> </execution> -->
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<!-- Need this to ensure application.yml is excluded -->
+							<forceCreation>true</forceCreation>
+							<excludes>
+								<exclude>application.properties</exclude>
+								<exclude>applicationContext.xml</exclude>
+								<exclude>log4jdbc.properties</exclude>
+								<exclude>logback.xml</exclude>
+								<exclude>application-production.properties</exclude>
+								<exclude>data.sql</exclude>
+								<exclude>schema.sql</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>install</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<aggregate>true</aggregate>
+					<tags>
+						<tag>
+							<name>created</name>
+							<placement>a</placement>
+							<head>创建日期</head>
+						</tag>
+					</tags>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

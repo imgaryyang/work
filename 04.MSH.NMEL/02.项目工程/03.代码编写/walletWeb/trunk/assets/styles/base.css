@@ -1,0 +1,254 @@
+header{
+    box-sizing: border-box;
+    height: 110px;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+header a {
+    color: #fff;
+}
+.header{
+	background-color: #3186E6;
+	padding: 0 20px;
+	line-height: 30px;
+    box-shadow: 0 2px 5px 0 rgba(31, 141, 214, 0.5);
+	height: 60px;
+}
+.header-title{
+	margin : 0px auto 0px auto;
+	width: 200px;
+}
+.header-title a{
+	font-size: 20px;
+	margin-top : 15px;
+	display:inline-block;
+	color :white;
+}
+.header-title img{
+	height:30px;
+	vertical-align:middle;
+	display:inline-block;
+}
+.top-nav-wrapper{
+	margin : 0px auto 0px auto;
+	width : 500px;
+	background-color: #2c75c8;
+}
+.header-user{
+	float:right;
+}
+.top-nav{
+	background-color: #2c75c8;
+    box-shadow: 0 2px 5px 0 rgba(31, 141, 214, 0.5);
+	height: 50px;
+}
+.top-nav-menu{
+	width: 400px;
+	margin:auto;
+	line-height: 50px;
+	align-content: flex-start;
+    font-family: FreeSans,Arimo,"Droid Sans",Helvetica,Arial,sans-serif;
+    letter-spacing: -0.31em;
+    text-rendering: optimizespeed;
+}
+.top-nav-item{
+	display: inline-block;
+    letter-spacing: normal;
+    text-rendering: auto;
+    vertical-align: top;
+    word-spacing: normal;
+    width: 100px;
+}
+
+
+.wrapper{
+	padding-top: 110px;
+	border-left: 200px solid #eef4f6;
+    position: relative;
+}
+
+.nav{
+	float: left;
+    margin-left: -199px;
+    min-height: 100%;
+    width: 199px;
+}
+
+.nav .ant-menu{
+	 background-color: #eef4f6; 
+}
+.nav .ant-menu-item-disabled{
+	padding-left: 32px;
+	cursor: default !important;
+}
+.nav .ant-menu-item-disabled:hover{
+	background-color: #eef4f6 !important;  
+}
+
+.nav .ant-menu-item:hover,
+.nav .ant-menu-item-active,
+.nav .ant-menu-submenu-active,
+.nav .ant-menu-submenu-title:hover {
+  background-color: #dee4e6;
+}
+.nav-inner{
+	float: left;
+    margin-left: -199px;
+    min-height: 100%;
+    width: 199px;
+}
+.nav-triangle{
+	border-width:15px;
+	border-style:solid;
+	border-right-color : white;
+	border-top-color : #dee4e6;
+	border-left-color : #dee4e6;
+	border-bottom-color : #dee4e6;
+	vertical-align:middle;
+	display:none;
+	float:right;
+	line-height:0px; 
+}
+.main-table{
+	border-width:1px;
+	border-style:solid;
+	border-color : #dee4e6;
+}
+a:focus .nav-triangle,a.active .nav-triangle{
+	display : inline-block;
+}
+.crumb-wrapper{
+	font-size: 15px;
+	margin-bottom:20px;
+	border-width:0 0 1px 0;
+	border-style:solid;
+	border-bottom-color : #dee4e6;
+}
+
+.crumb-wrapper .ant-breadcrumb{
+	padding-bottom:3px;
+}
+.table-top-form{
+	margin-bottom:10px;
+}
+// override
+
+.nav .nav-inner {
+    padding: 30px 0;
+}
+.pure-menu-item{
+	height: 46px;
+}
+.pure-menu-link{
+	height: 30px;
+	//display:inline-block;
+	line-height:30px; 
+  	overflow:hidden;   
+}
+.nav .nav-inner .pure-menu-link {
+    padding: 5px 0px 5px 30px;
+}
+.nav .nav-inner .icon {
+	font-size: 18px;
+	margin-right:10px;
+}
+.main{
+	min-height: 550px;
+	margin:10px 30px;
+}
+.nav .nav-inner a:hover, .nav .nav-inner a:focus {
+    background-color: #dee4e6;
+}
+.nav .nav-inner a.active {
+    background-color: #dee4e6;
+    color: #1f8dd6;
+}
+
+
+
+/* Increase grid spacing of 16px  */
+.code-box-demo .row {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+.code-box-demo .row > div {
+  padding: 0 8px;
+}
+
+.custom-image img {
+  display: block;
+  text-align:center;
+}
+.custom-bcard {
+  padding-top:20px;
+  text-align:center;
+}
+.custom-card {
+  padding-top:2px;
+}
+.custom-card p {
+  color: #899;
+  text-align:center;
+}
+
+.gutter-box-title {
+  background: #2db7f5;
+  height: 90px;
+  line-height: 80px;
+  border-radius: 6px;
+  text-align:center;
+}
+.gutter-box {
+  background: #2db7f5;
+  height: 90px;
+  line-height: 28px;
+  border-radius: 6px;
+}
+.list-card {
+width: 95%;
+height:320px;
+line-height:200%;
+}
+.list-card p{
+font-size:1.1em;
+}
+.check-column {
+  text-align: center;
+}
+
+/*els/stubtemplate*/
+.templOperationPlus{
+	border-radius: 20px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	background-color: #669933;
+}
+.templOperationPlus:hover{
+	border-radius: 20px;
+	width:20px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	background-color:#66CC66;
+}
+
+.templOperationMinus{
+	border-radius: 20px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	background-color: #CC3333;
+}
+.templOperationMinus:hover{
+	border-radius: 20px;
+	width:20px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	background-color:#CC6666;
+}

@@ -1,0 +1,27 @@
+文件头注释
+
+/*
+ * @(#)XXXXXX.java
+ * (C)Copyright 2010 Infohold Solutions Corporation, All rights reserved.
+ * 变更履历
+ * 版本号    作者         日期        变更内容
+ * 1.0        A         2010/07/22    创建文件
+ * 1.0.1      B         2010/08/30    对应需求变更申请单（BG01YYMMDD+2位流水），修正XXXX方法
+ */
+
+
+
+修正处注释
+public void XXXX（）{
+	.
+	.
+	.
+
+//delete(add/modify) by B 2010/08/30 start  V1.0.1
+	.
+	.
+//delete(add/modify) by B 2010/08/30 end V1.0.1
+	.
+	.
+	.
+}

@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1497431996674" analysisTimestamp="1497431986937" release="">
+  <Project projectName="hcp-pharmacy">
+    <Jar>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\target\classes</Jar>
+    <Jar>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\target\test-classes</Jar>
+    <AuxClasspathEntry>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\target\classes</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\target\test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\junit\junit\4.12\junit-4.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\01.HCP-base\target\classes</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\01.HCP-base\target\test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\microsoft\sqlserver\sqljdbc4\4.0\sqljdbc4-4.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\belerweb\pinyin4j\2.5.0\pinyin4j-2.5.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\data\spring-data-redis\1.6.4.RELEASE\spring-data-redis-1.6.4.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-tx\4.2.6.RELEASE\spring-tx-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-beans\4.2.6.RELEASE\spring-beans-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-oxm\4.2.6.RELEASE\spring-oxm-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-aop\4.2.6.RELEASE\spring-aop-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-context-support\4.2.6.RELEASE\spring-context-support-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-context\4.2.6.RELEASE\spring-context-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-expression\4.2.6.RELEASE\spring-expression-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\slf4j\slf4j-api\1.7.21\slf4j-api-1.7.21.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.21\jcl-over-slf4j-1.7.21.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\redis\clients\jedis\2.9.0\jedis-2.9.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\commons\commons-pool2\2.4.2\commons-pool2-2.4.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\poi\poi\3.16\poi-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-codec\commons-codec\1.10\commons-codec-1.10.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\commons\commons-collections4\4.1\commons-collections4-4.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\poi\poi-ooxml\3.16\poi-ooxml-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\poi\poi-ooxml-schemas\3.16\poi-ooxml-schemas-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\xmlbeans\xmlbeans\2.6.0\xmlbeans-2.6.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\stax\stax-api\1.0.1\stax-api-1.0.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\github\virtuald\curvesapi\1.04\curvesapi-1.04.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\lenovohit\bdrp\bdrp-authority\1.0.0-SNAPSHOT\bdrp-authority-1.0.0-SNAPSHOT.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\shiro\shiro-core\1.2.3\shiro-core-1.2.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-beanutils\commons-beanutils\1.9.2\commons-beanutils-1.9.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\shiro\shiro-ehcache\1.2.3\shiro-ehcache-1.2.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\net\sf\ehcache\ehcache-core\2.5.0\ehcache-core-2.5.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\shiro\shiro-spring\1.2.3\shiro-spring-1.2.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\shiro\shiro-web\1.2.3\shiro-web-1.2.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\lenovohit\bdrp\bdrp-common\1.0.0-SNAPSHOT\bdrp-common-1.0.0-SNAPSHOT.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\lenovohit\core\1.0.0-SNAPSHOT\core-1.0.0-SNAPSHOT.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\1.3.5.RELEASE\spring-boot-starter-data-jpa-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter\1.3.5.RELEASE\spring-boot-starter-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot\1.3.5.RELEASE\spring-boot-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\1.3.5.RELEASE\spring-boot-autoconfigure-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-logging\1.3.5.RELEASE\spring-boot-starter-logging-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\ch\qos\logback\logback-classic\1.1.7\logback-classic-1.1.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\ch\qos\logback\logback-core\1.1.7\logback-core-1.1.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\slf4j\jul-to-slf4j\1.7.21\jul-to-slf4j-1.7.21.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\slf4j\log4j-over-slf4j\1.7.21\log4j-over-slf4j-1.7.21.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\yaml\snakeyaml\1.16\snakeyaml-1.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-aop\1.3.5.RELEASE\spring-boot-starter-aop-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\aspectj\aspectjweaver\1.8.9\aspectjweaver-1.8.9.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\hibernate-entitymanager\4.3.11.Final\hibernate-entitymanager-4.3.11.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.5.Final\hibernate-commons-annotations-4.0.5.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.1-api\1.0.0.Final\hibernate-jpa-2.1-api-1.0.0.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\javassist\javassist\3.18.1-GA\javassist-3.18.1-GA.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\javax\transaction\javax.transaction-api\1.2\javax.transaction-api-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\data\spring-data-jpa\1.9.4.RELEASE\spring-data-jpa-1.9.4.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\data\spring-data-commons\1.11.4.RELEASE\spring-data-commons-1.11.4.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-orm\4.2.6.RELEASE\spring-orm-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-aspects\4.2.6.RELEASE\spring-aspects-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\1.3.5.RELEASE\spring-boot-starter-jdbc-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\tomcat-jdbc\8.0.33\tomcat-jdbc-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\tomcat-juli\8.0.33\tomcat-juli-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-jdbc\4.2.6.RELEASE\spring-jdbc-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-web\1.3.5.RELEASE\spring-boot-starter-web-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-validation\1.3.5.RELEASE\spring-boot-starter-validation-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\hibernate-validator\5.2.4.Final\hibernate-validator-5.2.4.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\javax\validation\validation-api\1.1.0.Final\validation-api-1.1.0.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\fasterxml\classmate\1.1.0\classmate-1.1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.6.6\jackson-databind-2.6.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.6.6\jackson-annotations-2.6.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-web\4.2.6.RELEASE\spring-web-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-webmvc\4.2.6.RELEASE\spring-webmvc-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\h2database\h2\1.4.191\h2-1.4.191.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-net\commons-net\3.1\commons-net-3.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-httpclient\commons-httpclient\3.1\commons-httpclient-3.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-logging\commons-logging\1.0.4\commons-logging-1.0.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\codehaus\groovy\groovy-all\2.4.6\groovy-all-2.4.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\hibernate-ehcache\4.3.11.Final\hibernate-ehcache-4.3.11.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\jboss\logging\jboss-logging\3.3.0.Final\jboss-logging-3.3.0.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\jboss\logging\jboss-logging-annotations\1.2.0.Beta1\jboss-logging-annotations-1.2.0.Beta1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hibernate\hibernate-core\4.3.11.Final\hibernate-core-4.3.11.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.2_spec\1.0.0.Final\jboss-transaction-api_1.2_spec-1.0.0.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\jboss\jandex\1.1.0.Final\jandex-1.1.0.Final.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\1.3.5.RELEASE\spring-boot-starter-tomcat-1.3.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\8.0.33\tomcat-embed-core-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\8.0.33\tomcat-embed-el-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\embed\tomcat-embed-logging-juli\8.0.33\tomcat-embed-logging-juli-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\8.0.33\tomcat-embed-websocket-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\tomcat\embed\tomcat-embed-jasper\8.0.33\tomcat-embed-jasper-8.0.33.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\eclipse\jdt\core\compiler\ecj\4.5\ecj-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\javax\servlet\jstl\1.2\jstl-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\apache\commons\commons-lang3\3.3.2\commons-lang3-3.3.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\alibaba\druid\1.0.20\druid-1.0.20.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\java\jdk1.8.0_121\lib\jconsole.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\java\jdk1.8.0_121\lib\tools.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\alibaba\fastjson\1.2.12\fastjson-1.2.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-hibernate4\2.6.6\jackson-datatype-hibernate4-2.6.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.6.6\jackson-core-2.6.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\boot\spring-boot-starter-test\1.2.5.RELEASE\spring-boot-starter-test-1.2.5.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\mockito\mockito-core\1.10.19\mockito-core-1.10.19.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\objenesis\objenesis\2.1\objenesis-2.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\hamcrest\hamcrest-library\1.3\hamcrest-library-1.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-core\4.2.6.RELEASE\spring-core-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\org\springframework\spring-test\4.2.6.RELEASE\spring-test-4.2.6.RELEASE.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>F:\temporary\java_code\model\mybatis-generator-1.3.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>E:\env\maven\.m2\repository\redis\clients\jedis\2.7.3\jedis-2.7.3.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>D:\java\jdk1.8.0_121\jre\lib\rt.jar</AuxClasspathEntry>
+    <SrcDir>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\src\main\java</SrcDir>
+    <SrcDir>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\src\main\resources</SrcDir>
+    <SrcDir>D:\HisInfo\02.Engineering\03.Code\01.server\trunk\04.HCP-pharmacy\src\test\java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" name="updateStoreInfo" signature="(Lcom/lenovohit/hcp/base/model/HcpUser;Ljava/util/List;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="49" end="112" startBytecode="0" endBytecode="220" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Integer;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Integer" start="52" end="1590" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaCheckInfo" name="getProfitFlag" signature="()Ljava/lang/Integer;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaCheckInfo" start="239" end="239" startBytecode="0" endBytecode="46" sourcefile="PhaCheckInfo.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaCheckInfo.java"/>
+    </Method>
+    <String value="0" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="54" end="54" startBytecode="74" endBytecode="74" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="54" end="54" startBytecode="74" endBytecode="74" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" name="updateStoreSumInfo" signature="(Ljava/util/List;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="121" end="194" startBytecode="0" endBytecode="255" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/Integer;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.Integer" start="52" end="1590" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaCheckInfo" name="getProfitFlag" signature="()Ljava/lang/Integer;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaCheckInfo" start="239" end="239" startBytecode="0" endBytecode="46" sourcefile="PhaCheckInfo.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaCheckInfo.java"/>
+    </Method>
+    <String value="0" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="125" end="125" startBytecode="56" endBytecode="56" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" start="125" end="125" startBytecode="56" endBytecode="56" sourcefile="PhaCheckInfoManagerImpl.java" sourcepath="com/lenovohit/hcp/pharmacy/manager/impl/PhaCheckInfoManagerImpl.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" priority="2" rank="11" abbrev="RCN" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" sourcefile="PhaAdjustRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaAdjustRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" name="forCreateMenu" signature="(Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" start="105" end="154" startBytecode="0" endBytecode="884" sourcefile="PhaAdjustRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaAdjustRestController.java"/>
+    </Method>
+    <LocalVariable name="model" register="11" pc="176" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="java.util.List" name="get" signature="(I)Ljava/lang/Object;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.util.List" sourcefile="List.java" sourcepath="java/util/List.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" start="118" end="118" startBytecode="136" endBytecode="136" sourcefile="PhaAdjustRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaAdjustRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" start="123" end="123" startBytecode="178" endBytecode="178" sourcefile="PhaAdjustRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaAdjustRestController.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" start="123" end="123" startBytecode="178" endBytecode="178" sourcefile="PhaAdjustRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaAdjustRestController.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="604" end="633" startBytecode="0" endBytecode="552" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="620" end="620" startBytecode="156" endBytecode="156" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="620" end="620" startBytecode="156" endBytecode="156" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Lcom/lenovohit/hcp/pharmacy/model/PhaDrugInfo;" role="TYPE_FOUND">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaDrugInfo" start="20" end="270" sourcefile="PhaDrugInfo.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaDrugInfo.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getDrugInfo" signature="()Lcom/lenovohit/hcp/pharmacy/model/PhaDrugInfo;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="258" end="258" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="756" end="756" startBytecode="1311" endBytecode="1311" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="756" end="756" startBytecode="1311" endBytecode="1311" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getAppNum" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="164" end="164" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="760" end="760" startBytecode="1521" endBytecode="1521" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="760" end="760" startBytecode="1521" endBytecode="1521" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getBuyCost" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="188" end="188" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="762" end="762" startBytecode="1655" endBytecode="1655" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="762" end="762" startBytecode="1655" endBytecode="1655" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getBuyPrice" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="152" end="152" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="758" end="758" startBytecode="1429" endBytecode="1429" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="758" end="758" startBytecode="1429" endBytecode="1429" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getCheckNum" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="176" end="176" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="761" end="761" startBytecode="1588" endBytecode="1588" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="761" end="761" startBytecode="1588" endBytecode="1588" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getSaleCost" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="194" end="194" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="763" end="763" startBytecode="1701" endBytecode="1701" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="763" end="763" startBytecode="1701" endBytecode="1701" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/math/BigDecimal;" role="TYPE_FOUND">
+      <SourceLine classname="java.math.BigDecimal" start="220" end="5250" sourcefile="BigDecimal.java" sourcepath="java/math/BigDecimal.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getSalePrice" signature="()Ljava/math/BigDecimal;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="158" end="158" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="759" end="759" startBytecode="1475" endBytecode="1475" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="759" end="759" startBytecode="1475" endBytecode="1475" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/util/Date;" role="TYPE_FOUND">
+      <SourceLine classname="java.util.Date" start="131" end="1374" sourcefile="Date.java" sourcepath="java/util/Date.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getAppTime" signature="()Ljava/util/Date;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="206" end="206" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="765" end="765" startBytecode="1762" endBytecode="1762" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="765" end="765" startBytecode="1762" endBytecode="1762" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/util/Date;" role="TYPE_FOUND">
+      <SourceLine classname="java.util.Date" start="131" end="1374" sourcefile="Date.java" sourcepath="java/util/Date.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getCheckTime" signature="()Ljava/util/Date;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="218" end="218" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="767" end="767" startBytecode="1826" endBytecode="1826" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="767" end="767" startBytecode="1826" endBytecode="1826" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/util/Date;" role="TYPE_FOUND">
+      <SourceLine classname="java.util.Date" start="131" end="1374" sourcefile="Date.java" sourcepath="java/util/Date.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getProduceDate" signature="()Ljava/util/Date;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="128" end="128" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="754" end="754" startBytecode="1213" endBytecode="1213" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="754" end="754" startBytecode="1213" endBytecode="1213" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" name="createExcel" signature="(Ljava/util/List;Ljava/io/OutputStream;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="645" end="791" startBytecode="0" endBytecode="795" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    </Method>
+    <Type descriptor="Ljava/util/Date;" role="TYPE_FOUND">
+      <SourceLine classname="java.util.Date" start="131" end="1374" sourcefile="Date.java" sourcepath="java/util/Date.java"/>
+    </Type>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_EXPECTED">
+      <SourceLine classname="java.lang.String" start="111" end="3141" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Method classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" name="getValidDate" signature="()Ljava/util/Date;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.model.PhaApplyIn" start="134" end="134" startBytecode="0" endBytecode="46" sourcefile="PhaApplyIn.java" sourcepath="com/lenovohit/hcp/pharmacy/model/PhaApplyIn.java"/>
+    </Method>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java.lang.String" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java.lang.String" start="977" end="995" startBytecode="0" endBytecode="208" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="755" end="755" startBytecode="1262" endBytecode="1262" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" start="755" end="755" startBytecode="1262" endBytecode="1262" sourcefile="PhaApplyInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaApplyInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="339" end="390" startBytecode="0" endBytecode="820" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="377" end="377" startBytecode="304" endBytecode="304" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="377" end="377" startBytecode="304" endBytecode="304" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_STRING_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" name="forDeleteMenu" signature="(Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="229" end="243" startBytecode="0" endBytecode="264" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="235" end="235" startBytecode="39" endBytecode="39" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" start="235" end="235" startBytecode="39" endBytecode="39" sourcefile="PhaBuyBillRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyBillRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" sourcefile="PhaBuyDetailRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyDetailRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" start="316" end="344" startBytecode="0" endBytecode="552" sourcefile="PhaBuyDetailRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyDetailRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" start="331" end="331" startBytecode="156" endBytecode="156" sourcefile="PhaBuyDetailRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyDetailRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" start="331" end="331" startBytecode="156" endBytecode="156" sourcefile="PhaBuyDetailRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaBuyDetailRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" name="exportBillToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="523" end="558" startBytecode="0" endBytecode="700" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="544" end="544" startBytecode="205" endBytecode="205" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="544" end="544" startBytecode="205" endBytecode="205" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" name="exportToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="461" end="510" startBytecode="0" endBytecode="999" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="497" end="497" startBytecode="399" endBytecode="399" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="497" end="497" startBytecode="399" endBytecode="399" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+  </BugInstance>
+  <BugInstance type="INT_BAD_COMPARISON_WITH_NONNEGATIVE_VALUE" priority="2" rank="7" abbrev="INT" category="CORRECTNESS" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" name="forUpdate" signature="(Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="297" end="311" startBytecode="0" endBytecode="312" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    </Method>
+    <Int value="0" role="INT_VALUE"/>
+    <Method classname="java.util.List" name="size" signature="()I" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.util.List" sourcefile="List.java" sourcepath="java/util/List.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="304" end="304" startBytecode="76" endBytecode="76" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" start="304" end="304" startBytecode="76" endBytecode="76" sourcefile="PhaCheckInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaCheckInfoRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" name="PageData" signature="(Lcom/lenovohit/core/dao/Page;)Ljava/util/Map;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="752" end="805" startBytecode="0" endBytecode="220" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Method>
+    <LocalVariable name="topSize" register="10" pc="157" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="770" end="770" startBytecode="155" endBytecode="155" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="770" end="770" startBytecode="155" endBytecode="155" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="topSize"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="414" end="480" startBytecode="0" endBytecode="1167" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="467" end="467" startBytecode="480" endBytecode="480" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="467" end="467" startBytecode="480" endBytecode="480" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" name="exportInStoreSummary" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="597" end="662" startBytecode="0" endBytecode="1203" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="646" end="646" startBytecode="446" endBytecode="446" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" start="646" end="646" startBytecode="446" endBytecode="446" sourcefile="PhaDirectInRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaDirectInRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="464" end="536" startBytecode="0" endBytecode="234" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Method>
+    <LocalVariable name="dateRange" register="5" pc="20" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="466" end="466" startBytecode="18" endBytecode="18" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="466" end="466" startBytecode="18" endBytecode="18" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="dateRange"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" name="forPage" signature="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="75" end="137" startBytecode="0" endBytecode="194" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Method>
+    <LocalVariable name="dateRange" register="5" pc="42" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="79" end="79" startBytecode="40" endBytecode="40" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="79" end="79" startBytecode="40" endBytecode="40" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="dateRange"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" name="forTotalSum" signature="(Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="147" end="200" startBytecode="0" endBytecode="174" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Method>
+    <LocalVariable name="dateRange" register="5" pc="45" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="152" end="152" startBytecode="43" endBytecode="43" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="152" end="152" startBytecode="43" endBytecode="43" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="dateRange"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" name="exportDetailToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="464" end="536" startBytecode="0" endBytecode="1173" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="523" end="523" startBytecode="484" endBytecode="484" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="523" end="523" startBytecode="484" endBytecode="484" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" name="exportSumToExcel" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="663" end="726" startBytecode="0" endBytecode="1066" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="958" end="958" startBytecode="0" endBytecode="37" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="713" end="713" startBytecode="437" endBytecode="437" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" start="713" end="713" startBytecode="437" endBytecode="437" sourcefile="PhaOutputInfoRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaOutputInfoRestController.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" sourcefile="PhaStoreMngRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaStoreMngRestController.java"/>
+    </Class>
+    <Method classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" name="phaInput" signature="(Ljava/lang/String;)Lcom/lenovohit/core/web/utils/Result;" isStatic="false">
+      <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" start="32" end="42" startBytecode="0" endBytecode="37" sourcefile="PhaStoreMngRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaStoreMngRestController.java"/>
+    </Method>
+    <LocalVariable name="returnList" register="2" pc="8" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" start="32" end="32" startBytecode="7" endBytecode="7" sourcefile="PhaStoreMngRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaStoreMngRestController.java"/>
+    <SourceLine classname="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" start="32" end="32" startBytecode="7" endBytecode="7" sourcefile="PhaStoreMngRestController.java" sourcepath="com/lenovohit/hcp/pharmacy/web/rest/PhaStoreMngRestController.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="returnList"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 14 Jun 2017 17:16:47 +0800" total_classes="39" referenced_classes="184" total_bugs="30" total_size="4341" num_packages="3" java_version="1.8.0_121" vm_version="25.121-b13" cpu_seconds="61.08" clock_seconds="113.33" peak_mbytes="1076.97" alloc_mbytes="978.00" gc_seconds="3.24" priority_2="8" priority_1="22">
+    <PackageStats package="com.lenovohit.hcp.pharmacy.manager" total_bugs="0" total_types="6" total_size="14">
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaBuyBillManager" sourceFile="PhaBuyBillManager.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaCheckInfoManager" sourceFile="PhaCheckInfoManager.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaDrugDispenseManager" sourceFile="PhaDrugDispenseManager.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaOutStockCheckManger" sourceFile="PhaOutStockCheckManger.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaOutputInfoManager" sourceFile="PhaOutputInfoManager.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.PhaStoreManager" sourceFile="PhaStoreManager.java" interface="true" size="4" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.lenovohit.hcp.pharmacy.manager.impl" total_bugs="2" total_types="6" total_size="1060" priority_1="2">
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaBuyBillManagerImpl" sourceFile="PhaBuyBillManagerImpl.java" interface="false" size="37" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaCheckInfoManagerImpl" sourceFile="PhaCheckInfoManagerImpl.java" interface="false" size="112" bugs="2" priority_1="2"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaDrugDispenseManagerImpl" sourceFile="PhaDrugDispenseManagerImpl.java" interface="false" size="40" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaOutStockCheckManagerImpl" sourceFile="PhaOutStockCheckManagerImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaOutputInfoImpl" sourceFile="PhaOutputInfoImpl.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.manager.impl.PhaStoreManagerImpl" sourceFile="PhaStoreManagerImpl.java" interface="false" size="751" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.lenovohit.hcp.pharmacy.web.rest" total_bugs="28" total_types="27" total_size="3267" priority_2="8" priority_1="20">
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController" sourceFile="PhaAdjustRestController.java" interface="false" size="99" bugs="1" priority_2="1"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController$1" sourceFile="PhaAdjustRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaAdjustRestController$2" sourceFile="PhaAdjustRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController" sourceFile="PhaApplyInRestController.java" interface="false" size="436" bugs="12" priority_1="12"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaApplyInRestController$1" sourceFile="PhaApplyInRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyBillRestController" sourceFile="PhaBuyBillRestController.java" interface="false" size="265" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController" sourceFile="PhaBuyDetailRestController.java" interface="false" size="272" bugs="1" priority_1="1"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaBuyDetailRestController$1" sourceFile="PhaBuyDetailRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController" sourceFile="PhaCheckInfoRestController.java" interface="false" size="502" bugs="3" priority_2="1" priority_1="2"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController$1" sourceFile="PhaCheckInfoRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaCheckInfoRestController$2" sourceFile="PhaCheckInfoRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaCompanyInfoRestController" sourceFile="PhaCompanyInfoRestController.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController" sourceFile="PhaDirectInRestController.java" interface="false" size="479" bugs="3" priority_2="1" priority_1="2"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaDirectInRestController$1" sourceFile="PhaDirectInRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaDrugDispenseController" sourceFile="PhaDrugDispenseController.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaDrugInfoRestController" sourceFile="PhaDrugInfoRestController.java" interface="false" size="119" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController" sourceFile="PhaOutputInfoRestController.java" interface="false" size="495" bugs="5" priority_2="3" priority_1="2"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaOutputInfoRestController$1" sourceFile="PhaOutputInfoRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaRecipeController" sourceFile="PhaRecipeController.java" interface="false" size="93" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreInfoRestController" sourceFile="PhaStoreInfoRestController.java" interface="false" size="138" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreInfoRestController$1" sourceFile="PhaStoreInfoRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController" sourceFile="PhaStoreMngRestController.java" interface="false" size="32" bugs="1" priority_2="1"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController$1" sourceFile="PhaStoreMngRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController$2" sourceFile="PhaStoreMngRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreMngRestController$3" sourceFile="PhaStoreMngRestController.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreSumInfoRestController" sourceFile="PhaStoreSumInfoRestController.java" interface="false" size="180" bugs="0"/>
+      <ClassStats class="com.lenovohit.hcp.pharmacy.web.rest.PhaStoreSumInfoRestController$1" sourceFile="PhaStoreSumInfoRestController.java" interface="false" size="5" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="945" invocations="184" avgMicrosecondsPerInvocation="5138" maxMicrosecondsPerInvocation="828288" standardDeviationMircosecondsPerInvocation="60865"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="816" invocations="210" avgMicrosecondsPerInvocation="3886" maxMicrosecondsPerInvocation="105478" standardDeviationMircosecondsPerInvocation="13450"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="615" invocations="2" avgMicrosecondsPerInvocation="307967" maxMicrosecondsPerInvocation="587184" standardDeviationMircosecondsPerInvocation="279217"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="604" invocations="233" avgMicrosecondsPerInvocation="2592" maxMicrosecondsPerInvocation="60011" standardDeviationMircosecondsPerInvocation="7861"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="547" invocations="1102" avgMicrosecondsPerInvocation="496" maxMicrosecondsPerInvocation="86227" standardDeviationMircosecondsPerInvocation="4453"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="520" invocations="210" avgMicrosecondsPerInvocation="2478" maxMicrosecondsPerInvocation="110723" standardDeviationMircosecondsPerInvocation="9329"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="496" invocations="1111" avgMicrosecondsPerInvocation="446" maxMicrosecondsPerInvocation="62319" standardDeviationMircosecondsPerInvocation="2864"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="446" invocations="233" avgMicrosecondsPerInvocation="1916" maxMicrosecondsPerInvocation="113391" standardDeviationMircosecondsPerInvocation="7915"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="428" invocations="210" avgMicrosecondsPerInvocation="2040" maxMicrosecondsPerInvocation="82351" standardDeviationMircosecondsPerInvocation="6517"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="339" invocations="210" avgMicrosecondsPerInvocation="1614" maxMicrosecondsPerInvocation="66412" standardDeviationMircosecondsPerInvocation="6390"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="335" invocations="618" avgMicrosecondsPerInvocation="542" maxMicrosecondsPerInvocation="92465" standardDeviationMircosecondsPerInvocation="4743"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="274" invocations="184" avgMicrosecondsPerInvocation="1490" maxMicrosecondsPerInvocation="81360" standardDeviationMircosecondsPerInvocation="6908"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="262" invocations="210" avgMicrosecondsPerInvocation="1248" maxMicrosecondsPerInvocation="50543" standardDeviationMircosecondsPerInvocation="5425"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="182" invocations="1061" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="131704" standardDeviationMircosecondsPerInvocation="4094"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDoubleCheck" totalMilliseconds="159" invocations="39" avgMicrosecondsPerInvocation="4080" maxMicrosecondsPerInvocation="80774" standardDeviationMircosecondsPerInvocation="16186"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="138" invocations="39" avgMicrosecondsPerInvocation="3549" maxMicrosecondsPerInvocation="116656" standardDeviationMircosecondsPerInvocation="18375"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="115" invocations="184" avgMicrosecondsPerInvocation="630" maxMicrosecondsPerInvocation="68574" standardDeviationMircosecondsPerInvocation="5595"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="111" invocations="210" avgMicrosecondsPerInvocation="528" maxMicrosecondsPerInvocation="35264" standardDeviationMircosecondsPerInvocation="2512"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1497431996673" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

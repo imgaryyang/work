@@ -1,0 +1,85 @@
+/* .spin > div {
+  overflow: visible !important;
+}*/
+
+.mainLayout, .mainLayout > div {
+  background-color: #ffffff;
+  // padding: 3px;
+}
+/* laout > sider */
+.mainLayout > div:first-child {
+  padding-right: 3px;
+}
+/* laout > content */
+.mainLayout > div:last-child {
+  padding-left: 7px;
+}
+
+.tmpCard > div {
+  padding: 5px;
+  overflow: auto;
+}
+
+.inputCard > div:last-child, .listCard > div {
+  padding: 10px;
+}
+
+.optFlagContainer {
+  position: absolute;
+  right: 20px;
+  top: -5px;
+  line-height: 16px;
+}
+
+.optFlagContainer span {
+  padding: 0 10px;
+  display: inline-block;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid @line-color;
+  border-radius: 5px;
+}
+
+.selectedOpt {
+  color: #ffffff !important;
+  background-color: #49a9ee !important;
+}
+
+.listCard {
+  margin-top: 10px;
+}
+
+.listCard > div {
+  padding: 5px;
+}
+
+.itemNameCol {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.fieldSet > div:first-child {
+  margin-bottom: 10px;
+}
+
+.btnContainer {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  text-align: right;
+  width: 520px;
+  z-index: 901;
+}
+
+.totalAmt {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 200px;
+  z-index: 902;
+}
+
+.totalAmt font {
+  font-size: 16px;
+  color: #d73435;
+}

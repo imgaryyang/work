@@ -1,0 +1,48 @@
+.shadowDiv {
+  position: relative;
+  overflow: hidden;
+}
+/* 阴影遮罩 */
+.topShadowMask, .bottomShadowMask {
+  position: absolute;
+  left: 2;
+  width: 100%;
+  height: 20px;
+  background-color: #ffffff;
+  z-index: 900;
+}
+.topShadowMask {
+  top: -15px;
+  border-bottom: 1px solid #eee;
+}
+.bottomShadowMask {
+  bottom: -15px;
+  border-top: 1px solid #eee;
+}
+/* 阴影 */
+.topShadow, .bottomShadow {
+  position: absolute;
+  width: 98%;
+  height: 20px;
+  left: 1%;
+  background-color: #ffffff;
+  border-top-left-radius: 100px 5px;
+  border-top-right-radius: 100px 5px;
+  border-bottom-right-radius: 100px 5px;
+  border-bottom-left-radius: 100px 5px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  z-index: 899;
+  height: 20px;
+}
+
+.topShadow {
+  top: -15px;
+}
+
+.bottomShadow {
+  bottom: -15px;
+}
+
+.body {
+  overflow: auto;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<!-- **************** 科室 Department START **************** -->
+	<bean id="departmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="import com.lenovohit.elh.base.model.Department" />
+	</bean>
+	<bean id="departmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="departmentDao" />
+	</bean>
+	<!-- **************** 科室 Department END **************** -->
+	
+	<!-- **************** 医院 Hospital START **************** -->
+	<bean id="hospitalDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="import com.lenovohit.elh.base.model.Hospital" />
+	</bean>
+	<bean id="hospitalManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hospitalDao" />
+	</bean>
+	<!-- **************** 医院 Hospital END **************** -->
+	
+	<!-- **************** 医生 Doctor START **************** -->
+	<bean id="doctorDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="import com.lenovohit.elh.base.model.Doctor" />
+	</bean>
+	<bean id="doctorManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="doctorDao" />
+	</bean>
+	<!-- **************** 医生 Doctor END **************** -->
+</beans>

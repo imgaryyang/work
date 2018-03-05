@@ -1,0 +1,82 @@
+
+.mainLayout, .mainLayout > div {
+  background-color: #ffffff;
+}
+
+/* laout > sider */
+.mainLayout > div:first-child {
+  padding: 3px;
+}
+/* laout > content */
+.mainLayout > div:last-child {
+  margin-left: 7px;
+  position: relative;
+  overflow: hidden;
+}
+
+.listCard > div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.detailContainer {
+  overflow: auto;
+  padding: 15px 3px;
+}
+
+/* 详情区Card */
+.detailCard {
+  margin-top: 10px;
+}
+
+.detailCard > div {
+  height: 30px;
+  line-height: 30px;
+  word-break: break-all;
+}
+
+.detailCard > div > div {
+  line-height: 18px;
+}
+
+.detailContainer {
+  .detailCard > div:last-child {
+    height: auto;
+  }
+  .detailCard:first-child > div:last-child, .detailCard:last-child > div:last-child {
+    padding: 5px;
+  }
+}
+
+.medicalRecord {
+  font {
+    color: #5a5a5a;
+    font-weight: bold;
+  }
+}
+
+.medicalSpan {
+  display: block;
+  background-color: #fbfbfb;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+
+
+
+
+.medicalRecord > div:last-child {
+  padding: 10px 24px;
+}
+
+
+.totalAmt {
+  text-align: right;
+}
+
+.totalAmt font {
+  font-size: 16px;
+  color: #d73435;
+}
+

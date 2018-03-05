@@ -1,0 +1,67 @@
+/* eslint linebreak-style: ["error", "windows"]*/
+import React, { Component } from 'react';
+import { Row, Col, Form, Input, Button, Popconfirm } from 'antd';
+import DictCheckable from '../../../components/DictCheckable';
+
+const FormItem = Form.Item;
+
+class PhaRecipeBackSearchBar extends Component {
+
+  handleSubmit() {
+    const onSearch = this.props.onSearch;
+    this.props.form.validateFields((err, values) => {
+      if (!err && onSearch) {
+        this.props.setSearchObjs(values);
+        onSearch(this.props.searchObjs);
+      }
+    });
+  }
+
+  handleReset() {
+    this.props.form.resetFields();
+    this.props.setTag(null);
+    this.props.setSearchObjs(null);
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { dicts, onSearch,
+      setSearchObjs, searchObjs, setTag, selectedTag } = this.props;
+    const dictProps = {
+      dictArray: dicts.APPLY_STATE,
+      tagColumn: 'applyState',
+      searchObjs,
+      selectedTag,
+      setTag,
+      setSearchObjs,
+      onSearch,
+    };
+
+    return (
+      <div className="action-form-wrapper">
+        <Row type="flex" justify="left">
+          <Col span={12}>
+            <DictCheckable {...dictProps} />
+          </Col>
+        </Row>
+        <Row type="flex" justify="center">
+          <Col span={24} className="action-form-searchbar">
+            <Form inline>
+              <FormItem>
+                {getFieldDecorator('recipeId')(<Input placeholder="处方id" />)}
+              </FormItem>
+              <FormItem>
+                <Button type="primary" onClick={this.handleSubmit.bind(this)}>查询</Button>
+              </FormItem>
+              <FormItem>
+                <Button onClick={this.handleReset.bind(this)}>清空</Button>
+              </FormItem>
+            </Form>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
+
+export default Form.create()(PhaRecipeBackSearchBar);

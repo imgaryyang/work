@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WEB打印控件LODOP的样例四:打印设计和定位套打票据</title>
+
+<script language="javascript" src="LodopFuncs.js"></script>
+</head>
+<body>
+
+<a href="javascript:Design1()">打印设计</a>
+<script language="javascript" type="text/javascript">
+    var LODOP; //声明为全局变量   
+	function Preview1() {		
+		CreateFullBill();
+	  	LODOP.PREVIEW();		
+	};
+	function Design1() {		
+		CreateFullBill();
+//		LODOP.SET_SHOW_MODE("HIDE_ITEM_LIST",true);//设置对象列表默认处于关闭状态
+//		LODOP.SET_SHOW_MODE("TEXT_SHOW_BORDER",1); //设置字符编辑框默认为single	
+		LODOP.PRINT_DESIGN();		
+	};
+	function Preview2() {		
+		CreateDataBill();
+	  	LODOP.PREVIEW();		
+	};			
+	function Setup2() {		
+		CreateDataBill();
+		LODOP.PRINT_SETUP();		
+	};
+	function Design2() {	
+		LODOP.PRINT_DESIGN();
+	};	
+	function RealPrint() {		
+		CreateDataBill();
+		//云打印C-Lodop返回结果用回调函数:
+		if (LODOP.CVERSION) {
+			CLODOP.On_Return=function(TaskID,Value){ if (Value) alert("已发出实际打印命令！"); else alert("放弃打印！"); };
+			LODOP.PRINTA();
+			return;
+		};
+		//控件返回结果用语句本身：
+		if (LODOP.PRINTA()) 
+		   alert("已发出实际打印命令！"); 
+		else 
+		   alert("放弃打印！"); 
+	};	
+	function CreateFullBill() {
+		LODOP=getLodop();  
+		LODOP.SET_PRINT_MODE("WINDOW_DEFPRINTER","BaobiPrinter BB787S");
+		LODOP.SET_PRINT_MODE("WINDOW_DEFPAGESIZE:BaobiPrinter BB787S","BB787_BLA3256");
+		LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT","Full-Page");
+		LODOP.ADD_PRINT_TEXT(154,78,314,77,"姓    名：");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",44);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXT(156,417,454,75,"张三");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",44);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXT(249,79,312,71,"化验类型：");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",44);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXT(251,418,402,75,"类型");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",44);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXT(347,80,316,82,"条    码：");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",44);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_BARCODE(349,424,467,132,"Code39","123456789qwertyuiopasdfghjklzxcv");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",21);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		//LODOP.PREVIEW();
+		
+		//LODOP.PRINT();
+    };	
+    
+
+
+</script> 
+</body>
+</html>

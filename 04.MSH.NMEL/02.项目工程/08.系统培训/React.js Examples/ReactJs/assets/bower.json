@@ -1,0 +1,22 @@
+{
+  "name": "react",
+  "authors": [
+    "Huang Yong <huangyong.bj@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^v15.0.2"
+  }
+}

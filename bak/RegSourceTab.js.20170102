@@ -1,0 +1,79 @@
+// import
+import React, { Component } from 'react';
+import {
+  Text,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { TabNavigator } from 'react-navigation';
+import Icon from 'rn-easy-icon';
+import { gotoLogin } from '../../../actions/base/AuthAction';
+import RegSourceSchedule from './RegSourceSchedule';
+
+const docRegSource = () => (<Text>按医生blabla</Text>);
+
+const tabRoutes = {
+  scheduleTab: {
+    screen: RegSourceSchedule,
+    navigationOptions: {
+      tabBarLabel: '按排班',
+      tabBarIcon: ({ tintColor, focused }) => (
+        <Icon
+          name={focused ? 'ios-calendar' : 'ios-calendar-outline'}
+          size={27}
+          color={tintColor}
+        />
+      ),
+    },
+  },
+  docTab: {
+    screen: docRegSource,
+    navigationOptions: {
+      tabBarLabel: '按医生',
+      tabBarIcon: ({ tintColor, focused }) => (
+        <Icon
+          name={focused ? 'ios-person' : 'ios-person-outline'}
+          size={27}
+          color={tintColor}
+        />
+      ),
+    },
+  },
+};
+
+const tabConfig = {
+  initialRouteName: 'scheduleTab',
+  lazy: true,
+  backBehavior: 'none',
+  tabBarPosition: 'top',
+  swipeEnabled: false,
+  animationEnabled: false,
+};
+
+class RegSourceTab extends Component {
+  shouldComponentUpdate() {
+    // 避免重复触发RegSourceSchedule的ComponentDidMount事件,进而引发Can only update a mounted or mounting component警告
+    return false;
+  }
+
+  render() {
+    const MainTabNavigation = TabNavigator(tabRoutes, tabConfig);
+    console.log('tab this.props', this.props);
+    return (
+      <MainTabNavigation screenProps={this.props.screenProps} />
+    );
+  }
+}
+
+RegSourceTab.navigationOptions = ({ navigation }) => ({
+  title: navigation.state.params ? navigation.state.params.data : '号源',
+});
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = dispatch => ({
+  gotoLogin: () => dispatch(gotoLogin()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegSourceTab);

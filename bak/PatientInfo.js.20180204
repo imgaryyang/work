@@ -1,0 +1,206 @@
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import Button from 'rn-easy-button';
+import Sep from 'rn-easy-separator';
+import Icon from 'rn-easy-icon';
+import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import Global from '../../../Global';
+import { setCurrPatient } from '../../../actions/base/BaseAction';
+
+class PatientInfo extends Component {
+  static filterProfile(patient, hospital) {
+    const { profiles } = patient;
+    return Array.isArray(profiles) && profiles.length > 0 ?
+      profiles.find(item => item.status === '1' && item.hosId === hospital.id) :
+      profiles;
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.afterSwap = this.afterSwap.bind(this);
+    this.swapPatient = this.swapPatient.bind(this);
+    this.gotoBind = this.gotoBind.bind(this);
+
+    this.state = {
+      selectedIndex: 0,
+    };
+  }
+
+  afterSwap(patient, profiles) {
+    // 将当前就诊人及其档案信息放入redux
+    const newPatient = { ...patient, profiles };
+
+    this.props.setCurrPatient(newPatient);
+    // 回调列表更新数据
+    if (typeof this.props.callback === 'function') this.props.callback(newPatient);
+  }
+
+  swapPatient() {
+    const { currHospital, navigate } = this.props;
+    navigate('PatientList', { callback: this.afterSwap, hospital: currHospital });
+  }
+
+  gotoBind() {
+    const { navigate, currPatient, currHospital } = this.props;
+    navigate('BindArchives', {
+      data: currPatient,
+      hospital: currHospital,
+      callback: this.afterSwap,
+      // callbacks: this.afterSwap,
+    });
+  }
+
+  render() {
+    const { style, currPatient, currHospital, onTabPress } = this.props;
+    const { selectedIndex } = this.state;
+    const currProfile = PatientInfo.filterProfile(currPatient, currHospital);
+
+    return (
+      <View style={[styles.container, style]}>
+        <SegmentedControlTab
+          tabsContainerStyle={styles.tabs}
+          tabTextStyle={styles.tabText}
+          values={['有卡', '无卡']}
+          selectedIndex={selectedIndex}
+          onTabPress={(index) => {
+            this.setState(
+              { selectedIndex: index },
+              () => { if (typeof onTabPress === 'function') onTabPress(index); },
+            );
+          }}
+        />
+        <Sep height={Global.lineWidth} bgColor={Global.colors.LINE} />
+        <View style={[styles.row, { marginTop: 10 }]}>
+          <Text style={styles.labelText}>姓名</Text>
+          <Text style={[styles.contentText, { marginLeft: 25 }]}>{currPatient.name}</Text>
+          <View style={styles.swapContainer}>
+            <TouchableOpacity style={styles.swap} onPress={this.swapPatient}>
+              <Icon name="swap-horizontal" iconLib="mc" size={23} height={0} color={Global.colors.IOS_BLUE} />
+              <Text style={[styles.labelText, { color: Global.colors.IOS_BLUE }]}>切换</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.labelText}>手机号</Text>
+          <Text style={styles.contentText}>{currPatient.mobile}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.labelText}>身份证</Text>
+          <Text style={styles.contentText}>{currPatient.idNo}</Text>
+        </View>
+        {
+          selectedIndex ?
+          null :
+          (
+            currProfile && currProfile.no ?
+            (
+              <View style={styles.row}>
+                <Text style={styles.labelText}>就诊卡</Text>
+                <Text style={styles.contentText}>{currProfile.no}</Text>
+              </View>
+            ) :
+            (
+              <View style={styles.row}>
+                <Text style={styles.warnText}>您尚未绑卡，请先绑卡！</Text>
+                <Button
+                  text="去绑卡"
+                  style={styles.button}
+                  textStyle={styles.buttonText}
+                  // stretch={false}
+                  onPress={this.gotoBind}
+                />
+              </View>
+            )
+          )
+        }
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 0,
+    flexDirection: 'column',
+    paddingTop: 10,
+    paddingBottom: 15,
+    backgroundColor: 'white',
+  },
+  tabs: {
+    paddingLeft: 60,
+    paddingRight: 60,
+    paddingBottom: 10,
+  },
+  tabText: {
+    fontSize: 13,
+  },
+  row: {
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 5,
+    alignItems: 'center',
+  },
+  labelText: {
+    fontSize: 15,
+    color: Global.colors.FONT_GRAY,
+  },
+  contentText: {
+    fontSize: 15,
+    marginLeft: 10,
+  },
+  swapContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  swap: {
+    flex: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  button: {
+    flex: 0,
+    marginLeft: 5,
+    height: 25,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  buttonText: {
+    fontSize: 15,
+  },
+  warnText: {
+    fontSize: 15,
+    color: Global.colors.ORANGE,
+  },
+});
+
+const mapStateToProps = state => ({
+  currPatient: state.base.currPatient,
+  currHospital: state.base.currHospital,
+});
+
+const mapDispatchToProps = dispatch => ({
+  navigate: (component, params) => dispatch(NavigationActions.navigate({ routeName: component, params })),
+  setCurrPatient: userPatient => dispatch(setCurrPatient(userPatient)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PatientInfo);
+
+// 过滤出就诊人在当前医院的默认档案
+// export function filterProfile(patient, hospital) {
+//   const { profiles } = patient;
+//
+//   return Array.isArray(profiles) && profiles.length > 0 ?
+//     profiles.find(item => item.status === '1' && item.hosId === hospital.id) :
+//     profiles;
+// }

@@ -1,0 +1,57 @@
+{
+	"name": "nmel",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest",
+		"lint": "eslint -c .eslintrc . --ignore-path .gitignore"
+	},
+	"dependencies": {
+		"jcore-react-native": "^1.2.2",
+		"jpush-react-native": "^2.1.3",
+		"moment": "^2.19.1",
+		"prop-types": "^15.6.0",
+		"react": "16.0.0-beta.5",
+		"react-native": "0.49.5",
+		"react-native-barcode-scanner-universal": "^1.0.5",
+		"react-native-barcodescanner": "^3.1.1",
+		"react-native-calendar": "^0.13.1",
+		"react-native-camera": "^0.10.0",
+		"react-native-deprecated-custom-components": "^0.1.1",
+		"react-native-device-info": "^0.12.1",
+		"react-native-gesture-password": "^0.2.1",
+		"react-native-icon-badge": "^1.1.3",
+		"react-native-scrollable-tab-view": "^0.8.0",
+		"react-native-swiper": "^1.5.13",
+		"react-native-vector-icons": "^4.4.2",
+		"react-navigation": "^1.0.0-beta.16",
+		"reflux": "^6.4.1",
+		"rn-easy-button": "file:../../../../../98.GitHub/rn-easy-button",
+		"rn-easy-card": "file:../../../../../98.GitHub/rn-easy-card",
+		"rn-easy-icon": "file:../../../../../98.GitHub/rn-easy-icon",
+		"rn-easy-navbar": "file:../../../../../98.GitHub/rn-easy-navbar",
+		"rn-easy-picker": "file:../../../../../98.GitHub/rn-easy-picker",
+		"rn-easy-portrait": "file:../../../../../98.GitHub/rn-easy-portrait",
+		"rn-easy-separator": "file:../../../../../98.GitHub/rn-easy-separator",
+		"rn-easy-switcher": "file:../../../../../98.GitHub/rn-easy-switcher",
+		"rn-easy-text": "file:../../../../../98.GitHub/rn-easy-text",
+		"tcomb-form-native": "^0.6.11"
+	},
+	"devDependencies": {
+		"babel-eslint": "^8.0.2",
+		"babel-jest": "21.2.0",
+		"babel-preset-react-native": "4.0.0",
+		"eslint": "^4.11.0",
+		"eslint-config-airbnb": "^16.1.0",
+		"eslint-plugin-import": "^2.8.0",
+		"eslint-plugin-jsx-a11y": "^6.0.2",
+		"eslint-plugin-react": "^7.4.0",
+		"jest": "21.2.1",
+		"react-test-renderer": "16.0.0-beta.5"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}

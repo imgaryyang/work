@@ -1,0 +1,187 @@
+import React, { Component } from 'react';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  FlatList,
+} from 'react-native';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import Sep from 'rn-easy-separator';
+import Global from '../Global';
+
+class Dropdown extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalHeight: 0,
+      modalOpacity: new Animated.Value(1),
+      scrollHeight: new Animated.Value(0),
+    };
+
+    this.scrollViewRef = null;
+    this.dropdownRef = null;
+    this.hideDropdown = this.hideDropdown.bind(this);
+    this.showDropdown = this.showDropdown.bind(this);
+    this.onMenuLayout = this.onMenuLayout.bind(this);
+    this.onPressModal = this.onPressModal.bind(this);
+  }
+
+  onPressModal() {
+    this.hideDropdown();
+  }
+
+  onMenuLayout(e) {
+    const { scrollHeight } = this.state;
+    const menuHeight = e.nativeEvent.layout.height - Global.lineWidth;
+
+    if (this.dropdownRef && this.dropdownRef.measure) {
+      this.dropdownRef.measure((fx, fy, w, y, px, py) => {
+        const maxScrollHeight = Global.getScreen().height - py;
+        const height = _.min([menuHeight, maxScrollHeight]);
+
+        Animated.timing(
+          scrollHeight,
+          {
+            toValue: height,
+            duration: 0,
+          },
+        ).start();
+      });
+    }
+  }
+
+  hideDropdown(callback) {
+    // callback为隐藏下拉菜单后的回调
+    const { animateDuration } = this.props;
+    const { modalOpacity, scrollHeight } = this.state;
+
+    Animated.parallel([
+      Animated.timing(
+        modalOpacity,
+        {
+          toValue: 0,
+          duration: animateDuration,
+        },
+      ),
+      Animated.timing(
+        scrollHeight,
+        {
+          toValue: 0,
+          duration: animateDuration,
+        },
+      ),
+    ]).start(() => {
+      this.setState(
+        {
+          modalHeight: 0,
+        },
+        () => { if (typeof callback === 'function') { callback(); } },
+      );
+    });
+  }
+
+  showDropdown(callback) {
+    // callback为显示下拉菜单后的回调
+    this.scrollViewRef.scrollTo({ x: 0, y: 0, animated: false });
+    const { animateDuration, top } = this.props;
+    const { modalOpacity, scrollHeight } = this.state;
+
+    this.setState(
+      {
+        modalHeight: Global.getScreen().height,
+      },
+      () => {
+        Animated.parallel([
+          Animated.timing(
+            modalOpacity,
+            {
+              toValue: 1,
+              duration: animateDuration,
+            },
+          ),
+          Animated.timing(
+            scrollHeight,
+            {
+              toValue: Global.getScreen().width - top,
+              duration: scrollHeight > 0 ? animateDuration : 0,
+            },
+          ),
+        ]).start(() => {
+          if (typeof callback === 'function') { callback(); }
+        });
+      },
+    );
+  }
+
+  render() {
+    const { top, data, renderItem } = this.props;
+    const { scrollHeight, modalOpacity, modalHeight } = this.state;
+
+    return (
+      <Animated.View
+        style={[styles.modal, { top, height: modalHeight, opacity: modalOpacity }]}
+        ref={(ref) => { this.dropdownRef = ref ? ref._component : ref; }}
+      >
+        <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={this.onPressModal}>
+          <Animated.ScrollView
+            bounces={false}
+            style={{ height: scrollHeight, flexGrow: 0 }}
+            ref={(ref) => { this.scrollViewRef = ref ? ref._component : ref; }}
+          >
+            <FlatList
+              data={data}
+              onLayout={this.onMenuLayout}
+              style={styles.menu}
+              keyExtractor={(item, index) => `${item}${index + 1}`}
+              renderItem={renderItem}
+              ItemSeparatorComponent={() => (<Sep height={Global.lineWidth} bgColor={Global.colors.LINE} />)}
+            />
+          </Animated.ScrollView>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  menu: {
+    flexGrow: 0,
+    backgroundColor: 'white',
+    opacity: 1,
+  },
+  menuItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  menuText: {
+    fontSize: 15,
+  },
+  modal: {
+    position: 'absolute',
+    backgroundColor: 'rgba(50,50,50,0.2)',
+    left: 0,
+    width: Global.getScreen().width,
+  },
+});
+
+Dropdown.propTypes = {
+  // 动画时长
+  animateDuration: PropTypes.number,
+  // 下拉列表的Top位置
+  top: PropTypes.number.isRequired,
+  // 下拉列表的数据
+  data: PropTypes.array.isRequired,
+  // 渲染下拉列表的Item
+  renderItem: PropTypes.func.isRequired,
+};
+
+Dropdown.defaultProps = {
+  animateDuration: 250,
+};
+
+export default Dropdown;

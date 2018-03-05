@@ -1,0 +1,76 @@
+import React, { Component } from 'react';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Text,
+} from 'react-native';
+import Icon from 'rn-easy-icon';
+import PropTypes from 'prop-types';
+import Global from '../Global';
+
+class MenuButton extends Component {
+  onPress = () => {
+    this.props.onPress(this.props.text, this.props.index);
+  };
+
+  render() {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        style={[styles.wrapper, this.props.style]}
+        onPress={this.onPress}
+      >
+        <View style={[Global.styles.CENTER, { flex: 1 }]} >
+          <Text style={[styles.menuText, this.props.textStyle]} numberOfLines={1}>
+            {this.props.text}
+          </Text>
+        </View>
+        <Icon
+          name={this.props.selected ? 'ios-arrow-up' : 'ios-arrow-down'}
+          color={Global.colors.IOS_ARROW}
+          style={{ flex: 0, marginRight: 5 }}
+        />
+      </TouchableOpacity>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    height: 36,
+  },
+  menuText: {
+    fontSize: 15,
+  },
+});
+
+MenuButton.propTypes = {
+  // 点击按钮回调
+  onPress: PropTypes.func,
+  // 索引
+  index: PropTypes.number,
+  // 按钮显示的文字
+  text: PropTypes.string.isRequired,
+  // 按钮是否被选中
+  selected: PropTypes.bool.isRequired,
+  // 按钮样式
+  style: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
+  // 文字样式
+  textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
+};
+
+MenuButton.defaultProps = {
+  index: 0,
+  style: {},
+  textStyle: {},
+  onPress: () => {},
+};
+
+export default MenuButton;

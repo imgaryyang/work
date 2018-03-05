@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	<bean id="drugRemindDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.DrugRemind" />
+	</bean>
+	
+	<bean id="adviceDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.Advice" />
+	</bean>
+	<bean id="checkDetailDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.CheckDetail" />
+	</bean>
+	<bean id="cureDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.Cure" />
+	</bean>
+	<bean id="diagnosisDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.Diagnosis" />
+	</bean>
+	<bean id="drugDetailDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.DrugDetail" />
+	</bean>
+	<bean id="drugOrderDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.DrugOrder" />
+	</bean>
+	<bean id="medicalCheckDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.MedicalCheck" />
+	</bean>
+	<bean id="registerDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.Register" />
+	</bean>
+	<bean id="treatDetailDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.TreatDetail" />
+	</bean>
+	<bean id="treatmentDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.Treatment" />
+	</bean>
+	<bean id="treatDetailLogDao" class="com.infohold.core.dao.impl.GenericDaoJpaImpl" >
+		<constructor-arg value="com.infohold.elh.treat.model.TreatDetailLog" />
+	</bean>
+	
+	<bean id="drugRemindManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="drugRemindDao" />
+	</bean>
+	<bean id="adviceManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="adviceDao" />
+	</bean>
+	<bean id="checkDetailManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="checkDetailDao" />
+	</bean>
+	<bean id="cureManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="cureDao" />
+	</bean>
+	<bean id="diagnosisManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="diagnosisDao" />
+	</bean>
+	<bean id="drugDetailManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="drugDetailDao" />
+	</bean>
+	<bean id="drugOrderManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="drugOrderDao" />
+	</bean>
+	<bean id="medicalCheckManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="medicalCheckDao" />
+	</bean>
+	<bean id="registerManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="registerDao" />
+	</bean>
+	<bean id="treatDetailManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="treatDetailDao" />
+	</bean>
+	<bean id="treatmentManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="treatmentDao" />
+	</bean>
+	<bean id="treatDetailLogManager" class="com.infohold.core.manager.impl.GenericManagerImpl" >
+		<constructor-arg ref="treatDetailLogDao" />
+	</bean>
+	
+	<bean id="hisManager" class="com.infohold.elh.treat.manager.impl.HisManagerImpl" >
+	</bean>
+</beans>

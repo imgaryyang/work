@@ -1,0 +1,15 @@
+<div id="react-content"></div>
+<% 
+	console.log(req);
+	if(req.headers['_RESPONSETYPE']){
+		var errMsg = req.headers[req.headers['_RESPONSETYPE']];
+%>
+	<script type="javascript">
+		window._hasLoinError = '<%=errMsg  %>';
+	</script>
+<%
+	}
+%>
+<script src="/web/js/login.js"></script>
+<script src="/static/scripts/utils/security.js"></script>
+

@@ -1,0 +1,128 @@
+.listCard > div {
+  padding: 5px;
+}
+
+.leftCol {
+  background-color: #ffffff;
+  padding: 5px;
+  padding-left: 3px;
+  height: 100%;
+}
+
+.rightCol {
+  background-color: #ffffff;
+  padding: 5px;
+  padding-right: 0
+}
+
+/**
+ * 左侧列表区
+ */
+.searchForm >div >div {
+  padding-bottom: 5px;
+}
+.searchForm >div >div:first-child {
+  padding-right: 5px;
+}
+.searchForm >div >div:last-child {
+  padding-left: 5px;
+}
+
+.searchForm button {
+  width: 100%;
+}
+
+
+/**
+ * 右侧编辑区
+ */
+ /* 上端、下端按钮容器 */
+.topBtnContainer, .bottomBtnContainer {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 900;
+}
+.topBtnContainer {
+  top: 0;
+  height: 50px;
+  padding-top: 8px;
+  border-bottom: 1px solid #eee;
+}
+.topBtnContainer button {
+  margin-right: 10px;
+}
+.topBtnContainer button:last-child {
+  margin-right: 0;
+}
+.bottomBtnContainer {
+  bottom: 0;
+  padding-top: 10px;
+  height: 47px;
+  border-top: 1px solid #eee;
+}
+/* 按钮容器下阴影 */
+.topShadow, .bottomShadow {
+  position: absolute;
+  width: 96%;
+  height: 20px;
+  left: 2%;
+  background-color: #ffffff;
+  border-top-left-radius: 100px 5px;
+  border-top-right-radius: 100px 5px;
+  border-bottom-right-radius: 100px 5px;
+  border-bottom-left-radius: 100px 5px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  z-index: 899;
+}
+
+.topShadow {
+  top: 30px;
+}
+
+.bottomShadow {
+  bottom: 27px;
+}
+
+/* 表单 */
+.formContainer {
+  padding: 60px 0;
+  overflow: auto;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.customImage {
+  display: block;
+  margin: auto;
+  width: (300-52)*26/32px;
+  height: 300-52px; // 195px
+  border-radius: 5px;
+  background-color: #eeeeee;
+  text-align: center;
+  line-height: 300-52px;
+}
+.customImage img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.customCard {
+  text-align: center;
+  line-height: 30px;
+}
+.customCard h3 {
+  color: #999;
+}
+
+.mainRow > div {
+  padding-right: 5px;
+}
+
+.formCol > div {
+  margin-bottom: 0px;
+  height: 50px;
+}
+
+

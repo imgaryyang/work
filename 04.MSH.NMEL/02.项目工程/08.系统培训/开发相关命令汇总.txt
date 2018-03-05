@@ -1,0 +1,59 @@
+开发相关
+1、安装Ionic
+1. sudo npm install -g ionic
+2. ionic start [app_name] blank
+3. ionic platform add [ios/android]
+
+2、JSX
+1. sudo jsx -w [src-dir] [target-dir]
+
+3、node.js相关
+* npm源命令nrm
+1. npm install -g nrm
+2. nrm test （测试所有镜像列表链接速度）
+3. nrm use [repository] （指定使用的镜像站点）
+4. node app.js 使用node启动服务
+5. npm install -g nodemon （安装node服务监控命令，支持开发测试过程中动态发布程序）
+6. nodemon app.js 使用nodemon启动服务
+7. npm install -g pm2 生产机服务
+
+* Sails
+1. npm install -g sails
+2. sails new [prj_name] 新建Sails项目
+3. sails lift 使用sails启动服务
+4. sails generate api [api_name] 创建API
+5. npm install captains-log --save 用于Sails的日志组件
+6. npm install node-uuid --save 安装node-uuid
+7. npm install sails-mysql --save 安装sails-mysql
+
+* React
+1. npm install --save react
+2. sudo npm install --save -g react-tools
+3. npm install grunt-react --save-dev
+
+4、Ract Native 
+1. npm install -g react-native-cli  安装react-native-cli，安装后即可使用react-native命令
+2. react-native init [Project Name]  初始化项目
+3. react-native upgrade  已经初始化的项目升级react-native
+4. react-native run-android  安装运行Android版App
+
+* 运行Android版UIExplorer
+1. cd react-native
+2. ./gradlew :Examples:UIExplorer:android:app:installDebug
+3. ./packager/packager.sh
+
+5、Android
+1.  android  启动Android SDK管理程序
+2.  android avd  启动Android虚拟机管理
+3.  adb devices  查看系统连接的Android设备列表
+4.  adb logcat *:S ReactnNtive:V ReactNativeJS:V  Android版程序调试日志
+
+6、Redis
+1. 查看安装信息：brew info redis
+2. 更新：brew upgrade redis
+3. 启动服务：redis-server /usr/local/etc/redis.conf
+4. 启动命令行：redis-cli
+5. 安装Node.js工程Module：npm install  --save connect-redis
+6. 查看key：keys *
+7. 查看value：get <key>
+8. 删除：del <key>

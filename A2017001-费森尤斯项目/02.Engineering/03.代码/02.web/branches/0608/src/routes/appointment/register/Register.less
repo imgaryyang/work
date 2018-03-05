@@ -1,0 +1,109 @@
+.leftCol {
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.rightCol {
+  background-color: #ffffff;
+  height: 100%;
+}
+
+.formCol > div {
+  margin-bottom: 0px;
+  height: 40px;
+}
+
+.fieldSet {
+  position: relative;
+  border-left: 4px solid #ddd;
+  margin: 10px 0;
+  height: 21px;
+  div {
+    height: 1px;
+    background-color: #ddd;
+    position: relative;
+    top: 10px;
+    width: 98%
+  }
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    font-size: 14px;
+    line-height: 21px;
+    padding: 0 12px;
+    font-weight: bold;
+  }
+}
+/* 上端、下端按钮容器 */
+.topBtnContainer, .bottomBtnContainer {
+ position: absolute;
+ left: 0;
+ width: 100%;
+ background-color: #ffffff;
+ z-index: 900;
+}
+.topBtnContainer {
+ top: 0;
+ text-align: right;
+ height: 50px;
+ padding-top: 8px;
+ border-bottom: 1px solid #eee;
+}
+.topBtnContainer button {
+ margin-right: 10px;
+}
+.topBtnContainer button:last-child {
+ margin-right: 0;
+}
+.bottomBtnContainer {
+ bottom: 0;
+ padding: 10px 10px;
+ height: 48px;
+ border-top: 1px solid #eee;
+}
+/* 按钮容器下阴影 */
+.topShadow, .bottomShadow {
+  position: absolute;
+  width: 96%;
+  height: 20px;
+  left: 2%;
+  background-color: #ffffff;
+  border-top-left-radius: 100px 5px;
+  border-top-right-radius: 100px 5px;
+  border-bottom-right-radius: 100px 5px;
+  border-bottom-left-radius: 100px 5px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  z-index: 899;
+}
+
+.topShadow {
+  top: 30px;
+}
+
+.bottomShadow {
+  bottom: 27px;
+}
+
+.regInfo {
+  font-size: 18px;
+  color: #002967;
+  font-weight: 600;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px dashed #d9d9d9;
+}
+
+.totalAmt {
+  font-size: 18px;
+  color: #F09700;
+  font-weight: 600;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px dashed #d9d9d9;
+}
+
+.regLevel {
+  margin: 5px 0;
+}

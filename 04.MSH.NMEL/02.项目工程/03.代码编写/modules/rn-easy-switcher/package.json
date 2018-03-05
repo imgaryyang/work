@@ -1,0 +1,11 @@
+{
+  "name": "rn-easy-switcher",
+  "version": "0.1.0",
+  "description": "",
+  "main": "Switcher.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rockvic",
+  "license": "ISC"
+}

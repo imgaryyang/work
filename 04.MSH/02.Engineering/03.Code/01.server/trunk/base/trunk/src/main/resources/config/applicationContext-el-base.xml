@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	
+	<!-- **************** 测试 Demo START **************** -->
+	<bean id="demoDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Demo" />
+	</bean>
+	<bean id="demoManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="demoDao" />
+	</bean>
+	<bean id="demoRelDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.DemoRel" />
+	</bean>
+	<bean id="demoRelManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="demoRelDao" />
+	</bean>
+	<!-- **************** 测试 Demo END **************** -->
+
+	<!-- **************** 地址 Address START **************** -->
+	<bean id="addressDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Address" />
+	</bean>
+	<bean id="addressManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="addressDao" />
+	</bean>
+	<!-- **************** 地址 Address END **************** -->
+	
+	<!-- **************** 区域 Area START **************** -->
+	<bean id="areaDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Area" />
+	</bean>
+	<bean id="areaManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="areaDao" />
+	</bean>
+	<!-- **************** 区域 Area END **************** -->
+	
+	<!-- **************** 银行 Banks START **************** -->
+	<bean id="banksDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Banks" />
+	</bean>
+	<bean id="banksManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="banksDao" />
+	</bean>
+	<!-- **************** 银行 Banks END **************** -->
+	
+	<!-- **************** 合作银行 JoinedBank START **************** -->
+	<bean id="joinedBankDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.JoinedBank" />
+	</bean>
+	<bean id="joinedBankManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="joinedBankDao" />
+	</bean>
+	<!-- **************** 合作银行 JoinedBank END **************** -->
+
+	<!-- **************** 合作银行网点信息 BankBranch START **************** -->
+	<bean id="bankBranchDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.BankBranch" />
+	</bean>
+	<bean id="bankBranchManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="bankBranchDao" />
+	</bean>
+	<!-- **************** 合作银行网点信息 BankBranch END **************** -->
+	
+	<!-- **************** 卡（银行卡/二代社保卡/健康卡） BankCards START **************** -->
+	<bean id="bankCardsDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.BankCards" />
+	</bean>
+	<bean id="bankCardsManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="bankCardsDao" />
+	</bean>
+	<!-- **************** 卡（银行卡/二代社保卡/健康卡） BankCards END **************** -->
+	
+	<!-- **************** 卡BIN CardBin START **************** -->
+	<bean id="cardBinDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.CardBin" />
+	</bean>
+	<bean id="cardBinManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cardBinDao" />
+	</bean>
+	<!-- **************** 卡BIN CardBin END **************** -->
+	
+	<!-- **************** 卡功能列表 CardMenu START **************** -->
+	<bean id="cardMenuDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.CardMenu" />
+	</bean>
+	<bean id="cardMenuManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cardMenuDao" />
+	</bean>
+	<!-- **************** 卡功能列表 CardMenu END **************** -->
+	
+	<!-- **************** 卡种类 CardType START **************** -->
+	<bean id="cardTypeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.CardType" />
+	</bean>
+	<bean id="cardTypeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cardTypeDao" />
+	</bean>
+	<!-- **************** 卡种类 CardType END **************** -->
+	
+	
+	<!-- **************** 评论 Comment START **************** -->
+	<bean id="commentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Comment" />
+	</bean>
+	<bean id="commentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="commentDao" />
+	</bean>
+	<!-- ****************  评论 Comment END **************** -->
+	
+	<!-- **************** 联系方式ContactWays START **************** -->
+	<bean id="contactWaysDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.ContactWays" />
+	</bean>
+	<bean id="contactWaysManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="contactWaysDao" />
+	</bean>
+	<!-- **************** 联系方式ContactWays END **************** -->
+	
+	<!-- **************** 交通方式ContactWays START **************** -->
+	<bean id="transportationDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Transportation" />
+	</bean>
+	<bean id="transportationManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="transportationDao" />
+	</bean>
+	<!-- **************** 交通方式ContactWays END **************** -->
+	
+	
+	<!-- **************** 字典 Dic START **************** -->
+	<bean id="dicDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Dic" />
+	</bean>
+	<bean id="dicManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="dicDao" />
+	</bean>
+	<!-- **************** 字典 Dic END **************** -->
+	
+	<!-- **************** 字典项 DicItem START **************** -->
+	<bean id="dicItemDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.DicItem" />
+	</bean>
+	<bean id="dicItemManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="dicItemDao" />
+	</bean>
+	<!-- **************** 字典项 DicItem END **************** -->
+	
+	<!-- **************** 图片 Images START **************** -->
+	<bean id="imagesDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Images" />
+	</bean>
+	<bean id="imagesManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="imagesDao" />
+	</bean>
+	<!-- **************** 图片 Images END **************** -->
+	
+	<!-- **************** 新闻 News START **************** -->
+	<bean id="newsDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.News" />
+	</bean>
+	<bean id="newsManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="newsDao" />
+	</bean>
+	<!-- **************** 新闻 News END **************** -->
+	
+	<!-- **************** 通知 Notice START **************** -->
+	<bean id="noticeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Notice" />
+	</bean>
+	<bean id="noticeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="noticeDao" />
+	</bean>
+	<bean id="noticeService" class="com.lenovohit.el.base.service.impl.NoticeServiceImpl">
+	</bean>
+	<!-- **************** 新闻 News END **************** -->
+	
+	<!-- **************** 操作日志 OptLog START **************** -->
+	<bean id="optLogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.OptLog" />
+	</bean>
+	<bean id="optLogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="optLogDao" />
+	</bean>
+	<!-- **************** 操作日志 OptLog END **************** -->
+	
+	<!-- **************** 段式描述 SectionalDesc START **************** -->
+	<bean id="sectionalDescDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.SectionalDesc" />
+	</bean>
+	<bean id="sectionalDescManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="sectionalDescDao" />
+	</bean>
+	<!-- **************** 段式描述 SectionalDesc END **************** -->
+	
+	<!-- **************** 虚拟账户 VirtualAccount START **************** -->
+	<bean id="virtualAccountDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.VirtualAccount" />
+	</bean>
+	<bean id="virtualAccountManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="virtualAccountDao" />
+	</bean>
+	<!-- **************** 虚拟账户 VirtualAccount END **************** -->
+	
+	
+	<!-- **************** App用户 User START **************** -->
+	<bean id="userDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.User" />
+	</bean>
+	<bean id="userManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="userDao" />
+	</bean>
+	<!-- **************** App用户  User END **************** -->
+	
+	<!-- **************** 用户安装APP情况 UserApp START **************** -->
+	<bean id="userAppDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.UserApp" />
+	</bean>
+	<bean id="userAppManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="userAppDao" />
+	</bean>
+	<!-- **************** 用户安装AP情况 UserApp END **************** -->
+	
+	<!-- **************** APP产品 Apps START **************** -->
+	<bean id="appsDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.Apps" />
+	</bean>
+	<bean id="appsManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appsDao" />
+	</bean>
+	<!-- ****************  APP产品 Apps END **************** -->
+	
+	<!-- **************** APP首页菜单管理  HomeMenu START **************** -->
+	<bean id="homeMenuDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.HomeMenu" />
+	</bean>
+	<bean id="homeMenuManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="homeMenuDao" />
+	</bean>
+	<!-- **************** APP首页菜单管理 HomeMenu END **************** -->
+	
+	<!-- **************** APP广告 AppAd START **************** -->
+	<bean id="appAdDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.AppAd" />
+	</bean>
+	<bean id="appAdManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appAdDao" />
+	</bean>
+	<!-- **************** APP广告 AppAd END **************** -->
+	
+	<!-- **************** APP广告位 AppAdPos START **************** -->
+	<bean id="appAdPosDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.AppAdPos" />
+	</bean>
+	<bean id="appAdPosManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appAdPosDao" />
+	</bean>
+	<!-- **************** APP广告位 AppAdPos END **************** -->
+	
+	<!-- **************** APP-用户映射关系表 AppUser START **************** -->
+	<bean id="appUserDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.AppUser" />
+	</bean>
+	<bean id="appUserManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appUserDao" />
+	</bean>
+	<!-- **************** APP-用户映射关系表AppUser END **************** -->
+	
+	<!-- **************** APP下载渠道统计  AppDownloadChannel START **************** -->
+	<bean id="appDownloadChannelDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.AppDownloadChannel" />
+	</bean>
+	<bean id="appDownloadChannelManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appDownloadChannelDao" />
+	</bean>
+	<!-- **************** APP下载渠道统计 AppDownloadChannel END **************** -->
+	
+	<!-- **************** 反馈意见 AppFeedBack START **************** -->
+	<bean id="appFeedBackDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.el.base.model.AppFeedBack" />
+	</bean>
+	<bean id="appFeedBackManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appFeedBackDao" />
+	</bean>
+	<!-- **************** 反馈意见 AppFeedBack END **************** -->
+	
+</beans>

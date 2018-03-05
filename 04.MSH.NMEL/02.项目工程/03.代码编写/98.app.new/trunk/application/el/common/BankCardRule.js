@@ -1,0 +1,27 @@
+'use strict';
+//bankCardInfo 填写排序规则：bankName 、bincode 
+export const  bankCardInfo = {
+			'602969':{bankCode:'313100000013',bankName:'北京银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'621030':{bankCode:'313100000013',bankName:'北京银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'370246':{bankCode:'102',bankName:'工商银行',cardType:'2',cardTypeName:'信用卡'},
+			'370247':{bankCode:'102',bankName:'工商银行',cardType:'2',cardTypeName:'信用卡'},
+			'402791':{bankCode:'102',bankName:'工商银行',cardType:'2',cardTypeName:'信用卡'},
+			'955881':{bankCode:'102',bankName:'工商银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'955882':{bankCode:'102',bankName:'工商银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'955888':{bankCode:'102',bankName:'工商银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622821':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622822':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622823':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622824':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622825':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622826':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622840':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622844':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622845':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622847':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622848':{bankCode:'103',bankName:'农业银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'621483':{bankCode:'308',bankName:'招商银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'456351':{bankCode:'104',bankName:'中国银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'601382':{bankCode:'104',bankName:'中国银行',cardType:'1',cardTypeName:'储蓄卡'},
+			'622348':{bankCode:'104',bankName:'中国银行',cardType:'1',cardTypeName:'储蓄卡'},
+}

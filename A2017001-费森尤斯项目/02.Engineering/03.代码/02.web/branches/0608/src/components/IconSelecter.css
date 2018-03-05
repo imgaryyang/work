@@ -1,0 +1,24 @@
+
+.icons h2 {
+	line-height: 60px;
+	padding-left: 40px;
+	height: 100%;
+	overflow: auto;
+}
+
+.col {
+	height: 50px;
+	text-align: center;
+	padding-top: 13px;
+	border-radius: 9px;
+	cursor: pointer;
+}
+
+.selectedCol {
+	background-color: #e2e2e2;
+	color: #ff3000;
+}
+
+.col i {
+	font-size: 25px;
+}

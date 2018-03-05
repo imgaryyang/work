@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.infohold.ebpp</groupId>
+	<artifactId>ebpp-bill</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>账单记录系统</name>
+	<packaging>war</packaging>
+	<description>账单信息记录</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-parent</artifactId>
+		<version>1.2.5.RELEASE</version>
+	</parent>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>com.infohold.core.IcoreApplication</start-class>
+		<java.version>1.7</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.infohold.core</groupId>
+			<artifactId>icore</artifactId>
+			<version>2.1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>1.2.5.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins><!--
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId><!-- 设置war插件忽略web.xml -->
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.2.5.RELEASE</version>
+				<configuration>
+					<mainClass>com.infohold.core.IcoreApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	
+	<!-- **************** 问诊 **************** -->
+	<bean id="inquiryRecordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.InquiryRecord" />
+	</bean>
+	<bean id="inquiryRecordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inquiryRecordDao" />
+	</bean>
+	
+	<!-- **************** 诊断 **************** -->
+	<bean id="diagnoseDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.Diagnose" />
+	</bean>
+	<bean id="diagnoseManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="diagnoseDao" />
+	</bean>
+	
+	<!-- **************** 医嘱 **************** -->
+	<bean id="medicalOrderDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.MedicalOrder" />
+	</bean>
+	<bean id="medicalOrderManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="medicalOrderDao" />
+	</bean>
+	
+	<!-- **************** 过敏史 **************** -->
+	<bean id="allergicHistoryDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.AllergicHistory" />
+	</bean>
+	<bean id="allergicHistoryManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="allergicHistoryDao" />
+	</bean>
+	
+	<!-- **************** 病历模板 **************** -->
+	<bean id="patientRecordsTemplateDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.PatientRecordsTemplate" />
+	</bean>
+	<bean id="patientRecordsTemplateManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="patientRecordsTemplateDao" />
+	</bean>
+	
+	<!-- **************** 病历列模板 **************** -->
+	<bean id="patientRecordsColumnTemplateDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.odws.model.PatientRecordsColumnTemplate" />
+	</bean>
+	<bean id="patientRecordsColumnTemplateManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="patientRecordsColumnTemplateDao" />
+	</bean>
+	
+	<!-- **************** 项目执行 **************** -->
+	<bean id="patientStoreRecordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.onws.moddel.PatientStoreRecord"></constructor-arg>
+	</bean>
+	<bean id="patientStoreRecordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="patientStoreRecordDao" />
+	</bean>
+	<!-- **************** 保管执行记录 **************** -->
+	<bean id="patientStoreExecDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.onws.moddel.PatientStoreExec"></constructor-arg>
+	</bean>
+	<bean id="patientStoreExecManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="patientStoreExecDao" />
+	</bean>
+</beans>

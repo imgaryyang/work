@@ -1,0 +1,11 @@
+{
+  "name": "rn-easy-button",
+  "version": "0.1.1",
+  "description": "",
+  "main": "EasyButton.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rockvic",
+  "license": "ISC"
+}

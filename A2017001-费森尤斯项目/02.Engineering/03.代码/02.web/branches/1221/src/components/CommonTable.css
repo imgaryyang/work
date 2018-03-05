@@ -1,0 +1,7 @@
+.common{
+}
+
+.common th, .common td {
+    padding: 9px 8px !important;
+    word-break: break-all;
+}

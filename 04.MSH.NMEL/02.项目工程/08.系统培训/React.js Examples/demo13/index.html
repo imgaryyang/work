@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <script src="../build/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+
+    //component Team
+    var Team = React.createClass({
+      getInitialState: function() {
+        return {
+          name: "Lucy"
+        }
+      },
+
+      callBackFn: function(name) {
+        alert("我是Team，儿子" + name + "刚刚戳了我一下！");  
+      },
+
+      onMouseOver: function() {
+        this.setState({
+          name: "Jack"
+        });  
+      },
+
+      onMouseOut: function() {
+        this.setState({
+          name: "Tony"
+        });  
+      },
+
+      render: function() {
+        var teamStyle = {
+          backgroundColor: '#00ff00', 
+          padding: '5px'
+        };
+        return <div style={teamStyle} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>Team onwer is: <People {...this.state} callBackFn={this.callBackFn}></People></div>;  
+      },
+
+    });
+
+    //component People
+    var People = React.createClass({
+
+      render: function() {
+        return (
+          <span style={{display: 'block', backgroundColor: '#ff3000', padding: '5px'}} onClick={this.handleClick}>People Component : {this.props.name}</span>
+        );  
+      },
+
+      handleClick: function() {
+        this.props.callBackFn(this.props.name);  
+      },
+
+    }); 
+
+    ReactDOM.render(
+      <Team name='Lucy' />,
+      document.getElementById('example')
+    );
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

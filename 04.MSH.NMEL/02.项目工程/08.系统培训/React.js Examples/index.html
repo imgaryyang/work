@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Example</title>
+
+    <script src="https://use.fontawesome.com/2fec3185d1.js"></script>
+
+    <script src="build/react.js"></script>
+    <script src="build/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+    <script src="build/jquery.min.js"></script>
+
+    <!--script type="text/babel" src="ToggleButton.jsx"></script>
+    <script type="text/babel" src="main.jsx"></script-->
+
+    <style type="text/css">
+      .top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 46px;
+        background-color: #000000;
+        font-size: 16px;
+        color: #ffffff;
+        padding-left: 50px;
+        line-height: 46px;
+        background-image: url(https://facebook.github.io/react-native/img/header_logo.png);
+        background-position: 8px center;
+        background-repeat: no-repeat;
+        background-size: auto 25px;
+    }
+
+    .frame {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #efefef;
+        overflow: hidden;
+    }
+
+    #example {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #3D3D3D;
+        overflow: hidden;
+    }
+
+    .ahref {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 36px;
+        margin-top: 5px;
+        background-color: #474747;
+        padding-left: 20px;
+        text-decoration: none;
+    }
+    .ahref font {
+        font-size: 14;
+        color: #ffffff;
+        line-height: 36px;
+    }
+    .roundSeq {
+        display: block;
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        border-radius: 12px;
+        background-color: #ffffff;
+        top: 6px;
+        font-size: 12px;
+        font-weight: '500';
+        color: #000000;
+        line-height: 26px !important;
+    }
+
+    .tbHolder {
+        display: block;
+        width: 100%;
+        height: 45px;
+    }
+    .tbHolder a {
+        display: block;
+        width: 40px;
+        height: 40px;
+        float: right;
+        background-color: #333333;
+        color: #ffffff;
+        line-height: 40px;
+        text-align: center;
+        margin-top: 3px;
+        margin-right: 15px;
+        text-decoration: none;
+        cursor: hand;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+
+<body style="padding: 0; margin: 0;">
+
+    <div class="frame">
+        <iframe id="theIFrame" name="theIFrame" style="width: 100%; height: 100%; padding-left: 260px; padding-top: 50px;" border=0 frameborder="0"></iframe>
+    </div>
+
+    <div id="example"></div>
+
+    <div class="top">React Examples</div>
+
+    <script type="text/babel">
+
+        var changeFramePadding = function(width) {
+            document.getElementById('theIFrame').style.paddingLeft = width;
+        };
+
+        var styles = {
+            activeA: {
+                backgroundColor: '#D64635',
+            },
+        };
+
+        /**
+         * RoundedSeq
+         * @Author:Victor.H
+         * @Email:huangyong@infohold.com.cn
+         *
+         * 圆形背景数字序号
+         * 
+         */
+        class RoundedSeq extends React.Component {
+            render() {
+                return (
+                    <span className="roundSeq">{this.props.seq}</span>
+                );
+            }
+        };
+        RoundedSeq.propTypes = {
+            /**
+             * 序号
+             */
+            seq: React.PropTypes.number.isRequired,
+        };
+        RoundedSeq.defaultProps = {};
+
+        /**
+         * ToggleButton
+         * @Author:Victor.H
+         * @Email:huangyong@infohold.com.cn
+         *
+         * 控制左侧菜单收缩的按钮
+         * 
+         */
+        class ToggleButton extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    expand: true,
+                };
+                this.toggle = this.toggle.bind(this);
+            }
+
+            toggle() {
+                this.setState({expand: !this.state.expand}, () => {
+                    this.props.doToggle(this.state.expand ? '260px' : '68px', this.state.expand);
+                });
+            }
+
+            render() {
+                return (
+                    <span className="tbHolder" onClick={this.toggle} >
+                        <a><i className="fa fa-bars fa-lg" /></a>
+                    </span>
+                );
+            }
+
+        };
+        ToggleButton.propTypes = {
+            /**
+             * 收起或展开菜单的按钮回调方法
+             * return width
+             */
+            doToggle: React.PropTypes.func.isRequired,
+        };
+
+        var DemoList = React.createClass({
+            getInitialState: function() {
+                return {
+                    menu: [],
+                    activeItem: null,
+                    width: '260px',
+                    expand: true,
+                };
+            },
+
+            componentDidMount: function() {
+                var menu = [];
+                for(var i = 1 ; i <= 13 ; i++){
+                    menu[menu.length] = {
+                        text: 'demo' + (i < 10 ? '0' : '') + i, 
+                        url: 'demo' + (i < 10 ? '0' : '') + i + '/index.html',
+                    };
+                }
+                this.setState({menu: menu});
+            },
+
+            handleClick: function(item) {
+                this.setState({activeItem: item});
+            },
+
+            getItems: function() {
+                return this.state.menu.map(function(item, idx) {
+                    var activeA = item == this.state.activeItem ? styles.activeA : null;
+                    var content = this.state.expand ? (<font>{item.text}</font>) : (<RoundedSeq seq={idx + 1}/>);
+                    return(
+                        <a key={item.text} className="ahref" style={activeA} href={item.url} target="theIFrame" onClick={() => this.handleClick(item)}>{content}</a>
+                    )
+                }, this);
+            },
+
+            doToggle: function(width, expand) {
+                this.setState({width: width, expand: expand});
+                changeFramePadding(width);
+            },
+
+            render: function() {
+
+                return (
+                    <span style={{
+                        display: 'block', 
+                        width: this.state.width, 
+                        padding: 0,
+                        marginTop: 50,
+                        }} >
+                        <ToggleButton doToggle={this.doToggle} />
+                        {this.getItems()}
+                    </span>
+                );
+            },
+        });
+
+        ReactDOM.render(
+            <DemoList />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+</body>
+</html>

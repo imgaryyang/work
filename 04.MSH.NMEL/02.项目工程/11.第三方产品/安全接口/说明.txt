@@ -1,0 +1,20 @@
+文件说明：
+index.jsp ---客户端登录认证接口调用demo
+UserAction.java----服务端的处理的demo
+js-----客户端JS加密需要引入的js文件
+
+infoholdCSPClient3.20.jar----安全服务平台客户端接口jar包
+
+publickey.properties----公钥文件，客户端加密时使用的公钥
+
+MakeHash.java ----- 调用该类中的doHash方法，生成数据的HASH;
+时序图.pptx-----易民生系统调用安全服务平台接口的时序图
+
+
+
+
+安全平台接口定义V0.9.docx-----安全服务平台接口定义文档
+
+
+
+

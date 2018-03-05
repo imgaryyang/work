@@ -1,0 +1,9 @@
+{
+  "directory": "js/lib/",
+  "analytics": false,
+  "timeout": 120000,
+  "registry" : {
+    "search" : [ "http://10.10.69.17:8081/repository/bower-group" ]
+  },
+  "resolvers" : [ "bower-nexus3-resolver" ]
+}

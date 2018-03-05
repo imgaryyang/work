@@ -1,0 +1,90 @@
+
+.mainLayout, .mainLayout > div {
+  background-color: #ffffff;
+}
+/* laout > sider */
+.mainLayout > div:first-child {
+  padding: 3px;
+}
+/* laout > content */
+.mainLayout > div:last-child {
+  padding-left: 4px;
+}
+
+.inputCard {
+  margin-bottom: 10px;
+}
+.inputCard > div {
+  display: flex;
+  align-items: center; /*定义body的元素垂直居中*/
+  justify-content: center; /*定义body的里的元素水平居中*/
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/* input container */
+.inputCard > div > div {
+  width: 690px;
+}
+/* row */
+.inputCard > div > div > div {
+  margin-top: 10px;
+}
+/* first row */
+.inputCard > div > div > div:first-child {
+  margin-top: 0;
+}
+
+.listCard > div {
+  padding: 5px;
+}
+
+.mainButtonContainer {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  padding-top: 10px;
+  padding-right: 15px;
+  text-align: right;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.tmpCard > div {
+  padding: 10px;
+  overflow: auto;
+}
+
+.topDiagnosisTitle {
+  font-size: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @line-color;
+}
+
+.tmpItem {
+  position: relative;
+  border-bottom: 1px solid @line-color;
+  cursor: pointer;
+}
+
+.tmpItem {
+  font {
+    display: block;
+    color: #d9d9d9;
+    margin-top: 5px;
+  }
+  span {
+    display: block;
+    padding-bottom: 5px;
+  }
+  li {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    color: #f56a00;
+    font-size: 10px;
+    text-align: right;
+    font-weight: bold;
+  }
+}
+
