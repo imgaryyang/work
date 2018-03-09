@@ -63,13 +63,13 @@ class AppAndRegRecords extends Component {
       );
     });
     this.props.navigation.setParams({
-      title: '预约记录',
-      showCurrHospitalAndPatient: true,
-      allowSwitchHospital: true,
-      allowSwitchPatient: true,
+      // title: '预约记录',
+      // showCurrHospitalAndPatient: true,
+      // allowSwitchHospital: true,
+      // allowSwitchPatient: true,
       afterChooseHospital: this.onRefresh,
       afterChoosePatient: this.onRefresh,
-      hideNavBarBottomLine: false,
+      // hideNavBarBottomLine: false,
     });
   }
 

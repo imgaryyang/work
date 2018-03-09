@@ -12,7 +12,7 @@
 #import <React/RCTBundleURLProvider.h>
 
 #import <React/RCTRootView.h>
-
+#import <AMapFoundationKit/AMapFoundationKit.h>
 
 #import <RCTJPushModule.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
@@ -55,6 +55,9 @@
   [JPUSHService setupWithOption:launchOptions appKey:appKey
        channel:nil apsForProduction:isProduction];
   NSURL *jsCodeLocation;
+  
+  
+  [AMapServices sharedServices].apiKey = @"cd5d10053f18207b769819c4046df8a0";
   
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   

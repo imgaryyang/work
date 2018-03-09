@@ -33,15 +33,15 @@ class AppointSuccess extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => this.setState({ doRenderScene: true }));
-    this.props.navigation.setParams({
-      title: '预约成功',
-      showCurrHospitalAndPatient: true,
-      allowSwitchHospital: false,
-      allowSwitchPatient: false,
-      afterChooseHospital: null,
-      afterChoosePatient: null,
-      hideNavBarBottomLine: false,
-    });
+    // this.props.navigation.setParams({
+    //   title: '预约成功',
+    //   showCurrHospitalAndPatient: true,
+    //   allowSwitchHospital: false,
+    //   allowSwitchPatient: false,
+    //   afterChooseHospital: null,
+    //   afterChoosePatient: null,
+    //   hideNavBarBottomLine: false,
+    // });
   }
 
   gotoRoot() {
@@ -52,7 +52,16 @@ class AppointSuccess extends Component {
 
   gotoAppointRecords() {
     const { screenProps, hospital } = this.props;
-    screenProps.resetBackNavigate(this.props.navigation.state.params.backIndex || 0, 'AppAndRegRecords', { hospital });
+    screenProps.resetBackNavigate(this.props.navigation.state.params.backIndex || 0, 'AppAndRegRecords', {
+      hospital,
+      title: '预约记录',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: true,
+      allowSwitchPatient: true,
+      // afterChooseHospital: this.onRefresh,
+      // afterChoosePatient: this.onRefresh,
+      hideNavBarBottomLine: false,
+    });
   }
 
   render() {

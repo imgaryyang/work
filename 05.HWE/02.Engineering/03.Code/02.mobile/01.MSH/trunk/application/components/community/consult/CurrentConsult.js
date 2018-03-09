@@ -34,7 +34,7 @@ class Item extends PureComponent {
       radius={15}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
       imageSource={item.doctor.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     return (

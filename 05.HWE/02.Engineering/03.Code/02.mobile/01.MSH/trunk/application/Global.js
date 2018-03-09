@@ -40,6 +40,39 @@ class Global extends Object {
   /* 配置文件 */
   static Config = null;
 
+  /**
+   * 设备信息：
+   * getAPILevel
+   * getBrand
+   * getBuildNumber
+   * getBundleId
+   * getDeviceCountry
+   * getDeviceId
+   * getDeviceLocale
+   * getDeviceName
+   * getFirstInstallTime
+   * getIPAddress
+   * getInstanceID
+   * getLastUpdateTime
+   * getMACAddress
+   * getManufacturer
+   * getModel
+   * getPhoneNumber
+   * getReadableVersion
+   * getSerialNumber
+   * getSystemName
+   * getSystemVersion
+   * getTimezone
+   * getUniqueID
+   * getUserAgent
+   * getVersion
+   * isEmulator
+   * isPinOrFingerprintSet
+   * isTablet
+   * more infomation & API - https://github.com/rebeccahughes/react-native-device-info
+   */
+  static device = DeviceInfo;
+
   /* APP logo */
   static logo = null;
 
@@ -143,7 +176,7 @@ class Global extends Object {
   };
 
   static getImageHost = () => {
-    return _.endsWith(Global.host, '/') ? Global.host : `${Global.host.replace('api/hwe', 'pic/')}`;
+    return _.endsWith(Global.host, '/') ? Global.host : `${Global.host.replace('api/hwe', 'images/')}`;
   };
   static hostTimeout = 5000;
   static getHostTimeout = () => {

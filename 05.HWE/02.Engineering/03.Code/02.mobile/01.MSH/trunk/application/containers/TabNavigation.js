@@ -121,7 +121,7 @@ class NavigatorWrappingScreen extends Component {
       <Button
         onPress={() => {
           if (!this.props.disabled) {
-            this.props.navigation.navigate('Scanner', {
+            this.props.navigation.navigate('BarcodeScanner', {
               title: '扫一扫',
               onSuccess: this.onScanSuccess,
               shouldGoBack: true,

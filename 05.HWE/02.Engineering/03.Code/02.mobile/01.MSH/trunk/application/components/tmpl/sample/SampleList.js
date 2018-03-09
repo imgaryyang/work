@@ -25,13 +25,13 @@ import BottomBar from '../../../modules/BottomBar';
 import { page, removeSelected } from '../../../services/tmpl/SampleService';
 
 const portraits = {
-  p002: require('../../../assets/images/user/p0002.jpg'),
-  u0001: require('../../../assets/images/user/u0001.jpg'),
-  u0002: require('../../../assets/images/user/u0002.jpg'),
-  u0003: require('../../../assets/images/user/u0003.jpg'),
-  u0004: require('../../../assets/images/user/u0004.jpg'),
-  u0005: require('../../../assets/images/user/u0005.jpg'),
-  dft: require('../../../assets/images/me-portrait-dft.png'),
+  p002: require('../../../../assets/images/user/p0002.jpg'),
+  u0001: require('../../../../assets/images/user/u0001.jpg'),
+  u0002: require('../../../../assets/images/user/u0002.jpg'),
+  u0003: require('../../../../assets/images/user/u0003.jpg'),
+  u0004: require('../../../../assets/images/user/u0004.jpg'),
+  u0005: require('../../../../assets/images/user/u0005.jpg'),
+  dft: require('../../../../assets/images/me/default-portrait.png'),
 };
 
 const initPage = { start: 0, limit: 20 };
@@ -100,6 +100,7 @@ class SampleList extends Component {
 
   // 搜索
   onSearch() {
+    // console.log('.......ctrlState in onSearch:', this.state.ctrlState);
     // 滚动到列表顶端
     this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
     // 重新发起按条件查询

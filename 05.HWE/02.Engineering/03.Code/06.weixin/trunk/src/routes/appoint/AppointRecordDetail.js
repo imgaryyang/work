@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Flex, Modal } from 'antd-mobile';
+import { Button, Flex, Modal, Toast } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
 import { testAppointItem2, action, colors } from '../../utils/common';
 import less from './AppointRecordDetail.less';
 
@@ -12,8 +13,16 @@ class AppointRecordDetail extends React.Component {
   }
 
   cancelAppoint(item) {
-    // this.props.dispatch(action('appoint/forCancel', { item }));
-    this.props.dispatch(action('appoint/forCancel', { ...item }));
+    const { dispatch } = this.props;
+    Toast.loading('正在取消', 0);
+    dispatch(action('appoint/forCancel', { ...item })).then((res) => {
+      const { success, msg } = res;
+      if (success) {
+        Toast.success('取消成功', 2, () => dispatch(routerRedux.goBack()));
+      } else {
+        Toast.fail(msg, 3);
+      }
+    }).catch(err => Toast.fail(err.toString(), 3));
   }
 
   render() {

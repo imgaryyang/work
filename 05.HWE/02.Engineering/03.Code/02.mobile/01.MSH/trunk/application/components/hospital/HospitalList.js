@@ -221,7 +221,7 @@ class HospitalList extends Component {
         onPress={(hosp) => {
           // 业务操作，把选择医院作为过渡场景
           if (params && typeof params.chooseHospitalForNext === 'function') {
-            params.chooseHospitalForNext(hosp, params.routeName);
+            params.chooseHospitalForNext(hosp, params.routeName, params.passProps);
           } else if (params && typeof params.chooseHospital === 'function') { // 公用选择医院时，回调后调用返回
             params.chooseHospital(hosp);
             this.props.navigation.goBack();

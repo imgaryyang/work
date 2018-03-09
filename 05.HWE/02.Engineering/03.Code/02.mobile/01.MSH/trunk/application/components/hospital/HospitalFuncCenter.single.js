@@ -110,7 +110,7 @@ class HospitalFuncCenter extends Component {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={{ padding: 15, fontSize: 13, color: Global.colors.FONT_GRAY }} >{currHospital.brief}</Text>
+            <Text style={{ padding: 15, fontSize: 13, color: Global.colors.FONT_GRAY, lineHeight: 20 }} >{currHospital ? currHospital.brief : ''}</Text>
           </Card>
           <Sep height={20} />
         </ScrollView>

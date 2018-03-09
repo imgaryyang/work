@@ -19,7 +19,6 @@ import Item from '../../../modules/PureListItem';
 import Form from '../../../modules/form/EasyForm';
 import { queryProfile, setDefaultProfile, getMyProfiles, updateUserPatients } from '../../../services/me/PatientService';
 import { updateUser } from '../../../actions/base/AuthAction';
-import { setCurrHospital } from '../../../actions/base/BaseAction';
 
 
 class BindArchives extends Component {
@@ -162,7 +161,6 @@ class BindArchives extends Component {
   }
 
   choose(item) {
-    this.props.setCurrHospital(item);
     this.setState({ value: item }, () => this.submit());
   }
   chooseHospital() {
@@ -469,7 +467,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUser(user)),
-  setCurrHospital: hospital => dispatch(setCurrHospital(hospital)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BindArchives);

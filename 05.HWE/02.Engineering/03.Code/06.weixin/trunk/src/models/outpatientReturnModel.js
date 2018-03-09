@@ -1,6 +1,6 @@
 import { findInpatientPaymentRecord } from '../services/outpatientReturnService';
 import { refund } from '../services/paymentService';
-import {Toast} from "antd-mobile/lib/index";
+import { Toast } from 'antd-mobile/lib/index';
 
 export default {
 
@@ -27,18 +27,20 @@ export default {
       if (query) {
         pro = query;
       } else {
-        const { profile } = yield select(state => state.base);
+        const { currProfile: profile } = yield select(state => state.base);
         pro = profile;
       }
-      const { data } = yield call(findInpatientPaymentRecord, pro);
-      if (data && data.success) {
-        const { result } = data || {};
-        yield put({
-          type: 'save',
-          payload: {
-            data: result || [],
-          },
-        });
+      if (JSON.stringify(pro) !== '{}') {
+        const { data } = yield call(findInpatientPaymentRecord, pro);
+        if (data && data.success) {
+          const { result } = data || {};
+          yield put({
+            type: 'save',
+            payload: {
+              data: result || [],
+            },
+          });
+        }
       }
     },
     *refund({ payload }, { call, put }) {

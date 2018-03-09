@@ -7,19 +7,17 @@ import {
   InteractionManager,
   StyleSheet,
   ScrollView,
-  TextInput,
   View,
   Text,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import Global from '../../Global';
-import Form from '../../modules/form/EasyForm';
+
 import Card from 'rn-easy-card';
 import Button from 'rn-easy-button';
 import Icon from 'rn-easy-icon';
 
 import Toast from 'react-native-root-toast';
-import { login } from '../../services/base/AuthService';
+import Global from '../../Global';
+import Form from '../../modules/form/EasyForm';
 
 class BMI extends Component {
   static displayName = 'BMI';
@@ -47,8 +45,7 @@ class BMI extends Component {
     doRenderScene: false,
     value: {},
     BMI: '',
-    modalVisible: false,
-    position: { marginLeft: 500 },
+    position: { marginLeft: 1000000000 },
 
   };
 
@@ -66,7 +63,7 @@ class BMI extends Component {
 
 
   async getPosition(resul) {
-    let position = 0;
+    let position = 100000;
     let color = 'red';
     if (resul >= 0 && resul <= 18.5) {
       position = ((resul * 190) / 18.5) - 330;
@@ -94,10 +91,12 @@ class BMI extends Component {
     console.log(rh);
     const BMI = w / (rh * rh);
     await this.getPosition(BMI.toFixed(2));
+    console.log('bmi', this.state.BMI);
     if (isNaN(this.state.BMI)) {
+      console.log(this.state.position);
+      this.setState({ BMI: '' });
       Toast.show('您还没有输入哦');
     } else {
-      await this.setState({ modalVisible: true });
     }
   }
   submit() {
@@ -113,9 +112,7 @@ class BMI extends Component {
     const normal = '体重正常  18.5~23.9';
     const over = '体重超重 24.0~ 27.9';
     const very = '肥胖 > 28.0';
-    /* const result = () => {
-      return ();
-    };*/
+
 
     return (
       <View style={styles.container}>

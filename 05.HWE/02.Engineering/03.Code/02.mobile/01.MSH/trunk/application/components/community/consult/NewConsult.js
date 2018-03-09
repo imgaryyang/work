@@ -48,7 +48,7 @@ class Item extends PureComponent {
       radius={15}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
       imageSource={item.doctor.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     let type = '';
@@ -78,7 +78,7 @@ class Item extends PureComponent {
                 <Text style={{ fontSize: 10, width: 50, color: '#999999' }}>一分钟前</Text>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
+            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
               <Text style={{ fontSize: 15, color: '#999999' }}>咨询费：</Text>
               <Text style={{ fontSize: 15, color: 'red' }}>100元</Text>
             </View>
@@ -137,7 +137,6 @@ class NewConsult extends Component {
     page: initPage,
     doRenderScene: false,
     data: [],
-    // isRefresh: this.props.refresh,
     ctrlState,
   };
 
@@ -151,6 +150,24 @@ class NewConsult extends Component {
         },
       }, () => this.fetchData());
     });
+  }
+
+  componentWillReceiveProps() {
+    if (this.props.refresh) {
+      // 滚动到列表顶端
+      this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
+      // 重新发起按条件查询
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: true,
+          infiniteLoading: false,
+          noMoreData: false,
+          requestErr: false,
+          requestErrMsg: null,
+        },
+      }, () => this.fetchData());
+    }
   }
 
 
@@ -327,7 +344,7 @@ class NewConsult extends Component {
     if (!this.state.doRenderScene) {
       return NewConsult.renderPlaceholderView();
     }
-    /* if (this.state.isRefresh) {
+    /* if (this.props.refresh) {
       this.onSearch();
     }*/
 

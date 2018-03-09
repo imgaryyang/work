@@ -84,15 +84,7 @@ class Schedule extends Component {
         () => { this.fetchData(); },
       );
     });
-    this.props.navigation.setParams({
-      title: this.props.navigation.state.params.title || '选择排班',
-      showCurrHospitalAndPatient: true,
-      allowSwitchHospital: false,
-      allowSwitchPatient: true,
-      afterChooseHospital: null,
-      afterChoosePatient: null,
-      hideNavBarBottomLine: false,
-    });
+    this.props.navigation.setParams({ title: this.props.navigation.state.params.title || '选择排班' });
   }
 
   onRefresh() {
@@ -199,7 +191,16 @@ class Schedule extends Component {
       // 为测试方便，写死no: 5
       // this.props.navigation.navigate('AppointSource', { data: { ...data, no: 5 }, backIndex: this.props.nav.index });
       const { navigation } = this.props;
-      navigation.navigate('AppointSource', { data: { ...data, no: 5 }, backIndex: navigation.state.params.backIndex });
+      navigation.navigate('AppointSource', {
+        data: { ...data, no: 5 },
+        backIndex: navigation.state.params.backIndex,
+        showCurrHospitalAndPatient: true,
+        allowSwitchHospital: false,
+        allowSwitchPatient: true,
+        afterChooseHospital: null,
+        afterChoosePatient: null,
+        hideNavBarBottomLine: false,
+      });
     } else {
       Toast.show('该排班已约满！');
     }

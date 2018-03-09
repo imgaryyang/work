@@ -281,8 +281,6 @@ class Reports extends Component {
     }
 
     render() {
-      console.log(this.state.profile.no);
-      console.log(this.props.base.currHospital);
       // 场景过渡动画未完成前，先渲染过渡场景
       if (!this.state.doRenderScene) {
         return Reports.renderPlaceholderView();

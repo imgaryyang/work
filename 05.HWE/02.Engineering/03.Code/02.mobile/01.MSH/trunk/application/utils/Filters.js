@@ -125,7 +125,7 @@ export function filterContactWay(code) {
 
 export function filterHtmlForWiki(str) {
   // console.log('>>>>>str:', str);
-  const rst = _.replace(str, /(?:<br\/>\\r\\n|\\r\\n|\\r|\\n)/g, `${'\n'}`);
+  const rst = _.replace(str, /(?:<br\/>\\r\\n|<;br\/>|<br\/>|\\r\\n|\\r|\\n)/g, `${'\n'}`);
   // console.log('>>>>>rst:', rst);
   return rst;
 }

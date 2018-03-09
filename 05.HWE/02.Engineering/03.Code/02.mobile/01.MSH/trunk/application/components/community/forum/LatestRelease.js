@@ -181,7 +181,7 @@ class LatestRelease extends Component {
       radius={15}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
       imageSource={item.doctor.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     return (
@@ -200,15 +200,15 @@ class LatestRelease extends Component {
                 <Text style={{ fontSize: 10, width: 50, color: '#999999' }}>三分钟前</Text>
               </View>
             </View>
-            <View>
-              <Text style={{ fontSize: 10, color: '#999999', marginLeft: Global.getScreen().width - 230 }}>1290赞 | 320评论</Text>
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+              <Text style={{ fontSize: 10, color: '#999999' }}>1290赞 | 320评论</Text>
             </View>
           </View>
           <View style={{ paddingTop: 3 }}>
-            <Text style={{ color: '#2C3742', fontSize: 14, alignItems: 'center', width: Global.getScreen().width - 65 }}>{item.consultDetail.length > 100 ? `${item.consultDetail.substring(0, 100)}...` : item.consultDetail }</Text>
+            <Text style={{ color: '#2C3742', fontSize: 14, alignItems: 'center', width: Global.getScreen().width - 65 }}>{item.consultTopic }</Text>
           </View>
           <View style={{ flexDirection: 'row', paddingTop: 3 }}>
-            <Text style={{ color: '#999999', fontSize: 12, alignItems: 'center', width: Global.getScreen().width - 65 }}>{item.consultDetail.length > 100 ? `${item.consultDetail.substring(0, 100)}...` : item.consultDetail }</Text>
+            <Text numberOfLines={1} style={{ color: '#999999', fontSize: 12, alignItems: 'center' }}>{item.consultDetail }</Text>
           </View>
         </EasyCard>
       </TouchableOpacity>

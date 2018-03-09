@@ -27,8 +27,8 @@ import { setCurrPatient } from '../../../actions/base/BaseAction';
 
 const dismissKeyboard = require('dismissKeyboard');
 
-const md = require('../../../assets/images/md.jpg');
-const mdb = require('../../../assets/images/mdb.jpg');
+// const md = require('../../../assets/images/md.jpg');
+// const mdb = require('../../../assets/images/mdb.jpg');
 
 class PreSettlement extends Component {
   static displayName = 'PreSettlement';
@@ -149,7 +149,7 @@ class PreSettlement extends Component {
           <KeyboardAwareScrollView style={styles.scrollView} keyboardShouldPersistTaps="always" >
             <Separator height={10} />
             <View style={[Global.styles.CENTER, styles.logoHolder]}>
-              <Image source={this.state.showSettlement ? md : mdb} resizeMode="contain" style={styles.logo} />
+              <Image source={this.state.showSettlement ? Global.Config.imgCards.md : Global.Config.imgCards.mdb} resizeMode="contain" style={styles.logo} />
             </View>
             {settlement}
           </KeyboardAwareScrollView>

@@ -19,6 +19,10 @@ class ConsultRecords extends Component {
     this.afterEdit = this.afterEdit.bind(this);
   }
 
+  state = {
+    refresh: false,
+  };
+
   componentDidMount() {
     const user = Global.getUser();
     this.props.navigation.setParams({
@@ -61,7 +65,8 @@ class ConsultRecords extends Component {
   }
   // 修改完成后回调
   afterEdit() {
-
+    console.info('刷新');
+    this.setState({ refresh: true });
   }
 
 
@@ -72,7 +77,7 @@ class ConsultRecords extends Component {
           initialPage={0}
           renderTabBar={() => <PintrestTabBar />}
         >
-          <NewCousult tabLabel="未回复" navigates={this.props.navigation.navigate} screenProps={this.props.screenProps} />
+          <NewCousult tabLabel="未回复" navigates={this.props.navigation.navigate} screenProps={this.props.screenProps} refresh={this.state.refresh} />
           <CurrentConsult tabLabel="已回复" navigates={this.props.navigation.navigate} screenProps={this.props.screenProps} />
           <HistoryConsult tabLabel="已完成" navigates={this.props.navigation.navigate} screenProps={this.props.screenProps} />
         </ScrollableTabView>

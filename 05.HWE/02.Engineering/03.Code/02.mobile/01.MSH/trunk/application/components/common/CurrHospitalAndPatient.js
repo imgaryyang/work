@@ -42,7 +42,14 @@ class CurrHospitalAndPatient extends Component {
     const { allowSwitchHospital } = this.props;
     const editionCtrl = this.props.base.edition !== Global.EDITION_SINGLE;
     if (editionCtrl && allowSwitchHospital) {
-      this.props.navigate('ChooseHospital', { chooseHospital: this.afterChooseHospital });
+      this.props.navigate(
+        'ChooseHospital',
+        {
+          chooseHospital: this.afterChooseHospital,
+          title: '选择医院',
+          hideNavBarBottomLine: true,
+        },
+      );
     }
   }
 
@@ -56,7 +63,13 @@ class CurrHospitalAndPatient extends Component {
     const { base, allowSwitchPatient } = this.props;
     if (allowSwitchPatient) {
       const { currHospital } = base;
-      this.props.navigate('PatientList', { callback: this.afterChoosePatient, hospital: currHospital });
+      this.props.navigate(
+        'PatientList',
+        {
+          callback: this.afterChoosePatient,
+          hospital: currHospital,
+        },
+      );
     }
   }
 

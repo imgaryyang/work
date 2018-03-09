@@ -53,12 +53,13 @@ class FirstAidDesc extends Component {
         return FirstAidDesc.renderPlaceholderView();
       }
       const value = this.props.navigation.state.params.item;
+      const fakDetails = filterHtmlForWiki(value.fakDetails);
       return (
         <View style={Global.styles.CONTAINER_BG} >
           <ScrollView style={styles.scrollView} >
             <Card fullWidth style={{ borderTopWidth: 0 }} >
               <Text style={{ fontSize: 16, color: 'black', fontWeight: '600' }} >{filterHtmlForWiki(value.fakName)}</Text>
-              <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY, marginTop: 5 }} >{filterHtmlForWiki(value.fakDetails)}</Text>
+              <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY, marginTop: 5 }} >{fakDetails.replace(/<p>|<br \/>|<\/p>/g, '')}</Text>
 
             </Card>
 

@@ -95,6 +95,7 @@ import NewsList from '../components/news/NewsList';
 import NewsContent from '../components/news/NewsContent';
 import JPush from '../components/common/JPush';
 import Scanner from '../components/common/Scanner';
+import BarcodeScanner from '../components/common/BarcodeScanner';
 
 // components of others
 import SettingsForTest from '../components/SettingsForTest';
@@ -125,6 +126,12 @@ import TestDesc from '../components/tools/test/TestDesc';
 import Vaccines from '../components/tools/vaccine/Vaccines';
 import VaccinesList from '../components/tools/vaccine/VaccinesList';
 import VaccinesDesc from '../components/tools/vaccine/VaccinesDesc';
+// import BodyPartDiagTriage from '../components/tools/triage/BodyPartDiagTriage';
+import BodyPartListTriage from '../components/tools/triage/BodyPartListTriage';
+import Symptom from '../components/tools/triage/Symptom';
+import RelatedSymptoms from '../components/tools/triage/RelatedSymptoms';
+import SelSymptomsList from '../components/tools/triage/SelSymptomsList';
+import DiagnosisListTriage from '../components/tools/triage/DiagnosisListTriage';
 
 // components of samples 示例
 import SampleMenu from '../components/tmpl/sample/SampleMenu';
@@ -134,7 +141,6 @@ import EasyFormTest1 from '../components/tmpl/sample/EasyFormTest1';
 import LineInputsFormTest from '../components/tmpl/sample/LineInputsFormTest';
 import LineInputsFormTest1 from '../components/tmpl/sample/LineInputsFormTest1';
 import ComponentTest from '../components/tmpl/sample/ComponentTest';
-import BaiduMapDemo from '../components/tmpl/sample/BaiduMapDemo';
 import CameraDemo from '../components/tmpl/sample/CameraDemo';
 import Demo from '../components/tmpl/sample/Demo';
 
@@ -178,14 +184,20 @@ export default {
   ChangePatient: { screen: ChangePatient }, // 切换就诊人
 
   // components of hospital
-  HospitalList: { screen: HospitalList, navigationOptions: initOptions }, // 医院列表
-  ChooseHospital: { screen: HospitalList }, // 选择医院
+  HospitalList: {
+    screen: HospitalList,
+  }, // 医院列表
+  ChooseHospital: {
+    screen: HospitalList,
+  }, // 选择医院
   Hospital: { screen: Hospital }, // 医院微主页
   Department: { screen: Department }, // 医院科室
   Doctor: { screen: Doctor }, // 医院医生
 
   // components of hospital functions
-  AppAndReg: { screen: AppAndReg, navigationOptions: initOptions }, // 预约挂号
+  AppAndReg: {
+    screen: AppAndReg,
+  }, // 预约挂号
   Schedule: { screen: Schedule, navigationOptions: initOptions }, // 排班
   AppointSource: { screen: AppointSource, navigationOptions: initOptions }, // 号源
   Appoint: { screen: Appoint, navigationOptions: initOptions }, // 预约挂号
@@ -253,11 +265,20 @@ export default {
   Vaccines: { screen: Vaccines }, // 预防接种
   VaccinesList: { screen: VaccinesList }, // 预防接种
   VaccinesDesc: { screen: VaccinesDesc }, // 预防接种
+  // BodyPartDiagTriage: { screen: BodyPartDiagTriage }, // 身体部位图表选择
+  BodyPartListTriage: { screen: BodyPartListTriage }, // 身体部位列表选择
+  Symptom: { screen: Symptom }, // 大病症
+  RelatedSymptoms: { screen: RelatedSymptoms }, // 大病症
+  SelSymptomsList: { screen: SelSymptomsList },
+  DiagnosisListTriage: { screen: DiagnosisListTriage },
+
+
   // components of common
   CameraRollView: { screen: CameraRollView }, // 选择照片
   NewsList: { screen: NewsList }, // 公用新闻组件
   NewsContent: { screen: NewsContent }, // 公用新闻详情组件
   Scanner: { screen: Scanner }, // 扫一扫
+  BarcodeScanner: { screen: BarcodeScanner }, // 扫一扫
   // components of others
   SettingsForTest: { screen: SettingsForTest }, // 设置
   Message: { screen: Message }, // 消息中心
@@ -265,7 +286,6 @@ export default {
   SampleMenu: { screen: SampleMenu }, // 样例
   SampleList: { screen: SampleList }, // 列表测试
   SampleEdit: { screen: SampleEdit }, // 表单测试
-  BaiduMapDemo: { screen: BaiduMapDemo }, // 表单测试
   JPush: { screen: JPush }, // 推送接收
   EasyFormTest1: { screen: EasyFormTest1 },
   LineInputsFormTest: { screen: LineInputsFormTest },

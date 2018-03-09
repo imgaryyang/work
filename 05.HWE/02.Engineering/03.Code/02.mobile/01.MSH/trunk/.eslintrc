@@ -26,6 +26,7 @@
     "no-restricted-globals": ["error", "event"],
     "no-underscore-dangle": [0],
     "object-curly-newline": ["error", { "minProperties": 15, "consistent": true }], // 属性少于8个时不再强制换行
+    "object-property-newline": [0],
     "require-yield": [1],
     "spaced-comment": ["error", "always"],
 

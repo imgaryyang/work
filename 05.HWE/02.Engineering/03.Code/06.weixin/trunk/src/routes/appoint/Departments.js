@@ -25,7 +25,7 @@ class Departments extends React.Component {
     if (dept) {
       dispatch(routerRedux.push({
         pathname: 'schedule',
-        state: { dept },
+        state: { dept: { ...dept, depNo: dept.no } },
       }));
     }
   }

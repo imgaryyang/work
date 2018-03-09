@@ -212,7 +212,7 @@ class HotConsult extends Component {
       radius={15}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
       imageSource={item.doctor.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     let type = '';
@@ -242,7 +242,7 @@ class HotConsult extends Component {
                 <Text style={{ fontSize: 10, width: 50, color: '#999999' }}>一分钟前</Text>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', paddingLeft: 80 }}>
+            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
               <Text style={{ fontSize: 15, color: '#999999' }}>咨询费：</Text>
               <Text style={{ fontSize: 15, color: 'red' }}>100元</Text>
             </View>

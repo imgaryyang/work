@@ -140,7 +140,7 @@ class HospitalDoctors extends Component {
     console.log(item);
     const portraitSource = item.photo ?
       { uri: `${Global.getImageHost()}${item.photo}?timestamp=${new Date().getTime()}` } :
-      require('../../assets/images/hosp/doctors/default.png');
+      Global.Config.defaultImgs.docPortrait;
     return (
       <TouchableOpacity key={`doc_row_${rowId}`} onPress={() => this.onPressDetail(item)} >
         <Card radius={6} style={{ margin: 8, marginTop: 16, marginBottom: 0 }} >

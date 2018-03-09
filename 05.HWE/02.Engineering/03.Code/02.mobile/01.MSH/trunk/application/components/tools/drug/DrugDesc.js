@@ -32,6 +32,8 @@ class Item extends Component {
   };
   render() {
     const item = this.props.data;
+    // const content = item.content.replace(/;/g, ' ');
+    const content = filterHtmlForWiki(item.content);
     return (
       <View style={styles.rowStyle}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={this.onPress}>
@@ -39,7 +41,7 @@ class Item extends Component {
           <Icon width={20} height={20} name={this.state.selected ? 'ios-arrow-up' : 'ios-arrow-down'} color={Global.colors.IOS_ARROW} />
         </TouchableOpacity>
         <View style={[{ display: `${this.state.selected ? 'none' : 'flex'}` }, styles.content]}>
-          <Text style={{ fontSize: 13 }}>{filterHtmlForWiki(item.content)}</Text>
+          <Text style={{ fontSize: 13 }}>{content.replace(/;/g, '')}</Text>
         </View>
       </View>
     );
@@ -98,6 +100,8 @@ class DrugDesc extends Component {
 
   render() {
     const { item } = this.props.navigation.state.params;
+    const dosage = filterHtmlForWiki(item.dosage);
+    const ingredients = filterHtmlForWiki(item.ingredients);
     if (!this.state.doRenderScene) {
       return DrugDesc.renderPlaceholderView();
     }
@@ -108,20 +112,20 @@ class DrugDesc extends Component {
           <Card fullWidth style={{ borderTopWidth: 0 }} >
             <Text style={{ fontSize: 16, color: 'black', fontWeight: '600' }} >{filterHtmlForWiki(item.drugName)}</Text>
             <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY, marginTop: 5 }} >{item.drugType}</Text>
-        </Card>
+          </Card>
           <Sep height={15} />
           <Card fullWidth noPadding >
             <View style={styles.cardTitle}>
               <Text style={styles.cardTitleText} >成分</Text>
             </View>
-            <Text style={styles.detail}>{filterHtmlForWiki(item.ingredients || '暂无成分信息介绍')}</Text>
+            <Text style={styles.detail}>{ ingredients.replace(/<;sub>|;|<;\\\/sub>/g, '') || '暂无成分信息介绍'}</Text>
           </Card>
           <Sep height={15} />
           <Card fullWidth noPadding >
             <View style={styles.cardTitle}>
               <Text style={styles.cardTitleText} >剂量</Text>
             </View>
-            <Text style={styles.detail}>{filterHtmlForWiki(item.dosage || '暂无剂量信息介绍')}</Text>
+            <Text style={styles.detail}>{dosage.replace(/<\\\/b>|<;i>;|<;b>;|;/g, '') || '暂无剂量信息介绍'}</Text>
           </Card>
           <Sep height={15} />
           <Card fullWidth noPadding >

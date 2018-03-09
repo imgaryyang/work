@@ -46,15 +46,7 @@ class AppointSource extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => { this.fetchData(); });
-    this.props.navigation.setParams({
-      title: this.props.navigation.state.params.data.docName || '选择号源',
-      showCurrHospitalAndPatient: true,
-      allowSwitchHospital: false,
-      allowSwitchPatient: true,
-      afterChooseHospital: null,
-      afterChoosePatient: null,
-      hideNavBarBottomLine: false,
-    });
+    this.props.navigation.setParams({ title: this.props.navigation.state.params.data.docName || '选择号源' });
   }
 
   reFetchData() {
@@ -65,7 +57,16 @@ class AppointSource extends Component {
   }
 
   gotoAppoint(data) {
-    this.props.navigation.navigate('Appoint', { data, backIndex: this.props.navigation.state.params.backIndex });
+    this.props.navigation.navigate('Appoint', {
+      data,
+      backIndex: this.props.navigation.state.params.backIndex,
+      title: '预约挂号',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: true,
+      afterChoosePatient: null,
+      hideNavBarBottomLine: false,
+    });
   }
 
   async fetchData() {

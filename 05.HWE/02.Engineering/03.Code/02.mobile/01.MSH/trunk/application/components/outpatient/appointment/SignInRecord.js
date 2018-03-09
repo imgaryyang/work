@@ -57,7 +57,7 @@ export default class SignInRecord extends PureComponent {
       statusName,
     } = data;
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
-    const imageSource = portrait ? { uri: base().img + portrait } : require('../../../assets/images/hosp/doctors/default.png');
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={this.onPress}>

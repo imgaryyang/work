@@ -52,6 +52,7 @@ const config = Object.freeze({
     forum: require('./assets/images/icons/forum.png'),
     signIn: require('./assets/images/icons/sign-in.png'),
     appAndRegRecords: require('./assets/images/icons/app-and-reg-records.png'),
+    inpatientInfo: require('./assets/images/icons/inpatient-info.png'),
     inpatientDailyBill: require('./assets/images/icons/inpatient-daily-bill.png'),
   },
   imgTabIcons: {
@@ -81,6 +82,15 @@ const config = Object.freeze({
     docPortrait: require('./assets/images/hosp/default-doc-portrait.png'),
     docBg: require('./assets/images/hosp/default-bg.png'),
   },
+  imgPayChannel: {
+    alipay: require('./assets/images/pay/alipay.png'),
+    wxpay: require('./assets/images/pay/wxpay.png'),
+    unionpay: require('./assets/images/pay/unionpay.png'),
+  },
+  imgCards: {
+    md: require('./assets/images/cards/md.jpg'),
+    mdb: require('./assets/images/cards/mdb.jpg'),
+  },
   colors: [
     'rgb(246,77,83)', '#F54D53',
     'rgb(250,196,18)', '#FAC412',
@@ -94,45 +104,174 @@ const config = Object.freeze({
   ],
   services: {
     hfc: [
-      { id: 'hf01', state: '1', route: 'AppAndReg', name: '预约挂号', iconLib: '', icon: '', imgIcon: 'appAndReg', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf02', state: '1', route: 'Payments', name: '充值缴费', iconLib: '', icon: '', imgIcon: 'payment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf03', state: '1', route: 'Reports', name: '报告查询', iconLib: '', icon: '', imgIcon: 'reports', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf04', state: '1', route: 'ConsumeMain', name: '消费记录', iconLib: '', icon: '', imgIcon: 'consumeMain', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf05', state: '1', route: 'Records', name: '就诊记录', iconLib: '', icon: '', imgIcon: 'treatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf08', state: '1', route: 'SignIn', name: '来院签到', iconLib: '', icon: '', imgIcon: 'signIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf09', state: '1', route: 'AppAndRegRecords', name: '预约记录', iconLib: '', icon: '', imgIcon: 'appAndRegRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf06', state: '1', route: 'ConsultRecords', name: '医患沟通', iconLib: '', icon: '', imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
-      { id: 'hf07', state: '1', route: 'NewsList', name: '健康资讯', iconLib: '', icon: '', imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '', passProps: { fkId: appId, fkType: 'H4' } },
-      { id: 'hf10', state: '0', route: '', name: '住院日清单', iconLib: '', icon: '', imgIcon: 'inpatientDailyBill', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '' },
+      {
+        id: 'hf01', state: '1', route: 'AppAndReg', name: '预约挂号',
+        iconLib: '', icon: '', imgIcon: 'appAndReg', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf02', state: '1', route: 'Payments', name: '充值缴费',
+        iconLib: '', icon: '', imgIcon: 'payment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf03', state: '1', route: 'Reports', name: '报告查询',
+        iconLib: '', icon: '', imgIcon: 'reports', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf09', state: '1', route: 'AppAndRegRecords', name: '预约记录',
+        iconLib: '', icon: '', imgIcon: 'appAndRegRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf08', state: '1', route: 'SignIn', name: '来院签到',
+        iconLib: '', icon: '', imgIcon: 'signIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf05', state: '1', route: 'Records', name: '就诊记录',
+        iconLib: '', icon: '', imgIcon: 'treatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf04', state: '1', route: 'ConsumeMain', name: '消费记录',
+        iconLib: '', icon: '', imgIcon: 'consumeMain', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf06', state: '1', route: 'ConsultRecords', name: '医患沟通',
+        iconLib: '', icon: '', imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf07', state: '1', route: 'NewsList', name: '健康资讯',
+        iconLib: '', icon: '', imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          fkId: appId,
+          fkType: 'H4',
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf10', state: '0', route: '', name: '住院单查询',
+        iconLib: '', icon: '', imgIcon: 'inpatientInfo', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf11', state: '0', route: '', name: '住院日清单',
+        iconLib: '', icon: '', imgIcon: 'inpatientDailyBill', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
     ],
     tools: [
       {
         grpCode: 'group_01',
         grpName: '实用工具',
         children: [
-          { id: 't03', state: '1', route: 'BMI', name: 'BMI自查', iconLib: 'ii', icon: 'ios-speedometer-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#F54D53', borderColor: '' },
-          { id: 't04', state: '1', route: 'EDC', name: '预产期自测', iconLib: 'ii', icon: 'ios-transgender-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#FAC412', borderColor: '' },
-          { id: 't05', state: '1', route: 'Tests', name: '化验单解读', iconLib: 'ii', icon: 'ios-bookmarks-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#757BFC', borderColor: '' },
-          { id: 't06', state: '1', route: 'Vaccines', name: '预防接种', iconLib: 'ii', icon: 'ios-umbrella-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#48BCEB', borderColor: '' },
-          { id: 't01', state: '1', route: 'MedAlarm', name: '用药小闹钟', iconLib: 'ii', icon: 'ios-alarm-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#38CDB5', borderColor: '' },
-          { id: 't02', state: '1', route: 'Triage', name: '智能分诊', iconLib: 'ii', icon: 'ios-compass-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#F667B9', borderColor: '' },
+          // {
+          //   id: 'txx', state: '1', route: 'BarcodeScanner', name: '扫一扫',
+          //   iconLib: 'ii', icon: 'ios-speedometer-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#F54D53', borderColor: '',
+          // },
+          {
+            id: 't03', state: '1', route: 'BMI', name: 'BMI自查',
+            iconLib: 'ii', icon: 'ios-speedometer-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#F54D53', borderColor: '',
+          },
+          {
+            id: 't04', state: '1', route: 'EDC', name: '预产期自测',
+            iconLib: 'ii', icon: 'ios-transgender-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#FAC412', borderColor: '',
+          },
+          {
+            id: 't05', state: '1', route: 'Tests', name: '化验单解读',
+            iconLib: 'ii', icon: 'ios-bookmarks-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#757BFC', borderColor: '',
+          },
+          {
+            id: 't06', state: '1', route: 'Vaccines', name: '预防接种',
+            iconLib: 'ii', icon: 'ios-umbrella-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#48BCEB', borderColor: '',
+          },
+          {
+            id: 't01', state: '1', route: 'MedAlarm', name: '用药小闹钟',
+            iconLib: 'ii', icon: 'ios-alarm-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#38CDB5', borderColor: '',
+          },
+          {
+            id: 't02', state: '1', route: 'Triage', name: '智能分诊',
+            iconLib: 'ii', icon: 'ios-compass-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#F667B9', borderColor: '',
+          },
         ],
       },
       {
         grpCode: 'group_02',
         grpName: '知识库',
         children: [
-          { id: 't31', state: '1', route: 'Diagnosis', name: '疾病库', iconLib: 'ii', icon: 'ios-archive-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#69DE51', borderColor: '' },
-          { id: 't32', state: '1', route: 'Drugs', name: '药物库', iconLib: 'ii', icon: 'ios-flask-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#52DADF', borderColor: '' },
-          { id: 't33', state: '1', route: 'FirstAids', name: '急救库', iconLib: 'ii', icon: 'ios-water-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#E4B74C', borderColor: '' },
+          {
+            id: 't31', state: '1', route: 'Diagnosis', name: '疾病库',
+            iconLib: 'ii', icon: 'ios-archive-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#69DE51', borderColor: '',
+          },
+          {
+            id: 't32', state: '1', route: 'Drugs', name: '药物库',
+            iconLib: 'ii', icon: 'ios-flask-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#52DADF', borderColor: '',
+          },
+          {
+            id: 't33', state: '1', route: 'FirstAids', name: '急救库',
+            iconLib: 'ii', icon: 'ios-water-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#E4B74C', borderColor: '',
+          },
         ],
       },
       // {
       //   grpCode: 'group_03',
       //   grpName: '其它工具',
       //   children: [
-      //     { id: 't61', state: '1', route: 'SampleMenu', name: '样例', iconLib: 'ii', icon: 'ios-bug-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#4dc7ee', borderColor: '', devMode: true },
-      //     { id: 't62', state: '1', route: 'SampleList', name: '列表测试', iconLib: 'ii', icon: 'ios-book-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#4dc7ee', borderColor: '', devMode: true },
+      //     {
+      //       id: 't61', state: '1', route: 'SampleMenu', name: '样例',
+      //       iconLib: 'ii', icon: 'ios-bug-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#4dc7ee', borderColor: '', devMode: true,
+      //     },
+      //     {
+      //       id: 't62', state: '1', route: 'SampleList', name: '列表测试',
+      //       iconLib: 'ii', icon: 'ios-book-outline', imgIcon: '', iconSize: 50, iconSmallSize: 26, color: '#ffffff', bgColor: '#4dc7ee', borderColor: '', devMode: true,
+      //     },
       //   ],
       // },
     ],

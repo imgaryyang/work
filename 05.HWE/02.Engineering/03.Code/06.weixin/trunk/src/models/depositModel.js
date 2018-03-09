@@ -12,7 +12,7 @@ export default {
   effects: {
     *create({ payload, callback }, { call, put, select }) {
       const { query } = payload;
-      const { profile } = yield select(state => state.base);
+      const { currProfile: profile } = yield select(state => state.base);
       const info = {
         ...profile,
         amt: query.amt,
@@ -21,7 +21,6 @@ export default {
 
       };
       const { data } = yield call(create, info);
-      console.log(data);
       if (data && data.success) {
         const { result } = data || {};
         const tmpBill = yield call(createBill, { ...query, ...{ bizNo: result.id } });

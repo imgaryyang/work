@@ -10,7 +10,6 @@ class Payment extends React.Component {
     bizType: '01',
   }
   componentWillMount() {
-    console.log(this.props.location.state);
     const type = this.props.location.state;
     let { patient } = this.props;
     console.log(patient);
@@ -95,7 +94,7 @@ class Payment extends React.Component {
         <WingBlank>
           <Flex>
             <Flex.Item><div>患者姓名：张三</div></Flex.Item>
-            <Flex.Item><div>类型：{this.state.bizType === '01' ? '门诊预存' : '住院预存'}</div></Flex.Item>
+            <Flex.Item><div>类型：{this.state.bizType === '01' ? '门诊预存' : '住院预缴'}</div></Flex.Item>
           </Flex>
         </WingBlank>
         <WhiteSpace size="lg" />

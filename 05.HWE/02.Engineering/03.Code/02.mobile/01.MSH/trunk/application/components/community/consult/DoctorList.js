@@ -36,7 +36,7 @@ class Item extends PureComponent {
       radius={23}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
       imageSource={record.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${record.photo}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${record.photo}` })}
     />);
     return (
       <TouchableOpacity

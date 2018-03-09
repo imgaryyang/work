@@ -17,7 +17,13 @@ export default class StepCheck extends Component {
   checkReport(checkId) {
     this.props.navigate({
       routeName: 'Reports',
-      params: { id: checkId },
+      params: {
+        id: checkId,
+        title: '报告查询',
+        showCurrHospitalAndPatient: true,
+        allowSwitchHospital: true,
+        allowSwitchPatient: true,
+      },
     });
   }
 

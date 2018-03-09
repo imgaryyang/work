@@ -5,7 +5,7 @@ export default class ActivityIndicatorView extends PureComponent {
   render() {
     return (
       <div style={styles.container}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" toast text="正在加载" />
       </div>
     );
   }

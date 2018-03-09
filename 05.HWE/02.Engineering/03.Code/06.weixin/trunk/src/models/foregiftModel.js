@@ -12,7 +12,7 @@ export default {
   effects: {
     *create({ payload, callback }, { call, put, select }) {
       const { query } = payload;
-      const { profile } = yield select(state => state.base);
+      const { currProfile: profile } = yield select(state => state.base);
       const info = {
         ...profile,
         amt: query.amt,

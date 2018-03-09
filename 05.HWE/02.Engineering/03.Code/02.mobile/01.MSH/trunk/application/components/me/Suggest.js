@@ -47,10 +47,8 @@ class Suggest extends Component {
 
   state = {
     doRenderScene: false,
-    // data: null,
     feedback: null,
     loading: false,
-    // connect: null,
   };
 
   componentDidMount() {
@@ -66,29 +64,21 @@ class Suggest extends Component {
 
   // 保存反馈意见
   async doSave() {
-    // 显示遮罩
-    this.props.screenProps.showLoading();
-
+    // 显示遮罩   
+    if (this.state.feedback === null || this.state.feedback === '') {
+      Toast.show('您还没有输入哦');
+      return;
+    }
     const data = {
       feedback: this.state.feedback, appId: '8a8c7db154ebe90c0154ebfdd1270004', hospId: '123', userId: Global.user.id,
     };
     try {
+      this.props.screenProps.showLoading();
       const responseData = await submit(data);
       // 隐藏遮罩
       this.props.screenProps.hideLoading();
       if (responseData.success === false) {
-        Alert.alert(
-          '提示',
-          responseData.msg,
-          [
-            {
-              text: '确定',
-              onPress: () => {
-                this.setState({ value: {} });
-              },
-            },
-          ],
-        );
+        this.props.screenProps.hideLoading();
       } else {
         Toast.show('保存成功！');
         this.goPop();

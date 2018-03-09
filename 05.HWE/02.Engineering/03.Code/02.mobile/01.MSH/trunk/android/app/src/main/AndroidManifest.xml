@@ -22,7 +22,7 @@
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="26" />
 
     <application
       android:name=".MainApplication"
@@ -61,7 +61,7 @@
       </activity>
       <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
       <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
-        <meta-data android:name="com.baidu.lbsapi.API_KEY" android:value="ryLnai4Hd66znBhPWjNUNZiHzD5xKFoS"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="5fd8df8a6cce2575a812004382ee82c5" />
     </application>
     <permission android:name="${applicationId}.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
 </manifest>

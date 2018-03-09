@@ -20,8 +20,7 @@ export default class ScheduleItem extends PureComponent {
     const {
       clinicDate, shiftName, clinicTypeName, docName, docJobTitle, totalFee, enableNum, address, portrait,
     } = this.props.data;
-    const imageSource = portrait ? { uri: base().img + portrait } : require('../../../assets/images/hosp/doctors/default.png');
-    // const imageSource = require('../../../assets/images/hosp/doctors/default.png');
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
     const endColor = enableNum > 0 ? Global.colors.IOS_BLUE : Global.colors.IOS_LIGHT_GRAY;
 
     return (

@@ -80,7 +80,7 @@ class PayCounter extends Component {
       terminalCode: param.terminalCode,
       payerNo: param.payerNo,
       bizType: param.bizType,
-      bizNo: '000001',
+      bizNo: param.id,
       bizBean: 'aliPay',
       bizTime: '2018-01-20',
     };
@@ -208,7 +208,7 @@ class PayCounter extends Component {
               onPress={() => this.setState({ checked: !this.state.checked, payType: 'aliPay' })}
               style={[Global.styles.CENTER, { flexDirection: 'row', paddingLeft: 10, paddingTop: 5 }]}
             >
-              <Portrait imageSource={require('../../assets/images/pay/alpay.png')} width={25} height={25} radius={5} />
+              <Portrait imageSource={Global.Config.imgPayChannel.alipay} width={25} height={25} radius={5} />
               <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }} >
                 <Text style={{ color: 'black', flex: 1 }} >支付宝支付</Text>
               </View>
@@ -220,7 +220,7 @@ class PayCounter extends Component {
               onPress={() => this.setState({ checked: !this.state.checked, payType: 'wxPay' })}
               style={[Global.styles.CENTER, { flexDirection: 'row', paddingLeft: 10, paddingTop: 5 }]}
             >
-              <Portrait imageSource={require('../../assets/images/pay/wxpay.png')} width={25} height={25} radius={5} />
+              <Portrait imageSource={Global.Config.imgPayChannel.wxpay} width={25} height={25} radius={5} />
               <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }} >
                 <Text style={{ color: 'black', flex: 1 }} >微信支付</Text>
               </View>

@@ -67,6 +67,12 @@ export const disease = () => ({
   listPart: `${Global.getHost()}app/disease/listPart`,
 });
 
+export const triage = () => ({
+  listBigSymptomsByPartId: `${Global.getHost()}app/triage/listBigSymptomsByPartId`,
+  listSmallSymptomsByBigSymptomId: `${Global.getHost()}app/triage/listSmallSymptomsByBigSymptomId`,
+  listDiseasesBySymptomIds: `${Global.getHost()}app/triage/listDiseasesBySymptomIds`,
+});
+
 export const drug = () => ({
   listByKeyWords: `${Global.getHost()}app/drug/listByKeyWords`,
   listCommonDrugType: `${Global.getHost()}app/drug/listCommonDrugType`,

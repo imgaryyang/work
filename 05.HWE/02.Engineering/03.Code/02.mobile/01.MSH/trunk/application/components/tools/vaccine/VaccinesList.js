@@ -108,6 +108,7 @@ class VaccinesList extends Component {
       }
     }
     changeText(value) {
+      console.log('111', value);
       const d = this.state.data;
       const filtered = [];
       if (value !== null && value !== '') {

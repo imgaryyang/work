@@ -272,7 +272,7 @@ class EditConsult extends Component {
       radius={33}
       bgColor="rgba(102,51,0,.2)"
       imageSource={this.state.value.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${Global.getImageHost()}${this.state.value.photo}?timestamp=${new Date().getTime()}` })}
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${this.state.value.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     const ds = [
@@ -351,7 +351,7 @@ class EditConsult extends Component {
             <LinearGradient colors={['#FE4D3D', '#FF8040', '#FF9731']} style={[styles.linearGradient, { height: 90 }]}>
               <View style={{ flexDirection: 'row', marginLeft: 15 }}>
                 {portrait}
-                <View style={{ flexDirection: 'column' }}>
+                <View style={{ flexDirection: 'column', backgroundColor: 'transparent', }}>
                   <View style={{ marginLeft: 10, flexDirection: 'row' }}>
                     <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>{this.state.value.name}</Text>
                     {/* <EasyCard style={{ height: 25, borderRadius: 18, backgroundColor: '#FE4D3D', borderColor: '#fff', alignItems: 'center', borderWidth: 2 / Global.pixelRatio }} ><Text style={{ fontSize: 15, color: '#fff' }}>{this.state.value.jobTitle}</Text></EasyCard> */}
@@ -363,7 +363,6 @@ class EditConsult extends Component {
                       paddingLeft: 10,
                       paddingRight: 10,
                       borderRadius: 10,
-                      backgroundColor: 'transparent',
                       borderWidth: 1 / Global.pixelRatio,
                       borderColor: 'white',
                     }}

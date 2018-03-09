@@ -90,6 +90,12 @@ class HospitalDepts extends Component {
           title: result[0].name,
           depNo: result[0].no,
           hosNo: result[0].hosNo,
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: false,
+          allowSwitchPatient: true,
+          afterChooseHospital: null,
+          afterChoosePatient: null,
+          hideNavBarBottomLine: false,
         });
       } else {
         this.handleRequestException({ msg });
@@ -210,7 +216,7 @@ class HospitalDepts extends Component {
         <Button theme={Button.THEME.ORANGE} outline stretch={false} style={{ width: 50, height: 25, marginRight: 15 }} onPress={() => this.onPressRegister(item)} >
           <Text style={{ fontSize: 12, color: Global.colors.ORANGE }} >去挂号</Text>
         </Button>
-        <Icon name="ios-arrow-forward-outline" size={20} color={Global.colors.FONT_LIGHT_GRAY1} />
+        <Icon name="ios-arrow-forward-outline" size={20} width={40} height={20} color={Global.colors.FONT_LIGHT_GRAY1} />
       </TouchableOpacity>
     );
   }
@@ -261,9 +267,9 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   item: {
-    padding: 15,
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingLeft: 15,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingRight: 10,
     flexDirection: 'row',
     backgroundColor: 'white',

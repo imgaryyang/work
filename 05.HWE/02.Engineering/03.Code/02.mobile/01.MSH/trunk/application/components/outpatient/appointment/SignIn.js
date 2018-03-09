@@ -18,6 +18,15 @@ import PlaceholderView from '../../../modules/PlaceholderView';
 import listState, { initPage } from '../../../modules/ListState';
 import { forReservedList, forSign } from '../../../services/outpatient/AppointService';
 
+
+const params = {
+  title: '签到小票',
+  showCurrHospitalAndPatient: true,
+  allowSwitchHospital: false,
+  allowSwitchPatient: false,
+  hideNavBarBottomLine: false,
+};
+
 class SignIn extends Component {
   static displayName = 'SignIn';
   static description = '预约/挂号记录';
@@ -106,7 +115,7 @@ class SignIn extends Component {
   }
 
   gotoReceipt(data) {
-    this.props.navigation.navigate('SignInReceipt', { data });
+    this.props.navigation.navigate('SignInReceipt', { data, ...params });
   }
 
   submit(item) {
@@ -131,7 +140,7 @@ class SignIn extends Component {
           if (responseData.success) {
             Toast.show('签到成功');
             this.onRefresh();
-            navigation.navigate('SignInReceipt', { data: selectedItem });
+            navigation.navigate('SignInReceipt', { data: selectedItem, ...params });
           } else {
             this.handleRequestException({ msg: responseData.msg });
           }

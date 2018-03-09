@@ -211,7 +211,7 @@ class Portrait extends Component {
       <Button text="头像上传" onPress={() => { this.savePhoto(); }} theme={Button.THEME.BLUE} style={{ margin: 20 }} />
     ) : null;
     const portraitImage = this.state.photo.length === 0 && this.state.userInfo.portrait === null ?
-      require('../../../assets/images/me-portrait-dft.png') :
+      Global.Config.defaultImgs.userPortrait :
       (this.state.photo.length > 0 ? this.state.photo[0] : { uri: `${Global.getImageHost()}${this.state.userInfo.portrait}?timestamp=${new Date().getTime()}` });
     return (
       <View style={Global.styles.CONTAINER} >

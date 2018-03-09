@@ -116,16 +116,16 @@ class DiseaseDetail extends Component {
           <ScrollView style={styles.scrollView} >
             <Card fullWidth style={{ borderTopWidth: 0 }} >
               <Text style={{ fontSize: 16, color: 'black', fontWeight: '600' }} >{filterHtmlForWiki(item.diseaseName)}</Text>
-              <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY, marginTop: 5 }} >{item.summary}</Text>
+              <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY, marginTop: 5 }} >{item.summary.replace(/<p>|<\\\/\p>/g, '')}</Text>
             </Card>
 
             <Sep height={15} />
-              <Card fullWidth noPadding >
-                  <View style={styles.cardTitle}>
-                      <Text style={styles.cardTitleText} >科室</Text>
-                  </View>
-                  <Text style={styles.detail}>{filterHtmlForWiki(item.deptName || '暂无科室信息介绍')}</Text>
-              </Card>
+            <Card fullWidth noPadding >
+              <View style={styles.cardTitle}>
+                <Text style={styles.cardTitleText} >科室</Text>
+              </View>
+              <Text style={styles.detail}>{filterHtmlForWiki(item.deptName || '暂无科室信息介绍')}</Text>
+            </Card>
 
             <Sep height={15} />
             <Card fullWidth noPadding >
@@ -139,7 +139,7 @@ class DiseaseDetail extends Component {
               />
               <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
             </Card>
-              <Sep height={40} />
+            <Sep height={40} />
           </ScrollView>
         </View>
       );
@@ -147,46 +147,46 @@ class DiseaseDetail extends Component {
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-        flex: 1,
-    },
+  scrollView: {
+    flex: 1,
+  },
 
-    cardTitle: {
-        borderBottomWidth: 1 / Global.pixelRatio,
-        borderBottomColor: Global.colors.LINE,
-        paddingLeft: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        height: 40,
-    },
-    cardTitleText: {
-        flex: 1,
-        color: '#000000',
-        fontSize: 14,
-        fontWeight: '600',
-    },
+  cardTitle: {
+    borderBottomWidth: 1 / Global.pixelRatio,
+    borderBottomColor: Global.colors.LINE,
+    paddingLeft: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    height: 40,
+  },
+  cardTitleText: {
+    flex: 1,
+    color: '#000000',
+    fontSize: 14,
+    fontWeight: '600',
+  },
 
-    list: {
-        paddingLeft: 15,
-        paddingRight: 15,
-    },
+  list: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
 
-    rowStyle: {
-        paddingTop: 15,
-        paddingBottom: 15,
-    },
+  rowStyle: {
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
 
-    detail: {
-        fontSize: 13,
-        lineHeight: 16,
-        padding: 15,
-        paddingTop: 10,
-        paddingBottom: 10,
-    },
-    content: {
-        marginTop: 10,
-    },
+  detail: {
+    fontSize: 13,
+    lineHeight: 16,
+    padding: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  content: {
+    marginTop: 10,
+  },
 });
 
 DiseaseDetail.navigationOptions = {

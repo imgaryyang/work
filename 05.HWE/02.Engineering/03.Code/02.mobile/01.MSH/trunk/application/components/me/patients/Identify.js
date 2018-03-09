@@ -267,7 +267,7 @@ class Identity extends Component {
               flexDirection: 'row', margin: 10, marginBottom: 40,
             }}
             >
-              <Button text="认证" onPress={this.submit} disabled={this.state.buttonDisabled} />
+              <Button text="认证" onPress={this.submit} />
             </View>
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>

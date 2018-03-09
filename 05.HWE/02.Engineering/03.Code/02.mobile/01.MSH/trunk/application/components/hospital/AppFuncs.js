@@ -29,6 +29,7 @@ export default class AppFuncs extends Component {
             title: '选择医院',
             chooseHospitalForNext: this.chooseHospitalForNext,
             routeName: component,
+            passProps,
             hideNavBarBottomLine: true,
           },
         });
@@ -39,9 +40,9 @@ export default class AppFuncs extends Component {
   }
 
   // 需要先选择医院的业务，在选择医院后回调
-  chooseHospitalForNext(hospital, routeName) {
+  chooseHospitalForNext(hospital, routeName, passProps) {
     this.props.setCurrHospital(hospital);
-    this.props.navigate({ component: routeName, params: { hospital } });
+    this.props.navigate({ component: routeName, params: { hospital, ...passProps } });
   }
 
   /**

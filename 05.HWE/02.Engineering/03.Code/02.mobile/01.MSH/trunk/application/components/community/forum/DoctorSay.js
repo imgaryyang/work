@@ -192,7 +192,7 @@ class DoctorSay extends Component {
             <View>
               <Text style={{ fontSize: 13, color: '#999999' }}>{item.createdAt}</Text>
             </View>
-            <View style={{ paddingLeft: Global.getScreen().width - 233 }}>
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
               <Text style={{ fontSize: 10, color: '#999999' }}>1290赞 | 320评论</Text>
             </View>
           </View>

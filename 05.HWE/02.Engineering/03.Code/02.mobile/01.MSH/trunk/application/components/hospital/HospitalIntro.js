@@ -13,13 +13,7 @@ import Card from 'rn-easy-card';
 import Sep from 'rn-easy-separator';
 import Icon from 'rn-easy-icon';
 import { B } from 'rn-easy-text';
-import {
-  MapView,
-  MapTypes,
-} from 'react-native-baidu-map';
-
-import MapsView from 'react-native-maps';
-
+import { MapView, Marker } from 'react-native-amap3d';
 import Global from '../../Global';
 import * as Filters from '../../utils/Filters';
 import Distance from '../../modules/filters/Distance';
@@ -91,59 +85,30 @@ class HospitalIntro extends Component {
 
     let mapView = null;
     if (hosp.latitude && hosp.longitude) {
-      if (Global.os === 'android') {
-        mapView = (
-          <View style={styles.map}>
-            <MapView
-              trafficEnabled
-              baiduHeatMapEnabled={false}
-              zoom={15}
-              mapType={MapTypes.NORMAL}
-              center={{
-                longitude: hosp.longitude,
-                latitude: hosp.latitude,
-              }}
-              markers={[{
-                longitude: hosp.longitude,
-                latitude: hosp.latitude,
-                title: hosp.name,
-              }]}
-              style={styles.map}
-              onMarkerClick={(e) => {
-                console.warn(JSON.stringify(e));
-              }}
-              /* onMapClick={() => {
-                mapView = null;
-                this.props.navigation.navigate('BaiduMapDemo', {
-                  longitude: hosp.longitude,
-                  latitude: hosp.latitude,
-                  title: hosp.title,
-                });
-              }} */
-            />
-          </View>
-        );
-      } else if (Global.os === 'ios') {
-        mapView = (
-          <MapsView
+      mapView = (
+        <View style={styles.map}>
+          <MapView
             style={styles.map}
-            region={{
+            zoomLevel={17}
+            coordinate={{
               latitude: hosp.latitude,
               longitude: hosp.longitude,
-              latitudeDelta: 0.01, // 地图显示范围，距中点的横向距离
-              longitudeDelta: 0.01, // 地图显示范围，距中点的纵向距离
             }}
-            zoom={20}
           >
-            <MapsView.Marker
-              coordinate={{ latitude: hosp.latitude, longitude: hosp.longitude }}
+            <Marker
+              active
               title={hosp.name}
-              description={hosp.name}
+              color="red"
+              coordinate={{
+                latitude: hosp.latitude,
+                longitude: hosp.longitude,
+              }}
             />
-          </MapsView>
-        );
-      }
+          </MapView>
+        </View>
+      );
     }
+
 
     const emptyView = (!hosp.contacts || hosp.contacts.length === 0) ? (
       <Text style={[Global.styles.MSG_TEXT, { marginTop: 30, marginBottom: 20 }]} >暂无联系方式</Text>
@@ -202,6 +167,7 @@ const styles = StyleSheet.create({
     height: 120,
     borderWidth: 1 / Global.pixelRatio,
     borderColor: '#000000',
+    overflow: 'hidden',
   },
   mapView: {
     width: Global.getScreen().width,

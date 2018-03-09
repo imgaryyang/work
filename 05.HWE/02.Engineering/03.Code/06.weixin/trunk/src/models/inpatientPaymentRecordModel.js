@@ -25,18 +25,19 @@ export default {
       if (query) {
         pro = query;
       } else {
-        const { profile } = yield select(state => state.base);
+        const { currProfile: profile } = yield select(state => state.base);
         pro = profile;
       }
-      console.log(pro);
-      const { data } = yield call(findInpatientPaymentRecord, pro);
-      const { result } = data || {};
-      yield put({
-        type: 'save',
-        payload: {
-          data: result || [],
-        },
-      });
+      if (JSON.stringify(pro) !== '{}') {
+        const { data } = yield call(findInpatientPaymentRecord, pro);
+        const { result } = data || {};
+        yield put({
+          type: 'save',
+          payload: {
+            data: result || [],
+          },
+        });
+      }
     },
   },
 

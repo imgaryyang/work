@@ -27,10 +27,13 @@ const mes = [
   { icon: 'mail', text: '联系我们', description: '联系我们', uri: 'contactUs' },
   { icon: 'from', text: '反馈意见', description: '反馈意见', uri: 'feedBack' },
   { icon: 'copy', text: '关于', description: '关于', uri: 'aboutUs' },
+  { text: '预约历史', uri: '/appoint/records' },
 ];
 
 const controls = [
-  '/login',
+  '/home',
+  '/loginZFB',
+  '/loginWeChat',
   '/appoint/departments',
   '/appoint/schedule',
   '/appoint/source',
@@ -41,6 +44,7 @@ const controls = [
   '/feedBack',
   '/aboutUs',
   '/contactUs',
+  '/appoint/records',
 ];
 class HomePage extends React.Component {
   constructor(props) {
@@ -61,15 +65,16 @@ class HomePage extends React.Component {
       payload: { selectedTab: tab },
     });
   }
-  logout() {
+  logout(openid, userId) {
     const { dispatch } = this.props;
     dispatch({
       type: 'base/logout',
+      payload: { openid, userId },
     });
   }
   toBind(location) {
     const { profiles } = this.props.base;
-    let flag = profiles.length === 0 ? true : false;
+    let flag = profiles.length === 0;
     if (controls.indexOf(location.pathname) >= 0) {
       flag = false;
     }
@@ -95,6 +100,7 @@ class HomePage extends React.Component {
   }
   render() {
     const { selectedTab } = this.props.home;
+    const { openid, userId } = this.props.base;
     return (
       <div className={styles['container']}>
         <Prompt message={this.toBind} />
@@ -155,7 +161,7 @@ class HomePage extends React.Component {
               </List>
               <WhiteSpace />
               <WingBlank>
-                <Button type="primary" onClick={() => this.logout()}>退出</Button>
+                <Button type="primary" onClick={() => this.logout(openid, userId)}>退出</Button>
               </WingBlank>
             </div>
           </TabBar.Item>

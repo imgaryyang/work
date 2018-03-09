@@ -335,9 +335,9 @@ class ComponentTest extends Component {
           </View>
 
           <Card radius={8} style={{ margin: 10, flexDirection: 'row' }} >
-            <Portrait imageSource={require('../../../assets/images/user/u0002.jpg')} bgColor={Global.colors.IOS_GRAY_BG} width={50} height={50} radius={7} />
+            <Portrait imageSource={require('../../../../assets/images/user/u0002.jpg')} bgColor={Global.colors.IOS_GRAY_BG} width={50} height={50} radius={7} />
             <Sep width={20} />
-            <Portrait imageSource={require('../../../assets/images/user/u0003.jpg')} bgColor={Global.colors.IOS_GRAY_BG} width={50} height={50} radius={25} />
+            <Portrait imageSource={require('../../../../assets/images/user/u0003.jpg')} bgColor={Global.colors.IOS_GRAY_BG} width={50} height={50} radius={25} />
           </Card>
 
           <Button

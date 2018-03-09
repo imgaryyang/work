@@ -85,13 +85,13 @@ class InpatientDailyMain extends React.Component {
     if (tmpData && tmpData.length > 0) {
       let i = 0;
       for (const d of tmpData) {
-        itemList.push(<Item key={i} align="left"><Brief><span className={styles['text_style']}>项目：{d.name}</span> </Brief><Brief><span className={styles['text1_style']}>单价：{this.formatMoney(d.price, 2)}</span>&nbsp;&nbsp;<span className={styles['text1_style']}>数量：{d.num}</span><span className={styles['text2_style']}>总金额：{this.formatMoney(d.realAmount, 2)}</span></Brief></Item>);
+        itemList.push(<Item key={i} align="left"><Brief><span className={styles['text_style']}>项目：{d.name}</span> </Brief><Brief><span className={styles['text1_style']}>单价：{ d.price.formatMoney()}元</span>&nbsp;&nbsp;<span className={styles['text1_style']}>数量：{d.num}</span><span className={styles['text2_style']}>总金额：{ d.realAmount.formatMoney()}元</span></Brief></Item>);
         tmpTotalAmount += parseFloat(d.realAmount);
         i += 1;
       }
       totalAmount = tmpTotalAmount;
     } else {
-      itemList.push(<Item key={0} align="left"><div className={styles['none']}>无</div></Item>);
+      itemList.push(<Item key={0} align="left"><div className={styles['none']}>暂无住院日清单</div></Item>);
     }
     return (
       <div>
@@ -115,7 +115,7 @@ class InpatientDailyMain extends React.Component {
           <Item>
             <div className={styles['bottom']}>
               <div className={styles['bottom_format']}>
-                总费用：{this.formatMoney(totalAmount, 2)}&nbsp;元
+                总费用：{totalAmount.formatMoney()}&nbsp;元
               </div>
             </div>
           </Item>

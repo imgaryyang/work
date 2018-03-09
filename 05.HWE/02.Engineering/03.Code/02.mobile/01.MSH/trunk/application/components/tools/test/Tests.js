@@ -63,7 +63,7 @@ class Tests extends Component {
         hideNavBarBottomLine: true,
       });
     }
-    changeText(value) {
+  /* changeText(value) {
       const d = this.state.data;
       const filtered = [];
       if (value !== null && value !== '') {
@@ -78,8 +78,17 @@ class Tests extends Component {
         const initdata = this.state.init;
         this.setState({ data: initdata });
       }
+    }*/
+    changeText(value) {
+      if (value !== '') {
+        const newData = this.state.init.filter((array) => {
+          return array.classificationName.indexOf(value) >= 0;
+        });
+        this.setState({ data: newData });
+      } else {
+        this.setState({ data: this.state.init });
+      }
     }
-
     searchByKeyWords() {
       console.log(this.state.keyWords);
       this.props.navigation.navigate('TestList', { keyWords: this.state.keyWords });
@@ -87,7 +96,6 @@ class Tests extends Component {
     async fetchData() {
       try {
         // 显示遮罩
-        // this.props.screenProps.showLoading();
         this.setState({
           ctrlState: {
             ...this.state.ctrlState,
@@ -195,7 +203,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
 
 
 export default Tests;

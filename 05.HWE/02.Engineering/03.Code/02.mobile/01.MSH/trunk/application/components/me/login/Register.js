@@ -49,6 +49,7 @@ class Register extends Component {
     doRenderScene: false,
     value: {},
     buttonDisabled: false,
+    second: 30,
   };
 
   componentDidMount() {
@@ -59,7 +60,10 @@ class Register extends Component {
       title: '注册',
     });
   }
-
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    clearTimeout(this.clockTimer);
+  }
   onChange(fieldName, fieldValue, formValue) {
     this.setState({ value: formValue });
   }
@@ -126,11 +130,6 @@ class Register extends Component {
     });
   }
 
-  sendAuthSM() {
-    console.log('in send auth sm');
-    console.log(this);
-  }
-
   navigate({ title, component, passProps }) {
     if (component !== null) {
       this.props.navigate({ component, params: passProps });
@@ -139,12 +138,40 @@ class Register extends Component {
     }
   }
   form = null;
+  timer = null;
+  clockTimer = null;
 
+  sendAuthSM() {
+    console.log('in send auth sm');
+    this.setState({ buttonDisabled: true }, () => {
+      this.countdown();
+      this.timer = setTimeout(
+        () => {
+          this.setState({ buttonDisabled: false });
+        },
+        30000,
+      );
+    });
+  }
+  countdown() {
+    if (this.state.second === 0) {
+      this.setState({ second: 30 });
+      return;
+    }
+    const second = this.state.second ? this.state.second - 1 : 30;
+    this.clockTimer = setTimeout(
+      () => {
+        this.setState({ second });
+        this.countdown();
+      },
+      1000,
+    );
+  }
   render() {
     if (!this.state.doRenderScene) {
       return Register.renderPlaceholderView();
     }
-
+    console.log('this.state.second:', this.state.second);
     return (
       <View style={[Global.styles.CONTAINER]} >
         <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
@@ -171,15 +198,19 @@ class Register extends Component {
                 icon="md-lock"
               />
               <Form.TextInput
-                label="短信验证码"
-                name="smscode"
-                placeholder="请输入收到的短信验证码"
-                maxLength={16}
-                minLength={6}
-                smscode
+                name="smsCode"
+                label="验证码"
+                placeholder="请输入短信验证码"
                 required
-                buttonText={'点击免费' + '\n' + '获取验证码'}
+                dataType="number"
+                maxLength={6}
+                minLength={6}
+                textAlign="center"
+                buttonText={`点击免费${'\n'}获取验证码`}
                 buttonOnPress={this.sendAuthSM}
+                buttonDisabled={this.state.buttonDisabled}
+                buttonDisabledText={`${this.state.second}秒钟后可${'\n'}再次发送`}
+                help="请输入验证短信中的6位验证码"
               />
             </Form>
 
@@ -187,7 +218,7 @@ class Register extends Component {
               flexDirection: 'row', margin: 10, marginBottom: 40,
             }}
             >
-              <Button text="注册" onPress={this.register} disabled={this.state.buttonDisabled} />
+              <Button text="注册" onPress={this.register} />
             </View>
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>

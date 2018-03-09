@@ -35,14 +35,14 @@ class Appoint extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => { this.setState({ doRenderScene: true }); });
-    this.props.navigation.setParams({
-      title: '预约挂号',
-      showCurrHospitalAndPatient: true,
-      allowSwitchHospital: false,
-      allowSwitchPatient: true,
-      afterChoosePatient: null,
-      hideNavBarBottomLine: false,
-    });
+    // this.props.navigation.setParams({
+    //   title: '预约挂号',
+    //   showCurrHospitalAndPatient: true,
+    //   allowSwitchHospital: false,
+    //   allowSwitchPatient: true,
+    //   afterChoosePatient: null,
+    //   hideNavBarBottomLine: false,
+    // });
   }
 
   async confirmAppoint(data) {
@@ -69,7 +69,19 @@ class Appoint extends Component {
       const responseData = await forReserve(newData);
 
       if (responseData.success) {
-        resetBackNavigate(this.props.navigation.state.params.backIndex || 0, 'AppointSuccess', this.props.navigation.state.params);
+        resetBackNavigate(
+          this.props.navigation.state.params.backIndex || 0, 'AppointSuccess',
+          {
+            ...this.props.navigation.state.params,
+            title: '预约成功',
+            showCurrHospitalAndPatient: true,
+            allowSwitchHospital: false,
+            allowSwitchPatient: false,
+            afterChooseHospital: null,
+            afterChoosePatient: null,
+            hideNavBarBottomLine: false,
+          },
+        );
       } else {
         this.handleRequestException({ msg: responseData.msg });
       }
@@ -97,9 +109,9 @@ class Appoint extends Component {
           textStyle={styles.buttonText}
           onPress={() => this.confirmAppoint(data)}
         />
-        <ViewText text="预约挂号费由医院自行设定，平台不收取任何额外费用" textStyle={styles.infoText1} />
-        <ViewText text="确定预约就表示，我已经了解并同意以下规则" textStyle={styles.infoText1} />
-        <ViewText text="点击查看详情" style={styles.info} textStyle={styles.infoText2} />
+        <ViewText text="实名制预约挂号，就诊人信息不符将无法取号" textStyle={styles.infoText2} />
+        <ViewText text="停诊将短信通知，请保持手机畅通" textStyle={styles.infoText1} />
+        <ViewText text="预约挂号费由医院自行设定，平台不收取任何额外费用" style={styles.info} textStyle={styles.infoText1} />
       </ScrollView>
     );
   }
@@ -133,9 +145,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Global.colors.ORANGE,
   },
-  infoText3: {
-    fontSize: 10,
-    color: Global.colors.FONT_GRAY,
+  info: {
+    marginBottom: 25, // 解决安卓上滚动显示不全
   },
 });
 

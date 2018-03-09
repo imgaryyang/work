@@ -32,7 +32,14 @@ export default class StepOrder extends Component {
   goToPay(orderId) {
     this.props.navigate({
       routeName: 'Payments',
-      params: { id: orderId },
+      params: {
+        id: orderId,
+        title: '充值缴费',
+        showCurrHospitalAndPatient: true,
+        allowSwitchHospital: true,
+        allowSwitchPatient: true,
+        hideNavBarBottomLine: true,
+      },
     });
   }
 
@@ -57,7 +64,16 @@ export default class StepOrder extends Component {
                 outline
                 size="small"
                 style={{ marginTop: 10, width: 80, height: 25 }}
-                onPress={() => this.props.navigate({ routeName: 'ConsumeMain' })}
+                onPress={() => this.props.navigate({
+                  routeName: 'ConsumeMain',
+                  params: {
+                    title: '消费记录',
+                    showCurrHospitalAndPatient: true,
+                    allowSwitchHospital: true,
+                    allowSwitchPatient: true,
+                    hideNavBarBottomLine: true,
+                  },
+                })}
               />
             ) : (
               <Button

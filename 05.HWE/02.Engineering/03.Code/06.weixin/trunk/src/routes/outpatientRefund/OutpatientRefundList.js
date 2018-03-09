@@ -1,17 +1,19 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { List, NavBar, Icon, Button, Modal } from 'antd-mobile';
+import { List, NavBar, Button, Modal } from 'antd-mobile';
 import moment from 'moment';
+import ProfileList from '../patients/ProfileList';
 
 const alert = Modal.alert;
 const Item = List.Item;
 const Brief = Item.Brief;
 
 class OutpatientRefundList extends React.Component {
-  selectMenu() {
-    const { dispatch } = this.props;
-    dispatch(routerRedux.push({ pathname: '/payCouter/payment' }));
+  constructor(props) {
+    super(props);
+    this.callback = this.callback.bind(this);
+    this.loadData = this.loadData.bind(this);
   }
   paymentReturn= (d) => {
     console.log(d);
@@ -19,10 +21,23 @@ class OutpatientRefundList extends React.Component {
     const bill = {
       billId: d.outTradeNo,
     };
-    console.log(bill);
     dispatch({
       type: 'outpatientReturn/refund',
       payload: { query: bill },
+    });
+  }
+
+  callback(item) {
+    const selectProfile = item;
+    this.loadData(selectProfile);
+  }
+
+  loadData(profile) {
+    const query = { proNo: profile.no, hosNo: profile.hosNo };
+    console.info('query', query);
+    this.props.dispatch({
+      type: 'outpatientReturn/findChargeList',
+      payload: query,
     });
   }
   render() {
@@ -39,8 +54,8 @@ class OutpatientRefundList extends React.Component {
             <Button
               type="warning"
               onClick={() => alert('提示', '是否确认退款？', [
-            { text: 'Cancel', onPress: () => console.log('cancel') },
-            { text: 'Ok',
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定',
               onPress: () => {
               this.paymentReturn(d);
               } },
@@ -51,7 +66,7 @@ class OutpatientRefundList extends React.Component {
           align="top"
           multipleLine
         >
-          <Brief>支付金额：{d.amt}元 </Brief><Brief>订单号:{d.tradeNo}</Brief><Brief>充值时间:{moment(d.tradeTime).format('YYYY-MM-DD HH:mm')}</Brief>
+          <Brief>支付金额：{d.amt.formatMoney()}元 </Brief><Brief>订单号:{d.tradeNo}</Brief><Brief>充值时间:{moment(d.tradeTime).format('YYYY-MM-DD HH:mm:ss')}</Brief>
         </Item>);
         i += 1;
       }
@@ -60,10 +75,9 @@ class OutpatientRefundList extends React.Component {
       <div>
         <NavBar
           mode="light"
-          icon={<Icon type="left" />}
-          onLeftClick={() => console.log('onLeftClick')}
         >门诊退费
         </NavBar>
+        <ProfileList callback={this.callback} />
         <List className="my-list">
           {itemList}
         </List>

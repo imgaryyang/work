@@ -35,7 +35,7 @@ export default class AppointInfo extends PureComponent {
     const { style } = this.props;
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
 
-    const imageSource = portrait ? { uri: base().img + portrait } : require('../../../assets/images/hosp/doctors/default.png');
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
 
     return (
       <View style={[styles.container, style]}>

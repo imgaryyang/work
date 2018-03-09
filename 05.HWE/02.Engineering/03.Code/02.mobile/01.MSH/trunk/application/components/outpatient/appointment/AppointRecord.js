@@ -51,7 +51,7 @@ export default class AppointRecord extends PureComponent {
       statusName,
     } = data;
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
-    const imageSource = portrait ? { uri: base().img + portrait } : require('../../../assets/images/hosp/doctors/default.png');
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortraits;
 
     return (
       <View style={[styles.container, style]}>

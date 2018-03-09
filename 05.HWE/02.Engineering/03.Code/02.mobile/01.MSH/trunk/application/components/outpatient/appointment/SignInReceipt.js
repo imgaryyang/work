@@ -53,7 +53,7 @@ class SignInReceipt extends Component {
       num,
       totalFee,
     } = this.props.navigation.state.params.data;
-    const imageSource = portrait ? { uri: base().img + portrait } : require('../../../assets/images/hosp/doctors/default.png');
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
 
     return (
       <ScrollView style={{ backgroundColor: Global.colors.IOS_GRAY_BG }}>

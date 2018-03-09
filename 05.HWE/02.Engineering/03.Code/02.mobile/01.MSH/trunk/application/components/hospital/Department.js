@@ -71,6 +71,12 @@ class Department extends Component {
           title: result[0].name,
           depNo: result[0].no,
           hosNo: result[0].hosNo,
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: false,
+          allowSwitchPatient: true,
+          afterChooseHospital: null,
+          afterChoosePatient: null,
+          hideNavBarBottomLine: false,
         });
       } else {
         this.handleRequestException({ msg });
