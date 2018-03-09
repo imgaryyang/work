@@ -23,22 +23,26 @@ export default {
 
   },
   effects: {
-    *addPatient({ payload, callback }, { call, put }) {
+    *addPatient({ payload, callback }, { call, put, select }) {
       const { data } = yield call(addPatient, payload);
       if (data && data.success) {
         const { result } = data || {};
+        const userPatients = yield select(state => state.user.userPatients);
+        console.log('userPatients', userPatients);
         yield put({
           type: 'save',
           payload: {
-            user: result || {},
+            userPatients: userPatients.splice(result) || userPatients,
           },
         });
         yield put(routerRedux.goBack());
+      } else {
+        Toast.fail(data.msg, 1);
       }
       if (callback) callback();
     },
     *list({ payload, callback }, { call, put }) {
-      Toast.loading('加载中。。。', 0);
+      Toast.loading('加载中。。。', 2);
       yield put({ type: 'setState', payload: { isLoading: true } });
       const { data } = yield call(list);
       if (data && data.success) {
@@ -52,11 +56,12 @@ export default {
         });
         Toast.hide();
       } else {
-        Toast.hide();
+        Toast.fail(data.msg, 1);
       }
       if (callback) callback();
     },
     *getProfiles({ payload, callback }, { call, put }) {
+      Toast.loading('加载中。。。', 3);
       yield put({ type: 'setState', payload: { profiles: [] } });
       const { data } = yield call(getProfiles, payload);
       if (data && data.success) {
@@ -68,6 +73,9 @@ export default {
             profiles: result || [],
           },
         });
+        Toast.hide();
+      } else {
+        Toast.fail(data.msg, 1);
       }
       if (callback) callback();
     },
@@ -75,6 +83,8 @@ export default {
       const { data } = yield call(remove, payload);
       if (data && data.success) {
         yield put({ type: 'list' });
+      } else {
+        Toast.fail(data.msg, 1);
       }
       if (callback) callback();
     },

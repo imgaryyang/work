@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from './PaymentMain.less';
 import InputMoney from './InputMoney';
 import CashierDesk from './CashierDesk';
+
 class PaymentMain extends React.Component {
   render() {
     const { match } = this.props;

@@ -2,20 +2,24 @@ import React from 'react';
 import { connect } from 'dva';
 
 import { createForm } from 'rc-form';
-import { routerRedux } from 'dva/router';
 import { List, InputItem, WhiteSpace, WingBlank, Button } from 'antd-mobile';
-import styles from './AddPatient.less';
+import { testCnIdNo } from '../../utils/validation';
 
 class FormItem extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // if (values.idNo.replace(/\s/g, '').length < 11) {
-        //   alert('身份证号不符合格式');
-        // }
+        if (!values.name) {
+          alert('请输入姓名');
+          return;
+        }
+        if (!testCnIdNo(values.idNo)) {
+          alert('身份证号不符合格式！请从新输入');
+          return;
+        }
         console.log('Received values of form: ', values);
-        const response = this.props.dispatch({
+        this.props.dispatch({
           type: 'user/addPatient',
           payload: { ...values },
         });
@@ -29,13 +33,11 @@ class FormItem extends React.Component {
         <List>
           <InputItem
             {...getFieldProps('name')}
-            type="text"
             placeholder="请输入姓名"
           >姓名
           </InputItem>
           <InputItem
             {...getFieldProps('idNo')}
-            type="text"
             placeholder="请输入身份证号"
             maxLength={18}
           >身份证

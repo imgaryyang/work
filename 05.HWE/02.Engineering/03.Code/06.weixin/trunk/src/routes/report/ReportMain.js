@@ -82,15 +82,12 @@ class ReportMain extends React.Component {
       > 报告单查询
       </NavBar>
       <div className={style['profile']}><ProfileList callback={this.loadCheckList} /></div>
+      {data.length === 0 ? (<div style={{ padding: 30, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的报告单信息</div>) : null}
+
       <ListView
         ref={el => this.lv = el}
         dataSource={dataSource.cloneWithRowsAndSections(data)}
         renderSectionHeader={sectionHeader}
-       /* renderFooter={() => (
-          <div style={{ padding: 30, textAlign: 'center' }}>
-            { isLoading ? '正在加载数据，请稍候...' : '所有数据加载完成' }
-          </div>
-        )}*/
         renderRow={row}
         style={{
           height,

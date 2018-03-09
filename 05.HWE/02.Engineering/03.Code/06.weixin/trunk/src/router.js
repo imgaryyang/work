@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
-import Login from './routes/Login';
+import LoginWeChat from './routes/LoginWeChat';
+import LoginZFB from './routes/LoginZFB';
 import IndexPage from './routes/IndexPage';
 import HomePage from './routes/HomePage';
 import AppointMain from './routes/appoint/AppointMain';
@@ -26,7 +27,8 @@ function RouterConfig({ history }) {
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={IndexPage} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/loginWeChat" exact component={LoginWeChat} />
+        <Route path="/loginZFB" exact component={LoginZFB} />
         <Route path="/home" exact component={HomePage} />
         <Route path="/report" exact component={ReportMain} />
         <Route path="/reportDetail" exact component={ReportDetail} />

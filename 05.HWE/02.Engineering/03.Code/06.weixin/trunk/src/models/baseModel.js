@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { Toast } from 'antd-mobile';
-import { login, register, getInfo, doSave, updateProfiles, logout } from '../services/baseService';
+import { loginByOpenId, loginByUserId, registerByOpenId, registerByUserId, getInfo, doSave, updateProfiles, logout, sendAuthSM } from '../services/baseService';
 
 const hospital = {
   id: '8a81a7db4dad2271014dad2271e20001',
@@ -25,6 +25,8 @@ export default {
   namespace: 'base',
 
   state: {
+    openid: '',
+    userId: '',
     user: {},
     mobile: '',
     profiles: [],
@@ -33,15 +35,17 @@ export default {
     currProfile: {},
     currHospital: hospital,
     info: {}, // 获得微信平台的基本信息 比如关于我们 联系我们 反馈意见等
+    smsMessage: {},
   },
 
   subscriptions: {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {  // eslint-disable-line
+    *loginByOpenId({ payload }, { call, put }) {  // eslint-disable-line
       const { openid } = payload;
-      const { data } = yield call(login, openid);
+      yield put({ type: 'save', payload: { openid } });
+      const { data } = yield call(loginByOpenId, openid);
       const { success, result } = data || {};
       if (success === true) {
         yield put({
@@ -53,7 +57,25 @@ export default {
         });
         yield put(routerRedux.push('/home'));
       } else {
-        yield put(routerRedux.push('/login'));
+        yield put(routerRedux.push('/loginWeChat'));
+      }
+    },
+    *loginByUserId({ payload }, { call, put }) {  // eslint-disable-line
+      const { userId } = payload;
+      yield put({ type: 'save', payload: { userId } });
+      const { data } = yield call(loginByUserId, userId);
+      const { success, result } = data || {};
+      if (success === true) {
+        yield put({
+          type: 'save',
+          payload: {
+            user: result || {},
+            loginResult: success,
+          },
+        });
+        yield put(routerRedux.push('/home'));
+      } else {
+        yield put(routerRedux.push('/loginZFB'));
       }
     },
     *getInfo({ payload }, { call, put }) {  // eslint-disable-line
@@ -65,15 +87,17 @@ export default {
           payload: { info: result },
         });
       } else {
-        console.log('请求出错');
+        Toast.fail(data.msg, 1);
       }
     },
-    *register({ payload }, { call, put }) {
-      const { data } = yield call(register, payload);
+    *registerByOpenId({ payload }, { call, put }) {
+      const { openid } = payload;
+      yield put({ type: 'save', payload: { openid } });
+      const { data } = yield call(registerByOpenId, payload);
       if (data && data.success) {
         const { map } = data.result;
         console.log('map', map);
-        const profiles = map.profiles ? map.profiles : [];
+        const profiles = map && map.profiles ? map.profiles : [];
         yield put({
           type: 'save',
           payload: {
@@ -85,10 +109,33 @@ export default {
         yield put(routerRedux.push('/home'));
       } else {
         alert(data.msg);
-        yield put(routerRedux.push('/login'));
+        yield put(routerRedux.push('/loginWeChat'));
+      }
+    },
+    *registerByUserId({ payload }, { call, put }) {
+      const { userId } = payload;
+      yield put({ type: 'save', payload: { userId } });
+      const { data } = yield call(registerByUserId, payload);
+      if (data && data.success) {
+        const { map } = data.result;
+        console.log('map', map);
+        const profiles = map && map.profiles ? map.profiles : [];
+        yield put({
+          type: 'save',
+          payload: {
+            profiles,
+            user: data.result || {},
+            redirect: true,
+          },
+        });
+        yield put(routerRedux.push('/home'));
+      } else {
+        alert(data.msg);
+        yield put(routerRedux.push('/loginZFB'));
       }
     },
     *logout({ payload, callback }, { call, put }) {
+      const { openid, userId } = payload;
       const { data } = yield call(logout);
       if (data && data.success) {
         yield put({
@@ -98,7 +145,13 @@ export default {
           },
         });
       }
-      yield put(routerRedux.push('/login'));
+      if (userId) {
+        yield put(routerRedux.push('/loginZFB'));
+      } else if (openid) {
+        yield put(routerRedux.push('/loginWeChat'));
+      } else {
+        yield put(routerRedux.push('/home'));
+      }
       if (callback) callback();
     },
     *doSave({ payload, callback }, { call, put }) {
@@ -112,12 +165,14 @@ export default {
             user: result || [],
           },
         });
+      } else {
+        Toast.fail(data.msg, 1);
       }
       yield put(routerRedux.goBack());
       if (callback) callback();
     },
     *updateProfiles({ payload, callback }, { call, put }) {
-      Toast.loading('加载中。。。', 0);
+      console.log('updateProfiles...in...model');
       yield put({ type: 'setState', payload: { profiles: [] } });
       const { data } = yield call(updateProfiles);
       if (data && data.success) {
@@ -132,6 +187,20 @@ export default {
         Toast.hide();
       } else {
         Toast.hide();
+      }
+      if (callback) callback();
+    },
+    *sendAuthSM({ payload, callback }, { call, put }) {
+      const { data } = yield call(sendAuthSM, payload);
+      if (data && data.success) {
+        const { result } = data || [];
+        console.log('result', result);
+        yield put({
+          type: 'save',
+          payload: {
+            smsMessage: result || [],
+          },
+        });
       }
       if (callback) callback();
     },

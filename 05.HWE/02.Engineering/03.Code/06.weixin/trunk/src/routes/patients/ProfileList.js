@@ -46,7 +46,7 @@ class FormItem extends React.Component {
   render() {
     const { visible } = this.props.user;
     const { profiles, currProfile } = this.props.base;
-    console.log('currProfile', currProfile);
+    console.log('profiles', profiles);
     return (
       <List style={{ backgroundColor: 'white' }} className="picker-list">
         <Item arrow="horizontal" onClick={() => this.showModal()}>{ currProfile && currProfile.id ? `${currProfile.name} ${currProfile.no}` : '选择就诊人'}</Item>

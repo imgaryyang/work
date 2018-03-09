@@ -35,6 +35,34 @@ class Profiles extends React.Component {
   }
   render() {
     const { profiles } = this.props.user;
+    const list = profiles && profiles.length > 0 ? (
+      <List>
+        {
+          profiles.map((profile, index) => (
+            <Flex key={index} direction="row">
+              <Flex
+                style={{
+                  flex: 4,
+                }}
+              >
+                <Item className={styles['placeholder']} style={{ fontSize: '10px' }} >
+                  <span>姓名：{profile.name}</span>
+                  <WhiteSpace size="xs" />
+                  <span>身份证号：{profile.idNo}</span>
+                  <WhiteSpace size="xs" />
+                  <span>就诊卡号：{profile.no}</span>
+                </Item>
+              </Flex>
+            </Flex>
+          ))
+        }
+      </List>
+    ) : (
+      <div>
+        <WhiteSpace size="xl" />
+        <div style={{ textAlign: 'center' }}>暂无卡号信息</div>
+      </div>
+    );
     return (
       <div>
         <WhiteSpace />
@@ -49,27 +77,7 @@ class Profiles extends React.Component {
           }
         >就诊卡
         </NavBar>
-        <List>
-          {
-            profiles.map((profile, index) => (
-              <Flex key={index} direction="row">
-                <Flex
-                  style={{
-                    flex: 4,
-                  }}
-                >
-                  <Item className={styles['placeholder']} style={{ fontSize: '10px' }} >
-                    <span>姓名：{profile.name}</span>
-                    <WhiteSpace size="xs" />
-                    <span>身份证号：{profile.idNo}</span>
-                    <WhiteSpace size="xs" />
-                    <span>就诊卡号：{profile.no}</span>
-                  </Item>
-                </Flex>
-              </Flex>
-            ))
-          }
-        </List>
+        {list}
       </div>
     );
   }

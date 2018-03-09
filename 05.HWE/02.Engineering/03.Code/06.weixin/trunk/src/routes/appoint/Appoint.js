@@ -5,11 +5,21 @@ import { createForm } from 'rc-form';
 import { action, testAppointItem } from '../../utils/common';
 import less from './Appoint.less';
 
+export const initTypeData = [
+  { value: 0, label: '有卡预约' },
+  { value: 1, label: '无卡预约' },
+];
+
 class Appoint extends React.Component {
   constructor(props) {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { profiles } = this.props.base;
+    console.log('profiles', profiles);
   }
 
   componentWillUnmount() {
@@ -116,4 +126,4 @@ const styles = {
 // const Login = createForm()(FormItem);
 
 // export default connect(base => (base))(Login);
-export default connect(appoint => (appoint))(createForm()(Appoint));
+export default connect(({ appoint, base }) => ({ appoint, base }))(createForm()(Appoint));

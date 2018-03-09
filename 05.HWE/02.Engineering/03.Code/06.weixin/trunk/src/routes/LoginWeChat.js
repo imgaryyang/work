@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import { createForm } from 'rc-form';
 import { Redirect } from 'dva/router';
-import { List, InputItem, WhiteSpace, WingBlank, Button, Flex } from 'antd-mobile';
+import { List, InputItem, WhiteSpace, WingBlank, Button, Flex, Toast } from 'antd-mobile';
+import { testMobile } from '../utils/validation';
 
 class FormItem extends React.Component {
   state = {
     buttonDisabled: false,
     second: 30,
+    mobile: '',
+    hasError: false,
   }
   componentDidMount() {
   }
@@ -40,26 +43,29 @@ class FormItem extends React.Component {
   }
   handleSubmit = (e) => {
     const openid = this.getOpenId();
+    const { smsMessage } = this.props.base;
+    const mobile = this.state.mobile.replace(/\s/g, '');
+    const code = smsMessage && smsMessage.code ? smsMessage.code : '666666';
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        if (values.mobile.replace(/\s/g, '').length < 11) {
+        // const mobile = values.mobile.replace(/\s/g, '');
+        if (!testMobile(mobile)) {
           alert('手机号不符合格式');
           return;
         }
-        if (values.smscode !== '666666') {
+        if (values.smscode !== code) {
           alert('验证码输入错误');
           return;
         }
-        const mobile = values.mobile.replace(/\s/g, '');
-        console.log('Received values of form: ', values);
         this.props.dispatch({
-          type: 'base/register',
+          type: 'base/registerByOpenId',
           payload: {
             ...values,
-            openid: 'wxd27c1704bb78cf0c',
-            // openid,
+            // openid: 'wxd27c1704bb78cf0c',
+            openid,
             mobile,
+            smscode: values.smscode,
           },
         });
         console.log('response...', this.props.base.user);
@@ -69,7 +75,20 @@ class FormItem extends React.Component {
   timer = null;
   clockTimer = null;
   sendAuthSM() {
-    console.log('in send auth sm');
+    console.log('in send auth sm', this.state.mobile);
+    const mobile = this.state.mobile.replace(/\s/g, '');
+    if (!testMobile(mobile)) {
+      alert('手机号不符合格式！请从新输入');
+      return;
+    } else {
+      this.props.dispatch({
+        type: 'base/sendAuthSM',
+        payload: {
+          mobile,
+          type: 'REGISTER',
+        },
+      });
+    }
     this.setState({ buttonDisabled: true }, () => {
       this.countdown();
       this.timer = setTimeout(
@@ -96,14 +115,26 @@ class FormItem extends React.Component {
       1000,
     );
   }
-  // onChange(value) {
-  //   if (value.replace(/\s/g, '').length === 11) {
-  //     this.props.dispatch({
-  //       type: 'base/save',
-  //       payload: { mobile: value },
-  //     });
-  //   }
-  // }
+  onErrorClick = () => {
+    if (this.state.hasError) {
+      Toast.info('请输入是11位电话号码');
+    }
+  }
+  onChange = (value) => {
+    if (value.replace(/\s/g, '').length < 11) {
+      this.setState({
+        hasError: true,
+      });
+    } else {
+      this.setState({
+        hasError: false,
+      });
+    }
+    this.setState({
+      mobile: value,
+    });
+  }
+
   render() {
     const { getFieldProps } = this.props.form;
     const { redirect } = this.props.base;
@@ -119,6 +150,10 @@ class FormItem extends React.Component {
             {...getFieldProps('mobile')}
             type="phone"
             placeholder="请输入手机号"
+            onChange={this.onChange}
+            value={this.state.mobile}
+            error={this.state.hasError}
+            onErrorClick={this.onErrorClick}
           >手机号
           </InputItem>
           <Flex direction="row">
@@ -142,7 +177,7 @@ class FormItem extends React.Component {
 }
 FormItem.propTypes = {
 };
-const Login = createForm()(FormItem);
+const LoginWeChat = createForm()(FormItem);
 const styles = {
   smscode: {
     width: '110px',
@@ -164,4 +199,4 @@ const styles = {
     borderBottom: '1px solid #ddd',
   },
 };
-export default connect(base => (base))(Login);
+export default connect(base => (base))(LoginWeChat);
