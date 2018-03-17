@@ -99,6 +99,9 @@ class Me extends Component {
         icon: 'md-contacts',
         bg: '#fe80c4',
         component: 'Patients',
+        passProps: {
+          hideNavBarBottomLine: true,
+        },
       },
       // {
       //   text: '就诊卡',
@@ -229,7 +232,7 @@ class Me extends Component {
       if (responseData.success) {
         // 清空redux中的用户信息
         this.props.afterLogout();
-        this.props.resetWhenLogout();
+        // this.props.resetWhenLogout();
         this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
         Toast.show('您已安全退出！');
       }
@@ -354,7 +357,6 @@ class Me extends Component {
     if (!this.state.doRenderScene) {
       return Me.renderPlaceholderView();
     }
-
     let userNameHolder = null;
     if (!this.props.auth.isLoggedIn) {
       userNameHolder = (

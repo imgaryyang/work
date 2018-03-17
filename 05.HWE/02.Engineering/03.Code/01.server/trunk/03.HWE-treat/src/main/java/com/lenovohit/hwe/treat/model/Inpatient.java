@@ -103,6 +103,9 @@ public class Inpatient extends AuditableModel implements java.io.Serializable {
 
     /** name */
     private String name;
+    
+    /** gender */
+    private String gender;
 
     /** mobile */
     private String mobile;
@@ -609,6 +612,25 @@ public class Inpatient extends AuditableModel implements java.io.Serializable {
     }
 
     /**
+     * 获取性别
+     * 
+     * @return gender
+     */
+    @Column(name = "GENDER", nullable = true, length = 1)
+    public String getGender() {
+		return gender;
+	}
+    
+    /**
+     * 设置gender
+     * 
+     * @param gender
+     */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
      * 获取mobile
      * 
      * @return mobile

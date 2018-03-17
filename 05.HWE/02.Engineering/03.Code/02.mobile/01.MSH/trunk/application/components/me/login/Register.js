@@ -50,15 +50,16 @@ class Register extends Component {
     value: {},
     buttonDisabled: false,
     second: 30,
+    smsMessage: {},
   };
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '注册',
-    });
+    // this.props.navigation.setParams({
+    //   title: '注册',
+    // });
   }
   componentWillUnmount() {
     clearTimeout(this.timer);
@@ -142,7 +143,7 @@ class Register extends Component {
   clockTimer = null;
 
   sendAuthSM() {
-    console.log('in send auth sm');
+    console.log('in send auth sm', this.state.value);
     this.setState({ buttonDisabled: true }, () => {
       this.countdown();
       this.timer = setTimeout(

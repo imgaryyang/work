@@ -36,6 +36,7 @@
 		436D8CBEE0234F90A23E2C80 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B82C772625C4EE0B0B91AF5 /* MaterialCommunityIcons.ttf */; };
 		4DEEE7A0B9014FECBC71892D /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF0E23F5F0D47D685975EDF /* libRNDeviceInfo.a */; };
 		575AE65C2047F21D00091C04 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 575AE65B2047F1F700091C04 /* libRNCamera.a */; };
+		578456F12051672F00B5108C /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E8BDF2202440B30091DE4B /* libRCTCameraRoll.a */; };
 		57D3A49F37B64C59A9D33453 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEE3B5268B80470B864B844F /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		617D5C66939A453ABD82823A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A18392A03E46F987211141 /* CFNetwork.framework */; };
@@ -474,6 +475,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				578456F12051672F00B5108C /* libRCTCameraRoll.a in Frameworks */,
 				575AE65C2047F21D00091C04 /* libRNCamera.a in Frameworks */,
 				67E8BD5120219BB10091DE4B /* libstdc++.6.0.9.tbd in Frameworks */,
 				AE3D7F9B17074924B99A7C77 /* CoreTelephony.framework in Frameworks */,

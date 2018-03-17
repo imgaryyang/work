@@ -30,7 +30,7 @@ export default {
 
     // Schedule
     cond: {},
-    isLoading: false,
+    isLoading: true,
     refreshing: false,
     allData: [],
     filterData: [],
@@ -57,20 +57,21 @@ export default {
     setup({ history, dispatch }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname }) => {
-        if (pathname === '/appoint/departments') {
+        console.log('pathname', pathname);
+        if (pathname === '/stack/appoint/departments') {
           dispatch(action('forDeptTree'));
         }
-        if (pathname === '/appoint/schedule') {
+        if (pathname === '/stack/appoint/schedule') {
           const payload = history.location.state ? { ...history.location.state.dept, refreshing: true } : { refreshing: true };
           dispatch(action('forScheduleList', { ...payload }));
         }
-        if (pathname === '/appoint/source') {
+        if (pathname === '/stack/appoint/source') {
           dispatch(action('forAppointSource', {
-            // 为测试方便，写死5
-            schNo: history.location.state ? history.location.state.item.schNo : 5,
+            // 为测试方便，无值时写死5
+            schNo: history.location.state ? history.location.state.item.no : 5,
           }));
         }
-        if (pathname === '/appoint/records') {
+        if (pathname === '/stack/appoint/records') {
           dispatch(action('forReservedList'));
         }
       });
@@ -120,7 +121,7 @@ export default {
             endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
           };
           const { data } = yield call(forScheduleList, { ...newCond });
-          const { result, success, msg } = data;
+          const { result, success, msg } = data || {};
           const newAllData = result || [];
 
           const newDateData = initDateData.concat(_.uniqBy(newAllData, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
@@ -195,6 +196,7 @@ export default {
     },
 
     *forAppointSource({ payload }, { select, call, put }) {
+      yield put(save({ isLoading: true }));
       try {
         Toast.loading('正在加载', 0);
         const { currHospital } = yield select(model => model.base);
@@ -210,6 +212,7 @@ export default {
       } catch (e) {
         Toast.fail(e.toString(), 3);
       }
+      yield put(save({ isLoading: false }));
     },
 
     *forReserve({ payload }, { select, call, put }) {

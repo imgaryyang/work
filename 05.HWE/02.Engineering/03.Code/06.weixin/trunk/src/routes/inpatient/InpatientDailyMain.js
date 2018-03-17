@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { DatePicker, List, NavBar, Toast } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
+import { DatePicker, List, NavBar, Icon, Toast } from 'antd-mobile';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import styles from './InpatientDailyMain.less';
 import ProfileList from '../patients/ProfileList';
@@ -16,6 +17,7 @@ class InpatientDailyMain extends React.Component {
     this.changeDate = this.changeDate.bind(this);
     this.formatMoney = this.formatMoney.bind(this);
     this.loadInpatientDaily = this.loadInpatientDaily.bind(this);
+    this.goback = this.goback.bind(this);
     this.state = {
       selectDate: new Date(),
       maxDate: new Date(),
@@ -75,6 +77,10 @@ class InpatientDailyMain extends React.Component {
       payload: query,
     });
   }
+  goback() {
+    console.log('返回');
+    this.props.dispatch(routerRedux.goBack());
+  }
   render() {
     const { data, isLoading } = this.props.inpatientDaily;
     const itemList = [];
@@ -96,7 +102,10 @@ class InpatientDailyMain extends React.Component {
     return (
       <div>
         <NavBar
-          mode="light"
+          mode="dark"
+          leftContent="返回"
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.goback()}
         >住院日清单
         </NavBar>
         <ProfileList callback={this.callback} />

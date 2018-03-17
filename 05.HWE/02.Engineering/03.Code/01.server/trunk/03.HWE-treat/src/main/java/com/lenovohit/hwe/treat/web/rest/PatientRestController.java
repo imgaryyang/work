@@ -34,7 +34,7 @@ public class PatientRestController extends OrgBaseRestController {
 	@Autowired
 	private GenericManager<Patient, String> patientManager;
 	
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result getInfo(@PathVariable("id") String id){
 		Patient model = this.patientManager.get(id);
 		return ResultUtils.renderPageResult(model);
@@ -110,15 +110,15 @@ public class PatientRestController extends OrgBaseRestController {
 		return ResultUtils.renderSuccessResult(patients);
 	}
 	
-	@RequestMapping(value="/save",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
+	@RequestMapping(value="",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
 	public Result forCreate(@RequestBody String data){
 		Patient patient =  JSONUtils.deserialize(data, Patient.class);
 		Patient saved = this.patientManager.save(patient);
 		return ResultUtils.renderSuccessResult(saved);
 	}
 
-	@RequestMapping(value = "/remove/{id}",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
-	public Result forDelete(@PathVariable("id") String id){
+	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
+	public Result forRemove(@PathVariable("id") String id){
 		try {
 			this.patientManager.delete(id);
 		} catch (Exception e) {
@@ -129,7 +129,7 @@ public class PatientRestController extends OrgBaseRestController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/removeAll",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
-	public Result forDeleteAll(@RequestBody String data){
+	public Result forRemoveAll(@RequestBody String data){
 		List ids =  JSONUtils.deserialize(data, List.class);
 		StringBuilder idSql = new StringBuilder();
 		List<String> idvalues = new ArrayList<String>();

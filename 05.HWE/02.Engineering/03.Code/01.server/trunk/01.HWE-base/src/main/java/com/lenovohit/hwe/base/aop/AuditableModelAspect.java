@@ -42,17 +42,19 @@ public class AuditableModelAspect {
 		AuditableModel baseModel = (AuditableModel) model;
 		AuthPrincipal principal = this.getCurrentPrincipal();
 		Date now = new Date();
+		
+		if (null == baseModel.getCreatedAt()) {
+			baseModel.setCreatedAt(now);
+		}
+		baseModel.setUpdatedAt(now);
+		
 		if(null == principal) {
 			return;
 		}
 		if (null == baseModel.getCreatedBy()) {
 			baseModel.setCreatedBy(principal.getId());
 		}
-		if (null == baseModel.getCreatedAt()) {
-			baseModel.setCreatedAt(now);
-		}
 		baseModel.setUpdatedBy(principal.getId());
-		baseModel.setUpdatedAt(now);
 	}
 
 	@Transient

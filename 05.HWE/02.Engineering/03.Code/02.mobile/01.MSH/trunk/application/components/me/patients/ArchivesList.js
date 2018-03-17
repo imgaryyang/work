@@ -25,15 +25,30 @@ class ArchivesList extends Component {
   static displayName = 'ArchivesList';
   static description = '卡号列表';
 
-  static getProfiles(data) {
+  static getProfiles(data, edition, hospital) {
+    const flag = edition === Global.EDITION_SINGLE ? true : false;
+    const { id } = hospital;
     const sections = [];
     for (let i = 0; i < data.length; i++) {
       const datas = [];
       const pro = data[i].profiles;
+      console.log('pro', pro);
       for (let j = 0; j < pro.length; j++) {
-        datas.push(pro[j]);
+        if (flag) {
+          if (pro[j].hosId === id) {
+            datas.push(pro[j]);
+          }
+        } else {
+          datas.push(pro[j]);
+        }
       }
-      sections.push({ key: data[i].name, data: datas });
+      if (flag) {
+        if (data[i].id === id) {
+          sections.push({ key: data[i].name, data: datas });
+        }
+      } else {
+        sections.push({ key: data[i].name, data: datas });
+      }
     }
     return sections;
   }
@@ -140,6 +155,7 @@ class ArchivesList extends Component {
       data: item.item,
       patient: this.state.value,
       callback: this.callbacking,
+      title: '卡号认证',
     });
   }
 
@@ -151,6 +167,7 @@ class ArchivesList extends Component {
     this.props.navigate('BindArchives', {
       data: this.state.value,
       callbacks: this.callbacking,
+      title: '添加卡号',
     });
   }
 
@@ -182,6 +199,7 @@ class ArchivesList extends Component {
       this.handleRequestException(e);
     }
   }
+
   sectionComp = (info) => {
     const txt = info.section.key;
     return (
@@ -192,6 +210,7 @@ class ArchivesList extends Component {
       </View>
     );
   }
+
   renderHeader() {
     return (
       <View style={{ flexDirection: 'row', height: 40, paddingTop: 18 }}>
@@ -203,37 +222,42 @@ class ArchivesList extends Component {
       </View>
     );
   }
+
   renderDefault(status) {
     const txt = status === '1' ? '默认卡号' : '';
-    const tag = status === '1' ? styles.default : null;
+    // const tag = status === '1' ? styles.default : null;
+    const bgColor = status === '1' ? Global.colors.IOS_BLUE : 'white';
     return (
-      <View style={styles.tagContainer} >
-        <Text style={tag} >{txt}</Text>
+      <View style={[styles.tagContainer, { backgroundColor: bgColor }]} >
+        <Text style={styles.tag} >{txt}</Text>
       </View>
     );
   }
+
   renderIdentify(identify) {
     const txt = identify === '1' ? '已认证' : '未认证';
-    const tag = identify === '1' ? styles.identify : styles.unidentify;
+    // const tag = identify === '1' ? styles.identify : styles.unidentify;
+    const bgColor = identify === '1' ? Global.colors.IOS_GREEN : Global.colors.FONT_GRAY;
     return (
-      <View style={styles.tagContainer} >
-        <Text style={tag} >{txt}</Text>
+      <View style={[styles.tagContainer, { backgroundColor: bgColor }]} >
+        <Text style={styles.tag} >{txt}</Text>
       </View>
     );
   }
+
   /**
    * 渲染行数据
    */
   renderItem = (item) => {
     const defaultView = item.item.status === '1' ? (
-      <Text style={{ fontSize: 8, color: Global.colors.ORANGE }} ></Text>
+      <Text style={{ fontSize: 8, color: Global.colors.ORANGE }} />
     ) : (
-      <Button text="默认" outline size="small" onPress={() => this.gotoBind(item)} stretch={false} style={{ width: 50 }} />
+      <Button text="默认" outline size="small" onPress={() => this.gotoBind(item)} stretch={false} style={{ width: 50, height: 23 }} />
     );
     const identifyView = item.item.identify === '1' ? (
-      <Text style={{ fontSize: 8, color: Global.colors.ORANGE }} ></Text>
+      <Text style={{ fontSize: 8, color: Global.colors.ORANGE }} />
     ) : (
-      <Button text="认证" outline size="small" onPress={() => this.identify(item)} stretch={false} style={{ width: 50, marginLeft: 6 }} />
+      <Button text="认证" outline size="small" onPress={() => this.identify(item)} stretch={false} style={{ width: 50, height: 23, marginLeft: 6 }} />
     );
     return (
       <Item
@@ -246,9 +270,9 @@ class ArchivesList extends Component {
             <View style={{ flex: 1, flexDirection: 'row' }} >
               <Text style={styles.inforMain}>{item.item.name}</Text>
               <Sep width={10} />
-              <Text style={styles.inforMain}>{item.item.gender === '1' ? '男' : '女'}</Text>
+              <Text style={[styles.inforMain, { fontSize: 13, fontWeight: '300' }]}>{item.item.gender === '1' ? '男' : '女'}</Text>
             </View>
-            <Sep height={5} />
+            <Sep height={8} />
             <View style={{ flex: 1, flexDirection: 'row' }} >
               <Text style={styles.info}>卡号</Text>
               <Sep width={10} />
@@ -278,12 +302,15 @@ class ArchivesList extends Component {
     );
   }
   render() {
+    console.log('this.props.base.edition...', this.props.base.edition);
+    console.log('this.state.profiles', this.state.profiles);
+    const { currHospital, edition } = this.props.base;
     return (
       <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]}>
         <SectionList
           renderSectionHeader={this.sectionComp}
           renderItem={this.renderItem}
-          sections={ArchivesList.getProfiles(this.state.profiles)}
+          sections={ArchivesList.getProfiles(this.state.profiles, edition, currHospital)}
           keyExtractor={(item, index) => (1 + index + item)}
           ItemSeparatorComponent={() => <Sep style={{ height: Global.lineWidth, backgroundColor: Global.colors.LINE, marginLeft: 10, marginRight: 10 }} />}
           ListHeaderComponent={this.renderHeader}
@@ -317,13 +344,13 @@ const styles = StyleSheet.create({
     borderBottomColor: Global.colors.LINE,
     backgroundColor: 'white',
     marginTop: 10,
+    alignItems: 'center',
   },
   headerText: {
+    color: '#000000',
     flex: 1,
     fontSize: 16,
-    fontWeight: '500',
-    lineHeight: 40,
-    color: Global.colors.FONT_GRAY,
+    fontWeight: '400',
     paddingLeft: 15,
   },
   textLeft: {
@@ -344,12 +371,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inforMain: {
-    color: '#2C3742',
-    fontSize: 15,
+    color: '#000000',
+    fontSize: 14,
+    fontWeight: '600',
   },
   info: {
     color: '#999999',
-    fontSize: 14,
+    fontSize: 13,
   },
   tagsContainer: {
     flex: 1,
@@ -357,30 +385,47 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   tagContainer: {
-    padding: 2,
+    // padding: 3,
+    paddingLeft: 4,
+    paddingRight: 4,
     borderRadius: 3,
+    overflow: 'hidden',
+    height: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  identify: {
-    padding: 2,
-    borderRadius: 4,
+  tag: {
     fontSize: 9,
+    lineHeight: 9,
     color: 'white',
-    backgroundColor: Global.colors.IOS_GREEN,
   },
-  unidentify: {
-    padding: 2,
-    borderRadius: 4,
-    fontSize: 9,
-    color: 'white',
-    backgroundColor: Global.colors.IOS_LIGHT_GRAY,
-  },
-  default: {
-    padding: 2,
-    borderRadius: 3,
-    fontSize: 9,
-    color: 'white',
-    backgroundColor: Global.colors.IOS_BLUE,
-  },
+  // identify: {
+  //   padding: 2,
+  //   paddingLeft: 4,
+  //   paddingRight: 4,
+  //   borderRadius: 3,
+  //   fontSize: 9,
+  //   color: 'white',
+  //   backgroundColor: Global.colors.IOS_GREEN,
+  // },
+  // unidentify: {
+  //   padding: 2,
+  //   paddingLeft: 4,
+  //   paddingRight: 4,
+  //   borderRadius: 3,
+  //   fontSize: 9,
+  //   color: 'white',
+  //   backgroundColor: Global.colors.IOS_LIGHT_GRAY,
+  // },
+  // default: {
+  //   padding: 2,
+  //   paddingLeft: 4,
+  //   paddingRight: 4,
+  //   borderRadius: 3,
+  //   fontSize: 9,
+  //   color: 'white',
+  //   backgroundColor: Global.colors.IOS_BLUE,
+  // },
   undefault: {
     padding: 2,
     borderRadius: 3,

@@ -53,9 +53,9 @@ class AddPatient extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '添加就诊人',
-    });
+    // this.props.navigation.setParams({
+    //   title: '添加就诊人',
+    // });
   }
 
   componentWillUnmount() {

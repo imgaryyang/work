@@ -26,14 +26,16 @@ import Portrait from '../components/me/profile/Portrait';
 // components of me/patients
 import Patients from '../components/me/patients/Patients';
 import PatientList from '../components/me/patients/PatientList';
-import AddPatient from '../components/me/patients/AddPatient';
+import PatientListNew from '../components/me/patients/PatientListNew';
+import AddPatient from '../components/me/patients/AddPatient'; // 多医院
+import AddPatientSingle from '../components/me/patients/AddPatientSingle'; // 单医院
 import EditPatient from '../components/me/patients/EditPatient';
 import EditMyPatient from '../components/me/patients/EditMyPatient';
 import ChangePatient from '../components/me/patients/ChangePatient';
 import BindArchives from '../components/me/patients/BindArchives';
 import Identify from '../components/me/patients/Identify';
 import Identify2 from '../components/me/patients/Identify2';
-import ArchivesList from '../components/me/patients/ArchivesList';
+import ArchivesList2 from '../components/me/patients/ArchivesList2';
 import AddArchives from '../components/me/patients/AddArchives';
 
 
@@ -147,6 +149,10 @@ import Demo from '../components/tmpl/sample/Demo';
 // components of guide 导诊
 import Guide from '../components/guide/OutpatientGuidance';
 
+// components of inpatient 住院
+import InpatientInfo from '../components/inpatient/InpatientInfo';
+import InpatientDailyBill from '../components/inpatient/InpatientDailyBill';
+
 const initOptions = { headerTruncatedBackTitle: '返回' };
 
 export default {
@@ -173,9 +179,11 @@ export default {
   // components of me/patients
   Patients: { screen: Patients }, // 常用就诊人
   PatientList: { screen: PatientList }, // 就诊人组件
-  AddPatient: { screen: AddPatient }, // 新增就诊人
+  PatientListNew: { screen: PatientListNew }, // 就诊人组件
+  AddPatient: { screen: AddPatient }, // 新增就诊人 多医院
+  AddPatientSingle: { screen: AddPatientSingle }, // 新增就诊人 单医院
   BindArchives: { screen: BindArchives }, // 绑定档案
-  ArchivesList: { screen: ArchivesList }, // 档案列表
+  ArchivesList2: { screen: ArchivesList2 }, // 档案列表
   Identify: { screen: Identify }, // 档案认证
   Identify2: { screen: Identify2 }, // 档案认证
   AddArchives: { screen: AddArchives }, // 新建档案
@@ -296,4 +304,8 @@ export default {
 
   // components of guide
   Guide: { screen: Guide }, // 导诊
+
+  // components of inpatient
+  InpatientInfo: { screen: InpatientInfo }, // 住院单查询
+  InpatientDailyBill: { screen: InpatientDailyBill }, // 住院日清单
 };

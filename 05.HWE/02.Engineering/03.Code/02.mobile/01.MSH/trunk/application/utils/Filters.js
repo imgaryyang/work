@@ -129,3 +129,5 @@ export function filterHtmlForWiki(str) {
   // console.log('>>>>>rst:', rst);
   return rst;
 }
+
+export function isValidArray(array)

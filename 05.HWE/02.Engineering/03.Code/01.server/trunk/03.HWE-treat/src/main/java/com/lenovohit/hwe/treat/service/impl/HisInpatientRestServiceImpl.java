@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.lenovohit.hwe.treat.dto.GenericRestDto;
 import com.lenovohit.hwe.treat.model.Inpatient;
+import com.lenovohit.hwe.treat.model.InpatientChargeDetail;
 import com.lenovohit.hwe.treat.service.HisInpatientService;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
@@ -14,10 +15,12 @@ import com.lenovohit.hwe.treat.transfer.RestListResponse;
 public class HisInpatientRestServiceImpl implements HisInpatientService {
 	
 	GenericRestDto<Inpatient> dto;
+	GenericRestDto<InpatientChargeDetail> inpatientDailyDto;
 	
-	public HisInpatientRestServiceImpl(final GenericRestDto<Inpatient> dto) {
+	public HisInpatientRestServiceImpl(final GenericRestDto<Inpatient> dto, final GenericRestDto<InpatientChargeDetail> inpatientDailyDto) {
 		super();
 		this.dto = dto;
+		this.inpatientDailyDto = inpatientDailyDto;
 	}
 	
 	public HisInpatientRestServiceImpl(){
@@ -30,7 +33,7 @@ public class HisInpatientRestServiceImpl implements HisInpatientService {
 		return dto.getForEntity("hcp/app/base/inpatient/info", model);
 	}
 	@Override
-	public RestListResponse<Inpatient> findList(Inpatient model, Map<String, ?> variables) {
-		return dto.getForList("hcp/app/base/inpatient/list", model, variables);
+	public RestListResponse<InpatientChargeDetail> findDailyList(Inpatient model, Map<String, ?> variables) {
+		return inpatientDailyDto.getForList("hcp/app/base/inpatient/list", model, variables);
 	}	
 }

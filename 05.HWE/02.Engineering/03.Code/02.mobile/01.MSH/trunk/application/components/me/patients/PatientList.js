@@ -17,6 +17,7 @@ import Item from '../../../modules/PureListItem';
 import ctrlState from '../../../modules/ListState';
 import { list } from '../../../services/me/PatientService';
 import { updateUser } from '../../../actions/base/AuthAction';
+import { setCurrPatient } from '../../../actions/base/BaseAction';
 
 const relations = {
   0: '本人',
@@ -102,6 +103,7 @@ class PatientList extends Component {
   }
   gotoEdit(item) {
     // 回调列表更新数据
+    this.props.setCurrPatient(item);
     const { callback, route, routeData } = this.props.navigation.state.params;
     const data = this.renderProfile(this.state.hospital, item);
     if (typeof callback === 'function') callback(item, data);
@@ -216,6 +218,7 @@ class PatientList extends Component {
 
   render() {
     if (!this.state.doRenderScene) { return PatientList.renderPlaceholderView(); }
+    console.log('PatientList', this.state.data);
     return (
       <View style={Global.styles.CONTAINER}>
         <View
@@ -286,6 +289,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUser(user)),
+  setCurrPatient: patient => dispatch(setCurrPatient(patient)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientList);

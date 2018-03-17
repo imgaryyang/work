@@ -25,7 +25,6 @@ import com.lenovohit.hwe.treat.model.Record;
 import com.lenovohit.hwe.treat.model.RecordDrug;
 import com.lenovohit.hwe.treat.model.RecordTest;
 import com.lenovohit.hwe.treat.model.TestDetail;
-import com.lenovohit.hwe.treat.service.HisActivityService;
 import com.lenovohit.hwe.treat.service.HisDiagnoseService;
 import com.lenovohit.hwe.treat.service.HisRecordDrugService;
 import com.lenovohit.hwe.treat.service.HisRecordService;

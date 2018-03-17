@@ -61,9 +61,9 @@ class EditPatient extends Component {
         },
       });
     });
-    this.props.navigation.setParams({
-      title: '编辑就诊人',
-    });
+    // this.props.navigation.setParams({
+    //   title: '编辑就诊人',
+    // });
   }
 
   componentWillUnmount() {

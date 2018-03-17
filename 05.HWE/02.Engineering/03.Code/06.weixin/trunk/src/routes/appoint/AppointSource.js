@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Flex } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import less from './AppointSource.less';
-import { action, clientWidth } from '../../utils/common';
+import { action, clientWidth, isValidArray } from '../../utils/common';
 
 class AppointSource extends React.Component {
   constructor(props) {
@@ -12,11 +12,10 @@ class AppointSource extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(action('appoint/save', { appointSourceData: [] }));
+    this.props.dispatch(action('appoint/save', { appointSourceData: [], isLoading: true }));
   }
 
   onClickItem(item) {
-    console.log('item', item);
     this.props.dispatch(routerRedux.push({
       pathname: 'appoint',
       state: { item },
@@ -24,7 +23,7 @@ class AppointSource extends React.Component {
   }
 
   render() {
-    const { selectSchedule, appointSourceData } = this.props.appoint;
+    const { selectSchedule, appointSourceData, isLoading } = this.props.appoint;
     const { depName, clinicTypeName, clinicDate, shiftName } = selectSchedule;
     const title = `${depName} > ${clinicTypeName} > ${clinicDate} > ${shiftName}`;
     return (
@@ -32,6 +31,7 @@ class AppointSource extends React.Component {
         <div className={less.title}>{title}</div>
         <Flex direction="row" wrap="wrap">
           {
+            isValidArray(appointSourceData) ?
             appointSourceData.map((item, index) => {
               return (
                 <Flex
@@ -45,7 +45,7 @@ class AppointSource extends React.Component {
                   <Flex justify="center" align="center" className={less.right}>{item.clinicTime}</Flex>
                 </Flex>
               );
-            })
+            }) : (isLoading ? null : <div className={less.noData}>查无号源数据</div>)
           }
         </Flex>
       </div>

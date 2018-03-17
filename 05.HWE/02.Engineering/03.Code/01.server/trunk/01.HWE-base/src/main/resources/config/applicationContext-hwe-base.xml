@@ -147,4 +147,12 @@
 	</bean>
 	<!-- **************** 新闻 news END **************** -->
 	
+	<!-- **************** 短信 START **************** -->
+	<bean id="smsMessageDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.base.model.SmsMessage" />
+	</bean>
+	<bean id="smsMessageManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="smsMessageDao" />
+	</bean>
+	<!-- **************** 短信 END **************** -->
 </beans>

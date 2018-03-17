@@ -40,12 +40,13 @@ public class CalipayTappPayServiceImpl implements PayBaseService {
 	public void prePay(Settlement settlement) {
 		try {
 			Configuration config = PayMerchantConfigCache.getConfig(settlement.getPayType().getPayMerchant());
-			PrePayData prePayData = new PrePayData(config.getString("ALI_URL"), 
-					config.getString("APP_ID"),
-					config.getString("APP_PRIVATE_KEY"),
-					config.getString("CHARSET"),
-					config.getString("ALIPAY_PUBLIC_KEY"),
-					config.getString("ENCRYPT_TYPE"),
+			PrePayData prePayData = new PrePayData(
+					config.getString("open_api_domain"), 
+					config.getString("appid"),
+					config.getString("private_key"),
+					"utf-8",
+					config.getString("alipay_public_key"),
+					config.getString("sign_type"),
 					config.getString("trade_out_time"),
 					config.getString("local_domain") + config.getString("pay_callback_url") + settlement.getId());
 			AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();

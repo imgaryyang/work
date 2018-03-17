@@ -22,7 +22,14 @@ class NewsContent extends React.Component {
           <div className={style['title']} >{data[rowID].caption}</div>
           <div className={style['date']} >{data[rowID].createdAt}</div>
         </div>
-        <div className={style['img']} ><img style={{ width: 320, height: 170, marginTop: 10 }} alt="" src={require(`../../assets/images/${data[rowID].image}`)} /></div>
+        <div className={style['img']} >
+          <img
+            style={{ width: 320, height: 170, marginTop: 10 }}
+            alt=""
+            // TODO: 图片指向java后台维护的新闻图片
+            // src={require(`../../assets/images/${data[rowID].image}`)}
+          />
+        </div>
         <div className={style['body']}>&nbsp;&nbsp;{ data[rowID].body}</div>
       </div>
     );

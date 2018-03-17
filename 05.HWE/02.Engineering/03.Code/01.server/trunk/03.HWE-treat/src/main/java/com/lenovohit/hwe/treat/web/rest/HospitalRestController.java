@@ -22,7 +22,6 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Hospital;
-import com.lenovohit.hwe.treat.service.HisHospitalService;
 
 /**
  * 医院管理
@@ -34,10 +33,8 @@ public class HospitalRestController extends OrgBaseRestController {
 
 	@Autowired
 	private GenericManager<Hospital, String> hospitalManager;
-	@Autowired
-	private HisHospitalService hisHospitalService;
 	
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result getInfo(@PathVariable("id") String id){
 		Hospital model = this.hospitalManager.get(id);
 		return ResultUtils.renderPageResult(model);
@@ -57,7 +54,7 @@ public class HospitalRestController extends OrgBaseRestController {
 		
 		if(!StringUtils.isEmpty(query.getName())){
 			jql.append(" and name like ? ");
-			values.add("'%"+ query.getName() + "%'");
+			values.add("%"+ query.getName() + "%");
 		}
 		
 		if(!StringUtils.isEmpty(query.getNo())){
@@ -133,15 +130,15 @@ public class HospitalRestController extends OrgBaseRestController {
 		return ResultUtils.renderSuccessResult(hospitals);
 	}
 	
-	@RequestMapping(value="/save",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
+	@RequestMapping(value="",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
 	public Result forCreate(@RequestBody String data){
-		Hospital hospital =  JSONUtils.deserialize(data, Hospital.class);
-		Hospital saved = this.hospitalManager.save(hospital);
+		Hospital model =  JSONUtils.deserialize(data, Hospital.class);
+		Hospital saved = this.hospitalManager.save(model);
 		return ResultUtils.renderSuccessResult(saved);
 	}
 
-	@RequestMapping(value = "/remove/{id}",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
-	public Result forDeleteHospital(@PathVariable("id") String id){
+	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
+	public Result forRemove(@PathVariable("id") String id){
 		try {
 			this.hospitalManager.delete(id);
 		} catch (Exception e) {
@@ -152,7 +149,7 @@ public class HospitalRestController extends OrgBaseRestController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/removeAll",method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
-	public Result forDeleteAll(@RequestBody String data){
+	public Result forRemoveAll(@RequestBody String data){
 		List ids =  JSONUtils.deserialize(data, List.class);
 		StringBuilder idSql = new StringBuilder();
 		List<String> idvalues = new ArrayList<String>();

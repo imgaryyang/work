@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ListView, PullToRefresh, Flex, Icon, Toast, Radio, Modal } from 'antd-mobile';
+import { ListView, PullToRefresh, Flex, Icon, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import less from './Schedule.less';
 import { action, initPage, colors, clientHeight } from '../../utils/common';
+import ModalSelect from '../../components/ModalSelect';
 import { initAreaData, initJobTitleData, initDateData, initShiftData } from '../../models/appointModel';
-
-const { RadioItem } = Radio;
 
 class Schedule extends React.Component {
   constructor(props) {
@@ -16,10 +15,7 @@ class Schedule extends React.Component {
     this.onSelectRow = this.onSelectRow.bind(this);
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onJobTitleChange = this.onJobTitleChange.bind(this);
-    this.onShiftChange = this.onShiftChange.bind(this);
-    this.onAreaChange = this.onAreaChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.renderRow = this.renderRow.bind(this);
 
     this.state = {
@@ -34,8 +30,8 @@ class Schedule extends React.Component {
   componentWillUnmount() {
     // unmount时清理数据
     this.props.dispatch(action('appoint/save', {
-      cond: {},
-      isLoading: false,
+      // cond: {},
+      isLoading: true,
       refreshing: false,
       allData: [],
       filterData: [],
@@ -79,41 +75,25 @@ class Schedule extends React.Component {
 
       this.props.dispatch(routerRedux.push({
         pathname: 'source',
-        state: { item: { ...item, schNo: 5 } }, // 写死5，方便测试
+        state: { item },
       }));
     } else {
       Toast.info('该排班已约满，请选择其他排班！', 1);
     }
   }
 
-  onDateChange(selectedDate) {
-    this.props.dispatch(action('appoint/filterData', { selectedDate })).then(() => {
-    });
-    this.closeModal('dateModal');
+  onChange(propKey, modalKey, item) {
+    this.props.dispatch(action('appoint/filterData', { [propKey]: item }));
+    this.closeModal(modalKey);
   }
 
-  onJobTitleChange(selectedJobTitle) {
-    this.props.dispatch(action('appoint/filterData', { selectedJobTitle }));
-    this.closeModal('jobTitleModal');
-  }
-
-  onShiftChange(selectedShift) {
-    this.props.dispatch(action('appoint/filterData', { selectedShift }));
-    this.closeModal('shiftModal');
-  }
-
-  onAreaChange(selectedArea) {
-    this.props.dispatch(action('appoint/filterData', { selectedArea }));
-    this.closeModal('areaModal');
-  }
-
-  showModal(e, key) {
+  showModal(e, modalKey) {
     e.preventDefault();
-    this.setState({ [key]: true });
+    this.setState({ [modalKey]: true });
   }
 
-  closeModal(key) {
-    this.setState({ [key]: false });
+  closeModal(modalKey) {
+    this.setState({ [modalKey]: false });
   }
 
   renderRow(item, sectionId, rowId) {
@@ -156,6 +136,8 @@ class Schedule extends React.Component {
       page,
     } = this.props.appoint;
 
+    const { dateModal, jobTitleModal, shiftModal, areaModal, dataSource } = this.state;
+
     return (
       <div>
         <Flex direction="row" justify="around" className={less.topBar}>
@@ -168,7 +150,7 @@ class Schedule extends React.Component {
           <div className={less.item} onClick={e => this.showModal(e, 'areaModal')}>{selectedArea.label}</div>
         </Flex>
         <ListView
-          dataSource={this.state.dataSource.cloneWithRows(renderData)}
+          dataSource={dataSource.cloneWithRows(renderData)}
           renderRow={(item, sectionId, rowId) => this.renderRow(item, sectionId, rowId)}
           renderSeparator={(sectionId, rowId) => <div key={rowId} className={less.sep} />}
           renderFooter={() => (
@@ -177,89 +159,40 @@ class Schedule extends React.Component {
             </div>
           )}
           style={{ height: clientHeight - 42, overflow: 'auto' }}
-          pullToRefresh={
-            <PullToRefresh refreshing={refreshing} onRefresh={this.onRefresh} />
-          }
+          pullToRefresh={<PullToRefresh refreshing={refreshing} onRefresh={this.onRefresh} />}
           pageSize={8}
           initialListSize={0}
           scrollRenderAheadDistance={500}
           onEndReachedThreshold={10}
           onEndReached={this.onEndReached}
         />
-        <Modal
-          visible={this.state.dateModal}
-          transparent
-          animationType="fade"
+        <ModalSelect
+          visible={dateModal}
+          data={dateData}
           onClose={() => this.closeModal('dateModal')}
-          className={less.modal}
-        >
-          <div style={{ maxHeight: (clientHeight * 0.8) }}>
-            {
-              dateData.map(item => (
-                <RadioItem key={item.value} checked={selectedDate.value === item.value} onClick={() => this.onDateChange(item)}>
-                  <span className={less.font14}>{item.label}</span>
-                </RadioItem>
-              ))
-            }
-          </div>
-        </Modal>
-        <Modal
-          visible={this.state.jobTitleModal}
-          transparent
-          animationType="fade"
+          onSelect={item => this.onChange('selectedDate', 'dateModal', item)}
+        />
+        <ModalSelect
+          visible={jobTitleModal}
+          data={jobTitleData}
           onClose={() => this.closeModal('jobTitleModal')}
-          className={less.modal}
-        >
-          <div style={{ maxHeight: (clientHeight * 0.8) }}>
-            {
-              jobTitleData.map(item => (
-                <RadioItem key={item.value} checked={selectedJobTitle.value === item.value} onClick={() => this.onJobTitleChange(item)}>
-                  <span className={less.font14}>{item.label}</span>
-                </RadioItem>
-              ))
-            }
-          </div>
-        </Modal>
-        <Modal
-          visible={this.state.shiftModal}
-          transparent
-          animationType="fade"
+          onSelect={item => this.onChange('selectedJobTitle', 'jobTitleModal', item)}
+        />
+        <ModalSelect
+          visible={shiftModal}
+          data={shiftData}
           onClose={() => this.closeModal('shiftModal')}
-          className={less.modal}
-        >
-          <div style={{ maxHeight: (clientHeight * 0.8) }}>
-            {
-              shiftData.map(item => (
-                <RadioItem key={item.value} checked={selectedShift.value === item.value} onClick={() => this.onShiftChange(item)}>
-                  <span className={less.font14}>{item.label}</span>
-                </RadioItem>
-              ))
-            }
-          </div>
-        </Modal>
-        <Modal
-          visible={this.state.areaModal}
-          transparent
-          animationType="fade"
+          onSelect={item => this.onChange('selectedShift', 'shiftModal', item)}
+        />
+        <ModalSelect
+          visible={areaModal}
+          data={areaData}
           onClose={() => this.closeModal('areaModal')}
-          className={less.modal}
-        >
-          <div style={{ maxHeight: (clientHeight * 0.8) }}>
-            {
-              areaData.map(item => (
-                <RadioItem key={item.value} checked={selectedArea.value === item.value} onClick={() => this.onAreaChange(item)}>
-                  <span className={less.font14}>{item.label}</span>
-                </RadioItem>
-              ))
-            }
-          </div>
-        </Modal>
+          onSelect={item => this.onChange('selectedArea', 'areaModal', item)}
+        />
       </div>
     );
   }
 }
-
-Schedule.propTypes = {
-};
 
 export default connect(appoint => (appoint))(Schedule);

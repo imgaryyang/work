@@ -4,7 +4,6 @@ import {
   View,
   Text,
 } from 'react-native';
-
 import moment from 'moment';
 import Portrait from 'rn-easy-portrait';
 import Global from '../../../Global';
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 0,
     flexDirection: 'column',
-    paddingLeft: 10,
+    paddingLeft: 15,
     paddingTop: 15,
     paddingBottom: 15,
     backgroundColor: 'white',
@@ -100,10 +99,11 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 15,
     color: Global.colors.FONT_GRAY,
+    width: 65,
   },
   contentText: {
     fontSize: 15,
-    marginLeft: 10,
+    // marginLeft: 15,
   },
   orange: {
     color: Global.colors.ORANGE,

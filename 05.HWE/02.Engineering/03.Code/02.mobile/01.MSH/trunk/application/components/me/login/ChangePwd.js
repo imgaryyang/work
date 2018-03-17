@@ -48,9 +48,9 @@ class ChangePwd extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '修改密码',
-    });
+    // this.props.navigation.setParams({
+    //   title: '修改密码',
+    // });
   }
 
   onChange(fieldName, fieldValue, formValue) {

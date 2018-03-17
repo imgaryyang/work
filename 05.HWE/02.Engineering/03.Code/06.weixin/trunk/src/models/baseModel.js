@@ -36,26 +36,56 @@ export default {
     currHospital: hospital,
     info: {}, // 获得微信平台的基本信息 比如关于我们 联系我们 反馈意见等
     smsMessage: {},
+    screen: {
+      width: 0,
+      height: 0,
+      wsInTabHeight: 0,
+      wsInStackHeight: 0,
+    },
+    slideMenuIdx: 0,
+    title: '',
+    showCurrHospitalAndPatient: false,
+    allowSwitchHospital: true,
+    allowSwitchPatient: true,
+    hideNavBarBottomLine: false,
+    headerRight: null,
   },
 
   subscriptions: {
   },
 
   effects: {
+    *setScreen({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          screen: {
+            width: payload.width,
+            height: payload.height,
+            wsInTabHeight: payload.height - 50,
+            wsInStackHeight: payload.height - 45,
+          },
+        },
+      });
+    },
     *loginByOpenId({ payload }, { call, put }) {  // eslint-disable-line
       const { openid } = payload;
       yield put({ type: 'save', payload: { openid } });
       const { data } = yield call(loginByOpenId, openid);
       const { success, result } = data || {};
+      const { map } = result;
+      console.log('map', map);
+      const profiles = map && map.profiles ? map.profiles : [];
       if (success === true) {
         yield put({
           type: 'save',
           payload: {
+            profiles,
             user: result || {},
             loginResult: success,
           },
         });
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/home/hfc'));
       } else {
         yield put(routerRedux.push('/loginWeChat'));
       }
@@ -65,15 +95,19 @@ export default {
       yield put({ type: 'save', payload: { userId } });
       const { data } = yield call(loginByUserId, userId);
       const { success, result } = data || {};
+      const { map } = result;
+      console.log('map', map);
+      const profiles = map && map.profiles ? map.profiles : [];
       if (success === true) {
         yield put({
           type: 'save',
           payload: {
+            profiles,
             user: result || {},
             loginResult: success,
           },
         });
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/home/hfc'));
       } else {
         yield put(routerRedux.push('/loginZFB'));
       }
@@ -106,7 +140,7 @@ export default {
             redirect: true,
           },
         });
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/home/hfc'));
       } else {
         alert(data.msg);
         yield put(routerRedux.push('/loginWeChat'));
@@ -128,7 +162,7 @@ export default {
             redirect: true,
           },
         });
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/home/hfc'));
       } else {
         alert(data.msg);
         yield put(routerRedux.push('/loginZFB'));
@@ -150,7 +184,7 @@ export default {
       } else if (openid) {
         yield put(routerRedux.push('/loginWeChat'));
       } else {
-        yield put(routerRedux.push('/home'));
+        yield put(routerRedux.push('/home/hfc'));
       }
       if (callback) callback();
     },

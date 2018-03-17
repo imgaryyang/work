@@ -3,6 +3,7 @@ package com.lenovohit.hwe.treat.service;
 import java.util.Map;
 
 import com.lenovohit.hwe.treat.model.Inpatient;
+import com.lenovohit.hwe.treat.model.InpatientChargeDetail;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
 
@@ -33,5 +34,5 @@ public interface HisInpatientService {
 	 *@author GW
 	 *@date 2018年2月1日             
 	*/
-	public RestListResponse<Inpatient> findList(Inpatient inpatient, Map<String, ?> variables);
+	public RestListResponse<InpatientChargeDetail> findDailyList(Inpatient inpatient, Map<String, ?> variables);
 }

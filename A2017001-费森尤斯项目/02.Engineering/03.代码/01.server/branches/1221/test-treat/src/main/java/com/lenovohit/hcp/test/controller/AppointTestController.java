@@ -129,7 +129,7 @@ public class AppointTestController extends AuthorityRestController {
 //			values.add(query.getProNo());
 //			values.add(query.getMobile());
 //			values.add(query.getIdNo());
-			jql.append(" and status is not null order by abs(num)");
+			jql.append(" and status is not null order by appointTime desc, abs(num)");
 			List<TestAppoint> appoints = this.testAppointManager.find(jql.toString(),values.toArray());
 			
 			log.info("\n======== forReservedList Success End ========\nlist:\n"+JSONUtils.serialize(appoints));

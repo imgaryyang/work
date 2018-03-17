@@ -5,9 +5,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.el.parser.ELParserTreeConstants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.dom4j.Document;
@@ -31,11 +34,16 @@ import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
+import com.lenovohit.hwe.base.model.SmsMessage;
+import com.lenovohit.hwe.mobile.core.model.UserPatient;
+import com.lenovohit.hwe.mobile.core.model.UserPatientProfile;
 import com.lenovohit.hwe.mobile.weixin.configration.WeixinMpProperties;
 import com.lenovohit.hwe.mobile.weixin.mananger.WeixinBaseManger;
 import com.lenovohit.hwe.mobile.weixin.model.WeixinToken;
 import com.lenovohit.hwe.org.model.Account;
 import com.lenovohit.hwe.org.model.User;
+import com.lenovohit.hwe.treat.model.Profile;
+
 @RestController
 @RequestMapping("/hwe/weixin/common")
 @EnableConfigurationProperties(WeixinMpProperties.class)
@@ -50,13 +58,19 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	private GenericManager<Account, String> accountManager;
 	@Autowired
 	private GenericManager<User, String> userManager;
-	
+	@Autowired
+	private GenericManager<UserPatient, String> userPatientManager;
+	@Autowired
+	private GenericManager<UserPatientProfile, String> userPatientProfileManager;
+	@Autowired
+	private GenericManager<SmsMessage, String> smsMessageManager;
+
 	@RequestMapping(value = "/base", method = RequestMethod.GET, produces = MediaTypes.TEXT_PLAIN_UTF_8)
 	public String signature(@RequestParam(value = "signature") String signature, // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数
 			@RequestParam(value = "timestamp") String timestamp, // 时间戳
 			@RequestParam(value = "nonce") String nonce, // 随机数
 			@RequestParam(value = "echostr") String echostr// 随机字符串
-	) {
+			) {
 		System.out.println("signature ： " + signature);
 		System.out.println("timestamp ： " + timestamp);
 		System.out.println("nonce ： " + nonce);
@@ -93,7 +107,7 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 		String MsgType = docMap.get("MsgType").toString();
 		String Content = docMap.get("Content").toString();
 		String MsgId = docMap.get("MsgId").toString();
-		*/
+		 */
 		// PicUrl MediaId
 		/**
 		 <xml><ToUserName><![CDATA[gh_281bf8ad6d8f]]></ToUserName>
@@ -103,7 +117,7 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 		 <Content><![CDATA[1]]></Content>
 		 <MsgId>6515628816421842505</MsgId>
 		 </xml>
-		*/
+		 */
 		/**
 		 <xml><ToUserName><![CDATA[gh_281bf8ad6d8f]]></ToUserName>
 		 <FromUserName><![CDATA[oFTG9w-pyYc4iBPJvUSHo9HIFGzg]]></FromUserName>
@@ -113,12 +127,12 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 		 <MsgId>6515628936680926796</MsgId>
 		 <MediaId><![CDATA[sV1K4yGfgBgGPkK2Vzk6_6OBFOkFuYJvPouyJqgv84bpm9nVFBk9Pt9esoM3U3Ia]]></MediaId>
 		 </xml>
-		*/
+		 */
 		String xml ="<xml>" 
-			+ "<ToUserName><![CDATA[" + FromUserName + "]]></ToUserName>" + "<FromUserName><![CDATA["
-			+ ToUserName + "]]></FromUserName>" + "<CreateTime>" + System.currentTimeMillis()
-			+ "</CreateTime>" + "<MsgType><![CDATA[text]]></MsgType>" + "<Content><![CDATA[你好]]></Content>"
-			+ "</xml>";
+				+ "<ToUserName><![CDATA[" + FromUserName + "]]></ToUserName>" + "<FromUserName><![CDATA["
+				+ ToUserName + "]]></FromUserName>" + "<CreateTime>" + System.currentTimeMillis()
+				+ "</CreateTime>" + "<MsgType><![CDATA[text]]></MsgType>" + "<Content><![CDATA[你好]]></Content>"
+				+ "</xml>";
 
 		return xml;
 	}
@@ -154,7 +168,12 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			AuthAccountToken authToken = new AuthAccountToken(model);
 			subject.login(authToken);
 			User user = this.getCurrentUser();
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Profile> profiles = getMyProfiles();
+			map.put("profiles", profiles);
+			user.setMap(map);
 			user.setSessionId(this.getSession().getId());
+			user.setLoginAccount(model);
 			return ResultUtils.renderSuccessResult(user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,14 +193,19 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			if(null == dataMap && dataMap.isEmpty()){
 				throw new BaseException("输入数据为空！");
 			}
-			Object mobile = dataMap.get("mobile");
-			Object smscode = dataMap.get("smscode");
-			Object openid = dataMap.get("openid");
+			String openid = dataMap.get("openid").toString();
+			String mobile = dataMap.get("mobile").toString();
+//			String smscode = dataMap.get("smscode").toString();
+//			String smsId = dataMap.get("smsId").toString();
 			// 业务数据校验
 			if (StringUtils.isEmpty(openid)) {
-				throw new BaseException("注册出错！");
+				throw new BaseException("非法请求！");
 			}
-			//TODO 校验验证码
+			// 验证码校验
+//			Result result = validCode(smsId, smscode);
+//			if(!result.isSuccess()){
+//				return result;
+//			}
 			User user = null;
 			Account model = this.accountManager.findOne("from Account u where u.username=? ", openid);
 			if (null != model && !StringUtils.isEmpty(model.getId())) {
@@ -190,20 +214,25 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 				AuthAccountToken authToken = new AuthAccountToken(model);
 				subject.login(authToken);
 				user = this.getCurrentUser();
+				Map<String, Object> map = new HashMap<String, Object>();
+				List<Profile> profiles = getMyProfiles();
+				map.put("profiles", profiles);
+				user.setMap(map);
 				user.setSessionId(this.getSession().getId());
 				return ResultUtils.renderSuccessResult(user);
 			} else {
 				model = new Account();
 				user = new User();
-				model.setUsername(openid.toString());
+				model.setUsername(openid);
 				model.setPassword(properties.getSecret());
+				model.setType("wx");
 				model = (Account) AuthUtils.encryptAccount(model);
-				
+
 				user.setIsActive("1");
-				user.setMobile(mobile.toString());
+				user.setMobile(mobile);
 				user.setLoginAccount(model);
 				user = this.userManager.save(user);
-				
+
 				model.setUser(user);
 				this.accountManager.save(model);
 				user.setSessionId(this.getSession().getId());
@@ -229,7 +258,118 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			e.printStackTrace();
 			return ResultUtils.renderFailureResult("用户名或密码错误，请从新登陆");
 		}
-		
+
+	}
+	/**
+	 * 更新档案
+	 * @return
+	 */
+	@RequestMapping(value = "/getProfiles", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result getProfiles() {
+		User user = this.getCurrentUser();
+		List<UserPatient> userPatients = this.userPatientManager.find(" from UserPatient where userId = ? ", user.getId());
+		List<Profile> list = new ArrayList<Profile>();
+		if(!userPatients.isEmpty() && userPatients.size()>0){
+			for(UserPatient userPatient : userPatients) {
+				List<Profile> profiles = getProfile(userPatient.getId(), "8a81a7db4dad2271014dad2271e20001");
+				if(!profiles.isEmpty() && profiles.size()>0) {
+					for(Profile profile : profiles){
+						list.add(profile);
+					}
+				}
+			}
+			return ResultUtils.renderSuccessResult(list);
+		}
+		return null;
+	}
+	public List<Profile> getMyProfiles() {
+		User user = this.getCurrentUser();
+		List<UserPatient> userPatients = this.userPatientManager.find(" from UserPatient where userId = ? ", user.getId());
+		List<Profile> list = new ArrayList<Profile>();
+		if(!userPatients.isEmpty() && userPatients.size()>0){
+			for(UserPatient userPatient : userPatients) {
+				List<Profile> profiles = getProfile(userPatient.getId(), "8a81a7db4dad2271014dad2271e20001");
+				if(!profiles.isEmpty() && profiles.size()>0) {
+					for(Profile profile : profiles){
+						list.add(profile);
+					}
+				}
+			}
+			return list;
+		}
+		return null;
+	}
+	/**
+	 * 修改个人资料
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/doSave", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Result forChangeUserInfo(@RequestBody String data) {
+		// 数据校验
+		if (StringUtils.isEmpty(data)) {
+			throw new BaseException("输入数据为空！");
+		}
+		User model = JSONUtils.deserialize(data, User.class);
+		if (null == model) {
+			throw new BaseException("输入数据为空！");
+		}
+		User user = this.getCurrentUser();
+		user.setName(model.getName());
+		user.setIdNo(model.getIdNo());
+		this.userManager.save(user);
+
+		return ResultUtils.renderSuccessResult(user);
+	}
+	/**
+	 * 获取当前就诊人关联的档案
+	 * @param userPatientId
+	 * @return
+	 */
+	public List<Profile> getProfile(String userPatientId, String hospitalId){
+		String sql = "select p.ID,p.NAME,p.NO,p.HOS_ID,p.HOS_NO,p.HOS_NAME,p.ID_NO,r.STATUS,r.IDENTIFY,p.GENDER,p.MOBILE from APP_USER_PATIENT_PROFILE r "
+				+ "left join TREAT_PROFILE p ON r.PRO_ID = p.ID JOIN APP_USER_PATIENT a "
+				+ "ON a.ID = r.UP_ID where a.id = '"+ userPatientId + "'";
+		if(!StringUtils.isEmpty(hospitalId)){
+			sql += " and r.HOSPITAL_Id = '"+hospitalId+"'";
+		}
+		List<?> list = this.userPatientProfileManager.findBySql(sql);
+		List<Profile> profiles = new ArrayList<Profile>();
+		for(Object obj : list){
+			Object[] objects = (Object[]) obj;
+			Profile profile = new Profile();
+			profile.setId(Object2String(objects[0]));   
+			profile.setName(Object2String(objects[1]));
+			profile.setNo(Object2String(objects[2]));
+			profile.setHosId(Object2String(objects[3]));
+			profile.setHosNo(Object2String(objects[4]));
+			profile.setHosName(Object2String(objects[5]));
+			profile.setIdNo(Object2String(objects[6]));
+			profile.setStatus(Object2String(objects[7]));
+			profile.setIdentify(Object2String(objects[8]));
+			profile.setGender(Object2String(objects[9]));
+			profile.setMobile(Object2String(objects[10]));
+			profiles.add(profile);
+		}
+		return profiles;
+	}
+	public String Object2String(Object object){
+		if(object == null){
+			return "";
+		}
+		return object.toString();
+	}
+	
+	public Result validCode(String smsId, String code) {
+		SmsMessage _smsMessage = this.smsMessageManager.get(smsId);
+		if(null == _smsMessage ){
+			return ResultUtils.renderFailureResult("未找到对应记录!");
+		}
+		if(StringUtils.equals(_smsMessage.getCode(), code)){
+			return ResultUtils.renderSuccessResult();
+		} else {
+			return ResultUtils.renderFailureResult("验证码错误，请核对验证码！");
+		}
 	}
 	public static void main(String args[]){
 		try {

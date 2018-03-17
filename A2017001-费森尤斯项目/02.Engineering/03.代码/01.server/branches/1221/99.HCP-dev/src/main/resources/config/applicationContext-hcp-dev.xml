@@ -20,6 +20,20 @@
 		<constructor-arg ref="patientDao" />
 	</bean>
 	
+	<bean id="inPatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.IInpatient" />
+	</bean>
+	<bean id="inPatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inPatientDao" />
+	</bean>
+	
+	<bean id="inPatientDailyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.base.model.IInpatientDaily" />
+	</bean>
+	<bean id="inPatientDailyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inPatientDailyDao" />
+	</bean>
+	
 	<bean id="cardDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hcp.card.model.Card" />
 	</bean>

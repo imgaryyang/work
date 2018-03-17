@@ -1,3 +1,4 @@
+// 是否是数组且长度不为0
 export function isValidArray(array) {
   return Array.isArray(array) && array.length;
 }
@@ -11,9 +12,22 @@ export function save(payload) {
 }
 
 export const { clientWidth, clientHeight } = document.documentElement;
+// 兼容标准模式和混合模式
+// export clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+// export clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
 
 // 初始page
 export const initPage = { start: 0, limit: 20, total: 0 };
+
+export const guid = () => {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  // return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+};
 
 // 常用颜色
 export const colors = {

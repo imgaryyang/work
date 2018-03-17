@@ -5,7 +5,8 @@ import React from 'react';
 import { Route } from 'dva/router';
 import { connect } from 'dva';
 import style from './ContactUs.less';
-import imgNews from '../../assets/images/logo-l.png';
+// import imgNews from '../../assets/images/logo-l.png';
+import commonStyles from '../../utils/common.less';
 
 class ContactUs extends React.Component {
   static displayName = 'ContactUs';
@@ -21,10 +22,20 @@ class ContactUs extends React.Component {
 
 
   render() {
+    const { screen } = this.props.base;
     return (
       <div>
         <div className={style['logoHolder']}>
-          <img src={imgNews} alt="" style={{ width: document.documentElement.clientWidth / 2, height: document.documentElement.clientHeight / 10 }} />
+          <div
+            style={{
+              width: screen.width / 2,
+              height: screen.height / 10,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'auto 100%',
+            }}
+            className={commonStyles.logo}
+          />
         </div>
         <div className={style['text']}>{this.props.base.info.contactUs }</div>
       </div>

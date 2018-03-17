@@ -66,9 +66,9 @@ class Identity2 extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '卡号认证',
-    });
+    // this.props.navigation.setParams({
+    //   title: '卡号认证',
+    // });
   }
   componentWillUnmount() {
     clearTimeout(this.timer);

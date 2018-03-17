@@ -22,7 +22,6 @@ import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
-import com.lenovohit.hwe.pay.model.Bill;
 import com.lenovohit.hwe.pay.model.PayType;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.TradeService;
@@ -40,8 +39,8 @@ import com.lenovohit.hwe.pay.service.TradeService;
 @RequestMapping("/hwe/pay/settle")
 public class SettleRestController extends OrgBaseRestController {
 
-	@Autowired
-	private GenericManager<Bill, String> billManager;
+//	@Autowired
+//	private GenericManager<Bill, String> billManager;
 	@Autowired
 	private GenericManager<Settlement, String> settlementManager;
 	@Autowired
@@ -212,11 +211,11 @@ public class SettleRestController extends OrgBaseRestController {
 		if (null == settle) {
 			throw new NullPointerException("settle should not be NULL!");
 		}
-		Bill bill = billManager.get(settle.getBillId());
-		if (null == bill) {
-			throw new NullPointerException("bill should not be NULL!");
-		}
-		settle.setBill(bill);
+//		Bill bill = billManager.get(settle.getBillId());
+//		if (null == bill) {
+//			throw new NullPointerException("bill should not be NULL!");
+//		}
+//		settle.setBill(bill);
 		PayType payType = payTypeManager.get(settle.getPayTypeId());
 		if (null == payType) {
 			throw new NullPointerException("payType should not be NULL!");

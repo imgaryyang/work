@@ -1,11 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
+
 import baseUtil from '../utils/baseUtil.js';
+import Config from '../Config';
+import Global from '../Global';
 
 class IndexPage extends React.Component {
   componentDidMount() {
-    const openid = this.getOpenId();
-    const userId = this.getUserId();
+    Global.setConfig(Config);
+    // const openid = this.getOpenId();
+    const openid = 'oFTG9w2g0hkaicjKXp8pfO9lHcqY';
+    // const userId = this.getUserId();
+    const userId = '2088812422349692';
     if (openid) {
       // alert(`openid：${openid}`);
       const { dispatch } = this.props;
@@ -37,7 +43,7 @@ class IndexPage extends React.Component {
     if (r != null) return unescape(r[2]); return null;
     /* var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) return decodeURIComponent(r[2]); return null;*/
+    if (r != null) return decodeURIComponent(r[2]); return null; */
   }
   getUrlParams() {
     const url = window.location.search; // 获取url中"?"符后的字串
@@ -53,7 +59,7 @@ class IndexPage extends React.Component {
   }
   render() {
     return (
-      <div>让你干非法勾当，被踢出来了吧！！！！</div>
+      <div>您暂不具备访问权限！</div>
     );
   }
 }

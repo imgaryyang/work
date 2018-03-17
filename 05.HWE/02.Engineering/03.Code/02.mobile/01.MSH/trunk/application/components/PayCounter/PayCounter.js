@@ -80,7 +80,9 @@ class PayCounter extends Component {
       terminalCode: param.terminalCode,
       payerNo: param.payerNo,
       bizType: param.bizType,
-      bizNo: param.id,
+      // bizNo: param.id,
+      bizNo: '0000001',
+      billId: '0000001',
       bizBean: 'aliPay',
       bizTime: '2018-01-20',
     };

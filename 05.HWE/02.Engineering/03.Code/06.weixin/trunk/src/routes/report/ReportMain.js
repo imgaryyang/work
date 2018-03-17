@@ -50,13 +50,11 @@ class ReportMain extends React.Component {
     const { data, dataSource, height, isLoading } = this.props.report;
     if (isLoading) { return <ActivityIndicatorView />; }
     const row = (rowData) => {
-      return (<div onClick={this.showDetail.bind(this, rowData)}>
-        <div className={style['container']}>
-          <div className={style['logo']}> 化验</div>
-          <div className={style['content']} >
-            <div className={style['date']}>{rowData.reportTime}</div>
-            <div className={style['name']}>{rowData.itemName}</div>
-          </div>
+      return (<div className={style['rowContainer']} onClick={this.showDetail.bind(this, rowData)}>
+        <div className={style['rowLogo']}> 化验</div>
+        <div className={style['rowContent']} >
+          <div className={style['reportDate']}>{rowData.reportTime}</div>
+          <div className={style['reportName']}>{rowData.itemName}</div>
         </div>
       </div>);
     };
@@ -66,15 +64,11 @@ class ReportMain extends React.Component {
       const size = sectionData.length;
       return (
         <div className={style['section']}>
-          <div style={{ height: 6, backgroundColor: '#F5F5F9' }} />
-          <div className={style['header']}>
-            {checkDate} &thinsp;{weekday} &thinsp;{size}个报告
-          </div>
+          {checkDate} &thinsp;{weekday} &thinsp;{size}个报告
         </div>
       );
     };
-
-    return (<div>
+    return (<div className={style['container']}>
       <NavBar
         mode="light"
         icon={<Icon type="left" />}
@@ -83,7 +77,6 @@ class ReportMain extends React.Component {
       </NavBar>
       <div className={style['profile']}><ProfileList callback={this.loadCheckList} /></div>
       {data.length === 0 ? (<div style={{ padding: 30, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的报告单信息</div>) : null}
-
       <ListView
         ref={el => this.lv = el}
         dataSource={dataSource.cloneWithRowsAndSections(data)}
@@ -91,11 +84,9 @@ class ReportMain extends React.Component {
         renderRow={row}
         style={{
           height,
-          overflow: 'auto',
         }}
-        pageSize={4}
+        pageSize={10}
         onScroll={() => { console.log('scroll'); }}
-        scrollRenderAheadDistance={500}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={10}
       />
@@ -103,6 +94,7 @@ class ReportMain extends React.Component {
     );
   }
 }
+// scrollRenderAheadDistance={500}
 ReportMain.propTypes = {
 };
 export default connect(({ report, base }) => ({ report, base }))(ReportMain);

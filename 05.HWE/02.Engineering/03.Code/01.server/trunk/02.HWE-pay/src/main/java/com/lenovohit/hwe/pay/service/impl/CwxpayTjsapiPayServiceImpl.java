@@ -52,7 +52,7 @@ public class CwxpayTjsapiPayServiceImpl implements PayBaseService {
     			DateUtils.date2String(DateUtils.addSecond(settlement.getCreatedAt(), config.getInt("trade_out_time"))/*Configure.getTradeOutTime())*/, "yyyyMMddHHmmss"),
     			"",
     			"JSAPI",
-    			"oFTG9w0T0EX2vr6xhvbT2_aazICE",//settlement.getPayerNo()
+    			settlement.getPayerNo(),
     			config.getString("local_domain") + config.getString("pay_callback_url") + settlement.getId(),
     			config);
     	DefaultPrecreateBusinessResultListener resultListener = new DefaultPrecreateBusinessResultListener();

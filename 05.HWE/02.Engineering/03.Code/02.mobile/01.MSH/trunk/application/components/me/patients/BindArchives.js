@@ -13,6 +13,7 @@ import Button from 'rn-easy-button';
 import Sep from 'rn-easy-separator';
 import { connect } from 'react-redux';
 import Toast from 'react-native-root-toast';
+import ctrlState from '../../../modules/ListState';
 
 import Global from '../../../Global';
 import Item from '../../../modules/PureListItem';
@@ -46,13 +47,14 @@ class BindArchives extends Component {
     this.renderDefault = this.renderDefault.bind(this);
     this.renderIdentify = this.renderIdentify.bind(this);
     this.callbacking = this.callbacking.bind(this);
+    this.onSearch = this.onSearch.bind(this);
   }
 
   state = {
     doRenderScene: false,
     value: (
-      this.props.navigation.state.params.hospital ?
-        Object.assign({}, this.props.navigation.state.params.hospital) : null
+      this.props.base.currHospital ?
+        Object.assign({}, this.props.base.currHospital) : null
     ),
     patient: (
       this.props.navigation.state.params.data ?
@@ -60,17 +62,37 @@ class BindArchives extends Component {
     ),
     data: [],
     labelPosition: 'left',
+    ctrlState,
   };
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      this.setState({ doRenderScene: true });
+      this.setState({
+        doRenderScene: true,
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: true,
+        },
+      }, () => this.onSearch());
     });
-    this.props.navigation.setParams({
-      title: '添加卡号',
-    });
+    // this.props.navigation.setParams({
+    //   title: '添加卡号',
+    // });
   }
-
+  onSearch() {
+    // 重新发起按条件查询
+    this.setState({
+      ctrlState: {
+        ...this.state.ctrlState,
+        refreshing: true,
+        infiniteLoading: false,
+        noMoreData: false,
+        requestErr: false,
+        requestErrMsg: null,
+      },
+      data: [],
+    }, () => this.submit());
+  }
   /**
    * 为表单绑定 onChange 事件，表单中的任何元素更改都会触发此方法
    */
@@ -85,18 +107,28 @@ class BindArchives extends Component {
       patientId: this.state.patient ? this.state.patient.id : '',
       hospitalId: this.state.value ? this.state.value.id : '',
     };
+    console.log('query', query);
     try {
       if (typeof query.hospitalId === 'undefined' || query.hospitalId === null || query.hospitalId === '') {
         Toast.show('请先选择医院');
         return;
       }
       // 显示遮罩
-      this.props.screenProps.showLoading();
+      // this.props.screenProps.showLoading();
       // 调用后台保存
       const responseData = await queryProfile(query);
       if (responseData.success) {
+        const newCtrlState = {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+        };
         const data = responseData.result;
-        this.setState({ data });
+        this.setState({
+          data,
+          ctrlState: newCtrlState,
+        });
         const patientId = this.state.patient ? this.state.patient.id : '';
         const response = await getMyProfiles(patientId);
         if (response.success) {
@@ -116,19 +148,40 @@ class BindArchives extends Component {
           const userPatients = res.result;
           user.map = { userPatients };
           this.props.updateUser(user);
-          this.props.screenProps.hideLoading();
+          // this.props.screenProps.hideLoading();
         } else {
-          this.props.screenProps.hideLoading();
+          // this.props.screenProps.hideLoading();
           this.handleRequestException(res.msg);
         }
       } else {
-        this.setState({ data: [] });
-        this.props.screenProps.hideLoading();
+        // this.setState({ data: [] });
+        this.setState({
+          ctrlState: {
+            ...this.state.ctrlState,
+            refreshing: false,
+            infiniteLoading: false,
+            noMoreData: true,
+            requestErr: true,
+            requestErrMsg: { msg: responseData.msg },
+          },
+          data: [],
+        });
+        // this.props.screenProps.hideLoading();
         Toast.show(responseData.msg);
       }
     } catch (e) {
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+          requestErr: true,
+          requestErrMsg: e,
+        },
+      });
       // 隐藏遮罩
-      this.props.screenProps.hideLoading();
+      // this.props.screenProps.hideLoading();
       this.handleRequestException(e);
     }
   }
@@ -157,15 +210,17 @@ class BindArchives extends Component {
       hospital: this.state.value,
       patient: this.state.patient,
       callback: this.callbacking,
+      title: '卡号认证',
     });
   }
 
   choose(item) {
-    this.setState({ value: item }, () => this.submit());
+    this.setState({ value: item }, () => this.onSearch());
   }
   chooseHospital() {
     this.props.navigation.navigate('ChooseHospital', {
       chooseHospital: this.choose,
+      title: '选择医院',
     });
   }
 
@@ -222,19 +277,20 @@ class BindArchives extends Component {
   }
   renderDefault(status) {
     const txt = status === '1' ? '默认卡号' : '';
-    const tag = status === '1' ? styles.default : null;
+    const bgColor = status === '1' ? Global.colors.IOS_BLUE : 'white';
     return (
-      <View style={styles.tagContainer} >
-        <Text style={tag} >{txt}</Text>
+      <View style={[styles.tagContainer, { backgroundColor: bgColor }]} >
+        <Text style={styles.tag} >{txt}</Text>
       </View>
     );
   }
   renderIdentify(identify) {
     const txt = identify === '1' ? '已认证' : '未认证';
-    const tag = identify === '1' ? styles.identify : styles.unidentify;
+    // const tag = identify === '1' ? styles.identify : styles.unidentify;
+    const bgColor = identify === '1' ? Global.colors.IOS_GREEN : Global.colors.FONT_GRAY;
     return (
-      <View style={styles.tagContainer} >
-        <Text style={tag} >{txt}</Text>
+      <View style={[styles.tagContainer, { backgroundColor: bgColor }]} >
+        <Text style={styles.tag} >{txt}</Text>
       </View>
     );
   }
@@ -313,34 +369,34 @@ class BindArchives extends Component {
 
   render() {
     if (!this.state.doRenderScene) { return BindArchives.renderPlaceholderView(); }
+    const view = this.props.base.edition === Global.EDITION_SINGLE ? null : (
+      <View>
+        <Form
+          ref={(c) => { this.form = c; }}
+          labelWidth={65}
+          value={this.state.value}
+          labelPosition={this.state.labelPosition}
+          showLabel
+          style={{ backgroundColor: 'red' }}
+        >
+          <Form.TextInput
+            name="name"
+            label="医院"
+            showClearIcon={false}
+            placeholder="医院名称"
+            required
+            fontSize={16}
+            textAlign="center"
+            buttonText="选择医院"
+            buttonOnPress={this.chooseHospital}
+          />
+        </Form>
+      </View>
+    );
     return (
       <View style={Global.styles.CONTAINER}>
         <ScrollView style={styles.scrollView}>
-          <Form
-            ref={(c) => { this.form = c; }}
-            labelWidth={65}
-            value={this.state.value}
-            labelPosition={this.state.labelPosition}
-            showLabel
-            style={{ backgroundColor: 'red' }}
-          >
-            <Form.TextInput
-              name="name"
-              label="医院"
-              showClearIcon={false}
-              placeholder="医院名称"
-              required
-              fontSize={16}
-              textAlign="center"
-              buttonText="选择医院"
-              buttonOnPress={this.chooseHospital}
-            />
-          </Form>
-          <View style={styles.btnHolder} >
-            <Sep width={10} />
-            <Button text="查询" onPress={this.submit} />
-          </View>
-          <View style={{ height: Global.lineWidth, backgroundColor: Global.colors.LINE, marginLeft: 10, marginRight: 10 }}></View>
+          {view}
           <View
             automaticallyAdjustContentInsets={false}
             style={styles.scrollView}
@@ -353,7 +409,25 @@ class BindArchives extends Component {
               renderItem={this.renderItem}
               // 渲染行间隔
               ItemSeparatorComponent={() => (<Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />)}
-              ListFooterComponent={() => (<Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />)}
+              // 控制下拉刷新
+              refreshing={this.state.ctrlState.refreshing}
+              onRefresh={this.onSearch}
+              // 无数据占位符
+              ListEmptyComponent={() => {
+                return this.renderEmptyView({
+                  msg: '暂无卡号信息',
+                  reloadMsg: '点击刷新按钮重新查询',
+                  reloadCallback: this.onSearch,
+                  ctrlState: this.state.ctrlState,
+                });
+              }}
+              // 列表底部
+              ListFooterComponent={() => {
+                return this.renderFooter({
+                  data: this.state.data,
+                  ctrlState: this.state.ctrlState,
+                });
+              }}
             />
           </View>
         </ScrollView>
@@ -363,7 +437,9 @@ class BindArchives extends Component {
 }
 
 const styles = StyleSheet.create({
-  scrollView: {},
+  scrollView: {
+    flex: 1,
+  },
   btnHolder: {
     flexDirection: 'row', margin: 10, marginTop: 0, marginBottom: 40,
   },
@@ -412,8 +488,19 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   tagContainer: {
-    padding: 2,
+    // padding: 3,
+    paddingLeft: 4,
+    paddingRight: 4,
     borderRadius: 3,
+    overflow: 'hidden',
+    height: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tag: {
+    fontSize: 9,
+    lineHeight: 9,
+    color: 'white',
   },
   identify: {
     padding: 2,

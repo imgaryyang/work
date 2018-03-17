@@ -8,27 +8,36 @@ import {
   View,
   FlatList,
   Text,
+  TouchableOpacity,
 } from 'react-native';
-
 import Toast from 'react-native-root-toast';
-import Button from 'rn-easy-button';
 import Icon from 'rn-easy-icon';
-import Modal from 'react-native-modal';
 import Sep from 'rn-easy-separator';
-import Card from 'rn-easy-card';
-import Form from '../../../modules/form/EasyForm';
-import FormConfig from '../../../modules/form/config/DefaultConfig';
+import Picker from 'rn-easy-picker';
+import moment from 'moment';
+import _ from 'lodash';
 import Global from '../../../Global';
 import PlaceholderView from '../../../modules/PlaceholderView';
-import DateBarItem from './DateBarItem';
 import ScheduleItem from './ScheduleItem';
 import listState, { initPage } from '../../../modules/ListState';
 import { forList } from '../../../services/outpatient/ScheduleService';
 
-const shifts = [
-  { label: '上午', value: '上午' },
-  { label: '下午', value: '下午' },
-  { label: '全天', value: '全天' },
+const initDateData = [{ value: 0, label: '所有日期' }];
+const initJobTitleData = [
+  { value: 0, label: '全部职称' },
+  { value: 1, label: '主任医师' },
+  { value: 2, label: '副主任医师' },
+  { value: 3, label: '主治医师' },
+  { value: 4, label: '住院医师' },
+  { value: 5, label: '其他' },
+];
+const initShiftData = [
+  { value: 0, label: '全天' },
+  { value: 1, label: '上午' },
+  { value: 2, label: '下午' },
+];
+const initAreaData = [
+  { value: 0, label: '全院' },
 ];
 
 class Schedule extends Component {
@@ -38,39 +47,40 @@ class Schedule extends Component {
   constructor(props) {
     super(props);
 
-    const dateBarData = DateBarItem.fetchDateBarData();
-    const dateSelected = dateBarData[1];
     this.listRef = null;
+    this.datePickerRef = null;
+    this.jobTitlePickerRef = null;
+    this.shiftPickerRef = null;
+    this.areaPickerRef = null;
     this.fetchData = this.fetchData.bind(this);
     this.filterData = this.filterData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
     this.onInfiniteLoad = this.onInfiniteLoad.bind(this);
-    this.onSelectDate = this.onSelectDate.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.gotoAppointSource = this.gotoAppointSource.bind(this);
-    this.toggleModalVisible = this.toggleModalVisible.bind(this);
-    this.onFormChange = this.onFormChange.bind(this);
-    this.onConfirmModal = this.onConfirmModal.bind(this);
-    this.onModalClose = this.onModalClose.bind(this);
 
     this.state = {
       doRenderScene: false,
       ctrlState: listState,
       page: initPage,
-      dateBarData,
-      dateSelected,
-      formValue: { shift: '全天' },
-      shiftSelected: '全天',
       query: {
         hosNo: props.navigation.state.params.hosNo,
         depNo: props.navigation.state.params.depNo,
-        startDate: dateBarData[1].format10,
-        endDate: dateBarData[dateBarData.length - 1].format10,
+        startDate: moment().format('YYYY-MM-DD'),
+        endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
       }, // 后台查询条件
       allData: [], // 根据query查出的后台全部数据
       filterData: [], // allData基础上，根据过滤条件过滤出的数据
-      shownData: [], // filterData基础上，根据翻页条件page过滤出的数据，是真正在界面展示的数据
-      isModalVisible: false,
+      renderData: [], // filterData基础上，根据翻页条件page过滤出的数据，是真正在界面渲染展示的数据
+      dateData: initDateData,
+      selectedDate: initDateData[0],
+      jobTitleData: initJobTitleData,
+      selectedJobTitle: initJobTitleData[0],
+      shiftData: initShiftData,
+      selectedShift: initShiftData[0],
+      areaData: initAreaData,
+      selectedArea: initAreaData[0],
     };
   }
 
@@ -91,17 +101,13 @@ class Schedule extends Component {
     // 滚动到列表顶端
     this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
     const { query, ctrlState } = this.state;
-    const dateBarData = DateBarItem.fetchDateBarData();
+
     // 重新发起按条件查询
     this.setState({
-      dateBarData,
-      // dateSelected: dateBarData[1],
-      shiftSelected: '全天',
-      formValue: { shift: '全天' },
       query: {
         ...query,
-        startDate: dateBarData[1].format10,
-        endDate: dateBarData[dateBarData.length - 1].format10,
+        startDate: moment().format('YYYY-MM-DD'),
+        endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
       },
       ctrlState: {
         ...ctrlState,
@@ -139,60 +145,29 @@ class Schedule extends Component {
     }, () => this.fetchData());
   }
 
-  onSelectDate(data) {
+  onChange(key, value) {
     const { allData, ctrlState } = this.state;
     // 滚动到列表顶端
     this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
 
     const { start, limit } = initPage;
-    const newFilterData = this.filterData(allData, { dateSelected: data });
+    const newFilterData = this.filterData(allData, { [key]: value });
     const newTotal = newFilterData.length;
     this.setState({
-      dateSelected: data,
+      [key]: value,
       filterData: newFilterData,
       page: { ...initPage, total: newTotal },
-      shownData: newFilterData.slice(start, start + limit),
+      renderData: newFilterData.slice(start, start + limit),
       ctrlState: { ...ctrlState, refreshing: false, infiniteLoading: false, noMoreData: (start + limit >= newTotal) },
-    });
-  }
-
-  onFormChange(fieldName, fieldValue, formValue) {
-    this.setState({ formValue });
-  }
-
-  onConfirmModal() {
-    this.toggleModalVisible();
-    const { allData, ctrlState, formValue } = this.state;
-    // 滚动到列表顶端
-    this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
-
-    const { start, limit } = initPage;
-    const newFilterData = this.filterData(allData, { shiftSelected: formValue.shift });
-    const newTotal = newFilterData.length;
-    this.setState({
-      shiftSelected: formValue.shift,
-      filterData: newFilterData,
-      page: { ...initPage, total: newTotal },
-      shownData: newFilterData.slice(start, start + limit),
-      ctrlState: { ...ctrlState, refreshing: false, infiniteLoading: false, noMoreData: (start + limit >= newTotal) },
-    });
-  }
-
-  onModalClose() {
-    this.toggleModalVisible();
-    this.setState({
-      formValue: { shift: this.state.shiftSelected },
     });
   }
 
   gotoAppointSource(data) {
     if (data.enableNum > 0) {
-      // this.props.navigation.navigate('AppointSource', { data });
-      // 为测试方便，写死no: 5
-      // this.props.navigation.navigate('AppointSource', { data: { ...data, no: 5 }, backIndex: this.props.nav.index });
       const { navigation } = this.props;
       navigation.navigate('AppointSource', {
-        data: { ...data, no: 5 },
+        // 为测试方便，无值时写死5
+        data: { ...data, schNo: data.no || 5 },
         backIndex: navigation.state.params.backIndex,
         showCurrHospitalAndPatient: true,
         allowSwitchHospital: false,
@@ -207,32 +182,39 @@ class Schedule extends Component {
   }
 
   filterData(data, cond) {
-    const dateSelected = cond && cond.dateSelected ? cond.dateSelected.format10 : this.state.dateSelected.format10;
-    const shiftSelected = cond && cond.shiftSelected ? cond.shiftSelected : this.state.shiftSelected;
-    // return data.filter(item => dateSelected.format10 === '日期' || dateSelected.format10 === item.clinicDate);
-    return data.filter(item =>
-      (dateSelected === '日期' || dateSelected === item.clinicDate) &&
-      (shiftSelected === '全天' || shiftSelected === item.shiftName));
-  }
+    const { selectedDate, selectedJobTitle, selectedShift, selectedArea } = this.state;
 
-  toggleModalVisible() {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+    const newSelectedDate = cond && cond.selectedDate ? cond.selectedDate : selectedDate;
+    const newSelectedJobTitle = cond && cond.selectedJobTitle ? cond.selectedJobTitle : selectedJobTitle;
+    const newSelectedShift = cond && cond.selectedShift ? cond.selectedShift : selectedShift;
+    const newSelectedArea = cond && cond.selectedArea ? cond.selectedArea : selectedArea;
+
+    return data.filter(item =>
+      (newSelectedDate === initDateData[0] || newSelectedDate.label === item.clinicDate) &&
+      (newSelectedJobTitle === initJobTitleData[0] || newSelectedJobTitle.label === item.docJobTitle) &&
+      (newSelectedShift === initShiftData[0] || newSelectedShift.label === item.shiftName) &&
+      (newSelectedArea === initAreaData[0] || newSelectedArea.label === item.area));
   }
 
   async fetchData() {
-    const { ctrlState, page, query, shownData, filterData } = this.state;
+    const { ctrlState, page, query, renderData, filterData, selectedDate } = this.state;
 
     try {
       if (ctrlState.refreshing) {
         const { result, success, msg } = await forList(query);
         const { start, limit } = initPage;
+
         if (success) {
           const newFilterData = this.filterData(result);
           const total = newFilterData.length;
+          const newDateData = initDateData.concat(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
+          const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
           this.setState({
+            dateData: newDateData,
+            selectedDate: newSelectedDate,
             allData: result,
             filterData: newFilterData,
-            shownData: newFilterData.slice(start, start + limit),
+            renderData: newFilterData.slice(start, start + limit),
             ctrlState: {
               ...ctrlState,
               refreshing: false,
@@ -257,7 +239,7 @@ class Schedule extends Component {
       } else {
         const { start, limit, total } = page;
         this.setState({
-          shownData: shownData.concat(filterData.slice(start, start + limit)),
+          renderData: renderData.concat(filterData.slice(start, start + limit)),
           ctrlState: {
             ...ctrlState,
             refreshing: false,
@@ -283,7 +265,19 @@ class Schedule extends Component {
   }
 
   render() {
-    const { doRenderScene, shownData, dateBarData, dateSelected, ctrlState, isModalVisible, formValue } = this.state;
+    const {
+      doRenderScene,
+      renderData,
+      ctrlState,
+      dateData,
+      selectedDate,
+      jobTitleData,
+      selectedJobTitle,
+      shiftData,
+      selectedShift,
+      areaData,
+      selectedArea,
+    } = this.state;
 
     if (!doRenderScene) {
       return <PlaceholderView />; // 场景过渡动画未完成前，先渲染过渡场景
@@ -291,25 +285,54 @@ class Schedule extends Component {
 
     return (
       <View style={Global.styles.CONTAINER}>
-        <FlatList
-          horizontal
-          style={styles.dateBar}
-          data={dateBarData}
-          extraData={dateSelected}
-          keyExtractor={(item, index) => `${item}${index + 1}`}
-          renderItem={({ item }) => (
-            <DateBarItem
-              data={item}
-              onPress={this.onSelectDate}
-              selected={dateSelected.format10 === item.format10}
-            />
-          )}
-          initialNumToRender={10}
-          ItemSeparatorComponent={() => (<Sep width={Global.lineWidth} bgColor={Global.colors.LINE} />)}
-        />
+        <View style={styles.topBar}>
+          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.datePickerRef.toggle()}>
+            <Text style={styles.blueText}>{selectedDate.label}</Text>
+          </TouchableOpacity>
+          <Picker
+            ref={(ref) => { this.datePickerRef = ref; }}
+            dataSource={dateData}
+            selected={selectedDate.value}
+            onChange={item => this.onChange('selectedDate', item)}
+            center
+          />
+          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
+          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.jobTitlePickerRef.toggle()}>
+            <Text style={styles.blueText}>{selectedJobTitle.label}</Text>
+          </TouchableOpacity>
+          <Picker
+            ref={(ref) => { this.jobTitlePickerRef = ref; }}
+            dataSource={jobTitleData}
+            selected={selectedJobTitle.value}
+            onChange={item => this.onChange('selectedJobTitle', item)}
+            center
+          />
+          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
+          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.shiftPickerRef.toggle()}>
+            <Text style={styles.blueText}>{selectedShift.label}</Text>
+          </TouchableOpacity>
+          <Picker
+            ref={(ref) => { this.shiftPickerRef = ref; }}
+            dataSource={shiftData}
+            selected={selectedShift.value}
+            onChange={item => this.onChange('selectedShift', item)}
+            center
+          />
+          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
+          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.areaPickerRef.toggle()}>
+            <Text style={styles.blueText}>{selectedArea.label}</Text>
+          </TouchableOpacity>
+          <Picker
+            ref={(ref) => { this.areaPickerRef = ref; }}
+            dataSource={areaData}
+            selected={selectedArea.value}
+            onChange={item => this.onChange('selectedArea', item)}
+            center
+          />
+        </View>
         <FlatList
           ref={(ref) => { this.listRef = ref; }}
-          data={shownData}
+          data={renderData}
           initialNumToRender={10}
           keyExtractor={(item, index) => `${item}${index + 1}`}
           renderItem={({ item }) => <ScheduleItem data={item} onPress={this.gotoAppointSource} />}
@@ -330,122 +353,24 @@ class Schedule extends Component {
             });
           }}
           // 列表底部
-          ListFooterComponent={() => { return this.renderFooter({ data: shownData, ctrlState, callback: this.onInfiniteLoad }); }}
+          ListFooterComponent={() => { return this.renderFooter({ data: renderData, ctrlState, callback: this.onInfiniteLoad }); }}
         />
-        <Button
-          style={styles.button}
-          textStyle={styles.buttonText}
-          text="筛选"
-          size="small"
-          onPress={this.toggleModalVisible}
-        />
-        <Modal
-          isVisible={isModalVisible}
-          onBackdropPress={this.onModalClose}
-          animationIn="fadeIn"
-        >
-          <Card radius={5} noPadding style={{ maxHeight: (Global.getScreen().height - 40), paddingBottom: 15 }} >
-            <View style={styles.cardTitleContainer} >
-              <Button clear stretch={false} style={styles.closeButton} onPress={this.onModalClose} >
-                <Icon iconLib="mi" name="close" color={Global.colors.FONT_GRAY} size={18} width={18} height={18} />
-              </Button>
-              <Text style={styles.cardTitle} >筛选</Text>
-              <Button clear stretch={false} style={styles.refreshButton} onPress={this.onConfirmModal} >
-                <Icon iconLib="mi" name="refresh" color={Global.colors.FONT_GRAY} size={18} width={18} height={18} />
-                <Text>确定</Text>
-              </Button>
-            </View>
-            <Form
-              // ref={(c) => { this.form = c; }}
-              onChange={this.onFormChange}
-              config={FormConfig}
-              labelWidth={80}
-              value={formValue}
-              showLabel
-              // labelPosition={this.state.labelPosition}
-            >
-              <Form.Checkbox
-                style={null}
-                name="shift"
-                label="午别"
-                required
-                dataSource={shifts}
-                notNull
-              />
-            </Form>
-            {/* <FlatList*/}
-            {/* ref={(c) => { this.listAreasRef = c; }}*/}
-            {/* data={inpatientAreas}*/}
-            {/* style={styles.list}*/}
-            {/* keyExtractor={(item, index) => `${item}${index + 1}`}*/}
-            {/* // 渲染行*/}
-            {/* renderItem={this.renderAreasItem}*/}
-            {/* // 渲染行间隔*/}
-            {/* ItemSeparatorComponent={() => (<Sep height={1} bgColor={Global.colors.LINE} />)}*/}
-            {/* // 控制下拉刷新*/}
-            {/* refreshing={this.state.areasRefreshing}*/}
-            {/* onRefresh={this.refreshAreas}*/}
-            {/* />*/}
-          </Card>
-        </Modal>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  dateBar: {
-    flexGrow: 0, // 避免主List无数据时，dateBar伸长
+  topBar: {
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     borderBottomWidth: Global.lineWidth,
     borderBottomColor: Global.colors.LINE,
   },
-  button: {
-    position: 'absolute',
-    right: 10,
-    bottom: 65,
-    paddingVertical: 0,
-    paddingHorizontal: 15,
-    borderRadius: 25,
-    // shadowColor: 'black',
-    // shadowOffset: { width: 2, height: 2 },
-    // shadowOpacity: 0.6,
-    backgroundColor: 'white',
-  },
-  buttonText: {
-    fontSize: 12,
+  blueText: {
     color: Global.colors.IOS_BLUE,
-  },
-  cardTitleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: Global.colors.LINE,
-  },
-  cardTitle: {
-    flex: 1,
-    fontSize: 16,
-    color: Global.colors.FONT_GRAY,
-    fontWeight: '600',
-    textAlign: 'center',
-    paddingLeft: 30,
-  },
-  refreshButton: {
-    width: 70,
-    flexDirection: 'row',
-  },
-  closeButton: {
-    width: 40,
-    flexDirection: 'row',
-  },
-  areaItemText: {
-    fontSize: 16,
-    color: Global.colors.FONT_GRAY,
   },
 });
 
-// Schedule.navigationOptions = ({ navigation }) => ({
-//   title: navigation.state.params.title || '选择排班',
-// });
 export default Schedule;

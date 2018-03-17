@@ -31,7 +31,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  * @version 1.0.0 2018-01-11
  */
 @Entity
-@Table(name = "PAY_SETTLEMENT")
+@Table(name = "PAY_SETTLEMENT_NEW")
 public class Settlement extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -7882211593967816916L;
@@ -40,9 +40,12 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 	public static final String SETTLE_TYPE_CANCEL = "SC";// 撤销
 
 	public static final String SETTLE_STAT_INITIAL = "A";// 初始化
+	public static final String SETTLE_STAT_TRAN_SUCCESS = "S";// 交易完成
 	public static final String SETTLE_STAT_PAY_SUCCESS = "0";// 支付成功
 	public static final String SETTLE_STAT_PAY_FAILURE = "1";// 支付失败
-	public static final String SETTLE_STAT_PAY_FINISH = "2";// 支付完成
+	public static final String SETTLE_STAT_PAY_FINISH = "2";// 交易完成
+	public static final String SETTLE_STAT_TRAN_FAILURE = "3";// 交易失败
+	public static final String SETTLE_STAT_PAY_PARTIAL = "4";// 部分支付
 	public static final String SETTLE_STAT_REFUNDING = "5";// 正在退款
 	public static final String SETTLE_STAT_REFUND_FAILURE = "6";// 退款失败
 	public static final String SETTLE_STAT_REFUND_SUCCESS = "7";// 退款成功
@@ -57,6 +60,11 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 	public static final String SETTLE_TRADE_CLOSED = "9";// 交易关闭
 	public static final String SETTLE_TRADE_EXCEPTIONAL = "E";// 交易异常
 	
+	public static final String SETTLE_TRAN_INITIAL = "A";// 初始化
+	public static final String SETTLE_TRAN_SUCCESS = "0";// 交易成功
+	public static final String SETTLE_TRAN_FAILURE = "1";// 交易失败
+	public static final String SETTLE_TRAN_CLOSED = "9";// 交易关闭
+	public static final String SETTLE_TRAN_EXCEPTIONAL = "E";// 交易异常
 
     /** settleNo */
     private String settleNo;
@@ -82,9 +90,9 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     /** appName */
     private String appName;
 
-    /** APP - APP
-            SSM - SSM
-            SSB - SSB */
+	/**
+	 * APP - APP SSM - SSM SSB - SSB
+	 */
     private String appType;
 
     /** terminalCode */
@@ -95,6 +103,23 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 
     /** terminalUser */
     private String terminalUser;
+
+	/**
+	 * 00:门诊预存 01:预约 02:挂号 03:门诊缴费 04:住院预缴 05:发卡 06:建档
+	 */
+	private String bizType;
+
+	/** bizNo */
+	private String bizNo;
+
+	/** bizUrl */
+	private String bizUrl;
+
+	/** bizBean */
+	private String bizBean;
+
+	/** bizTime */
+	private Date bizTime;
 
     /** payChannelId */
     private String payChannelId;
@@ -161,24 +186,34 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 
     /** tradeTerminalCode */
     private String tradeTerminalCode;
+
+    /** tranStatus */
+    private String tranStatus;
     
+    /** tradeTime */
+    private Date tranTime;
+    
+    /** tranRspCode */
+    private String tranRspCode;
+
+    /** tranRspMsg */
+    private String tranRspMsg;
+    
+    /** oriSettleId */
+    private String oriSettleId;  
+   
+    /** oriTradeNo */
     private String oriTradeNo;
 
+    /** oriAmt */
+    private BigDecimal oriAmt;
+   
     /** finishTime */
     private Date finishTime;
 
     /** outTime */
     private String outTime;
-
-    /** billId */
-    private String billId;
-
-    /** oriSettleId */
-    private String oriSettleId;
-
-    /** oriAmt */
-    private BigDecimal oriAmt;
-
+    
     /** checkStat */
     private String checkStat;
 
@@ -194,21 +229,28 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     /** respText */
     private String respText;
 
-    /** printStat */
-    private String printStat;
-
-    /** printBatchNo */
-    private String printBatchNo;
-
     /** flag */
     private String flag;
+    
+    /** optStatus */
+    private String optStatus;
+
+    /** optTime */
+    private Date optTime;
+
+    /** optId */
+    private String optId;
+
+    /** optName */
+    private String optName;
+
+    /** operation */
+    private String operation;
 
     /** status */
     private String status;
 
-    private String oriBillId;
     private PayType payType;
-	private Bill bill;
 	private Settlement oriSettlement;//原流水
 	
     /** 临时变量存储 **/
@@ -450,6 +492,101 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     public void setTerminalUser(String terminalUser) {
         this.terminalUser = terminalUser;
     }
+
+	/**
+	 * 获取00:门诊预存 01:预约 02:挂号 03:门诊缴费 04:住院预缴 05:发卡 06:建档
+	 * 
+	 * @return bizType
+	 */
+	@Column(name = "BIZ_TYPE", nullable = true, length = 2)
+	public String getBizType() {
+		return this.bizType;
+	}
+
+	/**
+	 * 设置00:门诊预存 01:预约 02:挂号 03:门诊缴费 04:住院预缴 05:发卡 06:建档
+	 * 
+	 * @param bizType
+	 */
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
+
+	/**
+	 * 获取bizNo
+	 * 
+	 * @return bizNo
+	 */
+	@Column(name = "BIZ_NO", nullable = true, length = 50)
+	public String getBizNo() {
+		return this.bizNo;
+	}
+
+	/**
+	 * 设置bizNo
+	 * 
+	 * @param bizNo
+	 */
+	public void setBizNo(String bizNo) {
+		this.bizNo = bizNo;
+	}
+
+	/**
+	 * 获取bizUrl
+	 * 
+	 * @return bizUrl
+	 */
+	@Column(name = "BIZ_URL", nullable = true, length = 200)
+	public String getBizUrl() {
+		return this.bizUrl;
+	}
+
+	/**
+	 * 设置bizUrl
+	 * 
+	 * @param bizUrl
+	 */
+	public void setBizUrl(String bizUrl) {
+		this.bizUrl = bizUrl;
+	}
+
+	/**
+	 * 获取bizBean
+	 * 
+	 * @return bizBean
+	 */
+	@Column(name = "BIZ_BEAN", nullable = true, length = 50)
+	public String getBizBean() {
+		return this.bizBean;
+	}
+
+	/**
+	 * 设置bizBean
+	 * 
+	 * @param bizBean
+	 */
+	public void setBizBean(String bizBean) {
+		this.bizBean = bizBean;
+	}
+
+	/**
+	 * 获取bizTime
+	 * 
+	 * @return bizTime
+	 */
+	@Column(name = "BIZ_TIME", nullable = true)
+	public Date getBizTime() {
+		return this.bizTime;
+	}
+
+	/**
+	 * 设置bizTime
+	 * 
+	 * @param bizTime
+	 */
+	public void setBizTime(Date bizTime) {
+		this.bizTime = bizTime;
+	}
 
     /**
      * 获取payChannelId
@@ -869,7 +1006,39 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
         this.tradeTerminalCode = tradeTerminalCode;
     }
     
-    @Column(name = "ORI_TRADE_NO", nullable = true, length = 50)
+    public String getTranStatus() {
+		return tranStatus;
+	}
+
+	public void setTranStatus(String tranStatus) {
+		this.tranStatus = tranStatus;
+	}
+
+	public Date getTranTime() {
+		return tranTime;
+	}
+
+	public void setTranTime(Date tranTime) {
+		this.tranTime = tranTime;
+	}
+
+	public String getTranRspCode() {
+		return tranRspCode;
+	}
+
+	public void setTranRspCode(String tranRspCode) {
+		this.tranRspCode = tranRspCode;
+	}
+
+	public String getTranRspMsg() {
+		return tranRspMsg;
+	}
+
+	public void setTranRspMsg(String tranRspMsg) {
+		this.tranRspMsg = tranRspMsg;
+	}
+
+	@Column(name = "ORI_TRADE_NO", nullable = true, length = 50)
     public String getOriTradeNo() {
 		return oriTradeNo;
 	}
@@ -914,25 +1083,6 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
      */
     public void setOutTime(String outTime) {
         this.outTime = outTime;
-    }
-
-    /**
-     * 获取billId
-     * 
-     * @return billId
-     */
-    @Column(name = "BILL_ID", nullable = true, length = 32)
-    public String getBillId() {
-        return this.billId;
-    }
-
-    /**
-     * 设置billId
-     * 
-     * @param billId
-     */
-    public void setBillId(String billId) {
-        this.billId = billId;
     }
 
     /**
@@ -1069,44 +1219,6 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取printStat
-     * 
-     * @return printStat
-     */
-    @Column(name = "PRINT_STAT", nullable = true, length = 1)
-    public String getPrintStat() {
-        return this.printStat;
-    }
-
-    /**
-     * 设置printStat
-     * 
-     * @param printStat
-     */
-    public void setPrintStat(String printStat) {
-        this.printStat = printStat;
-    }
-
-    /**
-     * 获取printBatchNo
-     * 
-     * @return printBatchNo
-     */
-    @Column(name = "PRINT_BATCH_NO", nullable = true, length = 50)
-    public String getPrintBatchNo() {
-        return this.printBatchNo;
-    }
-
-    /**
-     * 设置printBatchNo
-     * 
-     * @param printBatchNo
-     */
-    public void setPrintBatchNo(String printBatchNo) {
-        this.printBatchNo = printBatchNo;
-    }
-
-    /**
      * 获取flag
      * 
      * @return flag
@@ -1126,6 +1238,101 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     }
 
     /**
+     * 获取optStatus
+     * 
+     * @return optStatus
+     */
+    @Column(name = "OPT_STATUS", nullable = true, length = 1)
+    public String getOptStatus() {
+        return this.optStatus;
+    }
+
+    /**
+     * 设置optStatus
+     * 
+     * @param optStatus
+     */
+    public void setOptStatus(String optStatus) {
+        this.optStatus = optStatus;
+    }
+
+    /**
+     * 获取optTime
+     * 
+     * @return optTime
+     */
+    @Column(name = "OPT_TIME", nullable = true)
+    public Date getOptTime() {
+        return this.optTime;
+    }
+
+    /**
+     * 设置optTime
+     * 
+     * @param optTime
+     */
+    public void setOptTime(Date optTime) {
+        this.optTime = optTime;
+    }
+
+    /**
+     * 获取optId
+     * 
+     * @return optId
+     */
+    @Column(name = "OPT_ID", nullable = true, length = 32)
+    public String getOptId() {
+        return this.optId;
+    }
+
+    /**
+     * 设置optId
+     * 
+     * @param optId
+     */
+    public void setOptId(String optId) {
+        this.optId = optId;
+    }
+
+    /**
+     * 获取optName
+     * 
+     * @return optName
+     */
+    @Column(name = "OPT_NAME", nullable = true, length = 50)
+    public String getOptName() {
+        return this.optName;
+    }
+
+    /**
+     * 设置optName
+     * 
+     * @param optName
+     */
+    public void setOptName(String optName) {
+        this.optName = optName;
+    }
+
+    /**
+     * 获取operation
+     * 
+     * @return operation
+     */
+    @Column(name = "OPERATION", nullable = true, length = 200)
+    public String getOperation() {
+        return this.operation;
+    }
+
+    /**
+     * 设置operation
+     * 
+     * @param operation
+     */
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+    
+    /**
      * 获取status
      * 
      * @return status
@@ -1143,15 +1350,6 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    @Transient
-    public String getOriBillId() {
-		return oriBillId;
-	}
-
-	public void setOriBillId(String oriBillId) {
-		this.oriBillId = oriBillId;
-	}
 
 	@Transient
 	public PayType getPayType() {
@@ -1162,14 +1360,6 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 	}
 	
 	@Transient
-	public Bill getBill() {
-		return bill;
-	}
-	public void setBill(Bill bill) {
-		this.bill = bill;
-	}
-	
-	 @Transient
 	public Settlement getOriSettlement() {
 		return oriSettlement;
 	}

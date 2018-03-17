@@ -53,9 +53,9 @@ class ResetPwd extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '重置密码',
-    });
+    // this.props.navigation.setParams({
+    //   title: '重置密码',
+    // });
   }
   componentWillUnmount() {
     clearTimeout(this.timer);

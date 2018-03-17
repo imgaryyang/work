@@ -76,9 +76,9 @@ class Portrait extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    this.props.navigation.setParams({
-      title: '我的头像',
-    });
+    // this.props.navigation.setParams({
+    //   title: '我的头像',
+    // });
   }
 
   takePhoto() {
@@ -225,15 +225,15 @@ class Portrait extends Component {
 
           <View style={Global.styles.FULL_SEP_LINE} />
           <TouchableOpacity style={[styles.buttonHolder, Global.styles.CENTER]} onPress={this.takePhoto} >
-            <Icon iconLib="fa" name="camera" size={22} width={22} height={22} color={Global.colors.IOS_ARROW} style={[Global.styles.ICON]} />
+            <Icon iconLib="fa" name="camera" size={22} width={30} height={30} color={Global.colors.IOS_ARROW} />
             <Text style={{ flex: 1, marginLeft: 10 }} >拍一张照片</Text>
-            <Icon iconLib="fa" name="angle-right" size={18} width={18} height={18} color={Global.colors.IOS_ARROW} style={[Global.styles.ICON, { width: 40 }]} />
+            <Icon iconLib="fa" name="angle-right" size={18} width={30} height={30} color={Global.colors.IOS_ARROW} style={[Global.styles.ICON, { width: 40 }]} />
           </TouchableOpacity>
           <View style={Global.styles.FULL_SEP_LINE} />
           <TouchableOpacity style={[styles.buttonHolder, Global.styles.CENTER]} onPress={this.selectPhoto} >
-            <Icon iconLib="fa" name="photo" size={22} width={22} height={22} color={Global.colors.IOS_ARROW} style={[styles.icon, Global.styles.ICON]} />
+            <Icon iconLib="fa" name="photo" size={22} width={30} height={30} color={Global.colors.IOS_ARROW} />
             <Text style={{ flex: 1, marginLeft: 10 }}>从相册中选择一张</Text>
-            <Icon iconLib="fa" name="angle-right" size={18} width={18} height={18} color={Global.colors.IOS_ARROW} style={[Global.styles.ICON, { width: 40 }]} />
+            <Icon iconLib="fa" name="angle-right" size={18} width={30} height={30} color={Global.colors.IOS_ARROW} style={[Global.styles.ICON, { width: 40 }]} />
           </TouchableOpacity>
           <View style={Global.styles.FULL_SEP_LINE} />
           {saveButton}

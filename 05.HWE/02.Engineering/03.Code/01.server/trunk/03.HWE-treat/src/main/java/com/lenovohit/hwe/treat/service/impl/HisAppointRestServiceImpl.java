@@ -14,13 +14,13 @@ import com.lenovohit.hwe.treat.transfer.RestListResponse;
  */
 public class HisAppointRestServiceImpl implements HisAppointService {
 	GenericRestDto<Appoint> dto;
-	GenericRestDto<Department> deptDto;
+	GenericRestDto<Department> departmentDto;
 	GenericRestDto<Doctor> docDto;
 
-	public HisAppointRestServiceImpl(final GenericRestDto<Appoint> dto, final GenericRestDto<Department> deptDto, final GenericRestDto<Doctor> docDto) {
+	public HisAppointRestServiceImpl(final GenericRestDto<Appoint> dto, final GenericRestDto<Department> departmentDto, final GenericRestDto<Doctor> docDto) {
 		super();
 		this.dto = dto;
-		this.deptDto = deptDto;
+		this.departmentDto = departmentDto;
 		this.docDto = docDto;
 	}
 
@@ -37,7 +37,7 @@ public class HisAppointRestServiceImpl implements HisAppointService {
 
 	@Override
 	public RestListResponse<Department> findDeptList(Department request, Map<String, ?> variables) {
-		return deptDto.getForList("hcp/app/his/appoint/deptList", request, variables);
+		return departmentDto.getForList("hcp/app/his/appoint/deptList", request, variables);
 	}
 
 	@Override

@@ -43,7 +43,6 @@ class InputMoney extends React.Component {
     });
   }
 
-
   render() {
     return (
       <div >

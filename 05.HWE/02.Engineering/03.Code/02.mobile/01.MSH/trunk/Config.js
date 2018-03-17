@@ -189,7 +189,7 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf10', state: '0', route: '', name: '住院单查询',
+        id: 'hf10', state: '1', route: 'InpatientInfo', name: '住院单查询',
         iconLib: '', icon: '', imgIcon: 'inpatientInfo', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
@@ -198,12 +198,13 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf11', state: '0', route: '', name: '住院日清单',
+        id: 'hf11', state: '1', route: 'InpatientDailyBill', name: '住院日清单',
         iconLib: '', icon: '', imgIcon: 'inpatientDailyBill', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
           allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
         },
       },
     ],
@@ -288,6 +289,8 @@ const config = Object.freeze({
     'ConsultRecords',
     'AppAndRegRecords',
     'SignIn',
+    'InpatientInfo',
+    'InpatientDailyBill',
   ],
   needLoginComp: [ // 需要登录才能访问的场景
     'HCTab',
@@ -307,6 +310,8 @@ const config = Object.freeze({
     'PatientList',
     'Payments',
     'ConsultRecords',
+    'InpatientInfo',
+    'InpatientDailyBill',
   ],
   tagTypes: {
     NEAREST: 'nearest',

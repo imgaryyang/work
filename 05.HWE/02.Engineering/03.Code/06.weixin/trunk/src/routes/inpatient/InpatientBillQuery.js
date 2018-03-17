@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, NavBar } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
+import { Card, NavBar, Icon } from 'antd-mobile';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import styles from './InpatientBillQuery.less';
 import ProfileList from '../patients/ProfileList';
@@ -10,6 +11,7 @@ class InpatientBillQuery extends React.Component {
     super(props);
     this.callback = this.callback.bind(this);
     this.loadInpatientBill = this.loadInpatientBill.bind(this);
+    this.goback = this.goback.bind(this);
   }
   componentWillMount() {
     const { currProfile } = this.props.base;
@@ -32,6 +34,10 @@ class InpatientBillQuery extends React.Component {
       payload: query,
     });
   }
+  goback() {
+    console.log('返回');
+    this.props.dispatch(routerRedux.goBack());
+  }
   render() {
     const { data, isLoading } = this.props.inpatientBill;
     const { currProfile } = this.props.base;
@@ -42,7 +48,10 @@ class InpatientBillQuery extends React.Component {
       return (
         <div>
           <NavBar
-            mode="light"
+            mode="dark"
+            leftContent="返回"
+            icon={<Icon type="left" />}
+            onLeftClick={() => this.goback()}
           >住院单查询
           </NavBar>
           <ProfileList callback={this.callback} />
@@ -52,7 +61,10 @@ class InpatientBillQuery extends React.Component {
     return (
       <div>
         <NavBar
-          mode="light"
+          mode="dark"
+          leftContent="返回"
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.goback()}
         >住院单查询
         </NavBar>
         <ProfileList callback={this.callback} />

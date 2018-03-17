@@ -29,7 +29,12 @@ class NewsList extends React.Component {
       return (<WingBlank size="lg"><WingBlank size="sm">
         <WhiteSpace size="lg" />
         <Card onClick={this.showDetail.bind(this, rowID)}>
-          <img className={style['image']} alt="" src={require(`../../assets/images/${rowData.image}`)} />
+          <img
+            className={style['image']}
+            alt=""
+            // TODO: 图片指向java后台维护的新闻图片
+            // src={require(`../../assets/images/${rowData.image}`)}
+          />
           <Card.Body>
             <div>{rowData.createdAt}</div>
             <div>{rowData.caption}</div>

@@ -14,6 +14,7 @@ export const auth = () => ({
   doSave: `${Global.getHost()}app/doSave`,
   setPortrait: `${Global.getHost()}app/setPortrait`,
   changePwd: `${Global.getHost()}app/changePwd`,
+  sendAuthSM: `${Global.getHost()}base/sms/sendCode`,
 });
 
 export const hospital = () => ({
@@ -227,5 +228,11 @@ export const message = () => ({
 export const guide = () => ({
   unfinished: `${Global.getHost()}treat/unfinished`, // 取进行中的就诊记录（门诊及住院）
   guidance: `${Global.getHost()}treat/guidance`, // 根据就诊号或住院号取引导信息
+});
+
+/** ------------------住院---------------------**/
+export const inpatient = () => ({
+  loadHisInpatientInfo: `${Global.getHost()}treat/his/inpatient/info`, // 查询患者住院单信息
+  loadHisInpatientDailylist: `${Global.getHost()}treat/his/inpatient/dailyList`, // 查询患者住院日清单
 });
 

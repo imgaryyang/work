@@ -217,6 +217,59 @@ public class ImagesUtils {
 		return map;
 	}
 	
+	/**
+	 * 文件上传
+	 * 
+	 * @param file
+	 * @return Map
+	 * @throws IOException
+	 */
+	public static Map<String, Object> uploadImage(MultipartFile file, String fileName) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (null == file) {
+			throw new BaseException("文件为空！");
+		}
+
+		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+		long fileSize = file.getSize();
+		if (fileSize > UPLOAD_MAXSIZE) { // 检查文件大小
+			throw new BaseException("上传文件大小超过限制");
+		} else if (!Arrays.<String> asList(UPLOAD_EXTMAP.get("images").split(",")).contains(fileExt)) {// 检查扩展名
+			throw new BaseException("上传文件扩展名是不允许的扩展名。\n只允许" + UPLOAD_EXTMAP.get("images") + "格式。");
+		} else {
+			String savePath =  UPLOAD_BASEPATH + UPLOAD_IMAGES;
+			BufferedOutputStream os = null;	
+
+			try {
+				byte[] bytes = file.getBytes();
+				File dir = new File(savePath);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				
+				// 上传到项目目录
+				os = new BufferedOutputStream(new FileOutputStream(new File(savePath, fileName)));
+				os.write(bytes);
+				
+				map.put("fileExt", fileExt);
+				map.put("fileName", fileName);
+				map.put("fileSize", new java.text.DecimalFormat("#.00").format((double) fileSize / 1024));
+				map.put("filePath", UPLOAD_IMAGES + fileName);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new BaseException("上传失败了！！！");
+			} finally {
+				if (os != null) {
+					os.close();
+				}
+			}
+		}
+
+		return map;
+	}
+	
 	@Value("${hwe.upload.maxsize:10485760}")
 	public void setUPLOAD_MAXSIZE(long uPLOAD_MAXSIZE) {
 		UPLOAD_MAXSIZE = uPLOAD_MAXSIZE;

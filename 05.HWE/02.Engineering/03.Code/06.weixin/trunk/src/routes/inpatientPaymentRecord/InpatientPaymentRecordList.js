@@ -1,22 +1,21 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { List, NavBar, Icon } from 'antd-mobile';
+import { List, NavBar } from 'antd-mobile';
 import moment from 'moment';
 import ProfileList from '../patients/ProfileList';
 
-const Item = List.Item;
-const Brief = Item.Brief;
-
+const { Item } = List;
+const { Brief } = Item;
 class InpatientPaymentRecordList extends React.Component {
   constructor(props) {
     super(props);
     this.callback = this.callback.bind(this);
     this.loadData = this.loadData.bind(this);
   }
-  selectMenu() {
+  gotoForegift() {
     const { dispatch } = this.props;
-    dispatch(routerRedux.push({ pathname: '/payCouter/payment', state: { bizType: '02' } }));
+    dispatch(routerRedux.push({ pathname: '/payCouter/payment', state: { bizType: '04' } }));
   }
   callback(item) {
     const selectProfile = item;
@@ -48,7 +47,7 @@ class InpatientPaymentRecordList extends React.Component {
         <NavBar
           mode="light"
           rightContent={
-            <div key="0" type="search" style={{ marginRight: '16px' }} onClick={() => this.selectMenu()} >
+            <div key="0" type="search" style={{ marginRight: '16px' }} onClick={() => this.gotoForegift()} >
               充值
             </div>
           }

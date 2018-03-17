@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-
 import { connect } from 'react-redux';
 import Button from 'rn-easy-button';
 import Global from '../../../Global';
@@ -35,14 +34,6 @@ class Appoint extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => { this.setState({ doRenderScene: true }); });
-    // this.props.navigation.setParams({
-    //   title: '预约挂号',
-    //   showCurrHospitalAndPatient: true,
-    //   allowSwitchHospital: false,
-    //   allowSwitchPatient: true,
-    //   afterChoosePatient: null,
-    //   hideNavBarBottomLine: false,
-    // });
   }
 
   async confirmAppoint(data) {
@@ -155,7 +146,5 @@ const mapStateToProps = state => ({
   currHospital: state.base.currHospital,
   nav: state.nav,
 });
-
-// Appoint.navigationOptions = { title: '预约挂号' };
 
 export default connect(mapStateToProps)(Appoint);

@@ -28,7 +28,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  * @version 1.0.0 2017-12-22
  */
 @Entity
-@Table(name = "PAY_CASH_BATCH")
+@Table(name = "PAY_CASH_BATCH_NEW")
 public class CashBatch extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 3655251696801994332L;
@@ -48,18 +48,26 @@ public class CashBatch extends AuditableModel implements java.io.Serializable {
     /** amt */
     private BigDecimal amt;
 
-    /** machineId */
-    private String machineId;
+    /** appCode */
+    private String appCode;
 
-    /** machineCode */
-    private String machineCode;
+    /** appName */
+    private String appName;
 
-    /** machineMac */
-    private String machineMac;
+	/**
+	 * APP - APP SSM - SSM SSB - SSB
+	 */
+    private String appType;
 
-    /** machineName */
-    private String machineName;
+    /** terminalCode */
+    private String terminalCode;
 
+    /** terminalName */
+    private String terminalName;
+
+    /** terminalUser */
+    private String terminalUser;
+    
     /** batchDay */
     private String batchDay;
 
@@ -212,81 +220,128 @@ public class CashBatch extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取machineId
+     * 获取appCode
      * 
-     * @return machineId
+     * @return appCode
      */
-    @Column(name = "MACHINE_ID", nullable = true, length = 32)
-    public String getMachineId() {
-        return this.machineId;
+    @Column(name = "APP_CODE", nullable = true, length = 32)
+    public String getAppCode() {
+        return this.appCode;
     }
 
     /**
-     * 设置machineId
+     * 设置appCode
      * 
-     * @param machineId
+     * @param appCode
      */
-    public void setMachineId(String machineId) {
-        this.machineId = machineId;
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 
     /**
-     * 获取machineCode
+     * 获取appName
      * 
-     * @return machineCode
+     * @return appName
      */
-    @Column(name = "MACHINE_CODE", nullable = true, length = 20)
-    public String getMachineCode() {
-        return this.machineCode;
+    @Column(name = "APP_NAME", nullable = true, length = 50)
+    public String getAppName() {
+        return this.appName;
     }
 
     /**
-     * 设置machineCode
+     * 设置appName
      * 
-     * @param machineCode
+     * @param appName
      */
-    public void setMachineCode(String machineCode) {
-        this.machineCode = machineCode;
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     /**
-     * 获取machineMac
+     * 获取APP - APP
+            SSM - SSM
+            SSB - SSB
      * 
-     * @return machineMac
+     * @return APP - APP
+            SSM - SSM
+            SSB - SSB
      */
-    @Column(name = "MACHINE_MAC", nullable = true, length = 28)
-    public String getMachineMac() {
-        return this.machineMac;
+    @Column(name = "APP_TYPE", nullable = true, length = 3)
+    public String getAppType() {
+        return this.appType;
     }
 
     /**
-     * 设置machineMac
+     * 设置APP - APP
+            SSM - SSM
+            SSB - SSB
      * 
-     * @param machineMac
+     * @param appType
+     *          APP - APP
+            SSM - SSM
+            SSB - SSB
      */
-    public void setMachineMac(String machineMac) {
-        this.machineMac = machineMac;
+    public void setAppType(String appType) {
+        this.appType = appType;
     }
 
     /**
-     * 获取machineName
+     * 获取terminalCode
      * 
-     * @return machineName
+     * @return terminalCode
      */
-    @Column(name = "MACHINE_NAME", nullable = true, length = 20)
-    public String getMachineName() {
-        return this.machineName;
+    @Column(name = "TERMINAL_CODE", nullable = true, length = 50)
+    public String getTerminalCode() {
+        return this.terminalCode;
     }
 
     /**
-     * 设置machineName
+     * 设置terminalCode
      * 
-     * @param machineName
+     * @param terminalCode
      */
-    public void setMachineName(String machineName) {
-        this.machineName = machineName;
+    public void setTerminalCode(String terminalCode) {
+        this.terminalCode = terminalCode;
     }
 
+    /**
+     * 获取terminalName
+     * 
+     * @return terminalName
+     */
+    @Column(name = "TERMINAL_NAME", nullable = true, length = 70)
+    public String getTerminalName() {
+        return this.terminalName;
+    }
+
+    /**
+     * 设置terminalName
+     * 
+     * @param terminalName
+     */
+    public void setTerminalName(String terminalName) {
+        this.terminalName = terminalName;
+    }
+
+    /**
+     * 获取terminalUser
+     * 
+     * @return terminalUser
+     */
+    @Column(name = "TERMINAL_USER", nullable = true, length = 50)
+    public String getTerminalUser() {
+        return this.terminalUser;
+    }
+
+    /**
+     * 设置terminalUser
+     * 
+     * @param terminalUser
+     */
+    public void setTerminalUser(String terminalUser) {
+        this.terminalUser = terminalUser;
+    }
+    
     /**
      * 获取batchDay
      * 

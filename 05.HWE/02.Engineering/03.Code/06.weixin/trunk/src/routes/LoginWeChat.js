@@ -62,8 +62,8 @@ class FormItem extends React.Component {
           type: 'base/registerByOpenId',
           payload: {
             ...values,
-            // openid: 'wxd27c1704bb78cf0c',
-            openid,
+            openid: 'wxd27c1704bb78cf0c',
+            // openid,
             mobile,
             smscode: values.smscode,
           },

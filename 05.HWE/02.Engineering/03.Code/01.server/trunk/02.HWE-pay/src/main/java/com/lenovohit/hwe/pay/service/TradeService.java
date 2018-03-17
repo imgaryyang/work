@@ -2,6 +2,7 @@ package com.lenovohit.hwe.pay.service;
 
 import com.lenovohit.hwe.pay.exception.PayException;
 import com.lenovohit.hwe.pay.model.Bill;
+import com.lenovohit.hwe.pay.model.Cash;
 import com.lenovohit.hwe.pay.model.Settlement;
 
 /**
@@ -15,9 +16,10 @@ public interface TradeService {
 
 	public void createPay(Bill bill) throws PayException;
 	public void prePay(Settlement settle) throws PayException;
+	public void cashPay(Cash cash) throws PayException;
 	public void payCallback(Settlement settle) throws PayException;
 	public void payQuery(Settlement settle) throws PayException;
-	public void createRefund(Bill bill) throws PayException;
+//	public void createRefund(Bill bill) throws PayException;
 	public void refund(Settlement settle) throws PayException;
 	public void refundQuery(Settlement settle) throws PayException;
 }

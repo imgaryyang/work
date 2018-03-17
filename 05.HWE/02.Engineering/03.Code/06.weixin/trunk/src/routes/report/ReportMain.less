@@ -1,45 +1,44 @@
-.logo {
+.container {
+  height: 100%;
+}
+.rowContainer {
+  height:55px;  /*设置div的大小*/
+  align-items: center;
+  display: flex;/*边框*/
+  //background-color: #26AB28;
+}
+.rowLogo {
   width:44px;
   height:44px;  /*设置div的大小*/
   border-radius: 22px;
   border:1px solid #F68B24;    /*边框*/
   text-align: center;        /*文字水平居中对齐*/
   line-height: 44px;        /*设置文字行距等于div的高度*/
-  overflow:hidden;
+  overflow:hidden; /*溢出元素内容是否滚动显示*/
   margin-left: 10px;
   color:#F68B24 ;
-  //float:left;
-
+  //background-color: #26AB28;
 }
-
-.content {
-  //float:left;
+.rowContent{
   margin-left: 10px;
-  width:200px;
-  height:44px;  /*设置div的大小*/
-  //border:1px solid #F68B24;    /*边框*/
 }
-.container{
-  height:55px;  /*设置div的大小*/
-  align-items: center;
-  //border:1px solid green;
-  display: flex;/*边框*/
-}
-.name{
+.reportName{
   margin-top: 5px;
 }
-.date{
+.reportDate{
   color: #999999;
   font-size: 12px;
 }
-.header{
-  font-weight: bold;
-}
 .profile{
-  margin-top: 10px;
+  //margin-top: 0px;
   //margin-bottom: 10px;
 }
+/*标题*/
 .section{
-  margin-left: -1000;
-  //border:1px solid #F68B24;
+  font-size: 12px;
+  //width: 100%;
+  //font-weight: bold;
+  //background-color:#999999;
+  //background-color: #ebebef;
+  //height:10px;  /*设置div的大小*/
 }

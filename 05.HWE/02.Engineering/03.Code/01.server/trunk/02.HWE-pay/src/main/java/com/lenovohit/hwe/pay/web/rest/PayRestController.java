@@ -20,6 +20,7 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.pay.exception.PayException;
 import com.lenovohit.hwe.pay.model.Bill;
+import com.lenovohit.hwe.pay.model.Cash;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.TradeService;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
@@ -85,6 +86,28 @@ public class PayRestController extends BaseRestController{
 		
 		return ResultUtils.renderSuccessResult(settle);
 	}
+	
+	/**
+	 * 现金支付
+	 * @return
+	 */
+	@RequestMapping(value = "/cashPay", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Result forCashPay(@RequestBody String data) {
+		//生成充值订单
+		Cash cash = JSONUtils.deserialize(data, Cash.class);
+		try {
+			validCashPay(cash);
+			tradeService.cashPay(cash);
+		} catch (PayException e) {
+			log.error(e.getExceptionCodeAndMessage());
+			return ResultUtils.renderFailureResult(e.getExceptionCodeAndMessage());
+		} catch (Exception e) {
+			log.error("生成预支付订单失败！");
+			return ResultUtils.renderFailureResult("生成预支付订单失败！");
+		}
+		
+		return ResultUtils.renderSuccessResult(cash);
+	}
 
 	@RequestMapping(value = "/callback/{settleId}", method = RequestMethod.POST)
 	public String forCallback(@PathVariable("settleId") String settleId, @RequestBody String data ){
@@ -95,13 +118,13 @@ public class PayRestController extends BaseRestController{
 		try {
 	        //0. 状态检验
 	        String uuid = com.lenovohit.core.utils.StringUtils.uuid();
-			this.settlementManager.executeSql("UPDATE PAY_SETTLEMENT SET FLAG = ? where ID=? and FLAG is null", uuid, settleId);
+			this.settlementManager.executeSql("UPDATE PAY_SETTLEMENT_NEW SET FLAG = ? where ID=? and STATUS = 'A' and FLAG is null", uuid, settleId);
 			settle = this.settlementManager.get(settleId);
 			if(null == settle || !StringUtils.equals(settle.getFlag(), uuid)){
 				_returnStr = callbackReturn(settle, "Fail");
 				return _returnStr;
 			}
-			//1. 业务处理
+			//1. 受理支付回调，进行业务处理
 			settle.getVariables().put("responseStr", data);
 			tradeService.payCallback(settle);
 			_returnStr = callbackReturn(settle, "Success");
@@ -145,44 +168,44 @@ public class PayRestController extends BaseRestController{
 	}
 	
 	
-	/**
-	 * 创建退款账单</p>
-	 * 原账单退款-
-	 * 	{
-	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
-	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
-	 *	}</p>
-	 * 原交易退款-
-	 * 	{
-	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
-	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
-	 *	}</p>
-	 * 银行卡退款-
-	 * 	{
-	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
-	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
-	 *	}
-	 * @return
-	 */
-	@RequestMapping(value = "/createRefund", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
-	public Result forCreateRefund(@RequestBody String data) {
-		//生成充值订单
-		Bill bill = JSONUtils.deserialize(data, Bill.class);
-		try {
-			validCreateRefund(bill);
-			tradeService.createRefund(bill);
-		} catch (PayException e) {
-			log.error(e.getExceptionCodeAndMessage());
-			return ResultUtils.renderFailureResult(e.getExceptionCodeAndMessage());
-		} catch (Exception e) {
-			log.error("生成预支付订单失败！");
-			return ResultUtils.renderFailureResult("生成预支付订单失败！");
-		}
-		
-		return ResultUtils.renderSuccessResult(bill);
-	}
-	
-	
+//	/**
+//	 * 创建退款账单</p>
+//	 * 原账单退款-
+//	 * 	{
+//	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
+//	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
+//	 *	}</p>
+//	 * 原交易退款-
+//	 * 	{
+//	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
+//	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
+//	 *	}</p>
+//	 * 银行卡退款-
+//	 * 	{
+//	 * 		billTitle:'退款',amt:'1.1',appCode:'3',terminalCode:'3',payerNo:'3',
+//	 * 		bizType:'3',bizNo:'3',bizUrl:'3',bizTime:'2018-01-22 00:00:00',
+//	 *	}
+//	 * @return
+//	 */
+//	@RequestMapping(value = "/createRefund", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+//	public Result forCreateRefund(@RequestBody String data) {
+//		//生成充值订单
+//		Bill bill = JSONUtils.deserialize(data, Bill.class);
+//		try {
+//			validCreateRefund(bill);
+//			tradeService.createRefund(bill);
+//		} catch (PayException e) {
+//			log.error(e.getExceptionCodeAndMessage());
+//			return ResultUtils.renderFailureResult(e.getExceptionCodeAndMessage());
+//		} catch (Exception e) {
+//			log.error("生成预支付订单失败！");
+//			return ResultUtils.renderFailureResult("生成预支付订单失败！");
+//		}
+//		
+//		return ResultUtils.renderSuccessResult(bill);
+//	}
+//	
+//	
 	/**
 	 * 退款</p>
 	 * 原订单退款-
@@ -236,12 +259,12 @@ public class PayRestController extends BaseRestController{
 		if (StringUtils.isEmpty(bill.getAppCode())) {
 			throw new PayException("91001010", "appCode should not be NULL!");
 		}
-		if (StringUtils.isEmpty(bill.getTerminalCode())) {
-			throw new PayException("91001010", "terminalCode should not be NULL!");
-		}
-		if (StringUtils.isEmpty(bill.getPayerNo())) {
-			throw new PayException("91001010", "payerNo should not be NULL!");
-		}
+//		if (StringUtils.isEmpty(bill.getTerminalCode())) {
+//			throw new PayException("91001010", "terminalCode should not be NULL!");
+//		}
+//		if (StringUtils.isEmpty(bill.getPayerNo())) {
+//			throw new PayException("91001010", "payerNo should not be NULL!");
+//		}
 		if (StringUtils.isEmpty(bill.getBizType())) {
 			throw new PayException("91001010", "bizType should not be NULL!");
 		}
@@ -259,14 +282,56 @@ public class PayRestController extends BaseRestController{
 		if (null == settle) {
             throw new PayException("91001010", "settle should not be NULL!");
         }
-		if (StringUtils.isEmpty(settle.getBillId())) {
-			throw new PayException("91001010", "billId should not be NULL!");
+		if (StringUtils.isEmpty(settle.getSettleTitle())) {
+			throw new PayException("91001010", "settleTitle should not be NULL!");
+		}
+		if (settle.getAmt() == null || new BigDecimal(0).compareTo(settle.getAmt()) == 1) {
+			throw new PayException("91001020", "amt should not be < 0!");
+		}
+		if (StringUtils.isEmpty(settle.getAppCode())) {
+			throw new PayException("91001010", "appCode should not be NULL!");
+		}
+//		if (StringUtils.isEmpty(bill.getTerminalCode())) {
+//			throw new PayException("91001010", "terminalCode should not be NULL!");
+//		}
+//		if (StringUtils.isEmpty(bill.getPayerNo())) {
+//			throw new PayException("91001010", "payerNo should not be NULL!");
+//		}
+		if (StringUtils.isEmpty(settle.getBizType())) {
+			throw new PayException("91001010", "bizType should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizNo())) {
+			throw new PayException("91001010", "bizNo should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizUrl()) && StringUtils.isEmpty(settle.getBizBean())) {
+			throw new PayException("91001010", "bizUrl or bizBean should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizTime())) {
+			throw new PayException("91001010", "bizTime should not be NULL!");
 		}
 		if (StringUtils.isEmpty(settle.getPayTypeId())) {
 			throw new PayException("91001010", "payTypeId should not be NULL!");
 		}
 	}
-	private void validCreateRefund(Bill bill) {
+	
+	private void validCashPay(Cash cash) {
+		if (null == cash) {
+            throw new PayException("91001010", "cash should not be NULL!");
+        }
+		if (StringUtils.isEmpty(cash.getSettleId())) {
+			throw new PayException("91001010", "settleId should not be NULL!");
+		}
+		if (cash.getAmt() == null || new BigDecimal(0).compareTo(cash.getAmt()) == 1) {
+			throw new PayException("91001020", "amt should not be < 0!");
+		}
+		if (StringUtils.isEmpty(cash.getAppCode())) {
+			throw new PayException("91001010", "appCode should not be NULL!");
+		}
+		if (StringUtils.isEmpty(cash.getTerminalCode())) {
+			throw new PayException("91001010", "terminalCode should not be NULL!");
+		}
+	}
+/*	private void validCreateRefund(Bill bill) {
 		if (null == bill) {
             throw new PayException("91001010", "bill should not be NULL!");
         }
@@ -297,15 +362,42 @@ public class PayRestController extends BaseRestController{
 		if (StringUtils.isEmpty(bill.getBizTime())) {
 			throw new PayException("91001010", "bizTime should not be NULL!");
 		}
-	}
+	}*/
 	
 	private void validRefund(Settlement settle) {
 		if (null == settle) {
             throw new PayException("91001010", "settle should not be NULL!");
         }
-		if (StringUtils.isEmpty(settle.getBillId())) {
-			throw new PayException("91001010", "billId should not be NULL!");
+		if (StringUtils.isEmpty(settle.getSettleTitle())) {
+			throw new PayException("91001010", "settleTitle should not be NULL!");
 		}
+		if (settle.getAmt() == null || new BigDecimal(0).compareTo(settle.getAmt()) == 1) {
+			throw new PayException("91001020", "amt should not be < 0!");
+		}
+		if (StringUtils.isEmpty(settle.getAppCode())) {
+			throw new PayException("91001010", "appCode should not be NULL!");
+		}
+//		if (StringUtils.isEmpty(settle.getTerminalCode())) {
+//			throw new PayException("91001010", "terminalCode should not be NULL!");
+//		}
+//		if (StringUtils.isEmpty(settle.getPayerNo())) {
+//			throw new PayException("91001010", "payerNo should not be NULL!");
+//		}
+		if (StringUtils.isEmpty(settle.getBizType())) {
+			throw new PayException("91001010", "bizType should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizNo())) {
+			throw new PayException("91001010", "bizNo should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizUrl()) && StringUtils.isEmpty(settle.getBizBean())) {
+			throw new PayException("91001010", "bizUrl or bizBean should not be NULL!");
+		}
+		if (StringUtils.isEmpty(settle.getBizTime())) {
+			throw new PayException("91001010", "bizTime should not be NULL!");
+		}
+//		if (StringUtils.isEmpty(settle.getBillId())) {
+//			throw new PayException("91001010", "settleId should not be NULL!");
+//		}
 	}
 	
 	private String callbackReturn(Settlement settle, String type) {

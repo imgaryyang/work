@@ -39,6 +39,8 @@ class Profile extends Component {
     this.changePwd = this.changePwd.bind(this);
     this.afterEdit = this.afterEdit.bind(this);
     // this.getImages = this.getImages.bind(this);
+    this.test = this.test.bind(this);
+    this.afterTest = this.afterTest.bind(this);
   }
 
   state = {
@@ -89,10 +91,22 @@ class Profile extends Component {
   gotoEdit() {
     this.props.navigation.navigate('EditProfile', {
       callback: this.afterEdit,
+      title: '编辑个人资料',
+      headerBackTitle: '首页',
     });
   }
+  test() {
+    console.log('archivesList:', this.props.base.currPatient);
+    this.props.navigation.navigate('ArchivesList2', {
+      callback: this.afterTest,
+      title: '卡号列表',
+    });
+  }
+  afterTest(item) {
+    console.log('aftertest', item);
+  }
   changePwd() {
-    this.props.navigation.navigate('ChangePwd');
+    this.props.navigation.navigate('ChangePwd', { title: '修改密码' });
   }
   renderList() {
     const list = this.getList().map(({ textLeft, textRight, separator }, idx) => {
@@ -140,6 +154,7 @@ class Profile extends Component {
               this.props.navigation.navigate('Portrait', {
                 data: this.state.userInfo,
                 callback: this.afterEdit,
+                title: '我的头像',
               });
             }}
           >
@@ -169,6 +184,13 @@ class Profile extends Component {
             <Button
               text="编辑"
               onPress={this.gotoEdit}
+              theme={Button.THEME.BLUE}
+            />
+          </View>
+          <View style={{ flexDirection: 'row', margin: 20 }} >
+            <Button
+              text="测试"
+              onPress={this.test}
               theme={Button.THEME.BLUE}
             />
           </View>
@@ -226,6 +248,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  base: state.base,
 });
 
 const mapDispatchToProps = dispatch => ({

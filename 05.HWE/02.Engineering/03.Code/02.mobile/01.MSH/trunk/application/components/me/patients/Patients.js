@@ -8,6 +8,7 @@ import {
   InteractionManager,
   Alert,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -35,12 +36,6 @@ const relations = {
 class Patients extends Component {
   static displayName = 'Patients';
   static description = '常用就诊人';
-
-  static renderPlaceholderView() {
-    return (
-      <View style={Global.styles.CONTAINER} />
-    );
-  }
   constructor(props) {
     super(props);
     this.onSearch = this.onSearch.bind(this);
@@ -55,6 +50,7 @@ class Patients extends Component {
     this.gotoEdit = this.gotoEdit.bind(this);
     // this.onSwipeOutOpen = this.onSwipeOutOpen.bind(this);
     this.fetchData = this.fetchData.bind(this);
+    this.renderPlaceholderView = this.renderPlaceholderView.bind(this);
     this.renderToolBar = this.renderToolBar.bind(this);
     this.renderBottomBar = this.renderBottomBar.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -62,6 +58,7 @@ class Patients extends Component {
     this.gotoAdd = this.gotoAdd.bind(this);
     this.afterAdd = this.afterAdd.bind(this);
     this.updateUserPatient = this.updateUserPatient.bind(this);
+    this.checkProfile = this.checkProfile.bind(this);
   }
 
   state = {
@@ -249,6 +246,7 @@ class Patients extends Component {
       data: item,
       callback: this.afterEdit,
       index,
+      title: '编辑就诊人',
     });
   }
   // 跳转到新增记录界面
@@ -260,10 +258,13 @@ class Patients extends Component {
     };
     if (typeof index !== 'undefined') newState = { ...newState, index };
     this.setState(newState);
-    this.props.navigation.navigate('AddPatient', {
+    const path = this.props.base.edition === Global.EDITION_SINGLE ? 'AddPatientSingle' : 'AddPatient';
+    console.log('path', path);
+    this.props.navigation.navigate(path, {
       data: item,
       callback: this.afterAdd,
       index,
+      title: '添加就诊人',
     });
   }
   // 新增完成后回调
@@ -362,6 +363,17 @@ class Patients extends Component {
     }
   }
 
+  renderPlaceholderView() {
+    return (
+      <View style={Global.styles.CONTAINER} >
+        {this.renderToolBar()}
+        <View style={[Global.styles.CENTER, { flex: 1 }]} >
+          <ActivityIndicator />
+        </View>
+      </View>
+    );
+  }
+
   /**
    * 渲染顶端工具栏
    */
@@ -402,11 +414,26 @@ class Patients extends Component {
       </BottomBar>
     );
   }
-
+  checkProfile(profiles, currHospital) {
+    const { id } = currHospital;
+    let num = 0;
+    for (let i = 0; i < profiles.length; i++) {
+      if (profiles[i].hosId === id) {
+        num = num + 1;
+      }
+    }
+    return num;
+  }
   /**
    * 渲染行数据
    */
   renderItem({ item, index }) {
+    const { currHospital, edition } = this.props.base;
+    const profiles = item.profiles ? item.profiles : [];
+    const flag = edition === Global.EDITION_SINGLE ? true : false;
+    const num1 = item.profiles ? item.profiles.length : '0';
+    const num2 = this.checkProfile(profiles, currHospital);
+    const no = flag ? num2 : num1;
     return (
       <Item
         data={item}
@@ -416,41 +443,39 @@ class Patients extends Component {
         showChooseButton={this.state.showChooseButton}
         selected={_.indexOf(this.state.selectedIds, item.id) !== -1}
         onSelect={() => this.onSelect(item.id)}
-        swipeoutConfig={{
-          onOpen: this.onSwipeOutOpen,
-          close: this.state.closeSwipeOut,
-        }}
+        // swipeoutConfig={{
+        //   onOpen: this.onSwipeOutOpen,
+        //   close: this.state.closeSwipeOut,
+        // }}
       >
         <View style={{ flex: 1, flexDirection: 'row' }} >
           <View style={{ flex: 7, flexDirection: 'column' }} >
             <View style={{ flex: 1, flexDirection: 'row' }} >
-              <Text style={{ color: '#2C3742', fontSize: 15 }}>{item.name}</Text>
+              <Text style={{ color: '#2C3742', fontSize: 15, fontWeight: '600' }}>{item.name}</Text>
               <Sep width={10} />
-              <Text style={{ color: '#2C3742', fontSize: 15 }}>{item.gender === '1' ? '男' : '女'}</Text>
+              <Text style={{ color: '#2C3742', fontSize: 13 }}>{item.gender === '1' ? '男' : '女'}</Text>
+              <View style={styles.tagContainer} >
+                <Text style={styles.tag}>{relations[item.relation]}</Text>
+              </View>
+            </View>
+            <Sep height={8} />
+            <View style={{ flex: 1, flexDirection: 'row' }} >
+              <Text style={{ color: '#999999', fontSize: 13 }}>身份证</Text>
               <Sep width={10} />
-              <Text style={{ color: '#2C3742', fontSize: 14 }}>{relations[item.relation]}</Text>
+              <Text style={{ color: '#999999', fontSize: 13 }}>{item.idNo}</Text>
             </View>
             <Sep height={5} />
             <View style={{ flex: 1, flexDirection: 'row' }} >
-              <Text style={{ color: '#999999', fontSize: 14 }}>身份证</Text>
+              <Text style={{ color: '#999999', fontSize: 13 }}>手机号</Text>
               <Sep width={10} />
-              <Text style={{ color: '#999999', fontSize: 14 }}>{item.idNo}</Text>
+              <Text style={{ color: '#999999', fontSize: 13 }}>{item.mobile}</Text>
             </View>
             <Sep height={5} />
             <View style={{ flex: 1, flexDirection: 'row' }} >
-              <Text style={{ color: '#999999', fontSize: 14 }}>手机号</Text>
+              <Text style={{ color: '#999999', fontSize: 13 }}>已绑定</Text>
               <Sep width={10} />
-              <Text style={{ color: '#999999', fontSize: 14 }}>{item.mobile}</Text>
+              <Text style={{ color: '#999999', fontSize: 13 }}>{no} 张就诊卡</Text>
             </View>
-            <Sep height={5} />
-            <View style={{ flex: 1, flexDirection: 'row' }} >
-              <Text style={{ color: '#999999', fontSize: 14 }}>已绑定</Text>
-              <Sep width={10} />
-              <Text style={{ color: '#999999', fontSize: 14 }}>{item.profiles ? item.profiles.length : '0'}张就诊卡</Text>
-            </View>
-          </View>
-          <View style={styles.tagContainer}>
-            <Text style={styles.tag}>{relations[item.relation]}</Text>
           </View>
         </View>
       </Item>
@@ -459,7 +484,7 @@ class Patients extends Component {
 
   render() {
     if (!this.state.doRenderScene) {
-      return Patients.renderPlaceholderView();
+      return this.renderPlaceholderView();
     }
     const { userPatients } = this.props.auth.user.map;
     return (
@@ -526,17 +551,19 @@ const styles = StyleSheet.create({
     height: 28,
   },
   tagContainer: {
-    flex: 1,
-    padding: 1,
+    padding: 2,
+    paddingLeft: 4,
+    paddingRight: 4,
     borderRadius: 3,
+    marginLeft: 8,
+    backgroundColor: Global.colors.IOS_GREEN,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tag: {
-    padding: 2,
-    borderRadius: 3,
     fontSize: 9,
+    lineHeight: 9,
     color: 'white',
-    textAlign: 'center',
-    backgroundColor: Global.colors.IOS_GREEN,
   },
 });
 

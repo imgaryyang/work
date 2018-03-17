@@ -176,7 +176,7 @@ class Login extends Component {
             </Form>
 
             <View style={{ flexDirection: 'row', margin: 10 }} >
-              <Button text="忘记密码？" onPress={() => { this.props.navigation.navigate('ResetPwd'); }} />
+              <Button text="忘记密码？" onPress={() => { this.props.navigation.navigate('ResetPwd', { title: '重置密码', }); }} />
               <Separator width={20} />
               <Button text="登录" onPress={this.login} disabled={this.state.buttonDisabled} />
             </View>
@@ -188,7 +188,7 @@ class Login extends Component {
               还未注册？点击“注册”按钮免费注册。
             </Text>
             <View style={{ margin: 10, marginBottom: 40 }}>
-              <Button text="注册" onPress={() => { this.props.navigation.navigate('Register'); }} theme={Button.THEME.ORANGE} />
+              <Button text="注册" onPress={() => { this.props.navigation.navigate('Register', { title: '注册', }); }} theme={Button.THEME.ORANGE} />
             </View>
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>

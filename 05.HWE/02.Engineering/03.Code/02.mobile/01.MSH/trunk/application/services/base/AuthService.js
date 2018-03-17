@@ -28,3 +28,7 @@ export async function changePwd(data) {
 export async function setPortrait(data) {
   return post(`${auth().setPortrait}`, data);
 }
+
+export async function sendAuthSM(data) {
+  return post(`${auth().sendAuthSM}`, data);
+}

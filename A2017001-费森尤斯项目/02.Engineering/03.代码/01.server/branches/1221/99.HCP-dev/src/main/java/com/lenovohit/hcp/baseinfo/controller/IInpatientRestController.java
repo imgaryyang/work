@@ -1,7 +1,8 @@
 package com.lenovohit.hcp.baseinfo.controller;
 
 
-import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lenovohit.core.manager.GenericManager;
 import com.lenovohit.core.utils.JSONUtils;
 import com.lenovohit.core.utils.StringUtils;
@@ -21,6 +23,7 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hcp.base.model.Hospital;
 import com.lenovohit.hcp.base.model.IInpatient;
+import com.lenovohit.hcp.base.model.IInpatientDaily;
 import com.lenovohit.hcp.base.model.IProfile;
 import com.lenovohit.hcp.base.web.rest.HcpBaseRestController;
 import com.lenovohit.hcp.card.manager.PatientCardManager;
@@ -40,117 +43,105 @@ public class IInpatientRestController extends HcpBaseRestController {
 	private GenericManager<Patient, String> patientManager;
 	
 	@Autowired
+	private GenericManager<IInpatient, String> inPatientManager;
+	
+	@Autowired
+	private GenericManager<IInpatientDaily, String> inPatientDailyManager;
+	
+	@Autowired
 	private PatientCardManager patientCardManager;
 	@Autowired
 	private GenericManager<Hospital, String> hospitalManager;
 	
+	/**
+	 * 查询当前患者住院单
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forInPatientInfo(@RequestParam(value = "data", defaultValue = "") String data){
+		
+		//IInpatient query =  JSONUtils.deserialize(data, IInpatient.class);
+		// 查询条件
+		JSONObject query = JSONObject.parseObject(data);
+		String proNo = query.getString("proNo");
+		String hosNo = query.getString("hosNo");
+		
+		StringBuilder jql = new StringBuilder("from IInpatient where 1=1  ");
+		List<Object> values = new ArrayList<Object>();
+		if(query!=null){
+			//医院编号
+			if (!StringUtils.isEmpty(hosNo)) {
+				jql.append("and hosId = ? ");
+				values.add(hosNo);
+			}
+			//档案编号
+			if(!StringUtils.isEmpty(proNo)){
+				jql.append("and proNo = ? ");
+				values.add(proNo);
+			}
+		}
+		IInpatient inPatient = this.inPatientManager.findOne(jql.toString(), values.toArray());
+		if(inPatient!=null){
+			return ResultUtils.renderSuccessResult(inPatient);
+		}else{
+			return ResultUtils.renderFailureResult("该患者无住院信息");
+		}
+	}
 
 	/**
-	 * 费森没有住院，为获取动态数据暂时从患者基本信息中查询（自己可以手动创建），实际医院中应该查询对应数据
+	 * 查询患者住院日清单
 	 * @param data
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result forList(@RequestParam(value = "data", defaultValue = "") String data){
-		
-		IProfile query =  JSONUtils.deserialize(data, IProfile.class);
-		
-		StringBuilder jql = new StringBuilder("from Patient where 1=1  ");
-		List<Object> values = new ArrayList<Object>();
-		if(query!=null){
-		//医院编号
-		if (!StringUtils.isEmpty(query.getHosNo())) {
-			jql.append("and hosId = ? ");
-			values.add(query.getNo());
+		//IInpatient query =  JSONUtils.deserialize(data, IInpatient.class);
+		// 查询条件
+		JSONObject query = JSONObject.parseObject(data);
+		String proNo = query.getString("proNo");
+		String hosNo = query.getString("hosNo");
+		String startDate = query.getString("startDate");
+		String endDate = query.getString("endDate");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date1 = null;
+		Date date2 = null;
+		try {
+			date1 = format.parse((startDate)+" 00:00:00");
+			date2 = format.parse((endDate)+" 23:59:59");
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		//医院名称
-		if (!StringUtils.isEmpty(query.getHosName())) {
-			jql.append("and hosId in ( select hosId from Hospital hos where hos.hosName like ? )  ");
-			values.add("%" + query.getHosName() + "%");
-		}
-		//档案编号
-		if(!StringUtils.isEmpty(query.getNo())){
-			jql.append("and patientId = ? ");
-			values.add(query.getNo());
-		}
-		//姓名
-		if(!StringUtils.isEmpty(query.getPatientName())){
-			jql.append("and name like ? ");
-			values.add("%" + query.getPatientName() + "%");
-		}
-		//性别
-		if(!StringUtils.isEmpty(query.getGender())){
-			jql.append("and sex = ? ");
-			values.add( query.getGender());
-		}
-		//身份证号码
-		if(!StringUtils.isEmpty(query.getIdno())){
-			jql.append("and idNo = ? ");
-			values.add(query.getIdno());
-		}
-		//就诊卡号
-		if(!StringUtils.isEmpty(query.getCardNo())){
-			jql.append("and medicalCardNo = ? ");
-			values.add(query.getCardNo());
-		}
-		//医保卡号
-		if(!StringUtils.isEmpty(query.getMiCardNo())){
-			jql.append("and miCardNo = ? ");
-			values.add(query.getMiCardNo());
-		}
-		}
-		List<Patient> patients=(List<Patient>) this.patientManager.findByJql(jql.toString(), values.toArray());
-		List<IInpatient> iprofiles=TransFormModels(patients);
-		return ResultUtils.renderSuccessResult(iprofiles);
-	}
-	
-	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Result forPatientInfo(@RequestParam(value = "data", defaultValue = "") String data){
-		
-		IInpatient query =  JSONUtils.deserialize(data, IInpatient.class);
-		
-		StringBuilder jql = new StringBuilder("from Patient where 1=1  ");
+		StringBuilder jql = new StringBuilder("from IInpatientDaily where 1=1  ");
 		List<Object> values = new ArrayList<Object>();
 		if(query!=null){
 			//医院编号
-			if (!StringUtils.isEmpty(query.getHosNo())) {
+			if (!StringUtils.isEmpty(hosNo)) {
 				jql.append("and hosId = ? ");
-				values.add(query.getHosNo());
+				values.add(hosNo);
 			}
-			//医院名称
-			if (!StringUtils.isEmpty(query.getHosName())) {
-				jql.append("and hosId in ( select hosId from Hospital hos where hos.hosName like ? )  ");
-				values.add("%" + query.getHosName() + "%");
+		  	//档案编号
+			if(!StringUtils.isEmpty(proNo)){
+				jql.append("and proNo = ? ");
+				values.add(proNo);
 			}
 			//档案编号
-			if(!StringUtils.isEmpty(query.getNo())){
-				jql.append("and patientId = ? ");
-				values.add(query.getNo());
+			if(!StringUtils.isEmpty(startDate)){
+				jql.append("and chargeTime >= ? ");
+				values.add(date1);
 			}
-			//姓名
-			if(!StringUtils.isEmpty(query.getProName())){
-				jql.append("and name like ? ");
-				values.add("%" + query.getProName() + "%");
-			}
-			//身份证号码
-			if(!StringUtils.isEmpty(query.getIdNo())){
-				jql.append("and idNo = ? ");
-				values.add(query.getIdNo());
-			}
-			//就诊卡号
-			if(!StringUtils.isEmpty(query.getCardNo())){
-				jql.append("and medicalCardNo = ? ");
-				values.add(query.getCardNo());
+			//档案编号
+			if(!StringUtils.isEmpty(endDate)){
+				jql.append("and chargeTime <= ? ");
+				values.add(date2);
 			}
 		}
-		Patient patients= this.patientManager.findOne(jql.toString(), values.toArray());
-		if(patients!=null){
-			IInpatient iprofiles=TransFormModels(patients);
-			//费森不存在预存和预缴的概念所以余额暂时写死
-			iprofiles.setBalance(new BigDecimal(100));
-			return ResultUtils.renderSuccessResult(iprofiles);
+		List<IInpatientDaily> inpatientDaily =(List<IInpatientDaily>) this.inPatientDailyManager.findByJql(jql.toString(), values.toArray());
+		//List<IInpatient> iprofiles=TransFormModels(patients);
+		if(inpatientDaily!=null){
+			return ResultUtils.renderSuccessResult(inpatientDaily);
 		}else{
-			return ResultUtils.renderFailureResult("无此人信息");
+			return ResultUtils.renderFailureResult("该患者无住院信息");
 		}
 	}
 	

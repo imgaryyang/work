@@ -62,10 +62,10 @@ class EditProfile extends Component {
         doRenderScene: true,
       });
     });
-    this.props.navigation.setParams({
-      title: '编辑个人资料',
-      headerBackTitle: '首页',
-    });
+    // this.props.navigation.setParams({
+    //   title: '编辑个人资料',
+    //   headerBackTitle: '首页',
+    // });
   }
 
   componentWillReceiveProps() {
@@ -100,7 +100,7 @@ class EditProfile extends Component {
         });
         this.props.screenProps.hideLoading();
         Toast.show('保存成功');
-        this.props.navigation.navigate('BindArchives', { hospital: {}, data: currPatient });
+        this.props.navigation.navigate('BindArchives', { hospital: {}, data: currPatient, title: '添加卡号', });
       } else {
         this.setState({
           buttonDisabled: false,

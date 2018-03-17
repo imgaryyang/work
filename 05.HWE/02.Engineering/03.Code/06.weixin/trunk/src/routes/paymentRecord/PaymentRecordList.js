@@ -5,19 +5,19 @@ import { List, NavBar } from 'antd-mobile';
 import moment from 'moment';
 import ProfileList from '../patients/ProfileList';
 
-const Item = List.Item;
-const Brief = Item.Brief;
+const { Item } = List;
+const { Brief } = Item;
 class PaymentRecordList extends React.Component {
   constructor(props) {
     super(props);
     this.callback = this.callback.bind(this);
     this.loadData = this.loadData.bind(this);
   }
-  selectMenu() {
+  gotoDeposit() {
     const { dispatch } = this.props;
     const { match } = this.props;
     console.log(match);
-    dispatch(routerRedux.push({ pathname: '/payCouter/payment', state: { bizType: '01' } }));
+    dispatch(routerRedux.push({ pathname: '/payCouter/payment', state: { bizType: '00' } }));
   }
   callback(item) {
     const selectProfile = item;
@@ -48,7 +48,7 @@ class PaymentRecordList extends React.Component {
         <NavBar
           mode="light"
           rightContent={
-            <div key="0" type="search" style={{ marginRight: '16px' }} onClick={() => this.selectMenu()} >
+            <div key="0" type="search" style={{ marginRight: '16px' }} onClick={() => this.gotoDeposit()} >
               充值
             </div>
           }

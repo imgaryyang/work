@@ -17,7 +17,7 @@ const menus = [
   { icon: 'i_daily', text: '住院日清单', description: '住院日清单', uri: '/inpatientDaily/inpatientDailyList' },
   { icon: 'i_recharge', text: '门诊消费记录', description: '门诊消费记录', uri: '/paymentRecord/paymentRecordList' },
   { icon: 'i_foregift', text: '住院预缴记录', description: '住院预缴记录', uri: 'inpatientPaymentRecord/inpatientPaymentRecordList' },
-  { icon: 'i_recharge', text: '门诊预存', description: '门诊预存', uri: '/payment/inputMoney' },
+  // { icon: 'i_recharge', text: '门诊预存', description: '门诊预存', uri: '/payment/inputMoney' },
   { icon: 'i_refund', text: '门诊退费', description: '门诊退费', uri: '/outpatientReturn/outpatientRefundList' },
 ];
 
@@ -31,6 +31,7 @@ const mes = [
 ];
 
 const controls = [
+  '/',
   '/home',
   '/loginZFB',
   '/loginWeChat',
@@ -38,6 +39,7 @@ const controls = [
   '/appoint/schedule',
   '/appoint/source',
   '/news',
+  '/newsDetail',
   '/me/profile',
   '/patientMain/profiles',
   '/patientMain/patient',
@@ -45,6 +47,7 @@ const controls = [
   '/aboutUs',
   '/contactUs',
   '/appoint/records',
+  '/payment/inputMoney',
 ];
 class HomePage extends React.Component {
   constructor(props) {
@@ -100,7 +103,9 @@ class HomePage extends React.Component {
   }
   render() {
     const { selectedTab } = this.props.home;
-    const { openid, userId } = this.props.base;
+    const { openid, userId, user, profiles } = this.props.base;
+    console.log('user', user);
+    console.log('profiles', profiles);
     return (
       <div className={styles['container']}>
         <Prompt message={this.toBind} />

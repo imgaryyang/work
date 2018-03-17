@@ -12,6 +12,7 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Inpatient;
+import com.lenovohit.hwe.treat.model.InpatientChargeDetail;
 import com.lenovohit.hwe.treat.service.HisInpatientService;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
@@ -30,24 +31,7 @@ public class InpatientHisController extends OrgBaseRestController {
 	private HisInpatientService hisInpatientService;
 	
 	/**    
-	 * 功能描述：根据条件查询住院患者信息列表
-	 *@param data
-	 *@return       
-	 *@author GW
-	 *@date 2018年2月1日             
-	*/
-	@RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Result forList(@RequestParam(value = "data", defaultValue = "") String data) {
-		Inpatient model = JSONUtils.deserialize(data, Inpatient.class);
-		RestListResponse<Inpatient> response = this.hisInpatientService.findList(model, null);
-		if(response.isSuccess())
-			return ResultUtils.renderSuccessResult(response.getList());
-		else 
-			return ResultUtils.renderFailureResult(response.getMsg());
-	}
-	
-	/**    
-	 * 功能描述：根据条件查询患者住院信息详情
+	 * 功能描述：根据病人编号、医院编号查询患者当前住院单
 	 *@param data
 	 *@return       
 	 *@author GW
@@ -62,5 +46,23 @@ public class InpatientHisController extends OrgBaseRestController {
 		else 
 			return ResultUtils.renderFailureResult(response.getMsg());
 	}
+	
+	/**    
+	 * 功能描述：查询患者住院日清单
+	 *@param data
+	 *@return       
+	 *@author GW
+	 *@date 2018年2月1日             
+	*/
+	@RequestMapping(value = "dailyList", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forDailyList(@RequestParam(value = "data", defaultValue = "") String data) {
+		Inpatient model = JSONUtils.deserialize(data, Inpatient.class);
+		RestListResponse<InpatientChargeDetail> response = this.hisInpatientService.findDailyList(model, null);
+		if(response.isSuccess())
+			return ResultUtils.renderSuccessResult(response.getList());
+		else 
+			return ResultUtils.renderFailureResult(response.getMsg());
+	}
+	
 }
 	

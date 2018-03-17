@@ -160,10 +160,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// AppAndReg.navigationOptions = ({ navigation }) => ({
-//   title: navigation.state.params.hospital.name || '选择科室',
-// });
-
 const mapStateToProps = state => ({
   currHospital: state.base.currHospital,
 });

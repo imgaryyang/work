@@ -64,7 +64,7 @@ class CurrHospitalAndPatient extends Component {
     if (allowSwitchPatient) {
       const { currHospital } = base;
       this.props.navigate(
-        'PatientList',
+        'PatientListNew',
         {
           callback: this.afterChoosePatient,
           hospital: currHospital,

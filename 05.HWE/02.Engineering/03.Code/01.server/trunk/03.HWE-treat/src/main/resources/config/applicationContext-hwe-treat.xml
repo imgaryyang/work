@@ -11,53 +11,22 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
 	default-lazy-init="false">
-	<!-- ****************  Deposit  START **************** -->
-	<bean id="depositDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Deposit" />
-	</bean>
-	<bean id="depositManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="depositDao" />
-	</bean>
-	<!-- ****************  Deposit  END **************** -->
-	<bean id="foregiftDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Foregift" />
-	</bean>
-	<bean id="foregiftManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="foregiftDao" />
-	</bean>
-	<!-- ****************  Appoint  START **************** -->
-	<bean id="appointDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Appoint" />
-	</bean>
-	<bean id="appointManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="appointDao" />
-	</bean>
-	<!-- ****************  Appoint  END **************** -->
-	<!-- ****************  Schedule  START **************** -->
-	<bean id="scheduleDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Schedule" />
-	</bean>
-	<bean id="scheduleManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="scheduleDao" />
-	</bean>
-	<!-- ****************  Schedule  END **************** -->
 	<!-- ****************  Hospital  START **************** -->
-	<bean id="departmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Department" />
-	</bean>
-	<bean id="departmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="departmentDao" />
-	</bean>
-	<!-- ****************  Hospital  END **************** -->
-	<!-- ****************  AppDepartment  START **************** -->
 	<bean id="hospitalDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Hospital" />
 	</bean>
 	<bean id="hospitalManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
 		<constructor-arg ref="hospitalDao" />
 	</bean>
-	<!-- ****************  AppDepartment  END **************** -->
-	
+	<!-- ****************  Hospital  END **************** -->
+	<!-- ****************  Department  START **************** -->
+	<bean id="departmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Department" />
+	</bean>
+	<bean id="departmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="departmentDao" />
+	</bean>
+	<!-- ****************  Department  END **************** -->
 	<!-- ****************  Doctor  START **************** -->
 	<bean id="doctorDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Doctor" />
@@ -66,82 +35,39 @@
 		<constructor-arg ref="doctorDao" />
 	</bean>
 	<!-- ****************  Doctor  END **************** -->
+	<!-- ****************  InArea  START **************** -->
+	<bean id="inAreaDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InArea" />
+	</bean>
+	<bean id="inAreaManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inAreaDao" />
+	</bean>
+	<!-- ****************  InArea  END **************** -->
+	<!-- ****************  InBed  START **************** -->
+	<bean id="inBedDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InBed" />
+	</bean>
+	<bean id="inBedManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inBedDao" />
+	</bean>
+	<!-- ****************  InBed  END **************** -->
+	<!-- ****************  Drug  START **************** -->
+	<bean id="drugDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Drug" />
+	</bean>
+	<bean id="drugManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="drugDao" />
+	</bean>
+	<!-- ****************  Drug  END **************** -->
+	<!-- ****************  Feeitem  START **************** -->
+	<bean id="feeitemDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Feeitem" />
+	</bean>
+	<bean id="feeitemManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="feeitemDao" />
+	</bean>
+	<!-- ****************  Feeitem  END **************** -->
 	
-	<!-- **************** Community START **************** -->
-	<bean id="consultRecordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.ConsultRecord" />
-	</bean>
-	<bean id="consultRecordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="consultRecordDao" />
-	</bean>
-	<bean id="consultReplyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.ConsultReply" />
-	</bean>
-	<bean id="consultReplyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="consultReplyDao" />
-	</bean>
-	<!-- **************** Community   END **************** -->
-	
-	<!-- **************** RecordTest START **************** -->
-	<bean id="recordTestDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordTest" />
-	</bean>
-	<bean id="recordTestManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="recordTestDao" />
-	</bean>
-	<bean id="testDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.TestDetail" />
-	</bean>
-	<bean id="testDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="testDetailDao" />
-	</bean>
-	
-	<!-- **************** RecordTest   END **************** -->
-
-	<!-- **************** 消费记录Consume START **************** -->
-	<bean id="consumeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Consume" />
-	</bean>
-	<bean id="consumeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="consumeDao" />
-	</bean>
-	<!-- **************** 消费记录Consume END **************** -->
-	
-	<!-- **************** 就诊记录Activity START **************** -->
-	<bean id="activityDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Activity" />
-	</bean>
-	<bean id="activityManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="activityDao" />
-	</bean>
-	<!-- **************** 就诊记录Activity END **************** -->
-	
-	<!-- **************** 医生诊断Diagnose START **************** -->
-	<bean id="diagnoseDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Diagnose" />
-	</bean>
-	<bean id="diagnoseManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="diagnoseDao" />
-	</bean>
-	<!-- **************** 医生诊断Diagnose END **************** -->
-	
-	<!-- **************** 处方Record START **************** -->
-	<bean id="recordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Record" />
-	</bean>
-	<bean id="recordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="recordDao" />
-	</bean>
-	<!-- **************** 处方Record END **************** -->
-	
-	<!-- **************** 药品处方明细RecordDrug START **************** -->
-	<bean id="recordDrugDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordDrug" />
-	</bean>
-	<bean id="recordDrugManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="recordDrugDao" />
-	</bean>
-	<!-- **************** 药品处方明细RecordDrug END **************** -->
 	
 	<!-- **************** Patient START **************** -->
 	<bean id="patientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
@@ -160,47 +86,161 @@
 		<constructor-arg ref="profileDao" />
 	</bean>
 	<!-- **************** Profile   END **************** -->
+	<!-- ****************  Card  START **************** -->
+	<bean id="cardDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Card" />
+	</bean>
+	<bean id="cardManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cardDao" />
+	</bean>
+	<!-- ****************  Card  END **************** -->
+	
+	<!-- ****************  Schedule  START **************** -->
+	<bean id="scheduleDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Schedule" />
+	</bean>
+	<bean id="scheduleManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="scheduleDao" />
+	</bean>
+	<!-- ****************  Schedule  END **************** -->
+	<!-- ****************  Appoint  START **************** -->
+	<bean id="appointDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Appoint" />
+	</bean>
+	<bean id="appointManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appointDao" />
+	</bean>
+	<!-- ****************  Appoint  END **************** -->
+	
+	
+	<!-- ****************  Deposit  START **************** -->
+	<bean id="depositDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Deposit" />
+	</bean>
+	<bean id="depositManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="depositDao" />
+	</bean>
+	<!-- ****************  Deposit  END **************** -->
+	<!-- ****************  Foregift  START **************** -->
+	<bean id="foregiftDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Foregift" />
+	</bean>
+	<bean id="foregiftManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="foregiftDao" />
+	</bean>
+	<!-- ****************  Foregift  END **************** -->
+	<!-- **************** 消费记录Consume START **************** -->
+	<bean id="consumeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Consume" />
+	</bean>
+	<bean id="consumeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="consumeDao" />
+	</bean>
+	<!-- **************** 消费记录Consume END **************** -->
+	
 	<!-- 收费明细和收费记录 -->
-	<bean id="chargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.ChargeDetail" />
-	</bean>
-	<bean id="chargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="chargeDetailDao" />
-	</bean>
 	<bean id="chargeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Charge" />
 	</bean>
 	<bean id="chargeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
 		<constructor-arg ref="chargeDao" />
 	</bean>
+	<bean id="chargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.ChargeDetail" />
+	</bean>
+	<bean id="chargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="chargeDetailDao" />
+	</bean>
 	
-	<!-- **************** Hospital HIS START **************** -->
+	
+	<!-- **************** 就诊记录Activity START **************** -->
+	<bean id="activityDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Activity" />
+	</bean>
+	<bean id="activityManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="activityDao" />
+	</bean>
+	<!-- **************** 就诊记录Activity END **************** -->
+	
+	<!-- **************** 处方Record START **************** -->
+	<bean id="recordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Record" />
+	</bean>
+	<bean id="recordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="recordDao" />
+	</bean>
+	<!-- **************** 处方Record END **************** -->
+	<!-- **************** 药品处方明细RecordDrug START **************** -->
+	<bean id="recordDrugDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordDrug" />
+	</bean>
+	<bean id="recordDrugManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="recordDrugDao" />
+	</bean>
+	<!-- **************** 药品处方明细RecordDrug END **************** -->
+	
+	<!-- **************** RecordTest START **************** -->
+	<bean id="recordTestDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordTest" />
+	</bean>
+	<bean id="recordTestManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="recordTestDao" />
+	</bean>
+	<bean id="testDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.TestDetail" />
+	</bean>
+	<bean id="testDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="testDetailDao" />
+	</bean>
+	<!-- **************** RecordTest   END **************** -->
+	<!-- **************** 医生诊断Diagnose START **************** -->
+	<bean id="diagnoseDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Diagnose" />
+	</bean>
+	<bean id="diagnoseManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="diagnoseDao" />
+	</bean>
+	<!-- **************** 医生诊断Diagnose END **************** -->
+	
+	<!-- **************** 住院病人 Inpatient  START **************** -->
+	<bean id="inpatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Inpatient" />
+	</bean>
+	<bean id="inpatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inpatientDao" />
+	</bean>
+	<bean id="inpatientChargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InpatientChargeDetail" />
+	</bean>
+	<bean id="inpatientChargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inpatientChargeDetailDao" />
+	</bean>
+	<!-- **************** 住院病人 Inpatient  START **************** -->
+	
+	<!-- **************** 医患沟通 Community START **************** -->
+	<bean id="consultRecordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.ConsultRecord" />
+	</bean>
+	<bean id="consultRecordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="consultRecordDao" />
+	</bean>
+	<bean id="consultReplyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.ConsultReply" />
+	</bean>
+	<bean id="consultReplyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="consultReplyDao" />
+	</bean>
+	<!-- **************** 医患沟通 Community   END **************** -->
+
+	
+	<!-- ********************************** Hospital HIS START ********************************** -->
+	<!-- **************** BASE HIS START **************** -->
 	<bean id="hospitalDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Hospital" />
 	</bean>
 	<bean id="hisHospitalService" class="com.lenovohit.hwe.treat.service.impl.HisHospitalRestServiceImpl">
 		<constructor-arg ref="hospitalDto" />
 	</bean>
-	<!-- **************** Hospital HIS END **************** -->
-	
-	<!-- **************** Profile HIS START **************** -->
-	<bean id="profileDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Profile" />
-	</bean>
-	<bean id="hisProfileService" class="com.lenovohit.hwe.treat.service.impl.HisProfileRestServiceImpl">
-		<constructor-arg ref="profileDto" />
-	</bean>
-	<!-- **************** Profile HIS END **************** -->
-	
-	<!-- **************** RecordTest HIS  **************** -->
-	<bean id="recordTestDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordTest" />
-	</bean>
-	<bean id="hisRecordTestService" class="com.lenovohit.hwe.treat.service.impl.HisRecordTestRestServiceImpl">
-		<constructor-arg ref="recordTestDto" />
-	</bean>
-	<!-- **************** RecordTest HIS END **************** -->
-	<!-- **************** Department HIS  **************** -->
 	<bean id="departmentDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Department" />
 	</bean>
@@ -211,31 +251,43 @@
 		<constructor-arg ref="departmentDto" />
 		<constructor-arg ref="consultDeptDto" />
 	</bean>
-	<!-- **************** Department HIS END **************** -->
-	<!-- **************** Schedule HIS  **************** -->
+	<bean id="docDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Doctor" />
+	</bean>
+	<bean id="hisDoctorRestService" class="com.lenovohit.hwe.treat.service.impl.HisDoctorRestServiceImpl">
+		<constructor-arg ref="docDto" />
+	</bean>
+	<!-- **************** BASE HIS START **************** -->
+	
+	
+	<!-- **************** Profile HIS START **************** -->
+	<bean id="profileDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Profile" />
+	</bean>
+	<bean id="hisProfileService" class="com.lenovohit.hwe.treat.service.impl.HisProfileRestServiceImpl">
+		<constructor-arg ref="profileDto" />
+	</bean>
+	<!-- **************** Profile HIS END **************** -->
+	
+	
+	<!-- **************** Appoint HIS START **************** -->
 	<bean id="scheduleDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Schedule" />
 	</bean>
 	<bean id="hisScheduleService" class="com.lenovohit.hwe.treat.service.impl.HisScheduleRestServiceImpl">
 		<constructor-arg ref="scheduleDto" />
 	</bean>
-	<!-- **************** Schedule HIS END **************** -->
-	<!-- **************** Appoint HIS  **************** -->
 	<bean id="appointDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Appoint" />
 	</bean>
-	<bean id="deptDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Department" />
-	</bean>
-	<bean id="docDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Doctor" />
-	</bean>
 	<bean id="hisAppointService" class="com.lenovohit.hwe.treat.service.impl.HisAppointRestServiceImpl">
 		<constructor-arg ref="appointDto" />
-		<constructor-arg ref="deptDto" />
+		<constructor-arg ref="departmentDto" />
 		<constructor-arg ref="docDto" />
 	</bean>
 	<!-- **************** Appoint HIS END **************** -->
+	
+	
 	<!-- **************** Deposit HIS  **************** -->
 	<bean id="depositDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Deposit" />
@@ -243,57 +295,36 @@
 	<bean id="hisDepositService" class="com.lenovohit.hwe.treat.service.impl.HisDepositRestServiceImpl">
 		<constructor-arg ref="depositDto" />
 	</bean>
+	<bean id="consumeDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Consume" />
+	</bean>
+	<bean id="hisConsumeService" class="com.lenovohit.hwe.treat.service.impl.HisConsumeRestServiceImpl">
+		<constructor-arg ref="consumeDto" />
+	</bean>
+	<bean id="foregiftDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Foregift" />
+	</bean>
+	<bean id="hisForegiftService" class="com.lenovohit.hwe.treat.service.impl.HisForegiftRestServiceImpl">
+		<constructor-arg ref="foregiftDto" />
+	</bean>
 	<!-- **************** Deposit HIS END **************** -->
-	<!-- **************** TestDetail HIS  **************** -->
-	<bean id="TestDetailDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.TestDetail" />
-	</bean>
-	<bean id="hisTestDetailService" class="com.lenovohit.hwe.treat.service.impl.HisTestDetailRestServiceImpl">
-		<constructor-arg ref="TestDetailDto" />
-	</bean>
-	<!-- **************** TestDetail HIS END **************** -->
 	
-	<!-- **************** ChargeDetail HIS START **************** -->
-	<bean id="chargeDetailDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.ChargeDetail" />
-	</bean>
-	<bean id="hisChargeDetailService" class="com.lenovohit.hwe.treat.service.impl.HisChargeDetailRestServiceImpl">
-		<constructor-arg ref="chargeDetailDto" />
-	</bean>
+	
+	
+	<!-- **************** Charge HIS START **************** -->
 	<bean id="chargeDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Charge" />
 	</bean>
 	<bean id="hisChargeService" class="com.lenovohit.hwe.treat.service.impl.HisChargeRestServiceImpl">
 		<constructor-arg ref="chargeDto" />
 	</bean>
-	<!-- **************** ChargeDetail HIS END **************** -->
-	
-	<!-- **************** Record HIS START **************** -->
-	<bean id="recordDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Record" />
+	<bean id="chargeDetailDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.ChargeDetail" />
 	</bean>
-	<bean id="hisRecordService" class="com.lenovohit.hwe.treat.service.impl.HisRecordRestServiceImpl">
-		<constructor-arg ref="recordDto" />
+	<bean id="hisChargeDetailService" class="com.lenovohit.hwe.treat.service.impl.HisChargeDetailRestServiceImpl">
+		<constructor-arg ref="chargeDetailDto" />
 	</bean>
-	<!-- **************** Record HIS END **************** -->
-	
-	<!-- **************** RecordDrug HIS START **************** -->
-	<bean id="recordDrugDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordDrug" />
-	</bean>
-	<bean id="hisRecordDrugService" class="com.lenovohit.hwe.treat.service.impl.HisRecordDrugRestServiceImpl">
-		<constructor-arg ref="recordDrugDto" />
-	</bean>
-	<!-- **************** RecordDrug HIS END **************** -->
-	
-	<!-- **************** Diagnose HIS START **************** -->
-	<bean id="diagnoseDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.Diagnose" />
-	</bean>
-	<bean id="diagnoseService" class="com.lenovohit.hwe.treat.service.impl.HisDiagnoseRestServiceImpl">
-		<constructor-arg ref="diagnoseDto" />
-	</bean>
-	<!-- **************** Diagnose HIS END **************** -->
+	<!-- **************** Charge HIS START **************** -->
 	
 	
 	<!-- **************** Activity HIS START **************** -->
@@ -304,17 +335,52 @@
 		<constructor-arg ref="activityDto" />
 	</bean>
 	<!-- **************** Activity HIS END **************** -->
-	<!-- Inpatient -->
+	
+	
+	<!-- **************** RecordTest HIS  **************** -->
+	<bean id="recordTestDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordTest" />
+	</bean>
+	<bean id="hisRecordTestService" class="com.lenovohit.hwe.treat.service.impl.HisRecordTestRestServiceImpl">
+		<constructor-arg ref="recordTestDto" />
+	</bean>
+	<bean id="recordDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Record" />
+	</bean>
+	<bean id="hisRecordService" class="com.lenovohit.hwe.treat.service.impl.HisRecordRestServiceImpl">
+		<constructor-arg ref="recordDto" />
+	</bean>
+	<bean id="recordDrugDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.RecordDrug" />
+	</bean>
+	<bean id="hisRecordDrugService" class="com.lenovohit.hwe.treat.service.impl.HisRecordDrugRestServiceImpl">
+		<constructor-arg ref="recordDrugDto" />
+	</bean>
+	<bean id="TestDetailDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.TestDetail" />
+	</bean>
+	<bean id="hisTestDetailService" class="com.lenovohit.hwe.treat.service.impl.HisTestDetailRestServiceImpl">
+		<constructor-arg ref="TestDetailDto" />
+	</bean>
+	<bean id="diagnoseDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.Diagnose" />
+	</bean>
+	<bean id="diagnoseService" class="com.lenovohit.hwe.treat.service.impl.HisDiagnoseRestServiceImpl">
+		<constructor-arg ref="diagnoseDto" />
+	</bean>
+	<!-- **************** Record HIS END **************** -->
+	
+	
+	<!-- **************** Inpatient HIS START **************** -->
 	<bean id="inpatientDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Inpatient" />
 	</bean>
+	<bean id="inpatientDailyDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InpatientChargeDetail" />
+	</bean>
 	<bean id="hisInpatientService" class="com.lenovohit.hwe.treat.service.impl.HisInpatientRestServiceImpl">
 		<constructor-arg ref="inpatientDto" />
+		<constructor-arg ref="inpatientDailyDto" />
 	</bean>
-	<bean id="consumeDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.AccountInfo" />
-	</bean>
-	<bean id="hisConsumeService" class="com.lenovohit.hwe.treat.service.impl.HisConsumeRestServiceImpl">
-		<constructor-arg ref="consumeDto" />
-	</bean>
+	<!-- **************** Inpatient HIS END **************** -->
 </beans>

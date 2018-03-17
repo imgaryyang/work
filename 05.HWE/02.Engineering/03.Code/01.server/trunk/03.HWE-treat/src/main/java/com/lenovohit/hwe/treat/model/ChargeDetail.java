@@ -96,11 +96,11 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     /** cardNo */
     private String cardNo;
 
-    /** activityId */
-    private String activityId;
+    /** actId */
+    private String actId;
 
-    /** activityNo */
-    private String activityNo;
+    /** actNo */
+    private String actNo;
 
     /** recordId */
     private String recordId;
@@ -574,41 +574,41 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     }
 
     /**
-     * 获取activityId
+     * 获取actId
      * 
-     * @return activityId
+     * @return actId
      */
-    @Column(name = "ACTIVITY_ID", nullable = true, length = 32)
-    public String getActivityId() {
-        return this.activityId;
+    @Column(name = "ACT_ID", nullable = true, length = 32)
+    public String getActId() {
+        return this.actId;
     }
 
     /**
-     * 设置activityId
+     * 设置actId
      * 
-     * @param activityId
+     * @param actId
      */
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
+    public void setActId(String actId) {
+        this.actId = actId;
     }
 
     /**
-     * 获取activityNo
+     * 获取actNo
      * 
-     * @return activityNo
+     * @return actNo
      */
-    @Column(name = "ACTIVITY_NO", nullable = true, length = 50)
-    public String getActivityNo() {
-        return this.activityNo;
+    @Column(name = "ACT_NO", nullable = true, length = 50)
+    public String getActNo() {
+        return this.actNo;
     }
 
     /**
-     * 设置activityNo
+     * 设置actNo
      * 
-     * @param activityNo
+     * @param actNo
      */
-    public void setActivityNo(String activityNo) {
-        this.activityNo = activityNo;
+    public void setActNo(String actNo) {
+        this.actNo = actNo;
     }
 
     /**

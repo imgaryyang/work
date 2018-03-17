@@ -31,14 +31,20 @@ public class CcashpayTcashPayServiceImpl implements PayBaseService {
 	
     @Override
 	public void prePay(Settlement settlement) {
-    	settlement.setRealAmt(settlement.getAmt());
-    	settlement.setStatus(Settlement.SETTLE_STAT_PAY_SUCCESS);
-		settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
-		settlement.setTradeTime(DateUtils.getCurrentDate());
+    	//TODO 啥也不用做！
     }
     @Override
 	public void payCallback(Settlement settlement) {
-    	//TODO 啥也不用做！
+    	if(settlement.getRealAmt().compareTo(new BigDecimal(0.0)) == 0){
+    		return;
+    	}
+    	if(settlement.getRealAmt().compareTo(settlement.getAmt()) >= 0){
+        	settlement.setStatus(Settlement.SETTLE_STAT_PAY_SUCCESS);
+    	} else {
+    		settlement.setStatus(Settlement.SETTLE_STAT_PAY_PARTIAL);
+    	}
+    	settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
+		settlement.setTradeTime(DateUtils.getCurrentDate());
     }
     
     @Override

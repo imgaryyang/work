@@ -72,9 +72,9 @@ class EditMyPatient extends Component {
         doRenderScene: true,
       });
     });
-    this.props.navigation.setParams({
-      title: '编辑就诊人',
-    });
+    // this.props.navigation.setParams({
+    //   title: '编辑就诊人',
+    // });
   }
 
   componentWillUnmount() {
@@ -110,7 +110,7 @@ class EditMyPatient extends Component {
             </Form>
           </Card>
           <ArchivesList data={this.state.value} screenProps={this.props.screenProps} />
-          <Sep height={20} />
+          <Sep height={40} />
         </ScrollView>
       </View>
     );

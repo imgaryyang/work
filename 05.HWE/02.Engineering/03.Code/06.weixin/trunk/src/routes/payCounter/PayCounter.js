@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, WingBlank, Card, Icon, Flex } from 'antd-mobile';
-import wximag from '../../assets/images/wxpay.png';
-import zfbimag from '../../assets/images/alipay.png';
+import wximag from '../../assets/images/pay/wxpay.png';
+import zfbimag from '../../assets/images/pay/alipay.png';
 
 class CashierDesk extends React.Component {
   onWeixinJSBridgeReady = () => {
@@ -86,8 +86,14 @@ class CashierDesk extends React.Component {
     const { bill } = this.props.payment;
     // const userId = '2088602198268947';
     const settlement = {
-      billId: bill.id,
-      amt: bill.amt,
+      settleTitle: bill.billTitle,
+      amt: bill.amt, // 充值金额
+      appCode: bill.appCode, // 应用渠道
+      bizType: bill.bizType, // 门诊预存
+      bizNo: bill.bizNo, // 门诊预存流水号
+      bizUrl: bill.bizUrl,
+      bizBean: bill.bizBean,
+      bizTime: bill.bizTime,
       payTypeId: openid ? '4028748161098e60016109987e280012' : '4028748161098e60016109987e280022',
       payerNo: openid || userId || '',
     };
@@ -125,7 +131,7 @@ class CashierDesk extends React.Component {
             title="支付内容"
           />
           <Card.Body>
-            <span>支付编号：<font >{bill ? bill.billNo : ''}</font>&nbsp;&nbsp;</span>
+            <span>业务编号：<font >{bill ? bill.bizNo : ''}</font>&nbsp;&nbsp;</span>
             <span><br />订单名称：<font >{bill ? bill.billTitle : ''}</font></span>
             <span><br /><div style={{ textAlign: 'right' }}>交易金额：<font style={{ color: '#BC1E1E' }} >{bill ? bill.amt : '' || 0.0}</font>&nbsp;元</div></span>
           </Card.Body>

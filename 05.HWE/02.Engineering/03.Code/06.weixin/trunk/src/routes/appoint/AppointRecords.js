@@ -63,7 +63,7 @@ class AppointRecords extends React.Component {
                   </Flex>
                   <Flex direction="row" align="center" className={less.row}>
                     <div className={less.flex1}>预约时间</div>
-                    <div>{item.appointTime}</div>
+                    <div>{`${item.clinicDate} ${item.clinicTime}`}</div>
                   </Flex>
                   <Flex direction="row" align="center" className={less.row}>
                     <div className={less.flex1}>挂号费</div>
