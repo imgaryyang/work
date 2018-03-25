@@ -272,9 +272,22 @@ class Hospital extends Component {
           }
           scrollEventThrottle={16}
         >
-          <View style={{ alignItems: 'center', height: Hospital.getPicBgHeight() }} >
-            <View style={styles.portraitContainer} >
-              <Image source={logoSource} resizeMode="contain" style={styles.portrait} />
+          <View style={{ justifyContent: 'center', alignItems: 'center', height: Hospital.getPicBgHeight() }} >
+            <View
+              style={[styles.portraitContainer, {
+                width: Hospital.getPicBgHeight() / 3,
+                height: Hospital.getPicBgHeight() / 3,
+                borderRadius: 6, // Hospital.getPicBgHeight() / 3 / 2,
+              }]}
+            >
+              <Image
+                source={logoSource}
+                resizeMode="contain"
+                style={[styles.portrait, {
+                  width: (Hospital.getPicBgHeight() / 3) - 5,
+                  height: (Hospital.getPicBgHeight() / 3) - 5,
+                }]}
+              />
             </View>
             <Text style={styles.hospName} ><B><S>{hospital.name}</S></B></Text>
             <Text style={styles.levelText} ><S>{hospital.name ? Filters.filterHospLevel(hospital.level) : null} | {hospital.type ? Filters.filterHospType(hospital.type) : null}</S></Text>
@@ -320,18 +333,18 @@ const styles = StyleSheet.create({
   },
 
   portraitContainer: {
-    marginTop: 25,
+    // marginTop: 25,
     backgroundColor: 'rgba(102,51,0,.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    // width: 60,
+    // height: 60,
+    // borderRadius: 30,
     overflow: 'hidden',
   },
   portrait: {
-    width: 45,
-    height: 45,
+    // width: 45,
+    // height: 45,
   },
   hospName: {
     marginTop: 8,

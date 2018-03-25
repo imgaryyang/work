@@ -19,6 +19,7 @@ const menus = [
   { icon: 'i_foregift', text: '住院预缴记录', description: '住院预缴记录', uri: 'inpatientPaymentRecord/inpatientPaymentRecordList' },
   // { icon: 'i_recharge', text: '门诊预存', description: '门诊预存', uri: '/payment/inputMoney' },
   { icon: 'i_refund', text: '门诊退费', description: '门诊退费', uri: '/outpatientReturn/outpatientRefundList' },
+  { icon: 'i_refund', text: '充值缴费', description: '充值缴费', uri: '/PayCounterMain2' },
 ];
 
 const mes = [

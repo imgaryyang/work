@@ -240,6 +240,7 @@ class HospitalDepts extends Component {
       ctrlState: this.state.ctrlState,
       data: this.sectionIds,
       showActivityIndicator: true,
+      style: { marginTop: 15 },
     });
     return (
       <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >

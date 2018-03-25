@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lenovohit.core.exception.BaseException;
 import com.lenovohit.core.utils.JSONUtils;
 import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
@@ -33,12 +32,12 @@ public class ScheduleHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forList Before hisScheduleService.findList ========\nquery:\n"+JSONUtils.serialize(query));
 			RestListResponse<Schedule> result=this.hisScheduleService.findList(query, null);
-			
 			log.info("\n======== forList After hisScheduleService.findList ========\nresult:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
-			
-			log.info("\n======== forList Success End ========\nlist:\n"+JSONUtils.serialize(result.getList()));
-			return ResultUtils.renderSuccessResult(result.getList());
+			if (result.isSuccess()){
+				return ResultUtils.renderSuccessResult(result.getList());
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forList Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());

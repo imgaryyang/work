@@ -3,14 +3,12 @@ package com.lenovohit.hwe.pay.service.impl;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.response.AlipayTradeFastpayRefundQueryResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
@@ -19,20 +17,22 @@ import com.lenovohit.core.utils.DateUtils;
 import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.PayBaseService;
-import com.lenovohit.hwe.pay.support.alipay.scan.Alipay;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.builder.AlipayTradePrecreateRequestBuilder;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.builder.AlipayTradeQueryRequestBuilder;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.builder.AlipayTradeRefundQueryRequestBuilder;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.builder.AlipayTradeRefundRequestBuilder;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.result.AlipayF2FPrecreateResult;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.result.AlipayF2FQueryResult;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.result.AlipayF2FRefundQueryResult;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.result.AlipayF2FRefundResult;
+import com.lenovohit.hwe.pay.support.alipay.Alipay;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradePayCallbackRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradePrecreateRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradeQueryRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradeRefundQueryRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradeRefundRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.response.AlipayTradePayCallbackResponse;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradePayCallbackResult;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradePrecreateResult;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradeQueryResult;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradeRefundQueryResult;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradeRefundResult;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
 @Service("calipayTscanPayService")
 public class CalipayTscanPayServiceImpl implements PayBaseService {
     private static Log log = LogFactory.getLog(CalipayTscanPayServiceImpl.class);
-    private static String PAY_SUCCESS_RET = "success";
    
     @Override
 	public void prePay(Settlement settlement) {
@@ -41,11 +41,12 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
         AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
             .setSubject(settlement.getSettleTitle()).setOutTradeNo(settlement.getSettleNo())
             .setTotalAmount(settlement.getAmt().toString()).setUndiscountableAmount("0.0")
-            .setTimeoutExpress(config.getString("trade_out_time")/*Configs.getTradeOutTime()*/).setSellerId("").setBody(settlement.getSettleDesc())
+            .setTimeoutExpress(config.getString("trade_out_time")/*Configs.getTradeOutTime()*/)
+            .setSellerId("").setBody(settlement.getSettleDesc())
             .setTerminalId(settlement.getTerminalCode()).setOperatorId(settlement.getTerminalUser())
 			.setNotifyUrl(config.getString("local_domain") + config.getString("pay_callback_url") /*Configs.getLocalDomain() + Configs.getPayCallbackUrl() */+ settlement.getId())//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
         	.setConfigs(config);
-        AlipayF2FPrecreateResult result = Alipay.tradePrecreate(builder);
+        AlipayTradePrecreateResult result = Alipay.tradePrecreate(builder);
         AlipayTradePrecreateResponse response = result.getResponse();
         switch (result.getTradeStatus()) {
             case SUCCESS:
@@ -55,7 +56,7 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-	    		log.info("支付宝预下单成功: )");
+	    		log.info("支付宝扫码预下单成功: )");
                 break;
                 
             case FAILED:
@@ -65,7 +66,7 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-                log.error("支付宝预下单失败!!!");
+                log.error("支付宝扫码预下单失败!!!");
                 break;
                 
             case UNKNOWN:
@@ -75,7 +76,7 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-                log.error("支付宝预下单系统异常，预下单状态未知，交易关闭!!!");
+                log.error("支付宝扫码预下单系统异常，预下单状态未知，交易关闭!!!");
                 break;
         }
     }
@@ -86,44 +87,59 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
 			Configuration config = PayMerchantConfigCache.getConfig(settlement.getPayType().getPayMerchant());
 			String responseStr = URLDecoder.decode((String) settlement.getVariables().get("responseStr"), "utf-8");
 			settlement.setRespText(responseStr);
-			settlement.getVariables().put("_resultStr", PAY_SUCCESS_RET);
-			Map<String,String> pm = parseUrlToMap(responseStr);
-			boolean checkSign = AlipaySignature.rsaCheckV1(pm, config.getString("alipay_public_key")/*Configs.getAlipayPublicKey()*/, "utf-8", config.getString("sign_type")/*Configs.getSignType()*/); //调用SDK验证签名
-			if(!checkSign){
-				settlement.setStatus(Settlement.SETTLE_STAT_EXCEPTIONAL);
-				settlement.setTradeStatus(Settlement.SETTLE_TRADE_EXCEPTIONAL);
-	            settlement.setTradeTime(DateUtils.getCurrentDate());
-	        	settlement.setTradeRspCode("20001");
-	    		settlement.setTradeRspMsg("验签出错!");
-                log.error("sign check fail: check Sign and Data Fail!");
-                return;
-			}
+			 
+			// 创建支付成功请求builder，设置请求参数
+			AlipayTradePayCallbackRequestBuilder builder = new AlipayTradePayCallbackRequestBuilder()
+				.setResponseStr(responseStr)//支付宝异步通知数据
+	        	.setConfigs(config);
+	        AlipayTradePayCallbackResult result = Alipay.tradePayCallback(builder);
+	        AlipayTradePayCallbackResponse response = result.getResponse();
+	        Map<String, String> pm = response.getResponseMap();
+	        switch (result.getTradeStatus()) {
+            case SUCCESS:
+            	if("TRADE_SUCCESS".equals(pm.get("trade_status"))){
+    				settlement.setStatus(Settlement.SETTLE_STAT_PAY_SUCCESS);
+    				settlement.setPayerAccount(pm.get("buyer_id"));
+    				settlement.setPayerLogin(pm.get("buyer_logon_id"));
+    				settlement.setTradeNo(pm.get("trade_no"));
+    				settlement.setTradeTime(DateUtils.string2Date(pm.get("gmt_payment"), DateUtils.DATE_PATTERN_DASH_YYYYMMDD_HHMMSS));
+    				settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
+    				settlement.setTradeRspCode(pm.get("trade_status"));
+    				settlement.setTradeRspCode("支付成功");
+    			} else if("TRADE_FINISHED".equals(pm.get("trade_status"))) {
+    				settlement.setStatus(Settlement.SETTLE_STAT_PAY_FINISH);
+    				settlement.setPayerAccount(pm.get("buyer_id"));
+    				settlement.setPayerLogin(pm.get("buyer_logon_id"));
+    				settlement.setTradeNo(pm.get("trade_no"));
+    				settlement.setTradeTime(DateUtils.string2Date(pm.get("gmt_payment"), DateUtils.DATE_PATTERN_DASH_YYYYMMDD_HHMMSS));
+    				settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
+    				settlement.setTradeRspCode(pm.get("trade_status"));
+    				settlement.setTradeRspCode("交易完成");
+    			}else if("WAIT_BUYER_PAY".equals(pm.get("trade_status"))) {
+    			}else if("TRADE_CLOSED".equals(pm.get("trade_status"))) {
+    				settlement.setStatus(Settlement.SETTLE_STAT_CLOSED);
+    				settlement.setTradeStatus(Settlement.SETTLE_TRADE_CLOSED);
+    				settlement.setTradeTime(DateUtils.getCurrentDate());
+    				settlement.setTradeRspCode(pm.get("trade_status"));
+    				settlement.setTradeRspCode("交易关闭");
+    			}
+                log.info("支付宝支付异步通知处理成功，交易状态为：" + pm.get("trade_status"));
+                break;
 
-    		if("TRADE_SUCCESS".equals(pm.get("trade_status"))){
-				settlement.setStatus(Settlement.SETTLE_STAT_PAY_SUCCESS);
-				settlement.setPayerAccount(pm.get("buyer_id"));
-				settlement.setPayerLogin(pm.get("buyer_logon_id"));
-				settlement.setTradeNo(pm.get("trade_no"));
-				settlement.setTradeTime(DateUtils.string2Date(pm.get("gmt_payment"), DateUtils.DATE_PATTERN_DASH_YYYYMMDD_HHMMSS));
-				settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
-				settlement.setTradeRspCode(pm.get("trade_status"));
-				settlement.setTradeRspCode("支付成功");
-			} else if("TRADE_FINISHED".equals(pm.get("trade_status"))) {
-				settlement.setStatus(Settlement.SETTLE_STAT_PAY_FINISH);
-				settlement.setPayerAccount(pm.get("buyer_id"));
-				settlement.setPayerLogin(pm.get("buyer_logon_id"));
-				settlement.setTradeNo(pm.get("trade_no"));
-				settlement.setTradeTime(DateUtils.string2Date(pm.get("gmt_payment"), DateUtils.DATE_PATTERN_DASH_YYYYMMDD_HHMMSS));
-				settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
-				settlement.setTradeRspCode(pm.get("trade_status"));
-				settlement.setTradeRspCode("交易完成");
-			}else if("WAIT_BUYER_PAY".equals(pm.get("trade_status"))) {
-			}else if("TRADE_CLOSED".equals(pm.get("trade_status"))) {
-				settlement.setStatus(Settlement.SETTLE_STAT_CLOSED);
-				settlement.setTradeStatus(Settlement.SETTLE_TRADE_CLOSED);
-				settlement.setTradeRspCode(pm.get("trade_status"));
-				settlement.setTradeRspCode("交易关闭");
-			}
+            case FAILED:
+                break;
+                
+            case UNKNOWN:
+            	settlement.setStatus(Settlement.SETTLE_STAT_CLOSED);
+                settlement.setTradeStatus(Settlement.SETTLE_TRADE_EXCEPTIONAL);
+                settlement.setTradeTime(DateUtils.getCurrentDate());
+                settlement.setTradeRspCode(pm.get("code"));
+	    		settlement.setTradeRspMsg(pm.get("msg"));
+	    		settlement.setRespText(response.getBody());
+                log.error("支付宝支付异步通知系统异常，预下单状态未知，交易关闭!!!");
+                break;
+	        }
+
 			
 			if(!StringUtils.isBlank(pm.get("out_trade_no")) && 
 					!StringUtils.equals(pm.get("out_trade_no"), settlement.getSettleNo())){
@@ -154,7 +170,7 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
             settlement.setTradeTime(DateUtils.getCurrentDate());
         	settlement.setTradeRspCode("40004");
     		settlement.setTradeRspMsg("系统处理错误！");
-            log.error("支付宝支付回调系统异常，结算单号为【" + settlement.getSettleNo() + "】");
+            log.error("支付宝扫码支付回调系统异常，结算单号为【" + settlement.getSettleNo() + "】");
 			e.printStackTrace();
 		}
     }
@@ -164,22 +180,23 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
     	Configuration config = PayMerchantConfigCache.getConfig(settlement.getPayType().getPayMerchant());
 		AlipayTradeRefundRequestBuilder builder = new AlipayTradeRefundRequestBuilder()
 				.setTradeNo(settlement.getOriTradeNo()).setOutRequestNo(settlement.getSettleNo())
-				.setRefundAmount(settlement.getAmt().toString()).setRefundReason(settlement.getSettleDesc())
+				.setRefundAmount(settlement.getAmt().toString()).setRefundReason(settlement.getSettleTitle())
 				.setTerminalId(settlement.getTerminalCode()).setOperatorId(settlement.getTerminalUser())
 				.setConfigs(config);
 
-		AlipayF2FRefundResult result = Alipay.tradeRefund(builder);
+		AlipayTradeRefundResult result = Alipay.tradeRefund(builder);
 		AlipayTradeRefundResponse response = result.getResponse();
 		switch (result.getTradeStatus()) {
 	    	case SUCCESS:
 	             settlement.setStatus(Settlement.SETTLE_STAT_REFUND_SUCCESS);
 	             settlement.setTradeStatus(Settlement.SETTLE_TRADE_SUCCESS);
+	             settlement.setPayerAccount(response.getBuyerUserId());
 	             settlement.setTradeNo(response.getTradeNo());
 	             settlement.setTradeTime(response.getGmtRefundPay());
 	             settlement.setTradeRspCode(response.getCode());
 	             settlement.setTradeRspMsg(response.getMsg());
 	             settlement.setRespText(response.getBody());
-	             log.info("支付宝退款成功: )");
+	             log.info("支付宝扫码退款成功: )");
 	             break;
 	
 	         case FAILED:
@@ -189,16 +206,18 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
 	             settlement.setTradeRspCode(response.getCode());
 	             settlement.setTradeRspMsg(response.getMsg());
 	             settlement.setRespText(response.getBody());
-	             log.error("支付宝退款失败!!!");
+	             log.error("支付宝扫码退款失败!!!");
 	             break;
 	
 	         case UNKNOWN:
 	         	 settlement.setStatus(Settlement.SETTLE_STAT_EXCEPTIONAL);
 	             settlement.setTradeStatus(Settlement.SETTLE_TRADE_EXCEPTIONAL);
-	             settlement.setTradeTime(response.getGmtRefundPay());
-	             settlement.setTradeRspCode(response.getCode());
-	             settlement.setTradeRspMsg(response.getMsg());
-	             settlement.setRespText(response.getBody());
+	             if(response != null){
+	            	 settlement.setTradeTime(response.getGmtRefundPay());
+	            	 settlement.setTradeRspCode(response.getCode());
+	            	 settlement.setTradeRspMsg(response.getMsg());
+	            	 settlement.setRespText(response.getBody());
+	             }
 	             log.error("系统异常，订单退款状态未知!!!");
 	             break;
 		 }
@@ -212,9 +231,8 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
 	    		.setOutTradeNo(settlement.getSettleNo())
 	    		.setConfigs(config);
 	
-	    AlipayF2FQueryResult result = Alipay.queryTradeResult(builder);
+	    AlipayTradeQueryResult result = Alipay.queryTradeResult(builder);
 	    AlipayTradeQueryResponse response = result.getResponse();
-	
 	    switch (result.getTradeStatus()) {
 	        case SUCCESS:
 	            settlement.setStatus(Settlement.SETTLE_STAT_PAY_SUCCESS);
@@ -256,9 +274,8 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
 	    		.setOutRequestNo(settlement.getSettleNo())
 	    		.setConfigs(config);
 	
-		AlipayF2FRefundQueryResult result = Alipay.tradeRefundQueryResult(builder);
+		AlipayTradeRefundQueryResult result = Alipay.tradeRefundQueryResult(builder);
 		AlipayTradeFastpayRefundQueryResponse response = result.getResponse();
-	
 	    switch (result.getTradeStatus()) {
 	        case SUCCESS:
 	            settlement.setStatus(Settlement.SETTLE_STAT_REFUND_SUCCESS);
@@ -286,14 +303,4 @@ public class CalipayTscanPayServiceImpl implements PayBaseService {
 	    }
 	}
 
-	private Map<String, String> parseUrlToMap(String str){
-    	Map<String, String> tm = new TreeMap<String, String>();
-    	String[] ss = str.split("\\&");
-		for (String s : ss) {
-			String[] subs = s.split("\\=", 2);
-			tm.put(subs[0], subs[1]);
-		}
-		
-    	return tm;
-    }
 }

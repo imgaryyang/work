@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler } from 'react-native';
+import { BackHandler, View } from 'react-native';
 import Toast from 'react-native-root-toast';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,8 +15,10 @@ import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-n
 
 import NavigationBar from './NavigationBar';
 import Routes from './Routes';
-import CurrHospitalAndPatient, { CompHeight } from '../components/common/CurrHospitalAndPatient';
-// import Global from '../Global';
+// import CurrHospitalAndPatient, { CompHeight } from '../components/common/CurrHospitalAndPatient';
+import CurrHospital, { CompHeight } from '../components/common/CurrHospital';
+import CurrPatient from '../components/common/CurrPatient';
+import Global from '../Global';
 
 export const MainStackNavigator = StackNavigator(Routes, {
   navigationOptions: ({ navigation, navigationOptions }) => {
@@ -25,16 +27,27 @@ export const MainStackNavigator = StackNavigator(Routes, {
     // const STATUSBAR_HEIGHT = Global.os === 'ios' ? 20 : 0;
     // const TITLE_OFFSET = Global.os === 'ios' ? 70 : 56;
     const { params } = navigation.state;
-    const bottom = /* Global.Config.edition === Global.EDITION_MULTI && */params && params.showCurrHospitalAndPatient === true ?
+    const bottom = Global.edition === Global.EDITION_MULTI && params && params.showCurrHospitalAndPatient === true ?
       (
-        <CurrHospitalAndPatient
-          allowSwitchHospital={params.allowSwitchHospital}
+        <View style={{ height: CompHeight, flexDirection: 'row' }} >
+          <CurrHospital
+            allowSwitchHospital={params.allowSwitchHospital}
+            afterChooseHospital={params.afterChooseHospital}
+          />
+          <CurrPatient
+            allowSwitchPatient={params.allowSwitchPatient}
+            afterChoosePatient={params.afterChoosePatient}
+          />
+        </View>
+      ) : null;
+    const fixedRight = Global.edition === Global.EDITION_SINGLE && params && params.showCurrHospitalAndPatient === true ?
+      (
+        <CurrPatient
           allowSwitchPatient={params.allowSwitchPatient}
-          afterChooseHospital={params.afterChooseHospital}
           afterChoosePatient={params.afterChoosePatient}
         />
       ) : null;
-    const bottomHeight = /* Global.Config.edition === Global.EDITION_MULTI && */params && params.showCurrHospitalAndPatient === true ? CompHeight : 0;
+    const bottomHeight = Global.edition === Global.EDITION_MULTI && params && params.showCurrHospitalAndPatient === true ? CompHeight : 0;
     const hideBottomLine = params && params.hideNavBarBottomLine === true;
     const hideShadow = params && params.hideShadow === true;
     return {
@@ -44,6 +57,7 @@ export const MainStackNavigator = StackNavigator(Routes, {
           navigationOptions={navigationOptions}
           bottom={bottom}
           bottomHeight={bottomHeight}
+          fixedRight={fixedRight}
           hideBottomLine={hideBottomLine}
           hideShadow={hideShadow}
         />
@@ -97,6 +111,8 @@ class RootNavigation extends Component {
           getCurrentLocation: (callback) => {
             this.props.getCurrentLocation(callback);
           },
+          reloadUserInfo: this.props.reloadUserInfo,
+          getPatientById: this.props.getPatientById,
         }}
       />
     );
@@ -109,6 +125,7 @@ RootNavigation.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  base: state.base,
   nav: state.nav,
 });
 

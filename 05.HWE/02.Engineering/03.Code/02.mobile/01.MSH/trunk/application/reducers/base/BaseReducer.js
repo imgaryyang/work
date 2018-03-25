@@ -8,6 +8,7 @@ const initialState = {
   hospital: null,
   currLocation: null,
   currPatient: null,
+  currProfile: null,
   currHospital: null,
   currArea: null,
   edition: Global.edition,
@@ -30,6 +31,7 @@ export default function base(state = initialState, action = {}) {
       return {
         ...state,
         currPatient: action.patient,
+        currProfile: action.profile,
       };
     case types.BASE.SET_CURR_HOSPITAL:
       // console.log('action in BaseReducer : case types.BASE.SET_CURR_HOSPITAL:', action);
@@ -52,13 +54,15 @@ export default function base(state = initialState, action = {}) {
         ...state,
         currHospital: null,
         currPatient: null,
+        currProfile: null,
       };
     case types.BASE.SWITCH_EDITION: {
-      const hosp = action.edition === Global.EDITION_SINGLE ? { currHospital: Global.Config.hospital } : {};
+      // const hosp = action.edition === Global.EDITION_SINGLE ? { currHospital: Global.Config.hospital } : {};
       return {
         ...state,
         edition: action.edition,
-        ...hosp,
+        currHospital: action.currHospital,
+        currProfile: action.currProfile,
       };
     }
     default:

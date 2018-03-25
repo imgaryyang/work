@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, WingBlank, Card, Icon, Flex } from 'antd-mobile';
+import { Button, WingBlank, Card, Icon, Flex, Modal } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
 import wximag from '../../assets/images/pay/wxpay.png';
 import zfbimag from '../../assets/images/pay/alipay.png';
+
 
 class CashierDesk extends React.Component {
   onWeixinJSBridgeReady = () => {
@@ -24,9 +26,13 @@ class CashierDesk extends React.Component {
         if (res.err_msg === 'get_brand_wcpay_request:ok') {
           // 支付完成// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
           alert('支付成功!!');
+          Modal.alert('提示', '支付成功', [
+            { text: '确定', onPress: () => this.props.dispatch(routerRedux.goBack()) },
+          ]);
         } else {
-          alert('支付失败!!');
-          alert(res.err_msg);
+          Modal.alert('提示', `支付失败${res.err_msg}`, [
+            { text: '确定', onPress: () => this.props.dispatch(routerRedux.goBack()) },
+          ]);
         }
       },
     );
@@ -53,7 +59,7 @@ class CashierDesk extends React.Component {
   }
 
   doWxPay = () => {
-    console.info('------------doWxPay1--------');
+    console.info('------------doWxPay1--------' + (typeof WeixinJSBridge));
     if (typeof WeixinJSBridge === 'undefined') {
       console.info('------------doWxPay2--------');
       if (document.addEventListener) {
@@ -84,6 +90,10 @@ class CashierDesk extends React.Component {
   submit = () => {
     const { openid, userId } = this.props.base;
     const { bill } = this.props.payment;
+
+    console.log('PayCounter submit begin:');
+    console.info(bill);
+    console.log('PayCounter submit end:');
     // const userId = '2088602198268947';
     const settlement = {
       settleTitle: bill.billTitle,
@@ -102,9 +112,12 @@ class CashierDesk extends React.Component {
       type: 'payment/prePay',
       payload: { settlement },
       callback: () => {
+        console.log('PayCounter:1');
         if (openid) {
+          console.log('PayCounter:2');
           this.doWxPay();
         } else if (userId) {
+          console.log('PayCounter:3');
           this.doZfbPay();
         }
       },
@@ -112,7 +125,7 @@ class CashierDesk extends React.Component {
   }
 
   render() {
-    console.info('----------this.props--------', this.props);
+    console.info('PayCounter----------this.props--------', this.props);
     const { openid, userId } = this.props.base;
     const { bill } = this.props.payment;
     let payTypeName = '';
@@ -127,20 +140,19 @@ class CashierDesk extends React.Component {
     return (
       <div >
         <Card full>
-          <Card.Header
-            title="支付内容"
-          />
           <Card.Body>
-            <span>业务编号：<font >{bill ? bill.bizNo : ''}</font>&nbsp;&nbsp;</span>
-            <span><br />订单名称：<font >{bill ? bill.billTitle : ''}</font></span>
-            <span><br /><div style={{ textAlign: 'right' }}>交易金额：<font style={{ color: '#BC1E1E' }} >{bill ? bill.amt : '' || 0.0}</font>&nbsp;元</div></span>
+            <div>
+              <div style={{ paddingBottom: '10px', fontSize: 14 }}>支付编号：{bill ? bill.bizNo : ''}</div>
+              <div style={{ paddingBottom: '10px', fontSize: 14 }}>订单类型：预存充值</div>
+              <div style={{ paddingBottom: '10px', fontSize: 14 }}>需要支付金额：{bill && bill.amt ? bill.amt : 0}元</div>
+              <div style={{ border: 2 }} />
+            </div>
           </Card.Body>
-          <div style={{ border: 2 }} />
           <Card.Body>
             <span>支付方式：</span>
             <Flex>
               <Flex.Item>
-                <span><div style={{ marginTop: 20 }}><img height="20" width="20" alt="" key="wxIcon" src={payTypeIcon} />&nbsp;<font size="4">{payTypeName}</font></div></span>
+                <div style={{ fontSize: 15 }}><img height="25" align="absmiddle" width="25" alt="" key="wxIcon" src={payTypeIcon} />&nbsp;&nbsp;{payTypeName}</div>
               </Flex.Item>
               <Flex.Item>
                 <div style={{ marginTop: 20, textAlign: 'right' }}><Icon type="check-circle" size="md" color="green" /></div>

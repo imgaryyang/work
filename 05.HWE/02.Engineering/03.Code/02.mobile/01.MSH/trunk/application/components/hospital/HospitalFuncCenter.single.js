@@ -24,6 +24,7 @@ import Global from '../../Global';
 import Ads from './Ads';
 import AppFuncs from './AppFuncs';
 import Tools from './Tools';
+import { setCurrHospital, setCurrPatient } from '../../actions/base/BaseAction';
 
 class HospitalFuncCenter extends Component {
   static displayName = 'HospitalFuncCenter';
@@ -64,7 +65,13 @@ class HospitalFuncCenter extends Component {
         <ScrollView style={styles.scrollView} >
           <Ads navigate={this.props.navigate} />
           <Sep height={15} />
-          <AppFuncs navigate={this.props.navigate} setCurrHospital={() => {}} currHospital={currHospital} />
+          <AppFuncs
+            navigate={this.props.navigate}
+            setCurrHospital={this.props.setCurrHospital}
+            setCurrPatient={this.props.setCurrPatient}
+            currHospital={currHospital}
+            base={this.props.base}
+          />
           <Sep height={15} />
           <Card fullWidth noPadding >
             <View style={styles.cardTitle} >
@@ -163,6 +170,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   navigate: ({ component, params }) => dispatch(NavigationActions.navigate({ routeName: component, params })),
+  setCurrHospital: hospital => dispatch(setCurrHospital(hospital)),
+  setCurrPatient: (patient, profile) => dispatch(setCurrPatient(patient, profile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HospitalFuncCenter);

@@ -13,6 +13,7 @@ import com.lenovohit.hwe.mobile.zfb.configration.ZfbMpProperties;
 import com.lenovohit.hwe.mobile.zfb.mananger.ZfbBaseManger;
 import com.lenovohit.hwe.mobile.zfb.model.ZfbToken;
 
+
 @Component("zfbBaseManger")
 @EnableConfigurationProperties(ZfbMpProperties.class)
 public class ZfbBaseMangerImpl implements ZfbBaseManger {
@@ -31,7 +32,12 @@ public class ZfbBaseMangerImpl implements ZfbBaseManger {
 			AlipaySystemOauthTokenResponse response = client.execute(req);
 			// 注意这里请用getUserID的方法获得，AlipaySystemOauthTokenResponse
 			// 还有个方法getAlipayUserId获得到的就是32位的user_id
-			token.setUserId(response.getUserId());							   
+			token.setUserId(response.getUserId());	
+			token.setAccess_token(response.getAccessToken());
+			token.setExpires_in(response.getExpiresIn());
+			token.setRefresh_token(response.getRefreshToken());
+			token.setErrcode(response.getSubCode());
+			token.setErrmsg(response.getSubMsg());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

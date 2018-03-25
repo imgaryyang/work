@@ -13,11 +13,9 @@ import { connect } from 'react-redux';
 import Toast from 'react-native-root-toast';
 import Global from '../../../Global';
 import SignInRecord from './SignInRecord';
-import PatientInfo from './PatientInfo';
 import PlaceholderView from '../../../modules/PlaceholderView';
 import listState, { initPage } from '../../../modules/ListState';
 import { forReservedList, forSign } from '../../../services/outpatient/AppointService';
-
 
 const params = {
   title: '签到小票',
@@ -34,7 +32,6 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFetchException = this.handleFetchException.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
@@ -73,7 +70,7 @@ class SignIn extends Component {
     });
   }
 
-  onRefresh() {
+  onRefresh(currHospital, currPatient, currProfile) {
     // 滚动到列表顶端
     this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
     // 重新发起按条件查询
@@ -86,7 +83,7 @@ class SignIn extends Component {
         requestErr: false,
         requestErrMsg: null,
       },
-    }, () => this.fetchData());
+    }, () => this.fetchData(currHospital, currPatient, currProfile));
   }
 
   // 列表滑动到底部自动触发
@@ -126,9 +123,8 @@ class SignIn extends Component {
   }
 
   async sign(currPosition) {
-    const { currHospital, navigation, screenProps } = this.props;
-    const { selectedItem } = this.state;
-    const { showLoading, hideLoading } = screenProps;
+    const { currHospital, navigation: { navigate }, screenProps: { showLoading, hideLoading } } = this.props;
+    const { selectedItem: data } = this.state;
     const hosPosition = { latitude: currHospital.latitude, longitude: currHospital.longitude };
 
     showLoading();
@@ -136,13 +132,13 @@ class SignIn extends Component {
       if (currPosition && currPosition.longitude !== null && currPosition.latitude !== null) {
         const distance = geolib.getDistance(currPosition, hosPosition);
         if (distance <= 2000) {
-          const responseData = await forSign(selectedItem);
-          if (responseData.success) {
+          const { success, msg } = await forSign(data);
+          if (success) {
             Toast.show('签到成功');
             this.onRefresh();
-            navigation.navigate('SignInReceipt', { data: selectedItem, ...params });
+            navigate('SignInReceipt', { data, ...params });
           } else {
-            this.handleRequestException({ msg: responseData.msg });
+            Toast.show(`错误：${msg}`);
           }
         } else {
           Toast.show('定位不在医院范围内，无法签到！');
@@ -156,33 +152,16 @@ class SignIn extends Component {
     hideLoading();
   }
 
-  handleFetchException(e) {
-    this.setState({
-      ctrlState: {
-        ...this.state.ctrlState,
-        refreshing: false,
-        infiniteLoading: false,
-        noMoreData: true,
-        requestErr: true,
-        requestErrMsg: e,
-      },
-    });
-    this.handleRequestException(e);
-  }
-
-  async fetchData() {
+  async fetchData(hospital, patient, profile) {
     const { ctrlState, page, data, allData } = this.state;
-    const { currPatient, currHospital } = this.props;
-    const currProfile = PatientInfo.filterProfile(currPatient, currHospital);
+    const { currHospital, currProfile } = this.props;
+    const { no: hosNo } = hospital || currHospital || {};
+    const { no: proNo, mobile, idNo } = profile || currProfile || {};
+    // const currPatient = patient || this.props.currPatient || {};
 
     try {
       if (ctrlState.refreshing) {
-        const { result, success, msg } = await forReservedList({
-          hosNo: currHospital.no,
-          proNo: currProfile ? currProfile.no : null,
-          mobile: currProfile ? (currProfile.mobile || currPatient.mobile) : currPatient.mobile,
-          idNo: currProfile ? (currProfile.idNo || currPatient.idNo) : currPatient.idNo,
-        });
+        const { result, success, msg } = await forReservedList({ hosNo, proNo, mobile, idNo });
         const { start, limit } = initPage;
         if (success) {
           const total = result.length;
@@ -193,7 +172,17 @@ class SignIn extends Component {
             ctrlState: { ...ctrlState, refreshing: false, infiniteLoading: false, noMoreData: (start + limit >= total) },
           });
         } else {
-          this.handleFetchException({ msg });
+          this.setState({
+            ctrlState: {
+              ...this.state.ctrlState,
+              refreshing: false,
+              infiniteLoading: false,
+              noMoreData: true,
+              requestErr: true,
+              requestErrMsg: { msg },
+            },
+          });
+          Toast.show(`错误：${msg}`);
         }
       } else {
         const { start, limit, total } = page;
@@ -204,7 +193,17 @@ class SignIn extends Component {
         });
       }
     } catch (e) {
-      this.handleFetchException(e);
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+          requestErr: true,
+          requestErrMsg: e,
+        },
+      });
+      this.handleRequestException(e);
     }
   }
 
@@ -245,12 +244,8 @@ class SignIn extends Component {
   }
 }
 
-// SignIn.navigationOptions = ({
-//   title: '来院签到',
-// });
-
 const mapStateToProps = state => ({
-  currPatient: state.base.currPatient,
+  currProfile: state.base.currProfile,
   currHospital: state.base.currHospital,
 });
 

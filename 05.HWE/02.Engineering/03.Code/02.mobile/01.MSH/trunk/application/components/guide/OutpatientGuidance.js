@@ -266,7 +266,7 @@ class OutpatientGuidance extends Component {
               outline
               stretch={false}
               style={{ width: 245, height: 30, marginTop: 30 }}
-              onPress={() => this.props.navigate({ routeName: 'Login' })}
+              onPress={() => this.props.navigate({ routeName: Global.getLoginRoute() })}
             />
           </View>
         </View>

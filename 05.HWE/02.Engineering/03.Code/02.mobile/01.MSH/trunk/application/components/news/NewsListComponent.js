@@ -61,14 +61,6 @@ const initPage = { start: 0, limit: 5 };
 class NewsListComponent extends Component {
   static displayName = 'NewsListComponent';
   static description = '列表信息';
-  /**
-   * 渲染过渡场景
-   */
-  static renderPlaceholderView() {
-    return (
-      <View style={Global.styles.CONTAINER} />
-    );
-  }
 
   constructor(props) {
     super(props);
@@ -270,10 +262,20 @@ class NewsListComponent extends Component {
       />
     );
   }
+  /**
+   * 渲染过渡场景
+   */
+  renderPlaceholderView() {
+    return (
+      <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >
+        {this.renderToolBar()}
+      </View>
+    );
+  }
   render() {
     // 场景过渡动画未完成前，先渲染过渡场景
     if (!this.state.doRenderScene) {
-      return NewsListComponent.renderPlaceholderView();
+      return this.renderPlaceholderView();
     }
     // console.log('this.props.navigation in NewsList.render():', this.props.navigation);
 

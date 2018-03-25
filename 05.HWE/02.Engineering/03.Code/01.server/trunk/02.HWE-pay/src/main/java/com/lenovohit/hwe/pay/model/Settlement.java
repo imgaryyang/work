@@ -40,11 +40,9 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 	public static final String SETTLE_TYPE_CANCEL = "SC";// 撤销
 
 	public static final String SETTLE_STAT_INITIAL = "A";// 初始化
-	public static final String SETTLE_STAT_TRAN_SUCCESS = "S";// 交易完成
 	public static final String SETTLE_STAT_PAY_SUCCESS = "0";// 支付成功
 	public static final String SETTLE_STAT_PAY_FAILURE = "1";// 支付失败
 	public static final String SETTLE_STAT_PAY_FINISH = "2";// 交易完成
-	public static final String SETTLE_STAT_TRAN_FAILURE = "3";// 交易失败
 	public static final String SETTLE_STAT_PAY_PARTIAL = "4";// 部分支付
 	public static final String SETTLE_STAT_REFUNDING = "5";// 正在退款
 	public static final String SETTLE_STAT_REFUND_FAILURE = "6";// 退款失败
@@ -54,13 +52,13 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 	public static final String SETTLE_STAT_EXCEPTIONAL = "E";// 异常  
 	public static final String SETTLE_STAT_REVERSE = "R";// 冲账
 
-	public static final String SETTLE_TRADE_INITIAL = "A";// 初始化
+	public static final String SETTLE_TRADE_INITIAL = "A";// 初始化 第三方支付渠道状态
 	public static final String SETTLE_TRADE_SUCCESS = "0";// 交易成功
 	public static final String SETTLE_TRADE_FAILURE = "1";// 交易失败
 	public static final String SETTLE_TRADE_CLOSED = "9";// 交易关闭
 	public static final String SETTLE_TRADE_EXCEPTIONAL = "E";// 交易异常
 	
-	public static final String SETTLE_TRAN_INITIAL = "A";// 初始化
+	public static final String SETTLE_TRAN_INITIAL = "A";// 初始化  业务应用渠道状态
 	public static final String SETTLE_TRAN_SUCCESS = "0";// 交易成功
 	public static final String SETTLE_TRAN_FAILURE = "1";// 交易失败
 	public static final String SETTLE_TRAN_CLOSED = "9";// 交易关闭
@@ -250,7 +248,7 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     /** status */
     private String status;
 
-    private PayType payType;
+    private PayType payType;//支付方式
 	private Settlement oriSettlement;//原流水
 	
     /** 临时变量存储 **/

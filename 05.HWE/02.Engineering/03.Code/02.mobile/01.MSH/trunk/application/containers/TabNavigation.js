@@ -101,7 +101,12 @@ class NavigatorWrappingScreen extends Component {
     return (
       <Button
         onPress={() => {
-          this.props.navigate({ component: 'Message' });
+          this.props.navigate({
+            component: 'Message',
+            params: {
+              title: '消息中心',
+            },
+          });
         }}
         clear
         stretch={false}
@@ -111,7 +116,6 @@ class NavigatorWrappingScreen extends Component {
         }}
       >
         <Icon iconLib="mi" name="message" size={20} width={20} height={35} color={Global.colors.FONT_GRAY} />
-        {/* <Text style={{ color: Global.colors.FONT_GRAY }} >消息</Text>*/}
       </Button>
     );
   }
@@ -171,6 +175,8 @@ class NavigatorWrappingScreen extends Component {
           showLoading: () => { this.props.showLoading(true); },
           hideLoading: () => { this.props.showLoading(false); },
           getCurrentLocation: callback => this.getCurrentLocation(this.props.setCurrLocation, callback),
+          reloadUserInfo: this.props.screenProps.reloadUserInfo,
+          getPatientById: this.props.screenProps.getPatientById,
         }}
       />
     );

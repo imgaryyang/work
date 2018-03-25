@@ -20,7 +20,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.lenovohit.hwe.base.model.AuditableModel;
+
+import org.hibernate.type.CalendarDateType;
 
 /**
  * TREAT_FOREGIFT
@@ -30,7 +31,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_FOREGIFT")
-public class Foregift extends AuditableModel implements java.io.Serializable {
+public class Foregift extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 2752604019696410424L;
 
@@ -48,29 +49,35 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
 
     /** cardNo */
     private String cardNo;
-
-    /** tradeType */
-    private String tradeType;
+    
+    /** cardType */
+    private String cardType;
     
     private String inId;
     
     private String inNo;
+   
+    /** 1:挂号 2:门诊收费  3:体检收费 4.医院授权透支冲账 */
+    private String type;
 
-    /** tradeTime */
-    private Date tradeTime;
-
-    /** tradeNo */
-    private String tradeNo;
-
-    /** outTradeNo */
-    private String outTradeNo;
+    /** 消费流水号 */
+    private String no;
+    
+    /** foregiftTime */
+    private Date foregiftTime;
 
     /** amt */
     private BigDecimal amt;
 
     /** balance */
     private BigDecimal balance;
-
+    
+    /** tradeNo */
+    private String tradeNo;
+    
+    /** tradeTime */
+    private Date tradeTime;
+    
     /** userId */
     private String userId;
 
@@ -79,12 +86,9 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
 
     /** accountName */
     private String accountName;
-
-    /** appChannel */
-    private String appChannel;
-
-    /** appId */
-    private String appId;
+    
+    /** accountType */
+    private String accountType;
 
     /** C-现金
             Z-支付宝
@@ -92,18 +96,30 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
             B-银行
             … */
     private String tradeChannel;
-
+    
+	/** accountType */
+    private String tradeChannelCode;
+    
+    /** tradeTerminalCode */
+    private String tradeTerminalCode;
+    
+    /** batchNo */
+    private String batchNo;
     /** adFlag */
     private String adFlag;
-
-    /** operator */
-    private String operator;
+    
+    /** comment */
+    private String comment;
 
     /** status */
     private String status;
     
-
     private Profile profile;
+    
+    private String hosId;
+    private String hosNo;
+    private String hosName;
+    
 
     /**
      * 获取proId
@@ -200,6 +216,7 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
         this.cardNo = cardNo;
     }
 
+	
     /**
      * 获取inId
      * 
@@ -229,79 +246,61 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
 	}
 	
     /**
-     * 获取tradeType
+     * 获取type
      * 
-     * @return tradeType
+     * @return type
      */
-    @Column(name = "TRADE_TYPE", nullable = true, length = 1)
-    public String getTradeType() {
-        return this.tradeType;
+    @Column(name = "TYPE", nullable = true, length = 1)
+    public String getType() {
+        return this.type;
     }
+
+    /**
+     * 设置type
+     * 
+     * @param type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * 获取no
+     * 
+     * @return no
+     */
+    @Column(name = "NO", nullable = true, length = 50)
+    public String getNo() {
+        return this.no;
+    }
+
+    /**
+     * 设置no
+     * 
+     * @param no
+     */
+    public void setNo(String no) {
+        this.no = no;
+    }
+
     
-	/**
-     * 设置tradeType
+    /**
+     * 获取foregiftTime
      * 
-     * @param tradeType
+     * @return foregiftTime
      */
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
+    @Column(name = "FOREGIFT_TIME", nullable = true)
+    public Date getForegiftTime() {
+        return this.foregiftTime;
     }
 
     /**
-     * 获取tradeTime
+     * 设置time
      * 
-     * @return tradeTime
+     * @param time
      */
-    @Column(name = "TRADE_TIME", nullable = true)
-    public Date getTradeTime() {
-        return this.tradeTime;
-    }
-
-    /**
-     * 设置tradeTime
-     * 
-     * @param tradeTime
-     */
-    public void setTradeTime(Date tradeTime) {
-        this.tradeTime = tradeTime;
-    }
-
-    /**
-     * 获取tradeNo
-     * 
-     * @return tradeNo
-     */
-    @Column(name = "TRADE_NO", nullable = true, length = 50)
-    public String getTradeNo() {
-        return this.tradeNo;
-    }
-
-    /**
-     * 设置tradeNo
-     * 
-     * @param tradeNo
-     */
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
-
-    /**
-     * 获取outTradeNo
-     * 
-     * @return outTradeNo
-     */
-    @Column(name = "OUT_TRADE_NO", nullable = true, length = 50)
-    public String getOutTradeNo() {
-        return this.outTradeNo;
-    }
-
-    /**
-     * 设置outTradeNo
-     * 
-     * @param outTradeNo
-     */
-    public void setOutTradeNo(String outTradeNo) {
-        this.outTradeNo = outTradeNo;
+    public void setForegiftTime(Date foregiftTime) {
+        this.foregiftTime = foregiftTime;
     }
 
     /**
@@ -342,6 +341,44 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
         this.balance = balance;
     }
 
+    /**
+     * 获取tradeNo
+     * 
+     * @return tradeNo
+     */
+    @Column(name = "TRADE_NO", nullable = true, length = 50)
+    public String getTradeNo() {
+        return this.tradeNo;
+    }
+
+    /**
+     * 设置tradeNo
+     * 
+     * @param tradeNo
+     */
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
+    }
+
+    /**
+     * 获取tradeTime
+     * 
+     * @return tradeTime
+     */
+    @Column(name = "TRADE_TIME", nullable = true)
+    public Date getTradeTime() {
+        return this.tradeTime;
+    }
+
+    /**
+     * 设置tradeTime
+     * 
+     * @param tradeTime
+     */
+    public void setTradeTime(Date tradeTime) {
+        this.tradeTime = tradeTime;
+    }
+    
     /**
      * 获取userId
      * 
@@ -399,51 +436,16 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
         this.accountName = accountName;
     }
 
-    /**
-     * 获取appChannel
-     * 
-     * @return appChannel
-     */
-    @Column(name = "APP_CHANNEL", nullable = true, length = 1)
-    public String getAppChannel() {
-        return this.appChannel;
-    }
+	public String getAccountType() {
+		return accountType;
+	}
 
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+	
     /**
-     * 设置appChannel
-     * 
-     * @param appChannel
-     */
-    public void setAppChannel(String appChannel) {
-        this.appChannel = appChannel;
-    }
-
-    /**
-     * 获取appId
-     * 
-     * @return appId
-     */
-    @Column(name = "APP_ID", nullable = true, length = 32)
-    public String getAppId() {
-        return this.appId;
-    }
-
-    /**
-     * 设置appId
-     * 
-     * @param appId
-     */
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    /**
-     * 获取C-现金
-            Z-支付宝
-            W-微信
-            B-银行
-            …
-     * 
+     * 获取 tradeChannel
      * @return C-现金
             Z-支付宝
             W-微信
@@ -463,16 +465,61 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
             …
      * 
      * @param tradeChannel
-     *          C-现金
-            Z-支付宝
-            W-微信
-            B-银行
-            …
      */
     public void setTradeChannel(String tradeChannel) {
         this.tradeChannel = tradeChannel;
     }
 
+    
+
+	public String getTradeTerminalCode() {
+		return tradeTerminalCode;
+	}
+
+	public void setTradeTerminalCode(String tradeTerminalCode) {
+		this.tradeTerminalCode = tradeTerminalCode;
+	}
+
+	public String getBatchNo() {
+		return batchNo;
+	}
+
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
+	}
+	
+    /**
+ 	支付渠道
+     	0000-现金
+		0103-农行
+		0306-广发
+		0308-招行
+		9998-微信
+		9999-支付宝
+		balance-余额
+        …
+    */
+    @Column(name = "TRADE_CHANNEL_CODE", nullable = true)
+    public String getTradeChannelCode() {
+        return this.tradeChannelCode;
+    }
+
+    /**
+     	支付渠道
+	     	0000-现金
+			0103-农行
+			0306-广发
+			0308-招行
+			9998-微信
+			9999-支付宝
+			balance-余额
+            …
+    */
+    public void setTradeChannelCode(String tradeChannelCode) {
+        this.tradeChannelCode = tradeChannelCode;
+    }
+
+    
     /**
      * 获取adFlag
      * 
@@ -493,24 +540,19 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取operator
+     * 获取comment
      * 
-     * @return operator
+     * @return comment
      */
-    @Column(name = "OPERATOR", nullable = true, length = 50)
-    public String getOperator() {
-        return this.operator;
-    }
+    @Column(name = "COMMENT", nullable = true, length = 200)
+	public String getComment() {
+		return comment;
+	}
 
-    /**
-     * 设置operator
-     * 
-     * @param operator
-     */
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
     /**
      * 获取status
      * 
@@ -538,4 +580,81 @@ public class Foregift extends AuditableModel implements java.io.Serializable {
    	public void setProfile(Profile profile) {
    		this.profile = profile;
    	}
+   	
+   	
+   	
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
+    
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+    
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+    
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+    
+    /**
+     * 获取cardType
+     * 
+     * @param cardType
+     */
+    public String getCardType() {
+        return this.cardType;
+    }
 }

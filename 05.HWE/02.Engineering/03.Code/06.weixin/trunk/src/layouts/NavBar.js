@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import classnames from 'classnames';
 // import PropTypes from 'prop-types';
 
-import Icon from '../components/CustomIcon';
+import Icon from '../components/FAIcon';
 import styles from './NavBar.less';
 
 import CurrPatient from '../routes/common/CurrPatient';
@@ -29,7 +29,7 @@ class NavBar extends React.PureComponent {
             this.props.dispatch(routerRedux.goBack());
           }}
         >
-          <Icon type="return" className={styles.leftIcon} />
+          <Icon type="chevron-left" className={styles.leftIcon} />
         </div>
         <div className={styles.title} >
           {title}

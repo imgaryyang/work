@@ -18,7 +18,6 @@ import PopupDialog, {
 } from 'react-native-popup-dialog';
 import Global from '../../../Global';
 import AppointRecord from './AppointRecord';
-import PatientInfo from './PatientInfo';
 import ViewText from '../../../modules/ViewText';
 import PlaceholderView from '../../../modules/PlaceholderView';
 import listState, { initPage } from '../../../modules/ListState';
@@ -34,7 +33,6 @@ class AppAndRegRecords extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFetchException = this.handleFetchException.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
@@ -63,19 +61,12 @@ class AppAndRegRecords extends Component {
       );
     });
     this.props.navigation.setParams({
-      // title: '预约记录',
-      // showCurrHospitalAndPatient: true,
-      // allowSwitchHospital: true,
-      // allowSwitchPatient: true,
       afterChooseHospital: this.onRefresh,
       afterChoosePatient: this.onRefresh,
-      // hideNavBarBottomLine: false,
     });
   }
 
-  onRefresh() {
-    // 滚动到列表顶端
-    this.listRef.scrollToOffset({ x: 0, y: 0, animated: true });
+  onRefresh(hospital, patient, profile) {
     // 重新发起按条件查询
     this.setState({
       ctrlState: {
@@ -86,7 +77,7 @@ class AppAndRegRecords extends Component {
         requestErr: false,
         requestErrMsg: null,
       },
-    }, () => this.fetchData());
+    }, () => this.fetchData(hospital, patient, profile));
   }
 
   // 列表滑动到底部自动触发
@@ -127,14 +118,14 @@ class AppAndRegRecords extends Component {
     showLoading();
 
     try {
-      const responseData = await forCancel(selectedItem);
+      const { success, msg } = await forCancel(selectedItem);
 
-      if (responseData.success) {
+      if (success) {
         this.dialog.dismiss();
         Toast.show('取消成功');
         this.onRefresh();
       } else {
-        this.handleRequestException({ msg: responseData.msg });
+        Toast.show(`错误：${msg}`);
       }
     } catch (e) {
       this.handleRequestException(e);
@@ -142,33 +133,16 @@ class AppAndRegRecords extends Component {
     hideLoading();
   }
 
-  handleFetchException(e) {
-    this.setState({
-      ctrlState: {
-        ...this.state.ctrlState,
-        refreshing: false,
-        infiniteLoading: false,
-        noMoreData: true,
-        requestErr: true,
-        requestErrMsg: e,
-      },
-    });
-    this.handleRequestException(e);
-  }
-
-  async fetchData() {
+  async fetchData(hospital, patient, profile) {
     const { ctrlState, page, data, allData } = this.state;
-    const { currPatient, currHospital } = this.props;
-    const currProfile = PatientInfo.filterProfile(currPatient, currHospital);
+    const { currHospital, currProfile } = this.props;
+    const { no: hosNo } = hospital || currHospital || {};
+    const { no: proNo, mobile, idNo } = profile || currProfile || {};
+    // const currPatient = patient || this.props.currPatient || {};
 
     try {
       if (ctrlState.refreshing) {
-        const { result, success, msg } = await forReservedList({
-          hosNo: currHospital.no,
-          proNo: currProfile ? currProfile.no : null,
-          mobile: currProfile ? (currProfile.mobile || currPatient.mobile) : currPatient.mobile,
-          idNo: currProfile ? (currProfile.idNo || currPatient.idNo) : currPatient.idNo,
-        });
+        const { result, success, msg } = await forReservedList({ hosNo, proNo, mobile, idNo });
         const { start, limit } = initPage;
         if (success) {
           const total = result.length;
@@ -179,7 +153,17 @@ class AppAndRegRecords extends Component {
             ctrlState: { ...ctrlState, refreshing: false, infiniteLoading: false, noMoreData: (start + limit >= total) },
           });
         } else {
-          this.handleFetchException({ msg });
+          this.setState({
+            ctrlState: {
+              ...this.state.ctrlState,
+              refreshing: false,
+              infiniteLoading: false,
+              noMoreData: true,
+              requestErr: true,
+              requestErrMsg: { msg },
+            },
+          });
+          Toast.show(`错误：${msg}`);
         }
       } else {
         const { start, limit, total } = page;
@@ -190,7 +174,17 @@ class AppAndRegRecords extends Component {
         });
       }
     } catch (e) {
-      this.handleFetchException(e);
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+          requestErr: true,
+          requestErrMsg: e,
+        },
+      });
+      this.handleRequestException(e);
     }
   }
 
@@ -228,7 +222,7 @@ class AppAndRegRecords extends Component {
         />
         <PopupDialog
           ref={(ref) => { this.dialog = ref; }}
-          dialogTitle={<DialogTitle title="取消预约" />}
+          dialogTitle={<DialogTitle title="取消预约" titleTextStyle={{ fontSize: 15 }} />}
           dialogAnimation={fadeAnimation}
           dismissOnHardwareBackPress
           width={0.9}
@@ -280,7 +274,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
   },
   dialogText: {
-    fontSize: 16,
+    fontSize: 14,
   },
   dialogActions: {
     borderTopWidth: Global.lineWidth,
@@ -288,7 +282,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 15,
     // color: 'white',
   },
   buttonTextContainer: {
@@ -296,12 +290,8 @@ const styles = StyleSheet.create({
   },
 });
 
-// AppAndRegRecords.navigationOptions = ({ navigation }) => ({
-//   title: navigation.state.params.hospital.name || '预约查询',
-// });
-
 const mapStateToProps = state => ({
-  currPatient: state.base.currPatient,
+  currProfile: state.base.currProfile,
   currHospital: state.base.currHospital,
 });
 

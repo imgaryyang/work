@@ -19,8 +19,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.lenovohit.hwe.base.model.AuditableModel;
-
 /**
  * TREAT_PROFILE
  * 
@@ -29,7 +27,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_PROFILE")
-public class Profile extends AuditableModel implements java.io.Serializable {
+public class Profile extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -2969951194691603037L;
     
@@ -54,11 +52,11 @@ public class Profile extends AuditableModel implements java.io.Serializable {
     /** hosName */
     private String hosName;
 
+    /** type */
+    private String type;
+    
     /** no */
     private String no;
-
-    /** inno */
-    private String inno;
 
     /** name */
     private String name;
@@ -113,15 +111,12 @@ public class Profile extends AuditableModel implements java.io.Serializable {
 
     /** address */
     private String address;
-
-    /** type */
-    private String type;
+    
+    /** total */
+    private BigDecimal total;
 
     /** balance */
     private BigDecimal balance;
-
-    /** openType */
-    private String openType;
 
     /** acctNo */
     private String acctNo;
@@ -138,6 +133,9 @@ public class Profile extends AuditableModel implements java.io.Serializable {
     /** cardStatus */
     private String cardStatus;
 
+    /** openType */
+    private String openType;
+
     /** guaranteeIdno */
     private String guaranteeIdno;
 
@@ -150,9 +148,9 @@ public class Profile extends AuditableModel implements java.io.Serializable {
     /** status */
     private String status;
     
-    private String identify;//业务需要
+    private String identify;//标识业务需要 档案是否认证？
     
-    private BigDecimal age;
+    private BigDecimal age;//年龄
 
     /**
      * 获取patientId
@@ -285,25 +283,6 @@ public class Profile extends AuditableModel implements java.io.Serializable {
      */
     public void setNo(String no) {
         this.no = no;
-    }
-
-    /**
-     * 获取inno
-     * 
-     * @return inno
-     */
-    @Column(name = "INNO", nullable = true, length = 50)
-    public String getInno() {
-        return this.inno;
-    }
-
-    /**
-     * 设置inno
-     * 
-     * @param inno
-     */
-    public void setInno(String inno) {
-        this.inno = inno;
     }
 
     /**
@@ -687,6 +666,25 @@ public class Profile extends AuditableModel implements java.io.Serializable {
     }
 
     /**
+     * 获取total
+     * 
+     * @return total
+     */
+    @Column(name = "TOTAL", nullable = true)
+    public BigDecimal getTotal() {
+        return this.total;
+    }
+
+    /**
+     * 设置total
+     * 
+     * @param total
+     */
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+    
+    /**
      * 获取balance
      * 
      * @return balance
@@ -903,6 +901,5 @@ public class Profile extends AuditableModel implements java.io.Serializable {
 	public void setIdentify(String identify) {
 		this.identify = identify;
 	}
-    
     
 }

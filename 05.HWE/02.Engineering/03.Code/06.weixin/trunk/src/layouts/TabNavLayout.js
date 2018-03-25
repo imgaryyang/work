@@ -27,14 +27,16 @@ const controls = [
   '/stack/appoint/source',
   '/stack/news',
   '/stack/newsDetail',
-  '/stack/me/profile',
-  '/stack/patientMain/profiles',
-  '/stack/patientMain/patient',
+  '/stack/profile',
+  '/stack/archives',
+  '/stack/patient',
   '/stack/feedBack',
   '/stack/aboutUs',
   '/stack/contactUs',
   '/stack/appoint/records',
   '/stack/payment/inputMoney',
+  '/stack/inpatientBillQuery',
+  '/stack/inpatientDaily',
 ];
 
 class TabNavLayout extends React.Component {
@@ -48,10 +50,6 @@ class TabNavLayout extends React.Component {
         width: screenWidth,
         height: screenHeight,
       },
-    });
-    dispatch({
-      type: 'home/save',
-      payload: { selectedTab: 'hfc' },
     });
 
     this.pressTab = this.pressTab.bind(this);

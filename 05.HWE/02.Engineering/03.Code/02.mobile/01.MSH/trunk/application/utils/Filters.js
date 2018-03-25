@@ -4,6 +4,19 @@
 
 import _ from 'lodash';
 
+export function spaceAfterFourLetters(v) {
+  if (/\S{5}/.test(v)) {
+    return v.replace(/\s/g, '').replace(/(.{4})/g, '$1 ');
+  }
+  return v;
+}
+export function spaceAfterThreeLetters(v) {
+  if (/\S{4}/.test(v)) {
+    return v.replace(/\s/g, '').replace(/(.{3})/g, '$1 ');
+  }
+  return v;
+}
+
 /**
  * 格式化卡号，显示卡号后4位，前面所有数字显示为 *
  * @param  {[string]}
@@ -130,4 +143,6 @@ export function filterHtmlForWiki(str) {
   return rst;
 }
 
-export function isValidArray(array)
+export function isValidArray(array) {
+  return Array.isArray(array) && array.length;
+}

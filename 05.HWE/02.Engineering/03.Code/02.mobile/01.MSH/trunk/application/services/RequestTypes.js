@@ -15,6 +15,8 @@ export const auth = () => ({
   setPortrait: `${Global.getHost()}app/setPortrait`,
   changePwd: `${Global.getHost()}app/changePwd`,
   sendAuthSM: `${Global.getHost()}base/sms/sendCode`,
+  // 获取用户对象，包含 userPatients 及 userHabits 等关联数据
+  reloadUserInfo: `${Global.getHost()}app/getUser`,
 });
 
 export const hospital = () => ({
@@ -51,6 +53,10 @@ export const patient = () => ({
   updateUserPatients: `${Global.getHost()}app/userPatient/updateUserPatients`,
   getPreStore: `${Global.getHost()}treat/his/profile/info`,
   getPrePay: `${Global.getHost()}treat/his/inpatient/info`,
+  // 从HIS查询患者档案
+  queryHisProfiles: `${Global.getHost()}treat/his/profile/list`,
+  // 绑定档案
+  bindProfile: `${Global.getHost()}app/userPatient/bindProfile`,
 });
 
 
@@ -104,14 +110,6 @@ export const app = () => ({
 });
 
 /** ------------------HIS业务---------------------**/
-export const medicalCheck = () => ({
-  loadCheckList: `${Global.getHost()}treat/medicalCheck/loadCheckList`,
-  loadCheckDetail: `${Global.getHost()}treat/medicalCheck/loadCheckDetail`,
-  loadHisCheckList: `${Global.getHost()}treat/medicalCheck/loadHisCheckList`,
-  loadHisCheckDetail: `${Global.getHost()}treat/medicalCheck/loadHisCheckDetail`,
-
-});
-
 export const consultRecord = () => ({
   list: `${Global.getHost()}treat/consultRecord/list`,
   page: `${Global.getHost()}treat/consultRecord/page`,
@@ -131,13 +129,15 @@ export const doctor = () => ({
   listByHospital: `${Global.getHost()}treat/doctor/listByHospital`,
 });
 
-
 export const records = () => ({
   list: `${Global.getHost()}treat/his/activity/list`,
   diagnoseList: `${Global.getHost()}treat/his/activity/diagnoseList`,
-  recordDrugList: `${Global.getHost()}treat/his/activity/recordDrugList`,
-  recordTestList: `${Global.getHost()}treat/his/activity/recordTestList`,
   recordList: `${Global.getHost()}treat/his/activity/recordList`,
+});
+// //LIS PACS接口
+export const hisTest = () => ({
+  testList: `${Global.getHost()}treat/his/test/list`,
+  testDetailList: `${Global.getHost()}treat/his/testDetail/list`,
 });
 
 export const payRecords = () => ({
@@ -167,12 +167,15 @@ export const appoint = () => ({
   list: `${Global.getHost()}treat/his/appoint/list`,
   // 3.4.11 患者预约记录查询
   reservedList: `${Global.getHost()}treat/his/appoint/reserved/list`,
+  // 无卡预约记录查询
+  reservedNoCardList: `${Global.getHost()}treat/appoint/reserved/noCard/list`,
 });
 
 /** --------------------缴费------------------- */
 export const patientPayment = () => ({
   patientPaymentList: `${Global.getHost()}treat/his/chargeDetail/list`,
   getPrePaymentInfo: `${Global.getHost()}treat/charge/prePayInfo`,
+  createDeposit: `${Global.getHost()}treat/deposit/recharge`, // 预存充值
 });
 
 
@@ -198,6 +201,10 @@ export const base = () => ({
   imgByFK: `${Global.getHost()}base/images/viewByFkId/`,
   sectionDescPage: `${Global.getHost()}base/desc/page`,
   contactPage: `${Global.getHost()}base/contact/page`,
+  // 发送验证码
+  sendSecurityCode: `${Global.getHost()}base/sms/securityCode`,
+  // 校验验证码
+  verifySecurityCode: `${Global.getHost()}base/sms/verifySecurityCode`,
 });
 
 export const images = () => ({
@@ -234,5 +241,6 @@ export const guide = () => ({
 export const inpatient = () => ({
   loadHisInpatientInfo: `${Global.getHost()}treat/his/inpatient/info`, // 查询患者住院单信息
   loadHisInpatientDailylist: `${Global.getHost()}treat/his/inpatient/dailyList`, // 查询患者住院日清单
+  loadHisInpatientPrepaidRecords: `${Global.getHost()}treat/his/deposit/list`, // 查询患者住院预缴记录
 });
 

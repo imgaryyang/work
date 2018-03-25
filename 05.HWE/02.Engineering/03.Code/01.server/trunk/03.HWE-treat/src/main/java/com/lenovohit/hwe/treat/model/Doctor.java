@@ -359,7 +359,7 @@ public class Doctor extends AuditableModel implements java.io.Serializable {
      * 
      * @return age
      */
-    @Column(name = "AGE", nullable = true)
+    @Transient
     public BigDecimal getAge() {
         return this.age;
     }

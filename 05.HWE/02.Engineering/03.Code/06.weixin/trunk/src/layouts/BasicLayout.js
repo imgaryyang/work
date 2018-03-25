@@ -22,17 +22,23 @@ import AppointRecordDetail from '../routes/appoint/AppointRecordDetail';
 import InputMoney from '../routes/payment/InputMoney';
 import CashierDesk from '../routes/payment/CashierDesk';
 
+
 // import PaymentRecordMain from '../routes/paymentRecord/PaymentRecordMain';
 import PaymentRecordList from '../routes/paymentRecord/PaymentRecordList';
 
 // import PayCounterMain from '../routes/payCounter/PayCounterMain';
 import Payment from '../routes/payCounter/Payment';
 import PayCounter from '../routes/payCounter/PayCounter';
+import PayCounterMain2 from '../routes/payCounter/PayCounterMain2';
 
 import OutpatientRefundList from '../routes/outpatientRefund/OutpatientRefundList';
 
 import ReportMain from '../routes/report/ReportMain';
 import ReportDetail from '../routes/report/ReportDetail';
+
+import RecordMain from '../routes/record/RecordMain';
+import RecordDetail from '../routes/record/RecordDetail';
+
 
 import News from '../routes/news/NewsList';
 import NewsContent from '../routes/news/NewsContent';
@@ -40,12 +46,15 @@ import NewsContent from '../routes/news/NewsContent';
 // import PatientMain from '../routes/patients/PatientMain';
 import Patient from '../routes/patients/Patient';
 import AddPatient from '../routes/patients/AddPatient';
-import Profiles from '../routes/patients/Profiles';
+import EditPatient from '../routes/patients/EditPatient';
+import Archives from '../routes/patients/Archives';
 
 // import Me from '../routes/me/Me';
 import ContactUs from '../routes/me/ContactUs';
 import AboutUs from '../routes/me/AboutUs';
 import FeedBack from '../routes/me/FeedBack';
+import Profile from '../routes/me/Profile';
+import EditProfile from '../routes/me/EditProfile';
 
 import InpatientPaymentRecordList from '../routes/inpatientPaymentRecord/InpatientPaymentRecordList';
 
@@ -89,10 +98,14 @@ class BasicLayout extends React.Component {
           <Route path={`${match.url}/report`} component={ReportMain} />
           <Route path={`${match.url}/reportDetail`} component={ReportDetail} />
 
+          <Route path={`${match.url}/record`} component={RecordMain} />
+          <Route path={`${match.url}/recordDetail`} component={RecordDetail} />
+
           <Route path={`${match.url}/paymentRecord`} component={PaymentRecordList} />
 
           <Route path={`${match.url}/payment`} component={Payment} />
           <Route path={`${match.url}/payCounter`} component={PayCounter} />
+          <Route path={`${match.url}/payCounterMain2`} component={PayCounterMain2} />
 
           <Route path={`${match.url}/outpatientReturn`} component={OutpatientRefundList} />
 
@@ -105,11 +118,14 @@ class BasicLayout extends React.Component {
 
           <Route path={`${match.url}/patient`} component={Patient} />
           <Route path={`${match.url}/addPatient`} component={AddPatient} />
-          <Route path={`${match.url}/profiles`} component={Profiles} />
+          <Route path={`${match.url}/editPatient`} component={EditPatient} />
+          <Route path={`${match.url}/archives`} component={Archives} />
 
           <Route path={`${match.url}/contactUs`} component={ContactUs} />
           <Route path={`${match.url}/aboutUs`} component={AboutUs} />
           <Route path={`${match.url}/feedBack`} component={FeedBack} />
+          <Route path={`${match.url}/profile`} component={Profile} />
+          <Route path={`${match.url}/editProfile`} component={EditProfile} />
         </Flex.Item>
       </Flex>
     );

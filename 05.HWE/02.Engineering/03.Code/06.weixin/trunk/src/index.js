@@ -23,6 +23,7 @@ app.model(require('./models/inpatientDailyModel').default);
 app.model(require('./models/newsModel').default);
 app.model(require('./models/feedBackModel').default);
 app.model(require('./models/reportModel').default);
+app.model(require('./models/recordModel').default);
 app.model(require('./models/foregiftModel').default);
 app.model(require('./models/depositModel').default);
 

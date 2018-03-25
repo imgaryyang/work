@@ -19,6 +19,7 @@ import Global from '../../Global';
 import { list } from '../../services/records/RecordService';
 import ctrlState from '../../modules/ListState';
 import Item from '../../modules/PureListItem';
+import Tags from '../../modules/filters/Tags';
 
 class Records extends Component {
   static displayName = 'Records';
@@ -61,7 +62,7 @@ class Records extends Component {
           ...this.state.ctrlState,
           refreshing: true,
         },
-      }, () => this.getProfile(this.props.base.currHospital, this.props.base.currPatient));
+      }, () => this.getProfile());
     });
     this.props.navigation.setParams({
       title: '就诊记录',
@@ -89,35 +90,30 @@ class Records extends Component {
       },
     }, () => this.fetchData());
   }
-  getProfile(hospital, patient) {
-    if (hospital !== null && patient !== null) {
-      const { profiles } = patient;
-      if (profiles !== null) {
-        const length = profiles.length ? profiles.length : 0;
-        for (let i = 0; i < length; i++) {
-          const pro = profiles[i];
-          if (pro.status === '1' && pro.hosId === hospital.id) {
-            this.setState({
-              profile: pro,
-            }, () => this.fetchData());
-          }
-        }
-      } else {
-        this.setState({
-          ctrlState: {
-            ...this.state.ctrlState,
-            refreshing: false,
-            requestErrMsg: '当前就诊人在当前医院暂无档案！',
-          },
-        });
-        Toast.show('当前就诊人在当前医院暂无档案！');
-        return null;
-      }
+  /**
+   * 获取用户信息的基本判断
+   */
+  getProfile() {
+    const { currHospital, currProfile } = this.props.base;
+    if ((currHospital == null) || (currHospital === undefined)) {
+      Toast.show('未选择当前医院！');
+      return null;
+    } else if (currProfile === null) {
+      Toast.show('当前就诊人无档案！');
+      return null;
+    } else if (currProfile.status !== '1' || currProfile.hosId !== currHospital.id) {
+      Toast.show('当前就诊人在当前医院暂无档案！');
+      return null;
+    } else {
+      this.setState({
+      }, () => this.fetchData());
     }
   }
   gotoScan(item) {
     this.props.navigation.navigate('RecordDetails', {
       data: item,
+      title: '诊疗详情',
+      hideNavBarBottomLine: false,
     });
   }
   afterChooseHospital(hospital) {
@@ -126,7 +122,6 @@ class Records extends Component {
   afterChoosePatient(patient, profile) {
     if (typeof profile !== 'undefined' && profile !== null) {
       this.setState({
-        profile,
       }, () => this.fetchData());
     }
   }
@@ -138,7 +133,7 @@ class Records extends Component {
           refreshing: true,
         },
       });
-      const responseData = await list(this.state.profile);
+      const responseData = await list(this.props.base.currProfile);
       if (responseData.success) {
         const newCtrlState = {
           ...this.state.ctrlState,
@@ -182,12 +177,9 @@ class Records extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    console.log('item>>>>', item);
-    const line = (<View
-      style={{
-        width: Global.getScreen().width, height: 1 / Global.pixelRatio, backgroundColor: Global.colors.LINE,
-      }}
-    />);
+    // console.log('item>>>>', item);
+    const { tagConfig } = Global.Config;
+    const tags = [item.clinicTypeName ? { ...tagConfig.clinicTypeOther, label: item.clinicTypeName } : tagConfig.clinicTypeNormal];
     return (
       <Item
         data={item}
@@ -195,40 +187,23 @@ class Records extends Component {
         onPress={this.gotoScan}
       >
         <View style={{ flex: 1 }} >
-          <Text>{moment(item.createTime).format('YYYY-MM-DD hh:mm')}</Text>
-          <View style={{ paddingTop: 12, paddingBottom: 15 }} >
-            {line}
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.date}>{moment(item.createTime).format('YYYY-MM-DD hh:mm')}</Text>
+            <Tags tags={tags} containerStyle={{ marginLeft: 10 }} />
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>科室</Text>
-            <Sep width={10} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.depName}</Text>
+            <Text style={styles.mainText}>{item.docName}
+              <Text style={styles.jobTitle}>{item.docJobTitle ? `（ ${item.docJobTitle} ）` : ''}</Text>
+            </Text>
+            <Text style={[styles.mainText, { textAlign: 'right' }]}>{item.depName}</Text>
           </View>
-          <Sep height={5} />
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>医生</Text>
-            <Sep width={10} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.docName}</Text>
-          </View>
-          <Sep height={5} />
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>类型</Text>
-            <Sep width={10} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.clinicTypeName ? item.clinicTypeName : '普通门诊'}</Text>
-          </View>
-          <Sep height={5} />
-          <View style={{ flexDirection: 'row', paddingBottom: 15 }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>主诉</Text>
-            <Sep width={10} />
-            <View style={{ paddingRight: 10 }}>
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.complaint}</Text>
-            </View>
+          <View>
+            <Text style={styles.diagnosis}>{`诊断：${item.diagnosis || '暂无诊断信息'}`}</Text>
           </View>
         </View>
       </Item>
     );
   }
-
 
   render() {
     // 场景过渡动画未完成前，先渲染过渡场景
@@ -281,18 +256,24 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Global.colors.LINE,
   },
-  titleText: {
-    fontSize: 19,
-    color: Global.colors.FONT,
-    // fontWeight: 'bold',
-    // textAlign: 'center',
-  },
-  addText: {
+  date: {
     fontSize: 12,
-    color: Global.colors.FONT_LIGHT_GRAY1,
+    color: Global.colors.FONT_LIGHT_GRAY,
   },
-  text: {
-    fontSize: 15,
+  mainText: {
+    flex: 1,
+    marginTop: 8,
+    fontSize: 14,
+    // fontWeight: '600',
+    color: 'black',
+  },
+  jobTitle: {
+    fontSize: 11,
+    color: Global.colors.FONT_GRAY,
+  },
+  diagnosis: {
+    marginTop: 8,
+    fontSize: 13,
     color: Global.colors.FONT_GRAY,
   },
 });

@@ -7,6 +7,7 @@ import {
   Text,
   InteractionManager,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import Sep from 'rn-easy-separator';
 import moment from 'moment';
@@ -17,7 +18,8 @@ import RecipeItem from './RecipeItem';
 import TestItem from './TestItem';
 import Item from '../../modules/PureListItem';
 
-import { diagnoseList, recordList, recordTestList } from '../../services/records/RecordService';
+import { diagnoseList, recordList } from '../../services/records/RecordService';
+import { hisTestList } from '../../services/reports/TestService';
 
 class RecordDetails extends Component {
   static displayName = 'RecordDetails';
@@ -25,7 +27,27 @@ class RecordDetails extends Component {
 
   static renderPlaceholderView() {
     return (
-      <View style={[Global.styles.CONTAINER, styles.container]} />
+      <View style={[Global.styles.CONTAINER, styles.container]}>
+        <ScrollView style={styles.scrollView}>
+          <Card fullWidth >
+            <Text style={styles.titleText}>诊断详情</Text>
+            <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
+            <ActivityIndicator style={{ margin: 40 }} />
+          </Card>
+          <View style={{ flexDirection: 'row-reverse', height: 10 }} />
+          <Card fullWidth >
+            <Text style={styles.titleText}>药物医嘱</Text>
+            <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
+            <ActivityIndicator style={{ margin: 40 }} />
+          </Card>
+          <View style={{ flexDirection: 'row-reverse', height: 10 }} />
+          <Card fullWidth >
+            <Text style={styles.titleText}>化验医嘱</Text>
+            <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
+            <ActivityIndicator style={{ margin: 40 }} />
+          </Card>
+        </ScrollView>
+      </View>
     );
   }
 
@@ -81,7 +103,7 @@ class RecordDetails extends Component {
     try {
       const responseData = await diagnoseList(this.state.value);
       const recordData = await recordList(this.state.value);
-      const recordTestData = await recordTestList(this.state.value);
+      const recordTestData = await hisTestList(this.state.value);
       if (responseData.success) {
         this.setState({
           diagnoseData: responseData.result ? responseData.result : null,
@@ -229,6 +251,7 @@ class RecordDetails extends Component {
               {testItem}
             </View>
           </Card>
+          <View style={{ height: 40 }} />
         </ScrollView>
       </View>
     );

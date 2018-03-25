@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Card, NavBar, Icon } from 'antd-mobile';
+import { Card } from 'antd-mobile';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import styles from './InpatientBillQuery.less';
 import ProfileList from '../patients/ProfileList';
@@ -47,26 +47,26 @@ class InpatientBillQuery extends React.Component {
     if (Object.keys(currProfile).length === 0) {
       return (
         <div>
-          <NavBar
+          {/* <NavBar
             mode="dark"
             leftContent="返回"
             icon={<Icon type="left" />}
             onLeftClick={() => this.goback()}
           >住院单查询
-          </NavBar>
+          </NavBar>*/}
           <ProfileList callback={this.callback} />
         </div>
       );
     }
     return (
       <div>
-        <NavBar
+        {/* <NavBar
           mode="dark"
           leftContent="返回"
           icon={<Icon type="left" />}
           onLeftClick={() => this.goback()}
         >住院单查询
-        </NavBar>
+        </NavBar>*/}
         <ProfileList callback={this.callback} />
         <Card>
           <Card.Body>

@@ -17,7 +17,7 @@ import {
   Animated,
   AsyncStorage,
   Alert,
-  Switch,
+  // Switch,
   ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -87,20 +87,20 @@ class Me extends Component {
 
   getList() {
     return [
-      {
-        text: '个人资料',
-        icon: 'md-person',
-        bg: '#fe80c4',
-        component: 'Profile',
-        passProps: { userInfo: this.props.auth.user },
-      },
+      // {
+      //   text: '个人资料',
+      //   icon: 'md-person',
+      //   bg: '#fe80c4',
+      //   component: 'Profile',
+      //   passProps: { userInfo: this.props.auth.user },
+      // },
       {
         text: '常用就诊人',
         icon: 'md-contacts',
         bg: '#fe80c4',
         component: 'Patients',
         passProps: {
-          hideNavBarBottomLine: true,
+          hideNavBarBottomLine: false,
         },
       },
       // {
@@ -109,19 +109,19 @@ class Me extends Component {
       //   bg: '#fe80c4',
       //   component: 'Cards',
       // },
-      {
-        text: '消息开关',
-        icon: 'md-notifications',
-        bg: '#ffa122',
-        component: null,
-        func: this.switchMessageState,
-        right: <Switch
-          value={this.state.messageSwitch}
-          onValueChange={this.switchMessageState}
-          style={{ marginRight: 10 }}
-        />,
-        separator: true,
-      },
+      // {
+      //   text: '消息开关',
+      //   icon: 'md-notifications',
+      //   bg: '#ffa122',
+      //   component: null,
+      //   func: this.switchMessageState,
+      //   right: <Switch
+      //     value={this.state.messageSwitch}
+      //     onValueChange={this.switchMessageState}
+      //     style={{ marginRight: 10 }}
+      //   />,
+      //   separator: true,
+      // },
       // {
       //   text: '安全设置',
       //   icon: 'md-lock',
@@ -232,7 +232,7 @@ class Me extends Component {
       if (responseData.success) {
         // 清空redux中的用户信息
         this.props.afterLogout();
-        // this.props.resetWhenLogout();
+        this.props.resetWhenLogout();
         this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
         Toast.show('您已安全退出！');
       }
@@ -250,8 +250,12 @@ class Me extends Component {
         {
           text: '确定',
           onPress: () => {
-            this.props.switchEdition(Global.edition === Global.EDITION_MULTI ? Global.EDITION_SINGLE : Global.EDITION_MULTI);
-            // this.setState({ editionText: Global.getEditionDesc() });
+            this.props.switchEdition(
+              Global.edition === Global.EDITION_MULTI ? Global.EDITION_SINGLE : Global.EDITION_MULTI,
+              this.props.base.currPatient,
+              this.props.base.currProfile,
+            );
+            // this.props.setCurrHospital(Global.Config.hospital);
           },
         },
       ],
@@ -357,28 +361,40 @@ class Me extends Component {
     if (!this.state.doRenderScene) {
       return Me.renderPlaceholderView();
     }
+    const { auth } = this.props;
+    const { user, isLoggedIn } = auth;
     let userNameHolder = null;
-    if (!this.props.auth.isLoggedIn) {
+    if (!isLoggedIn) {
       userNameHolder = (
-        <TouchableOpacity style={styles.userNamePos} onPress={() => this.props.navigate({ component: 'Login', params: null })}>
+        <TouchableOpacity
+          style={styles.userNamePos}
+          onPress={() => {
+            this.props.navigate({ component: Global.getLoginRoute(), params: null });
+          }}
+        >
           <Text style={[styles.userName]}>请登录系统</Text>
         </TouchableOpacity>
       );
     } else {
       userNameHolder = (
-        <TouchableOpacity style={styles.userNamePos} onPress={() => this.props.navigate({ component: 'Profile', params: { userInfo: this.props.auth.user } })}>
+        <TouchableOpacity
+          style={styles.userNamePos}
+          onPress={() => {
+            // this.props.navigate({ component: 'Profile', params: { userInfo: user } });
+          }}
+        >
           <Text style={[styles.userName, styles.userNamePos]} >
-            {this.props.auth.user && this.props.auth.user.name ? this.props.auth.user.name : '未填写'}
+            {user && user.name ? user.name : user.mobile}
           </Text>
         </TouchableOpacity>
       );
     }
 
-    const portrait = this.props.auth.isLoggedIn && this.props.auth.user && this.props.auth.user.portrait ? (
+    const portrait = isLoggedIn && user && user.portrait ? (
       <Image
         resizeMode="cover"
         style={[styles.portrait]}
-        source={{ uri: `${Global.getImageHost()}${this.props.auth.user.portrait}?timestamp=${new Date().getTime()}` }}
+        source={{ uri: `${Global.getImageHost()}${user.portrait}?timestamp=${new Date().getTime()}` }}
       />
 
     ) : (
@@ -406,7 +422,17 @@ class Me extends Component {
             <TouchableOpacity
               style={styles.portraitHolder}
               onPress={() => {
-                this.navigate({ title: '个人资料', component: 'Profile', passProps: { userInfo: this.props.auth.user } });
+                // this.navigate({ title: '个人资料', component: 'Profile', passProps: { userInfo: user } });
+                this.navigate({
+                  title: '我的头像',
+                  component: 'Portrait',
+                  passProps: {
+                    data: user,
+                    callback: () => {
+                      this.props.screenProps.reloadUserInfo();
+                    },
+                  },
+                });
               }}
             >
               {portrait}
@@ -515,7 +541,7 @@ const mapDispatchToProps = dispatch => ({
   updateUser: () => dispatch(updateUser()),
   navigate: ({ component, params }) => dispatch(NavigationActions.navigate({ routeName: component, params })),
   setCurrHospital: hospital => dispatch(setCurrHospital(hospital)),
-  switchEdition: edition => dispatch(switchEdition(edition)),
+  switchEdition: (edition, currPatient, currProfile) => dispatch(switchEdition(edition, currPatient, currProfile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Me);

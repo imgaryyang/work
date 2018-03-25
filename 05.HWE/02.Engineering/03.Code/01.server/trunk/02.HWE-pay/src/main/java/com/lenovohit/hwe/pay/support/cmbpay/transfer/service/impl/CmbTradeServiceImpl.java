@@ -5,7 +5,6 @@ import org.apache.commons.configuration.Configuration;
 import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.hwe.pay.support.cmbpay.transfer.client.CmbClient;
 import com.lenovohit.hwe.pay.support.cmbpay.transfer.client.CmbSocketClient;
-import com.lenovohit.hwe.pay.support.cmbpay.transfer.config.Configs;
 import com.lenovohit.hwe.pay.support.cmbpay.transfer.service.CmbTradeService;
 import com.lenovohit.hwe.pay.support.cmbpay.transfer.utils.XmlPacket;
 

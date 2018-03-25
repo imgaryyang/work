@@ -71,6 +71,22 @@ public class ZfbCommonRestController extends ZfbBaseRestController{
 			e.printStackTrace();
 		} 
 	}
+	
+	@RequestMapping(value = "/token", method = RequestMethod.GET)
+	public Result forToken(
+			@RequestParam(value = "auth_code") String auth_code, // auth_code作为换取token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
+			@RequestParam(value = "state") String state // 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			){
+		try {
+			ZfbToken token = zfbBaseManger.getToken(auth_code);
+			
+			return ResultUtils.renderSuccessResult(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtils.renderFailureResult("获取用户UserId失败！");
+		} 
+	}
+	
 	/**
 	 * 登录
 	 */

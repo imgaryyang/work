@@ -1,19 +1,23 @@
 @import "../../utils/common";
 
 .topBar {
-  padding: 10px;
+  padding: 10px 0;
   .item {
-    flex: 1;
     .textCenter;
-    .font14;
+    .font13;
+    white-space: nowrap;
+  }
+  .sep {
+    width: 1px;
+    background-color: @LINE;
+    height: 14px;
   }
 }
 
 .row {
   padding: 15px;
-  .font14;
+  .font13;
   .col {
-    flex: 1;
     .bottom {
       padding-top: 5px;
     }
@@ -24,6 +28,18 @@
       border-radius: 5px;
       color: white;
     }
+  }
+  .col1 {
+    .col;
+    flex: 2;
+  }
+  .col2 {
+    .col;
+    flex: 2;
+  }
+  .col3 {
+    .col;
+    flex: 1;
   }
 }
 
@@ -39,4 +55,12 @@
 
 .modal {
   width: 80%;
+}
+
+.flex4 {
+  flex: 4;
+}
+
+.flex5 {
+  flex: 5;
 }

@@ -139,6 +139,7 @@ async function request({
 
     // 发送数据
     // console.log('>>> in request() before xhr send():', xhr);
+    // console.log('>>> body:', body);
     if (method === 'POST') {
       xhr.send(body);
     } else if (method === 'PUT') {
@@ -164,7 +165,7 @@ async function request({
         // 未授权
         if (xhr.status === 401 || xhr.status === 403) {
           // 需要登录时调用登录
-          NavigationActions.navigate({ routeName: 'Login' });
+          NavigationActions.navigate({ routeName: Global.getLoginRoute() });
         }
         return reject(error({ status: `${xhr.status}`, msg: statusMap[`${xhr.status}`], url }));
       }

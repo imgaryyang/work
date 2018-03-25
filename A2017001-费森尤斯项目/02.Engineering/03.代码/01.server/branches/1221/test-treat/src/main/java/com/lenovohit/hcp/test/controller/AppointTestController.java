@@ -129,13 +129,49 @@ public class AppointTestController extends AuthorityRestController {
 //			values.add(query.getProNo());
 //			values.add(query.getMobile());
 //			values.add(query.getIdNo());
-			jql.append(" and status is not null order by appointTime desc, abs(num)");
+			jql.append(" and status is not null and trim(status) <> '' order by appointTime desc, abs(num)");
 			List<TestAppoint> appoints = this.testAppointManager.find(jql.toString(),values.toArray());
 			
 			log.info("\n======== forReservedList Success End ========\nlist:\n"+JSONUtils.serialize(appoints));
 			return ResultUtils.renderSuccessResult(appoints);
 		} catch (Exception e) {
 			log.error("\n======== forReservedList Exception End ========\nmsg:\n"+e.getMessage());
+			return ResultUtils.renderFailureResult(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "/reserved/info", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forReservedInfo(@RequestParam(value = "data", defaultValue = "") String data) {
+		try {
+			log.info("\n======== forReservedInfo Start ========\ndata:\n"+data);
+			TestAppoint query =  JSONUtils.deserialize(data, TestAppoint.class);
+			StringBuilder jql = new StringBuilder( " from TestAppoint where 1=1 ");
+			List<Object> values = new ArrayList<Object>();
+
+			if(!StringUtils.isEmpty(query)) {
+				if(!StringUtils.isEmpty(query.getHosId())){
+					jql.append(" and hosId = ? ");
+					values.add(query.getHosId());
+				}
+				
+				if(!StringUtils.isEmpty(query.getHosNo())){
+					jql.append(" and hosNo = ? ");
+					values.add(query.getHosNo());
+				}
+				
+				if(!StringUtils.isEmpty(query.getNo())){
+					jql.append(" and no = ? ");
+					values.add(query.getNo());
+				}
+			}
+
+			jql.append(" and status is not null and trim(status) <> '' order by appointTime desc, abs(num)");
+			TestAppoint appoint = this.testAppointManager.findOne(jql.toString(),values.toArray());
+			
+			log.info("\n======== forReservedInfo Success End ========\nlist:\n"+JSONUtils.serialize(appoint));
+			return ResultUtils.renderSuccessResult(appoint);
+		} catch (Exception e) {
+			log.error("\n======== forReservedInfo Exception End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
 		}
 	}
@@ -147,6 +183,7 @@ public class AppointTestController extends AuthorityRestController {
 			TestAppoint appoint =  JSONUtils.deserialize(data, TestAppoint.class);
 			
 			TestAppoint model = this.testAppointManager.get(appoint.getId());
+			model.setProId(appoint.getProId());
 			model.setProNo(appoint.getProNo());
 			model.setProName(appoint.getProName());
 			model.setCardNo(appoint.getCardNo());

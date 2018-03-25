@@ -48,6 +48,14 @@
 		<constructor-arg ref="payTypeDao" />
 	</bean>
 	
+	<bean id="payAuthDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.PayAuth" />
+	</bean>
+	<bean id="payAuthManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payAuthDao" />
+	</bean>
+	
+	
 	<bean id="cardBinDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.pay.model.CardBin" />
 	</bean>

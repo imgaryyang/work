@@ -25,10 +25,10 @@ import com.lenovohit.hwe.pay.model.CheckDetailWxpay;
 import com.lenovohit.hwe.pay.model.CheckRecord;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.CheckBaseService;
-import com.lenovohit.hwe.pay.support.wxpay.scan.WXPay;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultDownloadBillBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultRefundQueryBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.downloadbill_protocol.DownloadBillReqData;
+import com.lenovohit.hwe.pay.support.wxpay.WXPay;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultDownloadBillBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultRefundQueryBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.downloadbill_protocol.DownloadBillReqData;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
 
 @Service("cwxpayCheckService")

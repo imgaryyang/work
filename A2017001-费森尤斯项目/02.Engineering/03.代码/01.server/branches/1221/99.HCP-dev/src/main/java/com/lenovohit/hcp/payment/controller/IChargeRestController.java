@@ -2,6 +2,7 @@ package com.lenovohit.hcp.payment.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.TypeReference;
+import com.lenovohit.core.exception.BaseException;
 import com.lenovohit.core.manager.GenericManager;
 import com.lenovohit.core.utils.BeanUtils;
 import com.lenovohit.core.utils.JSONUtils;
@@ -18,9 +20,11 @@ import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
+import com.lenovohit.hcp.base.manager.impl.RedisSequenceManager;
 import com.lenovohit.hcp.base.model.CommonItemInfo;
 import com.lenovohit.hcp.base.model.Department;
 import com.lenovohit.hcp.base.model.HcpUser;
+import com.lenovohit.hcp.base.model.HisOrder;
 import com.lenovohit.hcp.base.model.Hospital;
 import com.lenovohit.hcp.base.web.rest.HcpBaseRestController;
 import com.lenovohit.hcp.finance.model.OutpatientChargeDetail;
@@ -47,6 +51,10 @@ public class IChargeRestController extends HcpBaseRestController {
 	private GenericManager<HcpUser, String> hcpUserManager;
 	@Autowired
 	private GenericManager<CommonItemInfo, String> commonItemManager;
+	@Autowired
+	private GenericManager<HisOrder, String> hisOrderManager;
+	@Autowired
+	private RedisSequenceManager redisSequenceManager;
 
 
 
@@ -124,9 +132,12 @@ public class IChargeRestController extends HcpBaseRestController {
 		});
 		ICharge charge = new ICharge();
 		BigDecimal total = new BigDecimal(0);
+		StringBuilder sb = new StringBuilder();
 		if(chagerList!=null && chagerList.size()>0){
 			for(int i=0;i<chagerList.size();i++){
 				IChargeDetail detail = chagerList.get(i);
+				sb.append(detail.getChargeId());
+				sb.append(",");
 				if(i == 0){
 					BeanUtils.copyProperties(detail, charge);
 				}
@@ -136,7 +147,34 @@ public class IChargeRestController extends HcpBaseRestController {
 		charge.setAmt(total);
 		charge.setReduceAmt(total.multiply(new BigDecimal(0.1)));
 		charge.setMyselfAmt(total.multiply(new BigDecimal(0.9)));
+		
+		HisOrder hisOrder = new HisOrder();
+		hisOrder = createHisOrder(total, sb, hisOrder);
+		
+		charge.setNo(hisOrder.getOrderNo());
 		return ResultUtils.renderSuccessResult(charge);
+	}
+
+	/**
+	 * 描述：  创建his收费记录
+	 * @param total
+	 * @param sb
+	 * @param hisOrder
+	 * @return
+	 */
+	private HisOrder createHisOrder(BigDecimal total, StringBuilder sb, HisOrder hisOrder) {
+		String orderNo = redisSequenceManager.get("OC_PAYWAY", "PAY_ID");
+		hisOrder.setAmt(total);
+		hisOrder.setBizBean("appManager");
+		hisOrder.setChargeIds(sb.toString());
+		hisOrder.setCreateTime(new Date());
+		hisOrder.setOperator("app");
+		hisOrder.setOrderNo(orderNo);
+		hisOrder.setOrderDesc("APP收费项目");
+		hisOrder.setOrderType("9");
+		hisOrder.setStatus(HisOrder.ORDER_STAT_INITIAL);
+		hisOrder = hisOrderManager.save(hisOrder);
+		return hisOrder;
 	}
 	/**
 	 * @param chargeDetailList
@@ -265,4 +303,67 @@ public class IChargeRestController extends HcpBaseRestController {
 		return ResultUtils.renderSuccessResult(records);
 	}
 
+	/** 缴费成功后回调（暂用于APP）
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/callBackForCharge", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/* TEXT_PLAIN_UTF_8 */)
+	public Result callBackForCharge(@RequestParam(value = "data", defaultValue = "") String data) {
+		ICharge charge = JSONUtils.deserialize(data, ICharge.class);
+		if(charge!=null && charge.getNo()!=null){
+			HisOrder hisOrder = (HisOrder) hisOrderManager.findByProp("orderNo", charge.getNo());
+			if(hisOrder!=null){
+				String chargedetails = hisOrder.getChargeIds();
+				String [] ids = chargedetails.split(",");
+				StringBuilder idSql = new StringBuilder();
+				List<String> idvalues = new ArrayList<String>();
+				try {
+					idSql.append("UPDATE OC_CHARGEDETAIL set apply_State = '1'  WHERE id IN (");
+					for(int i=0;i<ids.length;i++){
+						idSql.append("?");
+						idvalues.add(ids[i].toString());
+						if(i != ids.length-1)idSql.append(",");
+					}
+					idSql.append(")");
+					System.out.println(idSql.toString());
+					this.outpatientChargeDetailManager.executeSql(idSql.toString(), idvalues.toArray());
+					hisOrder.setStatus("1");
+					hisOrderManager.save(hisOrder);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new BaseException("修改订单状态失败");
+				}
+			}
+			return ResultUtils.renderSuccessResult();
+		}else{
+			return ResultUtils.renderFailureResult("回调时数据传输错误");
+		}
+	}
+	
+
+	@RequestMapping(value = "/findChargeRecord", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/* TEXT_PLAIN_UTF_8 */)
+	public Result findChargeRecord(@RequestParam(value = "data", defaultValue = "") String data) {
+		IChargeDetail query = JSONUtils.deserialize(data, IChargeDetail.class);
+		StringBuilder jql = new StringBuilder("from HisOrder  where status = '1' ");
+		List<HisOrder> orderList=(List<HisOrder>) hisOrderManager.findByJql(jql.toString());
+		List<ICharge> records=ConventHisorderToChargeModel(orderList);
+		return ResultUtils.renderSuccessResult(records);
+	}
+
+	private List<ICharge> ConventHisorderToChargeModel(List<HisOrder> orderList) {
+		List<ICharge> chargeList = new ArrayList<>();
+		if(orderList!=null && orderList.size()>0){
+			for(HisOrder order:orderList){
+				ICharge charge = new ICharge();
+				charge.setAmt(order.getAmt());
+				charge.setChargeTime(order.getTranTime());
+				charge.setNo(order.getOrderNo());
+				charge.setRealAmt(order.getRealAmt());
+				charge.setMyselfAmt(order.getSelfAmt());
+				charge.setMiAmt(order.getMiAmt());
+				chargeList.add(charge);
+			}
+		}
+		return chargeList;
+	}
 }

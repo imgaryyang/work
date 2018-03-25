@@ -50,17 +50,9 @@ public class ConsumeRestController extends OrgBaseRestController {
   			jql.append(" and proNo = ? ");
   			values.add(query.getProNo());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
-  		}
-  		if(!StringUtils.isEmpty(query.getTradeNo())){
-  			jql.append(" and tradeNo = ? ");
-  			values.add(query.getTradeNo());
+  		if(!StringUtils.isEmpty(query.getNo())){
+  			jql.append(" and no = ? ");
+  			values.add(query.getNo());
   		}
   		if(!StringUtils.isEmpty(query.getStatus())){
   			jql.append(" and status = ? ");
@@ -92,17 +84,9 @@ public class ConsumeRestController extends OrgBaseRestController {
   			jql.append(" and proNo = ? ");
   			values.add(query.getProNo());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
-  		}
-  		if(!StringUtils.isEmpty(query.getTradeNo())){
-  			jql.append(" and tradeNo = ? ");
-  			values.add(query.getTradeNo());
+  		if(!StringUtils.isEmpty(query.getNo())){
+  			jql.append(" and no = ? ");
+  			values.add(query.getNo());
   		}
   		if(!StringUtils.isEmpty(query.getStatus())){
   			jql.append(" and status = ? ");

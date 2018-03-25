@@ -68,6 +68,8 @@ class CurrHospitalAndPatient extends Component {
         {
           callback: this.afterChoosePatient,
           hospital: currHospital,
+          title: '常用就诊人',
+          hideNavBarBottomLine: false,
         },
       );
     }

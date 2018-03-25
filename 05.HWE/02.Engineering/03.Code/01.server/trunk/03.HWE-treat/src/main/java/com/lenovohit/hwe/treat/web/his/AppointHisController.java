@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lenovohit.core.exception.BaseException;
 import com.lenovohit.core.manager.GenericManager;
 import com.lenovohit.core.utils.JSONUtils;
 import com.lenovohit.core.web.MediaTypes;
@@ -18,6 +17,7 @@ import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Appoint;
 import com.lenovohit.hwe.treat.model.Department;
+import com.lenovohit.hwe.treat.model.Doctor;
 import com.lenovohit.hwe.treat.service.HisAppointService;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
@@ -41,12 +41,13 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forList Before hisAppointService.findList ========\nquery:\n"+JSONUtils.serialize(query));
 			RestListResponse<Appoint> result=this.hisAppointService.findList(query, null);
-			
 			log.info("\n======== forList After hisAppointService.findList ========/result:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
 			
-			log.info("\n======== forList Success End ========\nlist:\n"+JSONUtils.serialize(result.getList()));
-			return ResultUtils.renderSuccessResult(result.getList());
+			if (result.isSuccess()){
+				return ResultUtils.renderSuccessResult(result.getList());
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forList Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
@@ -58,22 +59,45 @@ public class AppointHisController extends OrgBaseRestController {
 	public Result forDeptList(@RequestParam(value = "data", defaultValue = "") String data) {
 		try {
 			log.info("\n======== forDeptList Start ========\ndata:\n"+data);
-			Department query =  JSONUtils.deserialize(data, Department.class);
+			Department query = JSONUtils.deserialize(data, Department.class);
 			
 			log.info("\n======== forDeptList Before hisAppointService.findDeptList ========\nquery:\n"+JSONUtils.serialize(query));
-			RestListResponse<Department> result=this.hisAppointService.findDeptList(query, null);
-			
+			RestListResponse<Department> result = this.hisAppointService.findDeptList(query, null);
 			log.info("\n======== forDeptList After hisAppointService.findDeptList ========/result:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
 			
-			log.info("\n======== forDeptList Success End ========\nlist:\n"+JSONUtils.serialize(result.getList()));
-			return ResultUtils.renderSuccessResult(result.getList());
+			if (result.isSuccess()){
+				return ResultUtils.renderSuccessResult(result.getList());
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forDeptList Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
 		}
 	}
 
+	// 3.4.2 可预约科室列表查询
+	@RequestMapping(value = "/docList", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forDocList(@RequestParam(value = "data", defaultValue = "") String data) {
+		try {
+			log.info("\n======== forDocList Start ========\ndata:\n"+data);
+			Doctor query = JSONUtils.deserialize(data, Doctor.class);
+			
+			log.info("\n======== forDocList Before hisAppointService.findDocList ========\nquery:\n"+JSONUtils.serialize(query));
+			RestListResponse<Doctor> result = this.hisAppointService.findDocList(query, null);
+			log.info("\n======== forDocList After hisAppointService.findDocList ========/result:\n"+JSONUtils.serialize(result));
+			
+			if (result.isSuccess()){
+				return ResultUtils.renderSuccessResult(result.getList());
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
+		} catch (Exception e) {
+			log.error("\n======== forDocList Failure End ========\nmsg:\n"+e.getMessage());
+			return ResultUtils.renderFailureResult(e.getMessage());
+		}
+	}
+	
 	// 3.4.11 患者预约记录查询
 	@RequestMapping(value = "/reserved/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result forReservedList(@RequestParam(value = "data", defaultValue = "") String data) {
@@ -83,12 +107,13 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forReservedList Before hisAppointService.findReservedList ========\nquery:\n"+JSONUtils.serialize(query));
 			RestListResponse<Appoint> result=this.hisAppointService.findReservedList(query, null);
-			
 			log.info("\n======== forReservedList After hisAppointService.findReservedList ========\nresult:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
 			
-			log.info("\n======== forReservedList Success End ========\nlist:\n"+JSONUtils.serialize(result.getList()));
-			return ResultUtils.renderSuccessResult(result.getList());
+			if (result.isSuccess()){
+				return ResultUtils.renderSuccessResult(result.getList());
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forReservedList Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
@@ -104,17 +129,18 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forReserve Before hisAppointService.reserve ========\nappoint:\n"+JSONUtils.serialize(appoint));
 			RestEntityResponse<Appoint> result=this.hisAppointService.reserve(appoint, null);
-			
 			log.info("\n======== forReserve After hisAppointService.reserve ========\nresult:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
 			
-			appoint.setStatus("1");
-			appoint.setStatusName("已预约");
-			appoint.setAppointTime(new Date());
-			Appoint saved = this.appointManager.save(appoint);
-			
-			log.info("\n======== forReserve Success End ========\nsaved:\n"+JSONUtils.serialize(saved));
-			return ResultUtils.renderSuccessResult(saved);
+			if (result.isSuccess()){
+				appoint.setStatus("1");
+				appoint.setStatusName("已预约");
+				appoint.setAppointTime(new Date());
+				Appoint saved = this.appointManager.save(appoint);
+				
+				return ResultUtils.renderSuccessResult(saved);
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forReserve Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
@@ -130,17 +156,18 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forSign Before hisAppointService.sign ========\nappoint:\n"+JSONUtils.serialize(appoint));
 			RestEntityResponse<Appoint> result=this.hisAppointService.sign(appoint, null);
-			
 			log.info("\n======== forSign After hisAppointService.sign ========\nresult:\n"+JSONUtils.serialize(result));
-			if (!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
-
-			appoint.setStatus("2");
-			appoint.setStatusName("已签到");
-			appoint.setSignTime(new Date());
-			Appoint saved = this.appointManager.save(appoint);
-
-			log.info("\n======== forSign Success End ========\nsaved:\n"+JSONUtils.serialize(saved));
-			return ResultUtils.renderSuccessResult(saved);
+			
+			if (result.isSuccess()){
+				appoint.setStatus("2");
+				appoint.setStatusName("已签到");
+				appoint.setSignTime(new Date());
+				Appoint saved = this.appointManager.save(appoint);
+				
+				return ResultUtils.renderSuccessResult(saved);
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forSign Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
@@ -156,16 +183,17 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			log.info("\n======== forCancel Before hisAppointService.cancel ========\nappoint:\n"+JSONUtils.serialize(appoint));
 			RestEntityResponse<Appoint> result=this.hisAppointService.cancel(appoint, null);
-			
 			log.info("\n======== forCancel After hisAppointService.cancel ========\nresult:\n"+JSONUtils.serialize(result));
-			if(!result.isSuccess())		throw new BaseException("HIS返回失败："+result.getMsg());
-
-			appoint.setStatus("3");
-			appoint.setStatusName("已取消");
-			Appoint saved = this.appointManager.save(appoint);
 			
-			log.info("\n======== forCancel Success End ========\nsaved:\n"+JSONUtils.serialize(saved));
-			return ResultUtils.renderSuccessResult(saved);
+			if (result.isSuccess()){
+				appoint.setStatus("3");
+				appoint.setStatusName("已取消");
+				Appoint saved = this.appointManager.save(appoint);
+				
+				return ResultUtils.renderSuccessResult(saved);
+			} else {
+				return ResultUtils.renderFailureResult(result.getMsg());
+			}
 		} catch (Exception e) {
 			log.error("\n======== forCancel Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());

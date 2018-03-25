@@ -1,18 +1,43 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { ListView, Card, WingBlank, WhiteSpace } from 'antd-mobile';
-import style from './NewsList.less';
+import { ListView, PullToRefresh } from 'antd-mobile';
 
+import SearchInput from '../../components/SearchInput';
+import { image } from '../../services/baseService';
 
-class NewsList extends React.Component {
-  componentWillMount() {
-    const query = { fkId: 'com.lenovohit.msh', fkType: 'H4' };
-    this.props.dispatch({
-      type: 'news/loadnews',
-      payload: query,
-    });
+import styles from './NewsList.less';
+import commonStyles from '../../utils/common.less';
+
+const initQuery = { fkId: 'com.lenovohit.msh', fkType: 'H4' };
+
+class NewsList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.renderRow = this.renderRow.bind(this);
+    this.showDetail = this.showDetail.bind(this);
   }
+
+  componentWillMount() {
+    const { dispatch, news } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        hideNavBarBottomLine: true,
+        showCurrHospitalAndPatient: false,
+        headerRight: null,
+      },
+    });
+    if (news.dataArray.length === 0) {
+      dispatch({
+        type: 'news/refresh',
+        payload: {
+          ...initQuery,
+        },
+      });
+    }
+  }
+
   showDetail(rowID) {
     this.props.dispatch({
       type: 'news/setState',
@@ -23,50 +48,88 @@ class NewsList extends React.Component {
     }));
   }
 
-  render() {
-    const { data, dataSource, height, isLoading } = this.props.news;
-    const row = (rowData, sectionID, rowID) => {
-      return (<WingBlank size="lg"><WingBlank size="sm">
-        <WhiteSpace size="lg" />
-        <Card onClick={this.showDetail.bind(this, rowID)}>
-          <img
-            className={style['image']}
-            alt=""
-            // TODO: 图片指向java后台维护的新闻图片
-            // src={require(`../../assets/images/${rowData.image}`)}
-          />
-          <Card.Body>
-            <div>{rowData.createdAt}</div>
-            <div>{rowData.caption}</div>
-          </Card.Body>
-        </Card>
-        <WhiteSpace size="lg" />
-      </WingBlank>
-      </WingBlank>);
-    };
-
-
+  renderRow(rowData, sectionID, rowID) {
+    const { screen } = this.props.base;
+    // console.log(rowID);
     return (
-      <div>
+      <div key={rowID} >
+        <div className={commonStyles.sep15} />
+        <div className={styles.itemContainer} onClick={() => this.showDetail(rowID)} >
+          <div
+            className={styles.image}
+            style={{
+              width: screen.width - 30,
+              height: (screen.width - 30) * 177 / 340,
+              backgroundImage: `url(${image(rowData.image)})`,
+            }}
+          />
+          <div className={styles.caption} >{rowData.caption}</div>
+          <div className={styles.createAt} >{rowData.createdAt}</div>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { dataArray, dataSource, refreshing, isLoading, noMoreData } = this.props.news;
+    // console.log(refreshing, isLoading, noMoreData);
+    return (
+      <div className={styles.container} >
+        <div className={styles.searchBar} >
+          <SearchInput
+            onSearch={cond => this.props.dispatch({
+              type: 'news/search',
+              payload: {
+                ...initQuery,
+                fuzzySearch: cond,
+              },
+            })}
+          />
+        </div>
         <ListView
-          ref={el => this.lv = el}
-          dataSource={dataSource.cloneWithRows(data)}
-          renderRow={row}
-          style={{
-          height,
-          overflow: 'auto',
-        }}
-          pageSize={4}
-          onScroll={() => { console.log('scroll'); }}
-          scrollRenderAheadDistance={10}
-          onEndReached={this.onEndReached}
+          ref={(el) => { this.lv = el; }}
+          dataSource={dataSource.cloneWithRows(dataArray)}
+          className={styles.list}
+          pageSize={10}
+          // 渲染行
+          renderRow={this.renderRow}
+          // 渲染行间隔
+          // renderSeparator={() => <div className={commonStyles.sep15} />}
+          // 下拉刷新
+          pullToRefresh={<PullToRefresh
+            refreshing={refreshing}
+            onRefresh={() => this.props.dispatch({
+              type: 'news/refresh',
+              payload: {
+                ...initQuery,
+              },
+            })}
+            style={{
+              borderBottomWidth: 0,
+            }}
+          />}
+          // 无限加载
+          onEndReached={() => {
+            if (!noMoreData) {
+              this.props.dispatch({
+                type: 'news/infiniteLoad',
+                payload: {},
+              });
+            }
+          }}
           onEndReachedThreshold={10}
+          renderFooter={() => (
+            <div className={commonStyles.listFooterContainer} >
+              {isLoading ? '载入更多数据...' : (noMoreData ? '所有数据载入完成' : '')}
+            </div>
+          )}
         />
-        <div style={{ height: 40 }} />
       </div>
     );
   }
 }
+
 NewsList.propTypes = {
 };
-export default connect(news => (news))(NewsList);
+
+export default connect(({ news, base }) => ({ news, base }))(NewsList);

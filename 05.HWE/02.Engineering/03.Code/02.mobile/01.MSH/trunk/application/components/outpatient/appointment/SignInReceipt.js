@@ -3,11 +3,11 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Text, InteractionManager,
+  Text,
+  InteractionManager,
 } from 'react-native';
 
 import Sep from 'rn-easy-separator';
-import { connect } from 'react-redux';
 import Portrait from 'rn-easy-portrait';
 import PlaceholderView from '../../../modules/PlaceholderView';
 import Global from '../../../Global';
@@ -30,11 +30,6 @@ class SignInReceipt extends Component {
       hideNavBarBottomLine: false,
     });
   }
-
-  signIn = () => {
-    const { onPress, data } = this.props;
-    if (typeof onPress === 'function') onPress(data);
-  };
 
   render() {
     const { doRenderScene } = this.state;
@@ -59,9 +54,9 @@ class SignInReceipt extends Component {
       <ScrollView style={{ backgroundColor: Global.colors.IOS_GRAY_BG }}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_GRAY_BG} imageSource={imageSource} />
-            <ViewText text={docName} textStyle={{ marginLeft: 10, fontSize: 15 }} />
-            <ViewText text={docJobTitle} textStyle={{ marginLeft: 10, fontSize: 12 }} />
+            <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_LIGHT_GRAY} imageSource={imageSource} />
+            <ViewText text={docName} textStyle={{ marginLeft: 10, fontSize: 14 }} />
+            <ViewText text={docJobTitle} textStyle={{ marginLeft: 10, fontSize: 11 }} />
           </View>
           <View style={styles.row}>
             <Text style={styles.labelText}>科室</Text>
@@ -131,31 +126,22 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   labelText: {
-    fontSize: 15,
+    fontSize: 13,
     color: Global.colors.FONT_GRAY,
   },
   contentText: {
-    fontSize: 15,
+    fontSize: 13,
     marginLeft: 10,
   },
   info: {
-    fontSize: 15,
+    fontSize: 13,
     color: Global.colors.ORANGE,
     marginBottom: 15,
   },
   tips: {
-    fontSize: 12,
+    fontSize: 11,
     color: Global.colors.FONT_GRAY,
   },
 });
 
-// SignInReceipt.navigationOptions = ({
-//   title: '签到小票',
-// });
-
-const mapStateToProps = state => ({
-  currPatient: state.base.currPatient,
-  currHospital: state.base.currHospital,
-});
-
-export default connect(mapStateToProps)(SignInReceipt);
+export default SignInReceipt;

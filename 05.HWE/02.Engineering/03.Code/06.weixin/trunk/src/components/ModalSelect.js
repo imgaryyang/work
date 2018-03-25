@@ -39,7 +39,7 @@ export default class ModalSelect extends PureComponent {
                   );
                 }}
               >
-                <span className={{ fontSize: 14 }}>{item.label}</span>
+                <span style={{ fontSize: '14px' }}>{item.label}</span>
               </RadioItem>
             ))
           }

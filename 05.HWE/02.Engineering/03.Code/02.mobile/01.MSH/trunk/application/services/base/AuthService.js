@@ -1,4 +1,4 @@
-import { post, get, del } from '../../utils/Request';
+import { post, get } from '../../utils/Request';
 import { auth } from '../RequestTypes';
 
 export async function login(data) {
@@ -31,4 +31,8 @@ export async function setPortrait(data) {
 
 export async function sendAuthSM(data) {
   return post(`${auth().sendAuthSM}`, data);
+}
+
+export async function reloadUserInfo(userId) {
+  return get(`${auth().reloadUserInfo}`);
 }

@@ -6,14 +6,14 @@ import Global from '../../Global';
 export default class Tags extends PureComponent {
   render() {
     const { tags, containerStyle } = this.props;
-    const { tagConfig } = Global.Config;
+    // const { tagConfig } = Global.Config;
     if (tags.length === 0) return <View style={[styles.tagsContainer, containerStyle]} />;
     return (
       <View style={[styles.tagsContainer, containerStyle]} >
         {tags.map((tag, idx) => {
           return (
-            <View key={`tag_${idx + 1}`} style={[styles.tagContainer, { backgroundColor: tagConfig[tag].bgColor }]} >
-              <Text style={styles.tag} >{tagConfig[tag].label}</Text>
+            <View key={`tag_${idx + 1}`} style={[styles.tagContainer, { backgroundColor: tag.bgColor, borderColor: tag.borderColor }]} >
+              <Text style={styles.tag} >{tag.label}</Text>
             </View>
           );
         })}
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 3,
     marginLeft: 3,
+    borderWidth: 1 / Global.pixelRatio,
   },
   tag: {
     fontSize: 8,

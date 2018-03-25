@@ -10,10 +10,10 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import Sep from 'rn-easy-separator';
+// import Sep from 'rn-easy-separator';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import Toast from 'react-native-root-toast';
+// import Toast from 'react-native-root-toast';
 import Icon from 'rn-easy-icon';
 import { SafeAreaView } from 'react-navigation';
 
@@ -28,52 +28,39 @@ class InpatientDailyBill extends Component {
   static displayName = 'InpatientDailyBill';
   static description = '住院日清单';
 
-  /**
-   * 渲染过渡场景
-   * @returns {XML}
-   */
-  static renderPlaceholderView() {
-    return (
-      <View style={Global.styles.CONTAINER} />
-    );
-  }
-
   constructor(props) {
     super(props);
     this.fetchData = this.fetchData.bind(this);
     this.renderItem = this.renderItem.bind(this);
+    this.renderToolBar = this.renderToolBar.bind(this);
+    this.renderBottomBar = this.renderBottomBar.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.afterChooseHospital = this.afterChooseHospital.bind(this);
     this.afterChoosePatient = this.afterChoosePatient.bind(this);
-    this.getProfile = this.getProfile.bind(this);
   }
 
   state = {
     doRenderScene: false,
     data: [],
     ctrlState,
-    profile: {},
     selectDate: new Date(),
   };
 
   componentDidMount() {
-    const user = Global.getUser();
-    InteractionManager.runAfterInteractions(() => {
-      this.setState({
-        doRenderScene: true,
-        ctrlState: {
-          ...this.state.ctrlState,
-          refreshing: true,
-        },
-      }, () => this.getProfile(this.props.base.currHospital, this.props.base.currPatient));
-    });
     this.props.navigation.setParams({
       title: '住院日清单',
-      showCurrHospitalAndPatient: !!user,
+      showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
       afterChooseHospital: this.afterChooseHospital,
       afterChoosePatient: this.afterChoosePatient,
+      hideBottomLine: true,
+    });
+    // const user = Global.getUser();
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        doRenderScene: true,
+      }, () => { this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile); });
     });
   }
 
@@ -86,61 +73,43 @@ class InpatientDailyBill extends Component {
       ctrlState: {
         ...this.state.ctrlState,
         refreshing: true,
-        infiniteLoading: false,
-        noMoreData: false,
         requestErr: false,
         requestErrMsg: null,
       },
-    }, () => this.fetchData());
-  }
-  getProfile(hospital, patient) {
-    if (hospital !== null && patient !== null) {
-      const { profiles } = patient;
-      if (profiles !== null) {
-        const length = profiles.length ? profiles.length : 0;
-        for (let i = 0; i < length; i++) {
-          const pro = profiles[i];
-          if (pro.status === '1' && pro.hosId === hospital.id) {
-            this.setState({
-              profile: pro,
-            }, () => this.fetchData());
-          }
-        }
-      } else {
-        this.setState({
-          ctrlState: {
-            ...this.state.ctrlState,
-            refreshing: false,
-            requestErrMsg: '当前就诊人在当前医院暂无档案！',
-          },
-        });
-        Toast.show('当前就诊人在当前医院暂无档案！');
-        return null;
-      }
-    }
+    }, () => this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile));
   }
 
-  afterChooseHospital(hospital) {
-    this.getProfile(hospital, this.props.base.currPatient);
+  afterChooseHospital(hospital, patient, profile) {
+    this.fetchData(hospital, patient, profile);
   }
-  afterChoosePatient(patient, profile) {
-    if (typeof profile !== 'undefined' && profile !== null) {
+  afterChoosePatient(hospital, patient, profile) {
+    this.fetchData(hospital, patient, profile);
+  }
+  async fetchData(hospital, patient, profile) {
+    if (!profile) {
       this.setState({
-        profile,
-      }, () => this.fetchData());
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          requestErr: false,
+          requestErrMsg: null,
+        },
+        data: [],
+      });
+      return;
     }
-  }
-  async fetchData() {
     try {
       // 获得当前的医院Id
-      const hosNo = this.props.base.currHospital.no;
+      const hosNo = profile.hosNo;
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: true,
+          requestErr: false,
+          requestErrMsg: null,
         },
       });
-      const profileNo = this.state.profile.no;
+      const profileNo = profile.no;
       const startDate = moment(this.state.selectDate).format('YYYY-MM-DD');
       const endDate = moment(this.state.selectDate).format('YYYY-MM-DD');
       /* const query = { proNo: '900000000021', hosNo, startDate, endDate };*/
@@ -151,8 +120,6 @@ class InpatientDailyBill extends Component {
         const newCtrlState = {
           ...this.state.ctrlState,
           refreshing: false,
-          infiniteLoading: false,
-          noMoreData: true,
         };
         this.setState({
           data: responseData.result,
@@ -163,21 +130,16 @@ class InpatientDailyBill extends Component {
           ctrlState: {
             ...this.state.ctrlState,
             refreshing: false,
-            infiniteLoading: false,
-            noMoreData: true,
             requestErr: true,
             requestErrMsg: { msg: responseData.msg },
           },
         });
-        this.handleRequestException({ msg: responseData.msg });
       }
     } catch (e) {
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: false,
-          infiniteLoading: false,
-          noMoreData: true,
           requestErr: true,
           requestErrMsg: e,
         },
@@ -187,108 +149,79 @@ class InpatientDailyBill extends Component {
   }
 
   /**
+   * 渲染过渡场景
+   * @returns {XML}
+   */
+  renderPlaceholderView() {
+    return (
+      <SafeAreaView style={[Global.styles.CONTAINER, { backgroundColor: 'white' }]} >
+        {this.renderToolBar()}
+        <View style={{ flex: 1 }} />
+        {this.renderBottomBar(0)}
+      </SafeAreaView>
+    );
+  }
+
+  /**
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    const firstMargin = index === 0 ? {
-      // marginTop: 10,
-    } : {};
     return (
       <Item
         data={item}
         index={index}
         chevron={false}
-        style={firstMargin}
       >
-        <View style={{ flex: 1 }} >
-          <View style={{ flexDirection: 'row' }}>
-            {/* <Text style={styles.titleText_1}>项目:</Text>
-            <Sep width={4} />*/}
-            <Text style={styles.text_1}>{item.name}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Text style={styles.titleText_2}>单价:</Text>
-              <Sep width={2} />
-              <Text style={styles.text}>{filterMoney(item.price, 2)}&nbsp;元</Text>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Text style={styles.titleText_2}>数量:</Text>
-              <Sep width={2} />
-              <Text style={styles.text}>{item.num}</Text>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Text style={styles.text_red}>小计:</Text>
-              <Sep width={2} />
-              <Text style={styles.text_red}>{filterMoney(item.realAmount, 2)}&nbsp;元</Text>
-            </View>
-          </View>
-        </View>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.price}>{`${filterMoney(item.price, 2)} × ${item.num}`}</Text>
+        <Text style={styles.itemTotal}>{filterMoney(item.realAmount, 2)}</Text>
       </Item>
     );
   }
 
-  render() {
-    // 场景过渡动画未完成前，先渲染过渡场景
-    if (!this.state.doRenderScene) {
-      return InpatientDailyBill.renderPlaceholderView();
-    }
-    // console.log('this.state.selectDate:', this.state.selectDate);
-    const { data } = this.state;
-    const tmpData = data;
-    let totalAmount = 0;
-    let tmpTotalAmount = 0;
-    if (tmpData && tmpData.length > 0) {
-      // let i = 0;
-      for (const d of tmpData) {
-        tmpTotalAmount += parseFloat(d.realAmount);
-        // i += 1;
-      }
-      totalAmount = tmpTotalAmount;
-    }
+  renderToolBar() {
+    const { currHospital, currPatient, currProfile } = this.props.base;
     return (
-      <SafeAreaView style={[Global.styles.CONTAINER, { backgroundColor: 'white' }]} >
-        <View style={styles.btnContainer} >
-          {/* <TouchableOpacity
-            style={styles.preBtn}
-            onPress={() => {
-              if (this.state.refreshing) return;
-              this.setState(
-                { selectDate: new Date(moment(this.state.selectDate).subtract(1, 'd').format('YYYY-MM-DD hh:mm:ss')) },
-                () => this.fetchData(),
-              );
-            }}
-          >
-            <Text style={styles.btnText} >前一天</Text>
-          </TouchableOpacity>*/}
-          <TouchableOpacity
-            style={styles.dateBtn}
-            onPress={() => {
-              this.easyDatePicker.pickDate({
-                date: this.state.selectDate,
-                maxDate: new Date(),
-              }, (date) => {
-                this.setState({ selectDate: date }, () => this.fetchData());
-              });
-            }}
-          >
-            {/* <Text style={[styles.date, { fontSize: 15, color: Global.colors.FONT_GRAY }]} >选择日期：</Text>*/}
-            <Text style={styles.date} >{moment(this.state.selectDate).format('YYYY-MM-DD')}</Text>
-            <Icon name="ios-arrow-down" size={12} width={12} height={12} color={Global.colors.FONT_LIGHT_GRAY1} style={styles.switchIcon} />
-          </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.nextBtn}
-            onPress={() => {
-              if (this.state.refreshing) return;
-              this.setState(
-                { selectDate: new Date(moment(this.state.selectDate).add(1, 'd').format('YYYY-MM-DD hh:mm:ss')) },
-                () => this.fetchData(),
-              );
-            }}
-          >
-            <Text style={styles.btnText} >后一天</Text>
-          </TouchableOpacity>*/}
-        </View>
+      <View style={styles.btnContainer} >
+        {/* <TouchableOpacity
+          style={styles.preBtn}
+          onPress={() => {
+            if (this.state.refreshing) return;
+            this.setState(
+              { selectDate: new Date(moment(this.state.selectDate).subtract(1, 'd').format('YYYY-MM-DD hh:mm:ss')) },
+              () => this.fetchData(),
+            );
+          }}
+        >
+          <Text style={styles.btnText} >前一天</Text>
+        </TouchableOpacity>*/}
+        <TouchableOpacity
+          style={styles.dateBtn}
+          onPress={() => {
+            this.easyDatePicker.pickDate({
+              date: this.state.selectDate,
+              maxDate: new Date(),
+            }, (date) => {
+              this.setState({ selectDate: date }, () => this.fetchData(currHospital, currPatient, currProfile));
+            });
+          }}
+        >
+          {/* <Text style={[styles.date, { fontSize: 15, color: Global.colors.FONT_GRAY }]} >选择日期：</Text>*/}
+          <Text style={styles.date} >{moment(this.state.selectDate).format('YYYY-MM-DD')}</Text>
+          <Icon name="ios-arrow-down" size={12} width={12} height={12} color={Global.colors.FONT_LIGHT_GRAY1} style={styles.switchIcon} />
+        </TouchableOpacity>
+        {/* <TouchableOpacity
+          style={styles.nextBtn}
+          onPress={() => {
+            if (this.state.refreshing) return;
+            this.setState(
+              { selectDate: new Date(moment(this.state.selectDate).add(1, 'd').format('YYYY-MM-DD hh:mm:ss')) },
+              () => this.fetchData(),
+            );
+          }}
+        >
+          <Text style={styles.btnText} >后一天</Text>
+        </TouchableOpacity>*/}
         <DatePicker ref={(c) => { this.easyDatePicker = c; }} />
         {/* <Button
           text="选择日期"
@@ -303,37 +236,66 @@ class InpatientDailyBill extends Component {
             });
           }}
         />*/}
+      </View>
+    );
+  }
+  renderBottomBar(totalAmount) {
+    return (
+      <View style={styles.bottomBar} >
+        <Text style={styles.totalAmt}>总计：{filterMoney(totalAmount, 2)}&nbsp;元</Text>
+      </View>
+    );
+  }
+
+  render() {
+    // 场景过渡动画未完成前，先渲染过渡场景
+    if (!this.state.doRenderScene) {
+      return this.renderPlaceholderView();
+    }
+    // console.log('this.state.selectDate:', this.state.selectDate);
+    const { currProfile } = this.props.base;
+    const { data, selectDate } = this.state;
+    const tmpData = data;
+    let totalAmount = 0;
+    let tmpTotalAmount = 0;
+    if (tmpData && tmpData.length > 0) {
+      // let i = 0;
+      for (const d of tmpData) {
+        tmpTotalAmount += parseFloat(d.realAmount);
+        // i += 1;
+      }
+      totalAmount = tmpTotalAmount;
+    }
+
+    const emptyView = !currProfile ? this.renderEmptyView({
+      msg: '未选择就诊人',
+      ctrlState: this.state.ctrlState,
+      style: { marginTop: 15 },
+    }) : this.renderEmptyView({
+      msg: `未查询到 ${moment(selectDate).format('YYYY-MM-DD')} 的日清单信息`,
+      reloadMsg: '点击刷新按钮重新加载',
+      reloadCallback: this.onSearch,
+      ctrlState: this.state.ctrlState,
+      style: { marginTop: 15 },
+    });
+
+    return (
+      <SafeAreaView style={[Global.styles.CONTAINER, { backgroundColor: 'white' }]} >
+        {this.renderToolBar()}
         <FlatList
           data={this.state.data}
           ref={(c) => { this.listRef = c; }}
           keyExtractor={(item, index) => `${item}${index + 1}`}
           renderItem={this.renderItem}
-          ItemSeparatorComponent={() => (<Sep height={15} style={{ backgroundColor: Global.colors.IOS_GRAY_BG }} />)}
+          // ItemSeparatorComponent={() => (<Sep height={15} style={{ backgroundColor: Global.colors.IOS_GRAY_BG }} />)}
           // 控制下拉刷新
           refreshing={this.state.ctrlState.refreshing}
           onRefresh={this.onSearch}
-          ListEmptyComponent={() => {
-            return this.renderEmptyView({
-              msg: '暂无信息',
-              reloadMsg: '点击刷新按钮重新加载',
-              reloadCallback: this.onSearch,
-              ctrlState: this.state.ctrlState,
-            });
-          }}
-          // 列表底部
-          /* ListFooterComponent={() => {
-            return this.renderFooter({
-              data: this.state.data,
-              ctrlState: this.state.ctrlState,
-              callback: this.onInfiniteLoad,
-            });
-          }}*/
+          ListEmptyComponent={emptyView}
           ListFooterComponent={() => (<View style={{ height: 15 }} />)}
           style={styles.flatList}
         />
-        <View style={styles.bottomBar} >
-          <Text style={styles.totalAmt}>总计：{filterMoney(totalAmount, 2)}&nbsp;元</Text>
-        </View>
+        {this.renderBottomBar(totalAmount)}
       </SafeAreaView>
     );
   }
@@ -392,32 +354,30 @@ const styles = StyleSheet.create({
   switchIcon: {
     marginLeft: 6,
   },
-  text: {
+
+  name: {
     fontSize: 13,
+    flex: 1,
     color: Global.colors.FONT_GRAY,
   },
-  text_1: {
-    fontSize: 15,
+  price: {
+    width: 70,
+    fontSize: 12,
     color: Global.colors.FONT_GRAY,
-  },
-  text_red: {
-    fontSize: 13,
-    color: '#000000',
     textAlign: 'right',
   },
-  titleText_1: {
-    fontSize: 15,
-    color: Global.colors.FONT_LIGHT_GRAY1,
+  itemTotal: {
+    width: 60,
+    fontSize: 12,
+    textAlign: 'right',
   },
-  titleText_2: {
-    fontSize: 13,
-    color: Global.colors.FONT_LIGHT_GRAY1,
-  },
+
   totalAmt: {
     fontSize: 15,
     fontWeight: '600',
     color: Global.colors.IOS_BLUE,
   },
+
   button: {
     flex: 0,
     marginTop: 0,

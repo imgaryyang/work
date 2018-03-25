@@ -2,6 +2,8 @@ package com.lenovohit.hwe.pay.web.rest;
 
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.pay.exception.PayException;
 import com.lenovohit.hwe.pay.model.Bill;
 import com.lenovohit.hwe.pay.model.Cash;
+import com.lenovohit.hwe.pay.model.PayType;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.TradeService;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
@@ -42,11 +45,15 @@ public class PayRestController extends BaseRestController{
 	private TradeService tradeService;
 	@Autowired
 	private GenericManager<Settlement, String> settlementManager;
+	@Autowired
+	private GenericManager<PayType, String> payTypeManager;
 
 	/**
 	 * 创建账单
+	 * 模式修改，不在生产账单，该接口废弃。
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "/createBill", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forCreatePay(@RequestBody String data) {
 		//生成充值订单
@@ -66,7 +73,83 @@ public class PayRestController extends BaseRestController{
 	}
 	
 	/**
-	 * 预支付
+	 * 获取已授权的支付方式
+	 * authValues 格式 type1:value1&type2:value2&...
+	 * 例如：APP:123&GZH:456
+	 * @return
+	 */
+	@RequestMapping(value = "/payTypes/{authValues}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forPayTypes(@PathVariable("authValues") String authValues) {
+		//生成充值订单
+		try {
+			if(StringUtils.isBlank(authValues)){
+				return ResultUtils.renderSuccessResult();
+			}
+			String[] authValueStrAry = authValues.split("&");
+			String[] authValueAry = null;
+			StringBuilder sql = new StringBuilder( "select pa.PT_ID from PAY_TYPE_AUTH pa ");
+			List<Object> values = new ArrayList<Object>();
+			for	(int i = 0; i < authValueStrAry.length; i++){
+				if(StringUtils.isBlank(authValueStrAry[i])){
+					continue;
+				}
+				authValueAry = authValueStrAry[i].split(":");
+				if(!StringUtils.isEmpty(authValueAry[0])){
+					sql.append(" LEFT JOIN (select PT_ID from PAY_TYPE_AUTH  where TYPE = ? and VALUE = ?) pa" +i+ " on pa" +i+ ".PT_ID = pa.PT_ID ");
+					values.add(authValueAry[0]);
+					values.add(authValueAry[1]);
+				}
+			}
+			sql.append(" where 1=1 order by pa.CREATED_AT");
+			List<?> payTypeIds = this.payTypeManager.findBySql(sql.toString(),values.toArray());
+			
+			StringBuilder idSql = new StringBuilder( "from PayType where id in ( ");
+			List<Object> idValues = new ArrayList<Object>();
+			for(int i = 0; i < payTypeIds.size(); i++) {
+				idSql.append("?");
+				idValues.add(payTypeIds.get(i).toString());
+				if(i != payTypeIds.size() - 1) idSql.append(",");
+			}
+			idSql.append(")");
+			List<?> payTypes = this.payTypeManager.findByJql(idSql.toString(), idValues.toArray());
+			
+			return ResultUtils.renderSuccessResult(payTypes);
+		} catch (PayException e) {
+			log.error(e.getExceptionCodeAndMessage());
+			return ResultUtils.renderFailureResult(e.getExceptionCodeAndMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("获取授权的支付方式失败！");
+			return ResultUtils.renderFailureResult("获取授权的支付方式失败！");
+		}
+	}
+	
+	/**
+	 * 预支付，客户端选择支付方式后调用，获取对应支付的预支付信息，反馈客户端，由客户端根据选择支付方式进入对应预支付界面，用户进行下一步支付操作，如现金塞钞、银行卡插卡输密码、微信支付宝扫码等。</p>
+	 * 通用（微信支付宝扫码、App支付，银行卡刷卡等）-
+	 * 	{
+	 * 		settleTitle:'XXX 自助机预存200元！',amt:'200.00',terminalCode:'',terminalName:'',terminalUser:'',
+	 * 		bizType:'00',bizNo:'000xxx...',bizUrl:'http://....',bizTime:'2018-01-22 00:00:00',
+	 * 		appType:'SSM',appCode:'',payType:'4028748161098e60016109987e280020'(扫码支付)
+	 *	}</p>
+	 * 微信公众号支付/支付宝服务窗支付-
+	 * 	{
+	 * 		settleTitle:'XXX 自助机预存200元！',amt:'200.00',terminalCode:'',terminalName:'',terminalUser:'',
+	 * 		bizType:'00',bizNo:'000xxx...',bizUrl:'http://....',bizTime:'2018-01-22 00:00:00',
+	 * 		appType:'SSM',appCode:'',payType:'4028748161098e60016109987e280012'(公众号支付),payerNo:''(openId/userId)
+	 *	}</p>
+	 * 现金支付-
+	 * 	{
+	 * 		settleTitle:'XXX 自助机现金预存0元！',amt:'0.00',terminalCode:'',terminalName:'',terminalUser:'',
+	 * 		bizType:'00',bizNo:'000xxx...',bizUrl:'http://....',bizTime:'2018-01-22 00:00:00',
+	 * 		appType:'SSM',appCode:'',payType:'4028748161098e60016109987e280000'
+	 *	}</p>
+	 * 医院余额支付-
+	 * 	{
+	 * 		settleTitle:'XXX 自助机预存200元！',amt:'200.00',terminalCode:'',terminalName:'',terminalUser:'',
+	 * 		bizType:'00',bizNo:'000xxx...',bizUrl:'http://....',bizTime:'2018-01-22 00:00:00',
+	 * 		appType:'SSM',appCode:'',payType:'4028748161098e60016109987e280012'(公众号支付),payerNo:''(患者档案号),payerName：'',payerAccount:''
+	 *	}
 	 * @return
 	 */
 	@RequestMapping(value = "/prePay", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
@@ -88,7 +171,11 @@ public class PayRestController extends BaseRestController{
 	}
 	
 	/**
-	 * 现金支付
+	 * 现金支付-
+	 * 	{
+	 * 		settleId:'...',amt:'100.00',terminalCode:'',terminalName:'',terminalUser:'',
+	 * 		appType:'SSM',appCode:'',
+	 *	}</p>
 	 * @return
 	 */
 	@RequestMapping(value = "/cashPay", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
@@ -108,7 +195,16 @@ public class PayRestController extends BaseRestController{
 		
 		return ResultUtils.renderSuccessResult(cash);
 	}
-
+	
+	/**
+	 * 支付回调
+	 * 通用-
+	 *  {
+	 * 		settleId：PathVariable
+	 * 		data: RequestBody
+	 *	}</p>
+	 * @return
+	 */
 	@RequestMapping(value = "/callback/{settleId}", method = RequestMethod.POST)
 	public String forCallback(@PathVariable("settleId") String settleId, @RequestBody String data ){
 		log.info("支付-异步通知返回的数据如下：");
@@ -246,6 +342,7 @@ public class PayRestController extends BaseRestController{
 		
 		return ResultUtils.renderSuccessResult(settle);
 	}
+	
 	private void validCreatePay(Bill bill) {
 		if (null == bill) {
             throw new PayException("91001010", "bill should not be NULL!");

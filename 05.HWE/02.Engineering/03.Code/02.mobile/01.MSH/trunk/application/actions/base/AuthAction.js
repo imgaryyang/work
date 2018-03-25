@@ -32,3 +32,10 @@ export function updateUser(user) {
     user,
   };
 }
+
+export function updateReloadUserCtrlState(reloadUserCtrlState) {
+  return {
+    type: types.AUTH.RELOAD_USER_CTRL_STATE,
+    reloadUserCtrlState,
+  };
+}

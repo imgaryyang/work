@@ -39,6 +39,7 @@ public class IVisitRecord {
 	private Date startDate;
 	private Date endDate;
 	private String cardType;
+    private String diagnosis;
 	public String getCardType() {
 		return cardType;
 	}
@@ -213,6 +214,13 @@ public class IVisitRecord {
 	public void setComplaint(String complaint) {
 		this.complaint = complaint;
 	}
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
 
+	
 
 }

@@ -34,9 +34,9 @@ import com.lenovohit.hwe.pay.model.CheckDetailResult;
 import com.lenovohit.hwe.pay.model.CheckRecord;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.CheckBaseService;
-import com.lenovohit.hwe.pay.support.alipay.scan.Alipay;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.builder.AlipayTradeDownloadRequestBuilder;
-import com.lenovohit.hwe.pay.support.alipay.scan.model.result.AlipayF2FDownloadResult;
+import com.lenovohit.hwe.pay.support.alipay.Alipay;
+import com.lenovohit.hwe.pay.support.alipay.model.builder.AlipayTradeDownloadRequestBuilder;
+import com.lenovohit.hwe.pay.support.alipay.model.result.AlipayTradeDownloadResult;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
 
 @Service("calipayCheckService")
@@ -60,7 +60,7 @@ public class CalipayCheckServiceImpl implements CheckBaseService {
 		AlipayTradeDownloadRequestBuilder builder = new AlipayTradeDownloadRequestBuilder()
 				.setBillType("trade").setBillDate(checkRecord.getChkDate())
 				.setConfigs(config);
-		AlipayF2FDownloadResult result = Alipay.tradeDownloadUrl(builder);
+		AlipayTradeDownloadResult result = Alipay.tradeDownloadUrl(builder);
 		AlipayDataDataserviceBillDownloadurlQueryResponse response = result.getResponse();
 		switch (result.getTradeStatus()) {
 			case SUCCESS:

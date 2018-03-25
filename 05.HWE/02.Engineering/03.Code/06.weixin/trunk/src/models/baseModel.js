@@ -72,17 +72,16 @@ export default {
       const { openid } = payload;
       yield put({ type: 'save', payload: { openid } });
       const { data } = yield call(loginByOpenId, openid);
-      const { success, result } = data || {};
-      const { map } = result;
-      console.log('map', map);
-      const profiles = map && map.profiles ? map.profiles : [];
-      if (success === true) {
+      if (data.success === true) {
+        const { result } = data || {};
+        const { map } = result;
+        const profiles = map && map.profiles ? map.profiles : [];
         yield put({
           type: 'save',
           payload: {
             profiles,
             user: result || {},
-            loginResult: success,
+            loginResult: data.success,
           },
         });
         yield put(routerRedux.push('/home/hfc'));

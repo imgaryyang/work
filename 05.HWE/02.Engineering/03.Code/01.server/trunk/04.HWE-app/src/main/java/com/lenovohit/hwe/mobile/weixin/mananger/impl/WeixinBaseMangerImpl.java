@@ -10,6 +10,8 @@ import com.lenovohit.core.utils.JSONUtils;
 import com.lenovohit.hwe.mobile.weixin.configration.WeixinMpProperties;
 import com.lenovohit.hwe.mobile.weixin.mananger.WeixinBaseManger;
 import com.lenovohit.hwe.mobile.weixin.model.WeixinToken;
+
+
 @Component("weixinBaseManger")
 @EnableConfigurationProperties(WeixinMpProperties.class)
 public class WeixinBaseMangerImpl implements WeixinBaseManger {

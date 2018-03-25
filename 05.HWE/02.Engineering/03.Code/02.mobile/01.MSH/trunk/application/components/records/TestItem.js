@@ -36,13 +36,23 @@ class TestItem extends Component {
   }
 
   showDetail(item, index) {
-    this.props.navigate('ShowDetailItems', {
-      barcode: item.barcode,
-      data: item,
-      checkId: item.id,
-      checkName: item.itemName,
-      index,
-    });
+    if (item.type = '0001') {
+      this.props.navigate('ShowLisDetail', {
+        barcode: item.barcode,
+        data: item,
+        checkId: item.id,
+        checkName: item.itemName,
+        index,
+      });
+    } else {
+      this.props.navigate('ShowPacsDetail', {
+        barcode: item.barcode,
+        data: item,
+        checkId: item.id,
+        checkName: item.itemName,
+        index,
+      });
+    }
   }
   /**
    * 渲染检查项目行数据

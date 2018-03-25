@@ -1,9 +1,9 @@
 import React from 'react';
-import { routerRedux } from 'dva/router';
+// import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import styles from './User.less';
 import { createForm } from 'rc-form';
 import { List, InputItem, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+// import styles from './User.less';
 
 class FormItem extends React.Component {
   handleSubmit = (e) => {
@@ -26,13 +26,13 @@ class FormItem extends React.Component {
       <form>
         <List>
           <InputItem
-            {...getFieldProps('name')}
+            {...getFieldProps('name', { initialValue: '8888 8888 8888 8888', })}
             type="text"
             placeholder="请输入姓名"
           >姓名
           </InputItem>
           <InputItem
-            {...getFieldProps('idNo')}
+            {...getFieldProps('idNo', { initialValue: '8888 8888 8888 8888', })}
             type="text"
             placeholder="请输入身份证号"
             maxLength={18}

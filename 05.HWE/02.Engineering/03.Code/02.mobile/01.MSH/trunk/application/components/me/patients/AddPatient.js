@@ -50,12 +50,14 @@ class AddPatient extends Component {
   };
 
   componentDidMount() {
+    const { params } = this.props.navigation.state;
+    this.props.navigation.setParams({
+      title: params && params.title ? params.title : '添加就诊人',
+    });
+
     InteractionManager.runAfterInteractions(() => {
       this.setState({ doRenderScene: true });
     });
-    // this.props.navigation.setParams({
-    //   title: '添加就诊人',
-    // });
   }
 
   componentWillUnmount() {
@@ -67,6 +69,7 @@ class AddPatient extends Component {
   onChange(fieldName, fieldValue, formValue) {
     this.setState({ value: formValue });
   }
+
   form = null;
 
   async submit() {

@@ -162,7 +162,13 @@ CustomPrototypes.init = () => {
       }
 
       return (
-        <EasyCard radius={0} fullWidth style={[{ marginTop: 15 }, style]}>
+        <EasyCard
+          radius={0}
+          fullWidth
+          style={[{
+            // marginTop: 15,
+          }, style]}
+        >
           {content}
           {buttons}
         </EasyCard>

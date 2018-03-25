@@ -25,7 +25,7 @@ import AppFuncs from './AppFuncs';
 import Tools from './Tools';
 import { nearest, page } from '../../services/hospital/HospitalService';
 import HospitalListItem from './HospitalItem';
-import { setCurrHospital } from '../../actions/base/BaseAction';
+import { setCurrHospital, setCurrPatient } from '../../actions/base/BaseAction';
 
 class HospitalFuncCenter extends Component {
   static displayName = 'HospitalFuncCenter';
@@ -76,9 +76,9 @@ class HospitalFuncCenter extends Component {
           position.longitude,
           position.latitude,
         );
-        const { tagTypes } = Global.Config;
+        const { tagConfig } = Global.Config;
         if (responseData.success) {
-          this.addHosp(responseData.result, tagTypes.NEAREST, position);
+          this.addHosp(responseData.result, tagConfig.nearest, position);
         } else {
           this.setState({
             loading: false,
@@ -104,11 +104,11 @@ class HospitalFuncCenter extends Component {
       // 8a81a7db4dad2271014dad2271e20005 - 费森尤斯泉州 上次去过
       const responseData = await page(0, 20, null);
       if (responseData.success) {
-        const { tagTypes } = Global.Config;
+        const { tagConfig } = Global.Config;
         for (let i = 0; i < responseData.result.length; i++) {
           const hosp = responseData.result[i];
-          if (hosp.id === '8a81a7db4dad2271014dad2271e20001') this.addHosp(hosp, tagTypes.FREQUENT);
-          else if (hosp.id === '8a81a7db4dad2271014dad2271e20005') this.addHosp(hosp, tagTypes.LATEST);
+          if (hosp.id === '8a81a7db4dad2271014dad2271e20001') this.addHosp(hosp, tagConfig.frequent/* tagTypes.FREQUENT*/);
+          else if (hosp.id === '8a81a7db4dad2271014dad2271e20005') this.addHosp(hosp, tagConfig.latest/* tagTypes.LATEST*/);
         }
       } else {
         this.handleRequestException({ msg: responseData.msg });
@@ -191,7 +191,13 @@ class HospitalFuncCenter extends Component {
         <ScrollView style={styles.scrollView} >
           <Ads navigate={this.props.navigate} />
           <Sep height={15} />
-          <AppFuncs navigate={this.props.navigate} setCurrHospital={this.props.setCurrHospital} currHospital={currHospital} />
+          <AppFuncs
+            navigate={this.props.navigate}
+            setCurrHospital={this.props.setCurrHospital}
+            setCurrPatient={this.props.setCurrPatient}
+            currHospital={currHospital}
+            base={this.props.base}
+          />
           <Sep height={15} />
           <Card fullWidth noPadding >
             <View style={styles.cardTitle} >
@@ -301,6 +307,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navigate: ({ component, params }) => dispatch(NavigationActions.navigate({ routeName: component, params })),
   setCurrHospital: hospital => dispatch(setCurrHospital(hospital)),
+  setCurrPatient: (patient, profile) => dispatch(setCurrPatient(patient, profile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HospitalFuncCenter);

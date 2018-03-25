@@ -19,6 +19,7 @@ import Item from '../../../modules/PureListItem';
 import ctrlState from '../../../modules/ListState';
 import { list } from '../../../services/me/PatientService';
 import { updateUser } from '../../../actions/base/AuthAction';
+import { setCurrPatient } from '../../../actions/base/BaseAction';
 
 class PatientListNew extends Component {
   static displayName = 'PatientListNew';
@@ -118,13 +119,12 @@ class PatientListNew extends Component {
     for (let i = 0; i < length; i++) {
       const patient = userPatients[i];
       if (id === patient.id) {
+        this.props.setCurrPatient(patient);
         return patient;
       }
     }
   }
   gotoEdit(profile, patient) {
-    console.log('gotoEdit....profile', profile);
-    console.log('gotoEdit....patient', patient);
     const { id } = patient;
     const currPatient = this.setCurrPat(id);
     // 回调列表更新数据
@@ -182,9 +182,11 @@ class PatientListNew extends Component {
       this.handleRequestException(e);
     }
   }
-  bindProfile() {
+  bindProfile(patient) {
+    const { id } = patient;
+    const currPatient = this.setCurrPat(id);
     this.props.navigation.navigate('BindArchives', {
-      data: this.props.base.currPatient,
+      data: currPatient,
       callbacks: this.callbacking,
       title: '添加卡号',
     });
@@ -274,7 +276,6 @@ class PatientListNew extends Component {
     );
   }
   renderData(patients) {
-    console.log('renderData....patients', patients);
     return patients.map((patient, index) => (
       <View key={index}>
         <View style={styles.header}>
@@ -282,7 +283,7 @@ class PatientListNew extends Component {
             {patient.key} {patient.gender === '1' ? '男' : '女'}
           </Text>
         </View>
-        <Sep style={{ height: Global.lineWidth, backgroundColor: 'green' }} />
+        <Sep style={{ height: Global.lineWidth, backgroundColor: Global.colors.LINE }} />
         <Sep style={{ height: 10, backgroundColor: 'white' }} />
         {
           patient.data && patient.data.length > 0 ? (
@@ -290,7 +291,7 @@ class PatientListNew extends Component {
               <TouchableOpacity style={{ flex: 1, flexDirection: 'column', paddingLeft: 10, backgroundColor: 'white' }} key={index} onPress={() => this.gotoEdit(profile, patient)} >
                 {
                   index !== 0 ? (
-                    <Sep style={{ height: Global.lineWidth, backgroundColor: 'red', marginRight: 10 }} />
+                    <Sep style={{ height: Global.lineWidth, backgroundColor: Global.colors.LINE, marginRight: 10 }} />
                   ) : null
                 }
                 <Sep style={{ height: 10 }} />
@@ -338,14 +339,14 @@ class PatientListNew extends Component {
             ))
           ) : (
             <Card style={{ flex: 1, borderTopWidth: 0, backgroundColor: 'white' }} >
-              <View style={Global.styles.CARD_TITLE} >
+              <View style={styles.card} >
                 <Text style={Global.styles.CARD_TITLE_TEXT} >暂无档案</Text>
               </View>
               <Button
                 text="去绑定"
                 theme={Button.THEME.ORANGE}
                 outline
-                onPress={() => this.bindProfile()}
+                onPress={() => this.bindProfile(patient)}
                 style={styles.button}
               />
             </Card>
@@ -452,6 +453,12 @@ const styles = StyleSheet.create({
     width: 70,
     height: 25,
   },
+  card: {
+    // borderBottomWidth: 1 / Global.pixelRatio,
+    borderBottomColor: Global.colors.IOS_SEP_LINE,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
 });
 
 const mapStateToProps = state => ({
@@ -461,6 +468,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUser(user)),
+  setCurrPatient: userPatient => dispatch(setCurrPatient(userPatient)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientListNew);

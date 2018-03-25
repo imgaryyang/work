@@ -31,3 +31,7 @@ export function sendAuthSM(data) {
   console.info('sendAuthSM');
   return ajax.POST('/api/hwe/base/sms/sendCode', data || {});
 }
+
+export function image(imgName) {
+  return `/api/images/${imgName}`;
+}

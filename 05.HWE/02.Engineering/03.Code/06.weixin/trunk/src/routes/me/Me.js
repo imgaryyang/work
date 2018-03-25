@@ -1,33 +1,83 @@
 import React from 'react';
-import { Route } from 'dva/router';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
+import { Toast } from 'antd-mobile';
 import classnames from 'classnames';
-// import { Grid, Carousel, TabBar, Button, Icon } from 'antd-mobile';
 
+import Icon from '../../components/FAIcon';
 import styles from './Me.less';
 import commonStyles from '../../utils/common.less';
+import { image } from '../../services/baseService';
+
+import Global from '../../Global';
 
 class Me extends React.Component {
   constructor(props) {
     super(props);
+
     this.renderMenu = this.renderMenu.bind(this);
+    this.onMenuPress = this.onMenuPress.bind(this);
+  }
+
+  onMenuPress(route, title, passProps) {
+    if (route) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'base/save',
+        payload: {
+          title,
+          ...passProps,
+        },
+      });
+      dispatch(routerRedux.push(`/stack/${route}`));
+    } else {
+      Toast.info(`${title}即将开通`);
+    }
   }
 
   renderMenu() {
-    return (
-      <div></div>
-    );
+    const menus = Global.Config.services.me;
+    return menus.map(({ id, name, route, icon, passProps, separator }, idx) => {
+      const sep = separator === true ? <div className={classnames(commonStyles.sep15, styles.topLine, styles.bottomLine)} /> : null;
+      const topLine = idx === 0 ? styles.topLine : '';
+      const bottomLine = idx === menus.length - 1 ? styles.bottomLine : '';
+      const sepLine = separator === true || idx === menus.length - 1 ? '' : styles.bottomLine;
+      return (
+        <div key={`me_menu_item_${id}_${idx + 1}`} className={styles.itemContainer} >
+          <div
+            className={classnames(styles.contentContainer, topLine, bottomLine)}
+            onClick={() => {
+              this.onMenuPress(route, name, passProps);
+            }}
+          >
+            <div className={styles.iconContainer} ><Icon type={icon} className={styles.itemIcon} /></div>
+            <div className={classnames(styles.nameContainer, sepLine)} >
+              <div className={styles.itemName} >{name}</div>
+              <div className={styles.chevronContainer} >
+                <Icon type="angle-right" className={styles.chevron} />
+              </div>
+            </div>
+          </div>
+          {sep}
+        </div>
+      );
+    });
   }
 
   render() {
-    const { user } = this.props.base;
-    const portrait = { backgroundImage: 'url(/api/images/40287d8161c679950161c67b5fd00000.png)' }; // user.portrait ? { backgroundImage: `url(/api/images/${user.portrait})` } : {};
+    const { user, screen } = this.props.base;
+    // console.log(user);
+    const portrait = user.portrait ? { backgroundImage: `url(${image(user.portrait)})` } : {};
+    // console.log(portrait);
     return (
       <div className={styles.container}>
-        <div className={classnames(commonStyles.userBg, styles.bgContainer)} >
+        <div
+          className={classnames(commonStyles.userBg, styles.bgContainer)}
+          style={{ height: screen.width * 9 / 16 }}
+        >
           <div className={styles.portraitContainer} >
             <div
-              className={classnames(styles.portrait, /* !user || !user.portrait*/false ? commonStyles.userPortrait : null)}
+              className={classnames(styles.portrait, !user || !user.portrait ? commonStyles.userPortrait : null)}
               style={portrait}
             />
           </div>
@@ -37,6 +87,7 @@ class Me extends React.Component {
         <div>
           {this.renderMenu()}
         </div>
+        <div className={commonStyles.sep15} />
       </div>
     );
   }

@@ -4,9 +4,7 @@ import { getReport, getReportDetail } from '../services/reportService';
 
 
 export default {
-
   namespace: 'report',
-
   state: {
     data: {},
     isLoading: false,

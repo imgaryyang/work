@@ -65,9 +65,9 @@ public class ActivityHisController extends OrgBaseRestController {
 	@RequestMapping(value = "recordList", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result recordList(@RequestParam(value = "data", defaultValue = "") String data) {
 		RecordDrug model = JSONUtils.deserialize(data, RecordDrug.class);
+	
 		//查询相关联的处方列表
 		RestListResponse<RecordDrug> response = this.hisRecordDrugService.findList(model, null);
-
 		if(response.isSuccess()) {
 			/*List<RecordDrug> recordDrugs = new ArrayList<RecordDrug>();
 			for(int i = 0; i < response.getList().size(); i++){

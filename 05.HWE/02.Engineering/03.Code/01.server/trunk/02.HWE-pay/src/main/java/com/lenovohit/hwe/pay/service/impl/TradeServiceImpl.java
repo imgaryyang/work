@@ -57,43 +57,47 @@ public class TradeServiceImpl implements TradeService {
 
 	public void prePay(Settlement settle) throws PayException {
 		try {
-			log.info("开始预支付");
+			log.info("预支付业务处理开始---------------------------------");
 			//0.初始化数据
 			initPrePaySettle(settle);
 			this.settlementManager.save(settle);
-			log.info("开始调用支付渠道");
-			//1.支付业务调用
-			PayBaseService payBaseService = getAdaptPayService(settle.getPayType());
-			payBaseService.prePay(settle);
-			this.settlementManager.save(settle);
-			log.info("完成调用支付渠道");
-//			//2.账单状态
-//			Bill bill = settle.getBill();
-//			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_SUCCESS) ||
-//					StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FINISH)){
-//				bill.setRealAmt(bill.getRealAmt().add(settle.getRealAmt()));//此时记录真正支付的金额
-//				bill.setLastAmt(settle.getAmt());
-//				bill.setStatus(Bill.BILL_STAT_PAY_PARTIAL);
-//				bill.setTranTime(DateUtils.getCurrentDate());
-//			} else if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FAILURE)){
-//				bill.setStatus(Bill.BILL_STAT_CLOSED);
-//				bill.setTranTime(DateUtils.getCurrentDate());
-//				bill.setFinishTime(DateUtils.getCurrentDate());
-//			}
-//			this.billManager.save(bill);
+			log.info("【" +settle.getSettleNo()+ "】,【" +settle.getPayTypeName()+ "】预支付数据初始化完成。");
+			
+//			wuxs test begin
+//			//1.支付业务调用
+//			PayBaseService payBaseService = getAdaptPayService(settle.getPayType());
+//			payBaseService.prePay(settle);
+//			this.settlementManager.save(settle);
+//			log.info("【" +settle.getSettleNo()+ "】,【" +settle.getPayTypeName()+ "】预支付调用支付渠道完成，结算状态为："+ settle.getStatus());
 //			
+////			//2.账单状态
+////			Bill bill = settle.getBill();
+////			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_SUCCESS) ||
+////					StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FINISH)){
+////				bill.setRealAmt(bill.getRealAmt().add(settle.getRealAmt()));//此时记录真正支付的金额
+////				bill.setLastAmt(settle.getAmt());
+////				bill.setStatus(Bill.BILL_STAT_PAY_PARTIAL);
+////				bill.setTranTime(DateUtils.getCurrentDate());
+////			} else if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FAILURE)){
+////				bill.setStatus(Bill.BILL_STAT_CLOSED);
+////				bill.setTranTime(DateUtils.getCurrentDate());
+////				bill.setFinishTime(DateUtils.getCurrentDate());
+////			}
+////			this.billManager.save(bill);
+////			
+////			//3.业务回调
+////			if(StringUtils.equals(bill.getStatus(), Bill.BILL_STAT_CLOSED)){
+////				new TradeCallback(settle.getBill(), settle).start();
+////			}
+//			//TODO 去Bill模式
 //			//3.业务回调
-//			if(StringUtils.equals(bill.getStatus(), Bill.BILL_STAT_CLOSED)){
-//				new TradeCallback(settle.getBill(), settle).start();
+//			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_CLOSED)){
+//				new TradeCallback(settle).start();
 //			}
-			log.info("开始业务回调渠道");
-			//TODO 去Bill模式
-			//3.业务回调
-			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_CLOSED)){
-				new TradeCallback(settle).start();
-			}
-			log.info("完成业务回调渠道");
-			log.info("完成预支付");
+//			log.info("【" +settle.getSettleNo()+ "】预支付完成---------------------------------");
+			settle.setStatus(Settlement.SETTLE_TRAN_SUCCESS);			
+			new TradeCallback(settle).start();
+			// wuxs test end
 		} catch (PayException e) {
 			throw e;
 		} catch (Exception e) {
@@ -104,13 +108,16 @@ public class TradeServiceImpl implements TradeService {
 	
 	public void cashPay(Cash cash) throws PayException {
 		try {
+			log.info("现金支付业务处理开始---------------------------------");
 			//0.初始化数据
 			initCashPay(cash);
 			this.cashManager.save(cash);
+			log.info("【" +cash.getSettleNo()+ "】,现金支付【" +cash.getAmt()+ "】元数据初始化完成,当前实际支付【" +cash.getSettlement().getRealAmt() +"】元。");
 			
 			Settlement settlement = cash.getSettlement();
 			settlement.setRealAmt(settlement.getRealAmt().add(cash.getAmt()));
 			this.settlementManager.save(settlement);
+			log.info("【" +cash.getSettleNo()+ "】,现金支付【" +cash.getAmt()+ "】元完成,当前实际支付【" +cash.getSettlement().getRealAmt() +"】元。");
 		} catch (PayException e) {
 			throw e;
 		} catch (Exception e) {
@@ -283,7 +290,7 @@ public class TradeServiceImpl implements TradeService {
 		
 		//TODO 去Bill模式
 		//3.业务回调
-		if(!StringUtils.equals(settle.getTranStatus(), Settlement.SETTLE_STAT_TRAN_SUCCESS)){
+		if(!StringUtils.equals(settle.getTranStatus(), Settlement.SETTLE_TRAN_SUCCESS)){
 			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_SUCCESS) 
 					|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FINISH)
 					||StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_FAILURE)){//2.1 支付成功处理
@@ -349,7 +356,7 @@ public class TradeServiceImpl implements TradeService {
 		
 		//TODO 去Bill模式
 		//3.业务回调
-		if(!StringUtils.equals(settle.getTranStatus(), Settlement.SETTLE_STAT_TRAN_SUCCESS)){
+		if(!StringUtils.equals(settle.getTranStatus(), Settlement.SETTLE_TRAN_SUCCESS)){
 			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_SUCCESS) 
 					|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_FAILURE)
 					||StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_CANCELED)){//2.1 支付成功处理

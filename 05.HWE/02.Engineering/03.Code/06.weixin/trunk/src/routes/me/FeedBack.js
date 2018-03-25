@@ -46,7 +46,7 @@ class FeedBack extends React.Component {
           rows={5}
           count={200}
         />
-        <Button type="primary" className={style['button']} size={10} onClick={this.submit}>提交</Button><WhiteSpace />
+        <Button type="primary" className={style['button']} size="small" onClick={this.submit}>提交</Button><WhiteSpace />
       </div>
 
     );

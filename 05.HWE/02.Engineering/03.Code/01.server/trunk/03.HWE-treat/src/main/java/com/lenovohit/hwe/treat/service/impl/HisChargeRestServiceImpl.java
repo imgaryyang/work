@@ -42,7 +42,7 @@ public class HisChargeRestServiceImpl implements HisChargeService {
 
 	@Override
 	public RestListResponse<Charge> findList(Charge model) {
-		return dto.getForList("hcp/app/payment/outpatientCharge/findChargedDetail",model);
+		return dto.getForList("hcp/app/payment/outpatientCharge/findChargedDetail", model);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class HisChargeRestServiceImpl implements HisChargeService {
 				chargeList);
 		if (response.isSuccess()) {
 			Charge charge = response.getEntity();
-			//charge.setComment(charge.getNo());
+			// charge.setComment(charge.getNo());
 			charge = chargeManager.save(charge);
 			for (ChargeDetail detail : chargeList) {
 				detail.setChargeId(charge.getId());
@@ -71,13 +71,15 @@ public class HisChargeRestServiceImpl implements HisChargeService {
 	}
 
 	@Override
-	/**    
-	 * 功能描述：      
-	 *@author GW
-	 *@date 2018年2月26日             
+	/**
+	 * 功能描述：
+	 * 
+	 * @author GW
+	 * @date 2018年2月26日
 	 */
 	public RestEntityResponse<Charge> hisCallBack(Charge charge) {
-		RestEntityResponse<Charge> response = dto.getForEntity("hcp/app/payment/outpatientCharge/callBackForCharge",charge);
+		RestEntityResponse<Charge> response = dto.getForEntity("hcp/app/payment/outpatientCharge/callBackForCharge",
+				charge);
 		return response;
 	}
 

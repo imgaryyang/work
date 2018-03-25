@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import Card from 'rn-easy-card';
+import Toast from 'react-native-root-toast';
 import Global from '../../../Global';
 import PlaceholderView from '../../../modules/PlaceholderView';
 import NoDataView from '../../../modules/NoDataView';
@@ -82,7 +83,7 @@ class AppointSource extends Component {
         }
       } else {
         this.setState({ doRenderScene: true, reloading: false });
-        this.handleRequestException({ msg });
+        Toast.show(`错误：${msg}`);
       }
     } catch (e) {
       this.setState({ doRenderScene: true, reloading: false });
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: AppointSource.radius,
   },
   buttonLeftText: {
-    fontSize: 17,
+    fontSize: 15,
     textAlign: 'center',
     color: 'white',
   },
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: AppointSource.radius,
   },
   buttonRightText: {
-    fontSize: 15,
+    fontSize: 13,
     textAlign: 'center',
     color: Global.colors.FONT_GRAY,
   },

@@ -23,6 +23,17 @@ class Global extends Object {
   static MODE_PRO = 'production';
   static mode = Global.MODE_DEV;
 
+  /* 登录模式 */
+  // 密码
+  static LOGIN_MODE_PWD = 'pwd';
+  // 短信
+  static LOGIN_MODE_SMS = 'sms';
+  static loginMode = Global.LOGIN_MODE_SMS;
+
+  static getLoginRoute() {
+    return Global.Config.global.loginMode === Global.LOGIN_MODE_SMS ? 'LoginBySMS' : 'Login';
+  }
+
   /* 版本 */
   // 单医院版
   static EDITION_SINGLE = 'single';
@@ -36,6 +47,39 @@ class Global extends Object {
     Global.edition = edition;
     Storage.setEdition(edition);
   }
+
+  static appType = 'APP'; // 审计字段
+  static appCode = 'APP01'; // 审计字段
+
+  /**
+   * 验证码类型
+   * @type {{REG_APP: string, REG_WX: string, REG_ZFB: string, REG_WEB: string}}
+   */
+  static securityCodeType = {
+    REG_APP: 'REG_APP', // APP登录
+    REG_WX: 'REG_WX', // 微信登录
+    REG_ZFB: 'REG_ALIPAY', // 支付宝登录
+    REG_WEB: 'REG_WEB', // 网页登录
+    BIND_PROFILE: 'BIND_PROFILE', // 绑定his档案
+  };
+
+  /**
+   * 用户习惯数据类型
+   * @type {{CURR_HOSPITAL: string, CURR_PATIENT: string, CURR_PROFILE: string}}
+   */
+  static habitsType = {
+    CURR_HOSPITAL: 'CURR_HOSPITAL',
+    CURR_PATIENT: 'CURR_PATIENT',
+    CURR_PROFILE: 'CURR_PROFILE',
+  };
+
+  static relations = {
+    0: '本人',
+    1: '父母',
+    2: '夫妻',
+    3: '子女',
+    4: '其他',
+  };
 
   /* 配置文件 */
   static Config = null;
@@ -153,6 +197,19 @@ class Global extends Object {
   static clearCurrPatient = () => {
     Global.currPatient = null;
     Storage.removeCurrPatient();
+  };
+
+  static currProfile = null;
+  static getCurrProfile = () => {
+    return Global.currProfile;
+  };
+  static setCurrProfile = (profile) => {
+    Global.currProfile = profile;
+    Storage.setCurrProfile(profile);
+  };
+  static clearCurrProfile = () => {
+    Global.currProfile = null;
+    Storage.removeCurrProfile();
   };
 
   static currArea = null;
@@ -602,6 +659,7 @@ export async function init() {
     const hostTimeoutInAS = await Storage.getHostTimeout();// AsyncStorage.getItem(Global.ASK_HOST_TIMEOUT);
     const currHospitalInAS = await Storage.getCurrHospital();
     const currPatientInAs = await Storage.getCurrPatient();
+    const currProfileInAs = await Storage.getCurrProfile();
     const currAreaInAs = await Storage.getCurrArea();
     const editionInAS = await Storage.getEdition();
 
@@ -627,6 +685,9 @@ export async function init() {
     }
     if (currPatientInAs !== null) {
       Global.currPatient = currPatientInAs;
+    }
+    if (currProfileInAs !== null) {
+      Global.currProfile = currProfileInAs;
     }
     if (currAreaInAs !== null) {
       Global.currArea = currAreaInAs;

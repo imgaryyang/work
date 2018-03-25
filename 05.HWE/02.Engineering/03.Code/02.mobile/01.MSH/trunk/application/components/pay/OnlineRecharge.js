@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import moment from 'moment';
 import {
   InteractionManager,
   StyleSheet,
@@ -18,6 +19,7 @@ import Form from '../../modules/form/EasyForm';
 import Global from '../../Global';
 import FormConfig from '../../modules/form/config/LineInputsConfigForPayment';
 import { filterMoney } from '../../utils/Filters';
+import { createDeposit } from '../../services/payment/ChargeService';
 
 const dismissKeyboard = require('dismissKeyboard');
 
@@ -42,6 +44,7 @@ class OnlineRecharge extends Component {
     */
     this.toPay = this.toPay.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.createDeposit = this.createDeposit.bind(this);
   }
 
   state = {
@@ -50,7 +53,7 @@ class OnlineRecharge extends Component {
     prePayBalance: 0.00, // 预缴账户余额
     amt: 0.00, // 充值金额
     cardType: '0',
-    type: '0',
+    type: '01',
     isPreStore: true,
     showLabel: true,
     labelPosition: 'top',
@@ -73,14 +76,14 @@ class OnlineRecharge extends Component {
   }
 
   onChange(name, fValue, formValue) {
-    if (name === 'type' && fValue === '0') {
+    if (name === 'type' && fValue === '01') {
       this.setState({
         cardType: '0',
         patient: formValue,
         isPreStore: true,
       });
       // this.getPreStoreInfo(this.state.profile);
-    } else if (name === 'type' && fValue === '1') {
+    } else if (name === 'type' && fValue === '04') {
       this.setState({
         cardType: '1',
         patient: formValue,
@@ -101,9 +104,55 @@ class OnlineRecharge extends Component {
   */
   toPay() {
     if (this.state.amt && this.state.amt !== 0 && this.state.amt !== '0') {
-      this.props.navigates('PayCounter', this.state);
+      const pro = this.props.dataProps.profile;
+      const params = {
+        proId: pro.id,
+        proNo: pro.no,
+        proName: pro.name,
+        hosName: pro.hosName,
+        hosId: pro.hosId,
+        hosNo: pro.hosNo,
+        amt: this.state.amt,
+        tradeType: '0',
+        status: 'A',
+        tradeTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+      };
+      this.createDeposit(params);
     } else {
       Toast.show('充值金额不能为空且不能为0');
+    }
+  }
+
+  async createDeposit(param) {
+    try {
+      const responseData = await createDeposit(param);
+      const data = responseData.result;
+      console.log(responseData);
+      if (responseData.success) {
+        /* this.setState({
+         payInfo: {
+           ...this.state.payInfo,
+           billNo: data.billNo,
+           billTitle: data.billTitle,
+           billId: data.id,
+         },
+       });*/
+        const settle = {
+          settleTitle: this.state.type === '01' ? `预存充值——${data.amt}` : `预缴充值——${data.amt}`,
+          amt: data.amt,
+          appCode: '01',
+          bizType: '00',
+          settleType: 'SP',
+          bizNo: data.id,
+          // bizTime: '',
+          tradeTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+          bizUrl: 'http://123.206.123.247:9500/hwe/treat/deposit/callBack',
+          // payTypeId: '',
+        };
+        this.props.navigates('PayCounter', settle);
+      }
+    } catch (e) {
+      this.handleRequestException(e);
     }
   }
 
@@ -135,8 +184,8 @@ class OnlineRecharge extends Component {
                   display="row"
                   label=""
                   dataSource={[
-                    { label: '门诊充值', value: '0' },
-                    { label: '住院预缴', value: '1' },
+                    { label: '门诊充值', value: '00' },
+                    { label: '住院预缴', value: '04' },
                   ]}
                   required
                 />

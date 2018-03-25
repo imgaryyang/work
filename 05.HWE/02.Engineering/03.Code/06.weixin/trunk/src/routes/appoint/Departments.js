@@ -40,6 +40,7 @@ class Departments extends React.Component {
           height={clientHeight}
           value={isValidArray(deptTreeData) ? [deptTreeData[0].value] : null}
           onChange={this.onSelectDept}
+          className={{ fontSize: '14px' }}
         />
       </div>
     );

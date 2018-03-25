@@ -25,13 +25,7 @@ export default class ScheduleItem extends PureComponent {
 
     return (
       <TouchableOpacity style={styles.container} onPress={this.onPress}>
-        <Portrait
-          width={50}
-          height={50}
-          radius={25}
-          bgColor={Global.colors.IOS_GRAY_BG}
-          imageSource={imageSource}
-        />
+        <Portrait width={50} height={50} radius={25} bgColor={Global.colors.IOS_LIGHT_GRAY} imageSource={imageSource} />
         <View style={styles.contentContainer}>
           <Text style={styles.grayText}><Text style={styles.nameText}>{docName}</Text> {docJobTitle}</Text>
           <Text style={styles.grayText}>{`${address}`}</Text>
@@ -45,7 +39,7 @@ export default class ScheduleItem extends PureComponent {
             <Text style={{ fontSize: 12, color: 'white' }}>剩余</Text>
           </View>
           <View style={[styles.endFooter, Global.styles.CENTER]} >
-            <Text style={{ fontSize: 15, color: endColor }}>{`${enableNum}`}</Text>
+            <Text style={{ fontSize: 14, color: endColor }}>{`${enableNum}`}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -91,7 +85,7 @@ const styles = StyleSheet.create({
     color: Global.colors.FONT_GRAY,
   },
   nameText: {
-    fontSize: 14,
+    fontSize: 13,
     color: Global.colors.FONT,
   },
 });

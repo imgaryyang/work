@@ -26,9 +26,9 @@ public interface HisAppointService {
 	public RestEntityResponse<Appoint> sign(Appoint request, Map<String, ?> variables);
 	// 3.4.8 患者取消
 	public RestEntityResponse<Appoint> cancel(Appoint request, Map<String, ?> variables);
+	public RestEntityResponse<Appoint> findReservedInfo(Appoint request, Map<String, ?> variables);
 	// 3.4.11 患者预约记录查询
 	public RestListResponse<Appoint> findReservedList(Appoint request, Map<String, ?> variables);
 	// 3.4.12 患者挂号记录查询
 	public RestListResponse<Appoint> findRegistList(Appoint request, Map<String, ?> variables);
-	
 }

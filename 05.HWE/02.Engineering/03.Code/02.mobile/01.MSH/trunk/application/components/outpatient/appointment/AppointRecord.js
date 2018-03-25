@@ -51,14 +51,14 @@ export default class AppointRecord extends PureComponent {
       statusName,
     } = data;
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
-    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortraits;
+    const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
 
     return (
       <View style={[styles.container, style]}>
         <View style={styles.header}>
-          <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_GRAY_BG} imageSource={imageSource} />
-          <ViewText text={docName} textStyle={{ marginLeft: 10, fontSize: 15 }} />
-          <ViewText text={docJobTitle} textStyle={{ marginLeft: 10, fontSize: 12 }} />
+          <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_LIGHT_GRAY} imageSource={imageSource} />
+          <ViewText text={docName} textStyle={{ marginLeft: 10, fontSize: 14 }} />
+          <ViewText text={docJobTitle} textStyle={{ marginLeft: 10, fontSize: 11 }} />
           {
             status === '1' ?
               <View style={styles.status}>
@@ -141,19 +141,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    fontSize: 15,
+    fontSize: 13,
     color: Global.colors.FONT_GRAY,
   },
   contentText: {
-    fontSize: 15,
+    fontSize: 13,
     marginLeft: 10,
   },
   orange: {
     color: Global.colors.ORANGE,
   },
   button: {
-    width: 82,
-    height: 27,
+    // width: 82,
+    // height: 27,
+    width: 60,
+    height: 20,
     backgroundColor: 'transparent',
     borderWidth: Global.lineWidth,
     borderColor: Global.colors.IOS_BLUE,
@@ -162,18 +164,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: 11,
     color: Global.colors.IOS_BLUE,
   },
   statusView: {
-    width: 82,
-    height: 27,
+    // width: 82,
+    // height: 27,
+    width: 60,
+    height: 20,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
   },
   statusText: {
-    fontSize: 12,
+    fontSize: 11,
     color: Global.colors.FONT_GRAY,
   },
   status: {

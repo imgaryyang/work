@@ -1,9 +1,11 @@
 
 import * as types from '../../actions/ActionTypes';
+import ctrlState from '../../modules/ListState';
 
 const initialState = {
   isLoggedIn: false,
   user: null,
+  reloadUserCtrlState: ctrlState,
 };
 
 export default function auth(state = initialState, action = {}) {
@@ -24,6 +26,11 @@ export default function auth(state = initialState, action = {}) {
       return {
         ...state,
         user: action.user,
+      };
+    case types.AUTH.RELOAD_USER_CTRL_STATE:
+      return {
+        ...state,
+        reloadUserCtrlState: action.reloadUserCtrlState || ctrlState,
       };
     default:
       return state;

@@ -6,7 +6,7 @@ export async function page(start, limit, query) {
 }
 
 export async function list(query) {
-  return get(`${patient().list}`, query);
+  return post(`${patient().list}`, query);
 }
 
 export async function save(data) {
@@ -54,7 +54,14 @@ export async function addArchives(data, hospitalId) {
   return post(`${patient().addArchives}/${hospitalId}`, data);
 }
 
-export async function updateUserPatients(query) {
-  return post(`${patient().updateUserPatients}`, query);
+// export async function updateUserPatients(query) {
+//   return post(`${patient().updateUserPatients}`, query);
+// }
+
+export async function queryHisProfiles(data) {
+  return post(`${patient().queryHisProfiles}`, data);
 }
 
+export async function bindProfile(data) {
+  return post(`${patient().bindProfile}`, data);
+}

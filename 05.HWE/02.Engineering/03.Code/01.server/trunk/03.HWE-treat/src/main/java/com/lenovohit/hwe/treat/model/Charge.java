@@ -20,8 +20,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.lenovohit.hwe.base.model.AuditableModel;
-
 /**
  * TREAT_CHARGE
  * 
@@ -30,7 +28,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_CHARGE")
-public class Charge extends AuditableModel implements java.io.Serializable {
+public class Charge extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 7765526928452586545L;
 
@@ -51,24 +49,6 @@ public class Charge extends AuditableModel implements java.io.Serializable {
 
     /** depName */
     private String depName;
-
-    /** depClazz */
-    private String depClazz;
-
-    /** depClazzName */
-    private String depClazzName;
-
-    /** sepId */
-    private String sepId;
-
-    /** sepCode */
-    private String sepCode;
-
-    /** sepName */
-    private String sepName;
-
-    /** sepType */
-    private String sepType;
 
     /** docId */
     private String docId;
@@ -96,6 +76,9 @@ public class Charge extends AuditableModel implements java.io.Serializable {
 
     /** cardNo */
     private String cardNo;
+    
+    /** cardType */
+    private String cardType;
 
     /** actId */
     private String actId;
@@ -103,22 +86,32 @@ public class Charge extends AuditableModel implements java.io.Serializable {
     /** actNo */
     private String actNo;
 
+    /** 收费单号 */
+    private String no;
+    
     /** miType */
     private String miType;
 
     /** myselfScale */
     private BigDecimal myselfScale;
 
-    /** amt */
+    /** 应收金额 */
     private BigDecimal amt;
 
-    /** realAmt */
+    /** 实收金额 */
     private BigDecimal realAmt;
 
-	private BigDecimal paAmt = new BigDecimal(0);//个人账户金额	
-	private BigDecimal miAmt = new BigDecimal(0);//医保报销金额	
-	private BigDecimal myselfAmt = new BigDecimal(0);//个人自付金额
-	private BigDecimal reduceAmt = new BigDecimal(0);//减免金额
+    /** 实收金额 */
+    private BigDecimal paAmt = new BigDecimal(0);//个人账户金额	
+    
+    /** 实收金额 */
+    private BigDecimal miAmt = new BigDecimal(0);//医保报销金额	
+    
+    /** 实收金额 */
+    private BigDecimal myselfAmt = new BigDecimal(0);//个人自付金额
+    
+    /** 实收金额 */
+    private BigDecimal reduceAmt = new BigDecimal(0);//减免金额
     
     /** chargeUser */
     private String chargeUser;
@@ -131,8 +124,7 @@ public class Charge extends AuditableModel implements java.io.Serializable {
 
     /** status */
     private String status;
-    
-    private String no;//单号
+
 
     private Hospital hospital;
     
@@ -256,124 +248,6 @@ public class Charge extends AuditableModel implements java.io.Serializable {
      */
     public void setDepName(String depName) {
         this.depName = depName;
-    }
-
-    /**
-     * 获取depClazz
-     * 
-     * @return depClazz
-     */
-    @Column(name = "DEP_CLAZZ", nullable = true, length = 50)
-    public String getDepClazz() {
-        return this.depClazz;
-    }
-
-    /**
-     * 设置depClazz
-     * 
-     * @param depClazz
-     */
-    public void setDepClazz(String depClazz) {
-        this.depClazz = depClazz;
-    }
-
-    /**
-     * 获取depClazzName
-     * 
-     * @return depClazzName
-     */
-    @Column(name = "DEP_CLAZZ_NAME", nullable = true, length = 50)
-    public String getDepClazzName() {
-        return this.depClazzName;
-    }
-
-    /**
-     * 设置depClazzName
-     * 
-     * @param depClazzName
-     */
-    public void setDepClazzName(String depClazzName) {
-        this.depClazzName = depClazzName;
-    }
-
-    /**
-     * 获取sepId
-     * 
-     * @return sepId
-     */
-    @Transient
-    // @Column(name = "SEP_ID", nullable = true, length = 32)
-    public String getSepId() {
-        return this.sepId;
-    }
-
-    /**
-     * 设置sepId
-     * 
-     * @param sepId
-     */
-    public void setSepId(String sepId) {
-        this.sepId = sepId;
-    }
-
-    /**
-     * 获取sepCode
-     * 
-     * @return sepCode
-     */
-    @Transient
-    // @Column(name = "SEP_CODE", nullable = true, length = 50)
-    public String getSepCode() {
-        return this.sepCode;
-    }
-
-    /**
-     * 设置sepCode
-     * 
-     * @param sepCode
-     */
-    public void setSepCode(String sepCode) {
-        this.sepCode = sepCode;
-    }
-
-    /**
-     * 获取sepName
-     * 
-     * @return sepName
-     */
-    @Transient
-    // @Column(name = "SEP_NAME", nullable = true, length = 50)
-    public String getSepName() {
-        return this.sepName;
-    }
-
-    /**
-     * 设置sepName
-     * 
-     * @param sepName
-     */
-    public void setSepName(String sepName) {
-        this.sepName = sepName;
-    }
-
-    /**
-     * 获取sepType
-     * 
-     * @return sepType
-     */
-    @Transient
-    // @Column(name = "SEP_TYPE", nullable = true, length = 1)
-    public String getSepType() {
-        return this.sepType;
-    }
-
-    /**
-     * 设置sepType
-     * 
-     * @param sepType
-     */
-    public void setSepType(String sepType) {
-        this.sepType = sepType;
     }
 
     /**
@@ -546,6 +420,25 @@ public class Charge extends AuditableModel implements java.io.Serializable {
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
     }
+    
+    /**
+     * 获取cardType
+     * 
+     * @return cardType
+     */
+    @Column(name = "CARD_TYPE", nullable = true, length = 1)
+    public String getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
 
     /**
      * 获取actId
@@ -585,6 +478,15 @@ public class Charge extends AuditableModel implements java.io.Serializable {
         this.actNo = actNo;
     }
 
+    @Column(name = "NO", nullable = true, length = 50)
+    public String getNo() {
+		return no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
+	}
+	
     /**
      * 获取miType
      * 
@@ -737,7 +639,6 @@ public class Charge extends AuditableModel implements java.io.Serializable {
         this.status = status;
     }
     
-    
     public BigDecimal getPaAmt() {
 		return paAmt;
 	}
@@ -811,11 +712,4 @@ public class Charge extends AuditableModel implements java.io.Serializable {
 		this.activity = activity;
 	}
 
-	public String getNo() {
-		return no;
-	}
-
-	public void setNo(String no) {
-		this.no = no;
-	}
 }

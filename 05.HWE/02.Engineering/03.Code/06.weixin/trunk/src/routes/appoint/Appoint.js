@@ -2,12 +2,12 @@ import React from 'react';
 import { Card, List, InputItem, Button, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { createForm } from 'rc-form';
+import classnames from 'classnames';
 import ModalSelect from '../../components/ModalSelect';
 import { action, isValidArray, testAppointItem } from '../../utils/common';
 import less from './Appoint.less';
 import { testCnIdNo } from '../../utils/validation';
 
-const thumbStyle = { width: 50, height: 50, borderRadius: 25 };
 const initTypeData = [
   { value: 0, label: '有卡预约' },
   { value: 1, label: '无卡预约' },
@@ -95,8 +95,7 @@ class Appoint extends React.Component {
                 {item.docName}<span className={less.titleExtra}>{item.docJobTitle}</span>
               </span>
             }
-            thumb="https://cloud.githubusercontent.com/assets/1698185/18039916/f025c090-6dd9-11e6-9d86-a4d48a1bf049.png"
-            thumbStyle={thumbStyle}
+            thumb={<div className={less.thumb} />}
           />
           <Card.Body className={less.cardBody}>
             <div className={less.row}>
@@ -128,17 +127,17 @@ class Appoint extends React.Component {
         <div className={less.sep}>患者信息</div>
         <form>
           <List>
-            <List.Item arrow="horizontal" extra={<span className={`${less.fontBlack} ${less.font17}`} onClick={this.toggleModal}>{selectedType.label}</span>}>
-              <span className={less.fontGray}>预约类型</span>
+            <List.Item arrow="horizontal" extra={<span className={classnames(less.fontBlack, less.font13)} onClick={this.toggleModal}>{selectedType.label}</span>}>
+              <span className={less.formFont}>预约类型</span>
             </List.Item>
             <InputItem {...getFieldProps('proName')} placeholder="请输入患者名称">
-              <span className={less.fontGray}>患者名称</span>
+              <span className={less.formFont}>患者名称</span>
             </InputItem>
             <InputItem {...getFieldProps('mobile')} type="phone" placeholder="请输入手机号">
-              <span className={less.fontGray}>手机号</span>
+              <span className={less.formFont}>手机号</span>
             </InputItem>
             <InputItem {...getFieldProps('idNo')} maxLength={18} placeholder="请输入身份证号">
-              <span className={less.fontGray}>身份证号</span>
+              <span className={less.formFont}>身份证号</span>
             </InputItem>
           </List>
         </form>

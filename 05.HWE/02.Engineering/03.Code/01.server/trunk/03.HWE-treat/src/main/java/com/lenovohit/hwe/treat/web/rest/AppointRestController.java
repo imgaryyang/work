@@ -25,6 +25,7 @@ import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Department;
 import com.lenovohit.hwe.treat.model.Appoint;
 import com.lenovohit.hwe.treat.service.HisAppointService;
+import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
 
 // 预约挂号
@@ -118,9 +119,9 @@ public class AppointRestController extends OrgBaseRestController {
   			jql.append(" and type = ? ");
   			values.add(query.getType());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
+  		if(!StringUtils.isEmpty(query.getAppType())){
+  			jql.append(" and appType = ? ");
+  			values.add(query.getAppType());
   		}
   		if(!StringUtils.isEmpty(query.getStatus())){
   			jql.append(" and status = ? ");
@@ -212,9 +213,9 @@ public class AppointRestController extends OrgBaseRestController {
   			jql.append(" and type = ? ");
   			values.add(query.getType());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
+  		if(!StringUtils.isEmpty(query.getAppType())){
+  			jql.append(" and appType = ? ");
+  			values.add(query.getAppType());
   		}
   		if(!StringUtils.isEmpty(query.getStatus())){
   			jql.append(" and status = ? ");
@@ -302,5 +303,51 @@ public class AppointRestController extends OrgBaseRestController {
 			log.error("\n======== forDeptTree Failure End ========\nmsg:\n"+e.getMessage());
 			return ResultUtils.renderFailureResult(e.getMessage());
 		}
+	}
+	
+	// 无卡预约记录查询
+	@RequestMapping(value = "/reserved/noCard/list", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forReservedNoCardList(@RequestParam(value = "data", defaultValue = "") String data) {
+		try {
+			log.info("\n======== forReservedNoCardList Start ========\ndata:\n"+data);
+			Appoint query =  JSONUtils.deserialize(data, Appoint.class);
+			List<Appoint> appoints = this.getReservedNoCardList(query);  // 获取本地无卡预约记录
+			List<Appoint> result = new ArrayList<Appoint>();	// 新建结果集
+			
+			// 循环调HIS接口，找到本地无卡预约记录对应的HIS无卡预约记录，并放入结果集
+			for(Appoint item : appoints) {
+				log.info("\n======== forReservedNoCardList Before hisAppointService.findReservedInfo ========\nquery:\n"+JSONUtils.serialize(query));
+				RestEntityResponse<Appoint> res=this.hisAppointService.findReservedInfo(item, null);
+				log.info("\n======== forReservedNoCardList After hisAppointService.findReservedInfo ========\nresult:\n"+JSONUtils.serialize(result));
+				if (res.isSuccess()){
+					result.add(res.getEntity());
+				} else {
+					throw new BaseException(res.getMsg());
+				}
+			}
+			
+			return ResultUtils.renderSuccessResult(result);
+		} catch (Exception e) {
+			log.error("\n======== forReservedNoCardList Failure End ========\nmsg:\n"+e.getMessage());
+			return ResultUtils.renderFailureResult(e.getMessage());
+		}
+	}
+	
+	private List<Appoint> getReservedNoCardList(Appoint query) {
+		StringBuilder jql = new StringBuilder( " from TreatAppoint where 1=1 ");
+		List<Object> values = new ArrayList<Object>();
+		
+		if(!StringUtils.isEmpty(query)) {
+			if(!StringUtils.isEmpty(query.getTerminalUser())){
+				jql.append(" and terminalUser = ? ");
+				values.add(query.getTerminalUser());
+			} else {
+				throw new BaseException("参数错误！terminalUser不能为空！");
+			}
+		} else {
+			throw new BaseException("参数错误！terminalUser不能为空！");
+		}
+		jql.append(" and status is not null and trim(status) <> '' and (proNo is null or trim(proNo) = '') order by appointTime desc, abs(num)");
+		return this.appointManager.find(jql.toString(),values.toArray());
 	}
 }

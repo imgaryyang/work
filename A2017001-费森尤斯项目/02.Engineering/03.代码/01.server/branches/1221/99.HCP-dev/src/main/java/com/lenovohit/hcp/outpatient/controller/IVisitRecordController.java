@@ -124,6 +124,15 @@ public class IVisitRecordController extends HcpBaseRestController {
 		ivisitRecord.setDepName(regInfo.getRegDept().getDeptName());
 		ivisitRecord.setDocNo(regInfo.getSeeNo());
 		ivisitRecord.setDocName(regInfo.getSeeDoc()!=null? regInfo.getSeeDoc().getName():null);
+		if (regInfo.getSeeDoc() != null && regInfo.getSeeDoc().getLvlCode() != null){
+			if(regInfo.getSeeDoc().getLvlCode().equals("001")){
+				ivisitRecord.setDocJobTitle("主任医师");
+				ivisitRecord.setDiagnosis("过敏性肺炎");
+			}else if(regInfo.getSeeDoc().getLvlCode().equals("011")){
+				ivisitRecord.setDocJobTitle("副主任医师");
+				ivisitRecord.setDiagnosis("流行性感冒");
+			}	
+		}
 		ivisitRecord.setProNo(regInfo.getPatient().getPatientId());
 		ivisitRecord.setProName(regInfo.getPatient().getName());
 		// ivisitRecord.setCardNo(regInfo.getPatient().getMedicalCardNo());

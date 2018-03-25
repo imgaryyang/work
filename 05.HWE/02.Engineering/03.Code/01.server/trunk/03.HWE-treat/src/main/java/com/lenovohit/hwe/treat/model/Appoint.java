@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lenovohit.hwe.base.model.AuditableModel;
 
 /**
  * TREAT_APPOINT
@@ -31,7 +30,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_APPOINT")
-public class Appoint extends AuditableModel implements java.io.Serializable {
+public class Appoint extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 3966085093689029677L;
 
@@ -58,12 +57,6 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
 
     /** depWubi */
     private String depWubi;
-
-    /** depClazz */
-    private String depClazz;
-
-    /** depClazzName */
-    private String depClazzName;
 
     /** sepId */
     private String sepId;
@@ -106,6 +99,15 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
     
     /** clinicTime */
     private String clinicTime;
+    
+    /** 预约时间 */
+    private Date appointTime;
+    
+    /** 签到时间 */
+    private Date signTime;
+    
+    /** 就诊时间*/
+    private Date treatTime;
 
     /** schId */
     private String schId;
@@ -142,8 +144,15 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
 
     /** cardNo */
     private String cardNo;
-    private String mobile;
+    
+    /** cardType */
+    private String cardType;
+    
+    /** idNo */
     private String idNo;
+    
+    /** mobile */
+    private String mobile;
 
     /** 预约、实时是一种分类方式，需要核实医院是否有自己的分类方式 */
     private String type;
@@ -164,18 +173,12 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
     private String address;
 
     private String comment;
-    private String appChannel;
-    private String appUser;
     
     /** status */
     private String status;
     
     /** status */
     private String statusName;
-    
-    private Date appointTime;
-    private Date signTime;
-    private Date treatTime;
     
     private Hospital hospital;
     
@@ -335,44 +338,6 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
      */
     public void setDepWubi(String depWubi) {
         this.depWubi = depWubi;
-    }
-
-    /**
-     * 获取depClazz
-     * 
-     * @return depClazz
-     */
-    @Column(name = "DEP_CLAZZ", nullable = true, length = 50)
-    public String getDepClazz() {
-        return this.depClazz;
-    }
-
-    /**
-     * 设置depClazz
-     * 
-     * @param depClazz
-     */
-    public void setDepClazz(String depClazz) {
-        this.depClazz = depClazz;
-    }
-
-    /**
-     * 获取depClazzName
-     * 
-     * @return depClazzName
-     */
-    @Column(name = "DEP_CLAZZ_NAME", nullable = true, length = 50)
-    public String getDepClazzName() {
-        return this.depClazzName;
-    }
-
-    /**
-     * 设置depClazzName
-     * 
-     * @param depClazzName
-     */
-    public void setDepClazzName(String depClazzName) {
-        this.depClazzName = depClazzName;
     }
 
     /**
@@ -827,6 +792,25 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
         this.cardNo = cardNo;
     }
 
+    /**
+     * 获取cardType
+     * 
+     * @return cardType
+     */
+    @Column(name = "CARD_TYPE", nullable = true, length = 1)
+    public String getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+    
     @Column(name = "MOBILE", nullable = true, length = 50)
     public String getMobile() {
         return this.mobile;
@@ -958,7 +942,7 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
         this.address = address;
     }
 
-    @Column(name = "COMMENT", nullable = true, length = 1)
+    @Column(name = "COMMENT", nullable = true, length = 200)
     public String getComment() {
         return this.comment;
     }
@@ -966,21 +950,6 @@ public class Appoint extends AuditableModel implements java.io.Serializable {
         this.comment = comment;
     }
     
-    @Column(name = "APP_CHANNEL", nullable = true, length = 1)
-    public String getAppChannel() {
-        return this.appChannel;
-    }
-    public void setAppChannel(String appChannel) {
-        this.appChannel = appChannel;
-    }
-    
-    @Column(name = "APP_USER", nullable = true, length = 1)
-    public String getAppUser() {
-        return this.appUser;
-    }
-    public void setAppUser(String appUser) {
-        this.appUser = appUser;
-    }
     /**
      * 获取status
      * 

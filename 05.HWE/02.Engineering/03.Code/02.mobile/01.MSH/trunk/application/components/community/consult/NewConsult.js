@@ -32,8 +32,9 @@ class Item extends PureComponent {
   };
   // 图片展示
   renderImage(data) {
+    console.log(data);
     return (
-      <View style={styles.imageBg}>
+      <View key={`${data.item.fkId}${data.item.id}`} style={styles.imageBg}>
         <Image source={{ uri: `${Global.getImageHost()}${data.item.fileName}?timestamp=${new Date().getTime()}` }} style={{ width: 57, height: 57 }} />
       </View>
     );
@@ -319,8 +320,9 @@ class NewConsult extends Component {
 
   // 图片展示
   renderImage(data) {
+    console.log('outer renderImage():', data);
     return (
-      <View style={styles.imageBg}>
+      <View key={`${data.item.fkId}${data.item.id}`} style={styles.imageBg}>
         <Image source={{ uri: `${Global.getImageHost()}${data.item.fileName}?timestamp=${new Date().getTime()}` }} style={{ width: 57, height: 57 }} />
       </View>
     );
@@ -331,8 +333,10 @@ class NewConsult extends Component {
    * 渲染行数据
    */
   renderItem({ item }) {
+    console.log(item);
     return (
       <Item
+        key={`new_consult_${item.id}`}
         data={item}
         onPressItem={this.gotoReply}
       />
@@ -358,7 +362,7 @@ class NewConsult extends Component {
             ref={(c) => { this.listRef = c; }}
             data={this.state.data}
             style={styles.list}
-            keyExtractor={(item, index) => `${item}${index + 1}`}
+            keyExtractor={(item, index) => `${item.id}_${index + 1}`}
             // 渲染行
             renderItem={this.renderItem}
             // 渲染行间隔

@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ListView, PullToRefresh, Flex, Icon, Toast } from 'antd-mobile';
+import { ListView, PullToRefresh, Flex, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import classnames from 'classnames';
 import less from './Schedule.less';
 import { action, initPage, colors, clientHeight } from '../../utils/common';
 import ModalSelect from '../../components/ModalSelect';
+import Icon from '../../components/FAIcon';
 import { initAreaData, initJobTitleData, initDateData, initShiftData } from '../../models/appointModel';
 
 class Schedule extends React.Component {
@@ -50,8 +52,8 @@ class Schedule extends React.Component {
   }
 
   onEndReached() {
-    const { dispatch, appoint } = this.props;
-    const { isLoading, refreshing, hasMore } = appoint;
+    const { dispatch, appoint: { isLoading, refreshing, hasMore } } = this.props;
+    // const { isLoading, refreshing, hasMore } = appoint;
     if (isLoading || refreshing || !hasMore) { return; }
 
     dispatch(action('appoint/forScheduleList'));
@@ -99,15 +101,15 @@ class Schedule extends React.Component {
   renderRow(item, sectionId, rowId) {
     return (
       <Flex key={rowId} direction="row" justify="around" className={less.row} onClick={() => this.onSelectRow(item)}>
-        <Flex direction="column" justify="between" className={less.col}>
+        <Flex direction="column" justify="between" align="start" className={less.col1}>
           <div className={less.fontOrange}>{item.docName}</div>
           <div className={less.bottom}>{item.docJobTitle}</div>
         </Flex>
-        <Flex direction="column" justify="between" className={less.col}>
+        <Flex direction="column" justify="between" align="start" className={less.col2}>
           <div>{item.clinicDate.slice(5)} {item.shiftName}</div>
           <div className={less.bottom}>{item.clinicTypeName}</div>
         </Flex>
-        <Flex direction="row" justify="end" className={less.col}>
+        <Flex direction="row" justify="end" className={less.col3}>
           <div
             style={{ backgroundColor: item.enableNum ? colors.IOS_BLUE : colors.IOS_LIGHT_GRAY }}
             className={less.extra}
@@ -141,13 +143,25 @@ class Schedule extends React.Component {
     return (
       <div>
         <Flex direction="row" justify="around" className={less.topBar}>
-          <div className={less.item} onClick={e => this.showModal(e, 'dateModal')}>{selectedDate.label}</div>
-          <Icon type="right" color={colors.IOS_ARROW} />
-          <div className={less.item} onClick={e => this.showModal(e, 'jobTitleModal')}>{selectedJobTitle.label}</div>
-          <Icon type="right" color={colors.IOS_ARROW} />
-          <div className={less.item} onClick={e => this.showModal(e, 'shiftModal')}>{selectedShift.label}</div>
-          <Icon type="right" color={colors.IOS_ARROW} />
-          <div className={less.item} onClick={e => this.showModal(e, 'areaModal')}>{selectedArea.label}</div>
+          <Flex className={classnames(less.item, less.flex5)} justify="center" align="center" onClick={e => this.showModal(e, 'dateModal')}>
+            {selectedDate.label}
+            <Icon type="caret-down" color={colors.IOS_ARROW} style={{ marginLeft: '4px' }} />
+          </Flex>
+          <div className={less.sep} />
+          <Flex className={classnames(less.item, less.flex5)} justify="center" align="center" onClick={e => this.showModal(e, 'jobTitleModal')}>
+            {selectedJobTitle.label}
+            <Icon type="caret-down" color={colors.IOS_ARROW} style={{ marginLeft: '4px' }} />
+          </Flex>
+          <div className={less.sep} />
+          <Flex className={classnames(less.item, less.flex4)} justify="center" align="center" onClick={e => this.showModal(e, 'shiftModal')}>
+            {selectedShift.label}
+            <Icon type="caret-down" color={colors.IOS_ARROW} style={{ marginLeft: '4px' }} />
+          </Flex>
+          <div className={less.sep} />
+          <Flex className={classnames(less.item, less.flex4)} justify="center" align="center" onClick={e => this.showModal(e, 'areaModal')}>
+            {selectedArea.label}
+            <Icon type="caret-down" color={colors.IOS_ARROW} style={{ marginLeft: '4px' }} />
+          </Flex>
         </Flex>
         <ListView
           dataSource={dataSource.cloneWithRows(renderData)}

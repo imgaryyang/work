@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lenovohit.hwe.base.model.AuditableModel;
 
 /**
@@ -238,6 +239,7 @@ public class PayType extends AuditableModel implements java.io.Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = true)
    	@JoinColumn(name = "PC_ID", nullable = true)
    	@NotFound(action=NotFoundAction.IGNORE)
+    @JsonIgnore
 	public PayChannel getPayChannel() {
 		return payChannel;
 	}
@@ -249,6 +251,7 @@ public class PayType extends AuditableModel implements java.io.Serializable {
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "MCH_ID", nullable = true)
 	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
 	public PayMerchant getPayMerchant() {
 		return payMerchant;
 	}

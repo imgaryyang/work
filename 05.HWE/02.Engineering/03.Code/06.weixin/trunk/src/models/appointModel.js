@@ -1,9 +1,11 @@
 import { Toast } from 'antd-mobile';
+import React from 'react';
 import _ from 'lodash';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
 import { forDeptTree, forScheduleList, forList, forReserve, forReservedList, forCancel } from '../services/appointService';
 import { isValidArray, save, action, initPage } from '../utils/common';
+import less from '../utils/common.less';
 
 export const initDateData = [{ value: 0, label: '所有日期' }];
 export const initJobTitleData = [
@@ -82,9 +84,9 @@ export default {
     *forDeptTree({ payload }, { select, call, put }) {
       try {
         Toast.loading('正在加载', 0);
-        const { currHospital } = yield select(model => model.base);
-        const { data } = yield call(forDeptTree, { ...payload, hosId: currHospital.id, hosNo: currHospital.no });
-        const { success, result, msg } = data || {};
+        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+        const { data = {} } = yield call(forDeptTree, { ...payload, hosId, hosNo });
+        const { success, result, msg } = data;
 
         if (success) {
           // 为后台返回数据添加label和value，以适应menu组件的数据格式要求
@@ -94,9 +96,9 @@ export default {
 
             for (let j = 0; j < children.length; j++) {
               const dept = children[j];
-              result[i].children[j] = { ...dept, label: dept.name, value: dept.no };
+              result[i].children[j] = { ...dept, label: <span className={less.font14}>{dept.name}</span>, value: dept.no };
             }
-            result[i] = { ...deptType, label: deptType.name, value: deptType.type };
+            result[i] = { ...deptType, label: <span className={less.font14}>{deptType.name}</span>, value: deptType.type };
           }
           yield put(save({ deptTreeData: result || [] }));
           Toast.hide();
@@ -120,9 +122,9 @@ export default {
             startDate: moment().format('YYYY-MM-DD'),
             endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
           };
-          const { data } = yield call(forScheduleList, { ...newCond });
-          const { result, success, msg } = data || {};
-          const newAllData = result || [];
+          const { data = {} } = yield call(forScheduleList, { ...newCond });
+          const { result: newAllData = [], success, msg } = data;
+          // const newAllData = result || [];
 
           const newDateData = initDateData.concat(_.uniqBy(newAllData, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
           const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
@@ -164,11 +166,11 @@ export default {
 
     *filterData({ payload }, { select, put }) {
       const { selectedDate, selectedJobTitle, selectedShift, selectedArea, allData } = yield select(model => model.appoint);
-      const newAllData = payload && payload.allData ? payload.allData : allData;
-      const newSelectedDate = payload && payload.selectedDate ? payload.selectedDate : selectedDate;
-      const newSelectedJobTitle = payload && payload.selectedJobTitle ? payload.selectedJobTitle : selectedJobTitle;
-      const newSelectedShift = payload && payload.selectedShift ? payload.selectedShift : selectedShift;
-      const newSelectedArea = payload && payload.selectedArea ? payload.selectedArea : selectedArea;
+      const newAllData = payload && payload.allData || allData;
+      const newSelectedDate = payload && payload.selectedDate || selectedDate;
+      const newSelectedJobTitle = payload && payload.selectedJobTitle || selectedJobTitle;
+      const newSelectedShift = payload && payload.selectedShift || selectedShift;
+      const newSelectedArea = payload && payload.selectedArea || selectedArea;
 
       const newFilterData = newAllData.filter(item =>
         (newSelectedDate === initDateData[0] || newSelectedDate.label === item.clinicDate) &&
@@ -199,12 +201,12 @@ export default {
       yield put(save({ isLoading: true }));
       try {
         Toast.loading('正在加载', 0);
-        const { currHospital } = yield select(model => model.base);
-        const { data } = yield call(forList, { ...payload, hosId: currHospital.id, hosNo: currHospital.no });
-        const { success, result, msg } = data || {};
+        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+        const { data = {} } = yield call(forList, { ...payload, hosId, hosNo });
+        const { success, result = [], msg } = data;
 
         if (success) {
-          yield put(save({ appointSourceData: result || [] }));
+          yield put(save({ appointSourceData: result }));
           Toast.hide();
         } else {
           Toast.fail(msg, 3);
@@ -218,12 +220,12 @@ export default {
     *forReserve({ payload }, { select, call, put }) {
       try {
         Toast.loading('正在预约', 0);
-        const { currHospital } = yield select(model => model.base);
-        const { data } = yield call(forReserve, { ...payload, hosId: currHospital.id, hosNo: currHospital.no });
-        const { success, msg } = data || {};
+        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+        const { data = {} } = yield call(forReserve, { ...payload, hosId, hosNo });
+        const { success, msg } = data;
 
         if (success) {
-          yield put(routerRedux.push('/appoint/success'));
+          yield put(routerRedux.push('/stack/appoint/success'));
           Toast.hide();
         } else {
           Toast.fail(msg, 3);
@@ -236,9 +238,9 @@ export default {
     *forReservedList({ payload }, { select, call, put }) {
       try {
         Toast.loading('正在加载', 0);
-        const { currHospital } = yield select(model => model.base);
-        const { data } = yield call(forReservedList, { ...payload, hosId: currHospital.id, hosNo: currHospital.no });
-        const { result, success, msg } = data || {};
+        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+        const { data = {} } = yield call(forReservedList, { ...payload, hosId, hosNo });
+        const { result = [], success, msg } = data;
         if (success) {
           yield put(save({ appointRecordsData: result }));
           Toast.hide();
@@ -251,9 +253,9 @@ export default {
     },
 
     *forCancel({ payload }, { select, call }) {
-      const { currHospital } = yield select(model => model.base);
-      const { data } = yield call(forCancel, { ...payload, hosId: currHospital.id, hosNo: currHospital.no });
-      return data || {};
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data = {} } = yield call(forCancel, { ...payload, hosId, hosNo });
+      return data;
     },
   },
 

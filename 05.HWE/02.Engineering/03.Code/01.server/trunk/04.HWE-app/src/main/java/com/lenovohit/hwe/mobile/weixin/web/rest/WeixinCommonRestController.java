@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.el.parser.ELParserTreeConstants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.dom4j.Document;
@@ -153,6 +152,22 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			e.printStackTrace();
 		} 
 	}
+	
+	@RequestMapping(value = "/token", method = RequestMethod.GET)
+	public Result forToken(
+			@RequestParam(value = "code") String code, 
+			@RequestParam(value = "state") String state 
+			){
+		try {
+			WeixinToken token = weixinBaseManger.getToken(code);
+			
+			return ResultUtils.renderSuccessResult(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtils.renderFailureResult("获取用户OpenId失败！");
+		} 
+	}
+	
 	/**
 	 * 登录
 	 */

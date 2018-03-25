@@ -2,5 +2,19 @@
 html, body, :global(#root) {
   height: 100%;
   background-color: white;
+  -webkit-text-size-adjust: none;
+}
+
+:global {
+  .am-list-body {
+    background-color: rgba(0,0,0,0) !important;
+  }
+  input, textarea {
+    font-size: 13px !important;
+  }
+}
+
+div, span, i, h1, h2, h3, h4, h5, a, p {
+  -webkit-text-size-adjust: none;
 }
 

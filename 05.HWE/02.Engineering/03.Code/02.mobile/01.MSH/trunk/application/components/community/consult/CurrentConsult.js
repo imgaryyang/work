@@ -16,8 +16,6 @@ import Global from '../../../Global';
 import ctrlState from '../../../modules/ListState';
 import { page } from '../../../services/community/ConsultRecordsService';
 
-
-
 const initPage = { start: 0, limit: 20 };
 
 class Item extends PureComponent {
@@ -258,6 +256,7 @@ class CurrentConsult extends Component {
   renderItem({ item }) {
     return (
       <Item
+        key={`new_consult_${item.id}`}
         data={item}
         onPressItem={this.gotoReply}
       />
@@ -279,7 +278,7 @@ class CurrentConsult extends Component {
             ref={(c) => { this.listRef = c; }}
             data={this.state.data}
             style={styles.list}
-            keyExtractor={(item, index) => `${item}${index + 1}`}
+            keyExtractor={(item, index) => `${item.id}_${index + 1}`}
             // 渲染行
             renderItem={this.renderItem}
             // 渲染行间隔

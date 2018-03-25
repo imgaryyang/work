@@ -1,9 +1,14 @@
 package com.lenovohit.hwe.treat.web.rest;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +26,17 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Deposit;
+import com.lenovohit.hwe.treat.model.Trade;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/hwe/treat/deposit")
 public class DepositRestController extends OrgBaseRestController {
 	@Autowired
 	private GenericManager<Deposit, String> depositManager;
+	
+	@Value("${his.baseUrl}")
+	private String baseUrl;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
   	public Result getInfo(@PathVariable("id") String id){
@@ -53,13 +63,9 @@ public class DepositRestController extends OrgBaseRestController {
   			jql.append(" and userId = ? ");
   			values.add(query.getUserId());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
+  		if(!StringUtils.isEmpty(query.getAppType())){
+  			jql.append(" and appType = ? ");
+  			values.add(query.getAppType());
   		}
   		if(!StringUtils.isEmpty(query.getTradeChannel())){
   			jql.append(" and tradeChannel = ? ");
@@ -103,13 +109,9 @@ public class DepositRestController extends OrgBaseRestController {
   			jql.append(" and userId = ? ");
   			values.add(query.getUserId());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
+  		if(!StringUtils.isEmpty(query.getAppType())){
+  			jql.append(" and appType = ? ");
+  			values.add(query.getAppType());
   		}
   		if(!StringUtils.isEmpty(query.getTradeChannel())){
   			jql.append(" and tradeChannel = ? ");
@@ -128,11 +130,17 @@ public class DepositRestController extends OrgBaseRestController {
   		List<Deposit> deposits = this.depositManager.find(jql.toString(),values.toArray());
   		return ResultUtils.renderSuccessResult(deposits);
   	}
-  	
-  	@RequestMapping(value="",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
+  	/**    
+  	 * 功能描述：创建预存记录
+  	 *@param data
+  	 *@return       
+  	 *@author GW
+  	 *@date 2018年3月20日             
+  	*/
+  	@RequestMapping(value="/recharge",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
   	public Result forCreate(@RequestBody String data){
   		Deposit deposit =  JSONUtils.deserialize(data, Deposit.class);
-  		deposit.setStatus("0");
+  		deposit.setDepositTime(new Date());
   		Deposit saved = this.depositManager.save(deposit);
   		return ResultUtils.renderSuccessResult(saved);
   	}
@@ -168,4 +176,36 @@ public class DepositRestController extends OrgBaseRestController {
   		}
   		return ResultUtils.renderSuccessResult();
   	}
-}
+@RequestMapping(value="/callback",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+  	public Result DepositCallback(@RequestBody String data){
+  		Trade trade =  JSONUtils.deserialize(data, Trade.class);
+  		if (StringUtils.isEmpty(trade.getBizNo())) {
+  			ResultUtils.renderFailureResult();
+  		}
+  		// 1.回写运存表
+  		Deposit depositModel = this.depositManager.get(trade.getBizNo());
+  		
+		if (trade.getPayChannleCode().equals("wxpay")) {
+			depositModel.setTradeChannel("W");
+			depositModel.setTradeChannelCode("9998");
+  		} else if (trade.getPayChannleCode().equals("aliPay")) {
+  			depositModel.setTradeChannel("Z");
+  			depositModel.setTradeChannelCode("9999");
+  		}
+
+		depositModel.setTradeNo(trade.getTradeNo()); 
+		depositModel.setStatus(trade.getStatus());
+  		Deposit saved = this.depositManager.save(depositModel);
+  		
+  	
+		RestTemplate restTemplate = new RestTemplate();
+    	ResponseEntity<Deposit> response = restTemplate.postForEntity(baseUrl + "hcp/app/test/deposit/recharge", depositModel, Deposit.class);
+    	if(response.getStatusCode() == HttpStatus.OK){
+    		Deposit resultDeposit = response.getBody();
+    		depositModel.setNo(resultDeposit.getNo());
+    		depositModel.setTradeTime(resultDeposit.getTradeTime());
+    		depositModel.setBalance(resultDeposit.getBalance());
+    		this.depositManager.save(depositModel);
+    	}
+  		return ResultUtils.renderSuccessResult();
+  	}}

@@ -187,13 +187,6 @@ class Profile extends Component {
               theme={Button.THEME.BLUE}
             />
           </View>
-          <View style={{ flexDirection: 'row', margin: 20 }} >
-            <Button
-              text="测试"
-              onPress={this.test}
-              theme={Button.THEME.BLUE}
-            />
-          </View>
           <View style={Global.styles.PLACEHOLDER20} />
         </ScrollView>
       </View>

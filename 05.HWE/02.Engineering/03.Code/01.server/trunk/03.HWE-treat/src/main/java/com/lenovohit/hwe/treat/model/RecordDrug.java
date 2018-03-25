@@ -31,12 +31,35 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 public class RecordDrug extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -2000478153685239451L;
+    /** hosId */
+    private String hosId;
 
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
+
+    /** proId */
+    private String proId;
+
+    /** proNo */
+    private String proNo;
+
+    /** proName */
+    private String proName;
+    
     /** recordId */
     private String recordId;
 
     /** recordNo */
     private String recordNo;
+    
+    /** actId */
+    private String actId;
+
+    /** actNo */
+    private String actNo;
 
     /** drugId */
     private String drugId;
@@ -106,6 +129,121 @@ public class RecordDrug extends AuditableModel implements java.io.Serializable {
             1 - 废弃 */
     private String status;
 
+    
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
+
+    /**
+     * 获取proId
+     * 
+     * @return proId
+     */
+    @Column(name = "PRO_ID", nullable = true, length = 32)
+    public String getProId() {
+        return this.proId;
+    }
+
+    /**
+     * 设置proId
+     * 
+     * @param proId
+     */
+    public void setProId(String proId) {
+        this.proId = proId;
+    }
+
+    /**
+     * 获取proNo
+     * 
+     * @return proNo
+     */
+    @Column(name = "PRO_NO", nullable = true, length = 50)
+    public String getProNo() {
+        return this.proNo;
+    }
+
+    /**
+     * 设置proNo
+     * 
+     * @param proNo
+     */
+    public void setProNo(String proNo) {
+        this.proNo = proNo;
+    }
+
+    /**
+     * 获取proName
+     * 
+     * @return proName
+     */
+    @Column(name = "PRO_NAME", nullable = true, length = 70)
+    public String getProName() {
+        return this.proName;
+    }
+
+    /**
+     * 设置proName
+     * 
+     * @param proName
+     */
+    public void setProName(String proName) {
+        this.proName = proName;
+    }
+    
     /**
      * 获取recordId
      * 
@@ -143,6 +281,44 @@ public class RecordDrug extends AuditableModel implements java.io.Serializable {
     public void setRecordNo(String recordNo) {
         this.recordNo = recordNo;
     }
+    
+    /**
+     * 获取actId
+     * 
+     * @return actId
+     */
+    @Column(name = "ACT_ID", nullable = true, length = 32)
+    public String getActId() {
+		return actId;
+	}
+    
+    /**
+     * 设置actId
+     * 
+     * @param actId
+     */
+	public void setActId(String actId) {
+		this.actId = actId;
+	}
+	
+	/**
+     * 获取actNo
+     * 
+     * @return actNo
+     */
+	@Column(name = "ACT_NO", nullable = true, length = 50)
+	public String getActNo() {
+		return actNo;
+	}
+	/**
+     * 设置actNo
+     * 
+     * @param actNo
+     */
+	public void setActNo(String actNo) {
+		this.actNo = actNo;
+	}
+
 
     /**
      * 获取drugId

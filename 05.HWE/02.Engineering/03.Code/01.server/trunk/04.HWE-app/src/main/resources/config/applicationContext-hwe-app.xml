@@ -21,11 +21,11 @@
 	<!-- **************** Sample   END **************** -->
 	
 	<!-- **************** Application START **************** -->
-	<bean id="applicationDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.mobile.app.model.Application" />
+	<bean id="appDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.mobile.app.model.App" />
 	</bean>
-	<bean id="applicationManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="applicationDao" />
+	<bean id="appManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appDao" />
 	</bean>
 	<!-- **************** Application   END **************** -->
 

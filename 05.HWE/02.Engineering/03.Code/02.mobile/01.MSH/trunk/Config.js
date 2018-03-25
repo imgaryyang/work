@@ -42,18 +42,20 @@ const config = Object.freeze({
     sw: require('./assets/images/logo/logo-s-white.png'), // 小 - 白色
   },
   imgIcons: {
-    appAndReg: require('./assets/images/icons/app-and-reg.png'),
-    payment: require('./assets/images/icons/payment.png'),
+    outpatientAppoint: require('./assets/images/icons/outpatient-appoint.png'),
+    outpatientPayment: require('./assets/images/icons/outpatient-payment.png'),
     reports: require('./assets/images/icons/reports.png'),
-    consumeMain: require('./assets/images/icons/payment-records.png'),
-    treatRecords: require('./assets/images/icons/treat-records.png'),
+    outpatientPaymentRecords: require('./assets/images/icons/outpatient-payment-records.png'),
+    outpatientTreatRecords: require('./assets/images/icons/outpatient-treat-records.png'),
     news: require('./assets/images/icons/news.png'),
     consult: require('./assets/images/icons/consult.png'),
     forum: require('./assets/images/icons/forum.png'),
-    signIn: require('./assets/images/icons/sign-in.png'),
-    appAndRegRecords: require('./assets/images/icons/app-and-reg-records.png'),
+    outpatientSignIn: require('./assets/images/icons/outpatient-sign-in.png'),
+    outpatientAppointRecords: require('./assets/images/icons/outpatient-appoint-records.png'),
+    outpatientRefund: require('./assets/images/icons/outpatient-refund.png'),
     inpatientInfo: require('./assets/images/icons/inpatient-info.png'),
     inpatientDailyBill: require('./assets/images/icons/inpatient-daily-bill.png'),
+    inpatientPrepaidRecords: require('./assets/images/icons/inpatient-prepaid-records.png'),
   },
   imgTabIcons: {
     hosp: require('./assets/images/icons/tab-hosp.png'),
@@ -106,7 +108,7 @@ const config = Object.freeze({
     hfc: [
       {
         id: 'hf01', state: '1', route: 'AppAndReg', name: '预约挂号',
-        iconLib: '', icon: '', imgIcon: 'appAndReg', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        iconLib: '', icon: '', imgIcon: 'outpatientAppoint', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -115,7 +117,7 @@ const config = Object.freeze({
       },
       {
         id: 'hf02', state: '1', route: 'Payments', name: '充值缴费',
-        iconLib: '', icon: '', imgIcon: 'payment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        iconLib: '', icon: '', imgIcon: 'outpatientPayment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -133,26 +135,27 @@ const config = Object.freeze({
         },
       },
       {
+        id: 'hf08', state: '1', route: 'SignIn', name: '预约签到',
+        iconLib: '', icon: '', imgIcon: 'outpatientSignIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      {
+        id: 'hf13', state: '1', route: '', name: '门诊退费',
+        iconLib: '', icon: '', imgIcon: 'outpatientRefund', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
         id: 'hf09', state: '1', route: 'AppAndRegRecords', name: '预约记录',
-        iconLib: '', icon: '', imgIcon: 'appAndRegRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: true,
-          allowSwitchHospital: true,
-          allowSwitchPatient: true,
-        },
-      },
-      {
-        id: 'hf08', state: '1', route: 'SignIn', name: '来院签到',
-        iconLib: '', icon: '', imgIcon: 'signIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: true,
-          allowSwitchHospital: true,
-          allowSwitchPatient: true,
-        },
-      },
-      {
-        id: 'hf05', state: '1', route: 'Records', name: '就诊记录',
-        iconLib: '', icon: '', imgIcon: 'treatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        iconLib: '', icon: '', imgIcon: 'outpatientAppointRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -161,7 +164,7 @@ const config = Object.freeze({
       },
       {
         id: 'hf04', state: '1', route: 'ConsumeMain', name: '消费记录',
-        iconLib: '', icon: '', imgIcon: 'consumeMain', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        iconLib: '', icon: '', imgIcon: 'outpatientPaymentRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -170,22 +173,12 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf06', state: '1', route: 'ConsultRecords', name: '医患沟通',
-        iconLib: '', icon: '', imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        id: 'hf05', state: '1', route: 'Records', name: '就诊记录',
+        iconLib: '', icon: '', imgIcon: 'outpatientTreatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
           allowSwitchPatient: true,
-          hideNavBarBottomLine: true,
-        },
-      },
-      {
-        id: 'hf07', state: '1', route: 'NewsList', name: '健康资讯',
-        iconLib: '', icon: '', imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-        passProps: {
-          fkId: appId,
-          fkType: 'H4',
-          hideNavBarBottomLine: true,
         },
       },
       {
@@ -204,6 +197,35 @@ const config = Object.freeze({
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
           allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf12', state: '1', route: 'InpatientPrepaidRecords', name: '住院预缴记录',
+        iconLib: '', icon: '', imgIcon: 'inpatientPrepaidRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: false,
+        },
+      },
+      {
+        id: 'hf06', state: '1', route: 'ConsultRecords', name: '医患沟通',
+        iconLib: '', icon: '', imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf07', state: '1', route: 'NewsList', name: '健康资讯',
+        iconLib: '', icon: '', imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          fkId: appId,
+          fkType: 'H4',
           hideNavBarBottomLine: true,
         },
       },
@@ -291,6 +313,7 @@ const config = Object.freeze({
     'SignIn',
     'InpatientInfo',
     'InpatientDailyBill',
+    'InpatientPrepaidRecords',
   ],
   needLoginComp: [ // 需要登录才能访问的场景
     'HCTab',
@@ -312,21 +335,46 @@ const config = Object.freeze({
     'ConsultRecords',
     'InpatientInfo',
     'InpatientDailyBill',
+    'InpatientPrepaidRecords',
+    'ChoosePatient',
+    'Portrait',
   ],
-  tagTypes: {
-    NEAREST: 'nearest',
-    LATEST: 'latest',
-    FREQUENT: 'frequent',
-  },
+  needProfileComp: [ // 需要先选档案才能操作的场景
+    'Payments',
+    'Reports',
+    'SignIn',
+    '', // 门诊退费
+    'AppAndRegRecords',
+    'ConsumeMain',
+    'Records',
+    'InpatientInfo',
+    'InpatientDailyBill',
+    'InpatientPrepaidRecords',
+  ],
+  // tagTypes: {
+  //   NEAREST: 'nearest',
+  //   LATEST: 'latest',
+  //   FREQUENT: 'frequent',
+  //   OP_TYPE_NORMAL: 'opTypeNormal', // 门诊就诊记录类型 - 普通门诊
+  //   OP_TYPE_OTHER: 'opTypeOther', // 门诊就诊记录类型 - 其它（显示接口传过来的就诊类型）
+  // },
   tagConfig: {
+    // 医院列表
     nearest: { label: '离我最近', bgColor: Global.colors.IOS_GREEN, borderColor: Global.colors.IOS_GREEN },
     latest: { label: '最近去过', bgColor: Global.colors.ORANGE, borderColor: Global.colors.ORANGE },
-    frequent: { label: '去的最多', bgColor: Global.colors.ORANGE, borderColor: Global.colors.IOS_BLUE },
+    frequent: { label: '去的最多', bgColor: Global.colors.ORANGE, borderColor: Global.colors.ORANGE },
+    // 就诊类型
+    clinicTypeNormal: { label: '普通门诊', bgColor: Global.colors.IOS_BLUE, borderColor: Global.colors.IOS_BLUE },
+    clinicTypeOther: { label: '', bgColor: Global.colors.IOS_RED, borderColor: Global.colors.IOS_RED },
+    // patientRelation
+    patientRelationMeself: { label: '本人', bgColor: Global.colors.IOS_GREEN, borderColor: Global.colors.IOS_GREEN },
+    patientRelationOther: { label: '其他', bgColor: Global.colors.ORANGE, borderColor: Global.colors.ORANGE },
   },
   // 系统配置
   // 全局
   global: {
-    // ?
+    loginMode: Global.LOGIN_MODE_SMS, // 登录模式：短信
+    authCodeResendInterval: 30, // 重新发送验证码时间间隔（秒 s）
   },
   // 医院
   hosp: {
@@ -341,6 +389,12 @@ const config = Object.freeze({
   doc: {
     portraitVisible: true, // 是否显示医生头像
     evaluationAvailable: true, // 是否使用医院评价体系
+  },
+  // 检验项目说明
+  LISDesc: {
+    bloodRT: '血常规是最一般，最基本的血液检验。血液由液体和有形细胞两大部分组成，血常规检验的是血液的细胞部分。血液有三种不同功能的细胞——红细胞(俗称红血球)，白细胞(俗称白血球)、血小板。',
+    liverFunction: '肝功能检查是通过各种生化试验方法检测与肝脏功能代谢有关的各项指标、以反映肝脏功能基本状况的检查。',
+    UrineRT: '尿常规通过对人体尿液表象及成分的分析，检测是否可能患有某些泌尿系统疾病或糖尿病。尿常规检查内容包括尿的颜色、透明度、白细胞、上皮细胞、管型、蛋白质、比重及尿糖定性的检查。',
   },
 });
 

@@ -237,13 +237,13 @@ class EasyCheckboxField extends Component {
             height: this._inputInnerHeight,
             flexDirection: 'row',
             backgroundColor: 'rgba(248,248,248,1)',
-            paddingLeft: 10,
+            paddingLeft: 5,
             alignItems: 'center',
             justifyContent: 'center',
           }]}
         >
-          <Icon name={iconName} color={iconColor} size={20} width={30} />
-          <Text style={{ flex: 1 }} >{item.label}</Text>
+          <Icon name={iconName} color={iconColor} size={16} width={25} />
+          <Text style={{ flex: 1, fontSize: 13 }} >{item.label}</Text>
         </TouchableOpacity>
       );
     });

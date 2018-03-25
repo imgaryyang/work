@@ -8,9 +8,9 @@ export function createBill(bill) {
 
 
 export function getReport(query) {
-  return ajax.GET('/api/hwe/treat/medicalCheck/loadHisCheckList', query || {});
+  return ajax.GET('/api/hwe/treat/his/test/list', query || {});
 }
 export function getReportDetail(query) {
-  return ajax.GET('/api/hwe/treat/medicalCheck/loadHisCheckDetail', query || {});
+  return ajax.GET('/api/hwe/treat/his/testDetail/list', query || {});
 }
 

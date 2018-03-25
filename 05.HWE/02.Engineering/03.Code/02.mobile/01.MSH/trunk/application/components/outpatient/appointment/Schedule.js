@@ -39,6 +39,7 @@ const initShiftData = [
 const initAreaData = [
   { value: 0, label: '全院' },
 ];
+const CaretIcon = <Icon name="caret-down" iconLib="fa" size={13} width={13} height={13} color={Global.colors.IOS_ARROW} />;
 
 class Schedule extends Component {
   static displayName = 'Schedule';
@@ -184,10 +185,10 @@ class Schedule extends Component {
   filterData(data, cond) {
     const { selectedDate, selectedJobTitle, selectedShift, selectedArea } = this.state;
 
-    const newSelectedDate = cond && cond.selectedDate ? cond.selectedDate : selectedDate;
-    const newSelectedJobTitle = cond && cond.selectedJobTitle ? cond.selectedJobTitle : selectedJobTitle;
-    const newSelectedShift = cond && cond.selectedShift ? cond.selectedShift : selectedShift;
-    const newSelectedArea = cond && cond.selectedArea ? cond.selectedArea : selectedArea;
+    const newSelectedDate = (cond && cond.selectedDate) || selectedDate;
+    const newSelectedJobTitle = (cond && cond.selectedJobTitle) || selectedJobTitle;
+    const newSelectedShift = (cond && cond.selectedShift) || selectedShift;
+    const newSelectedArea = (cond && cond.selectedArea) || selectedArea;
 
     return data.filter(item =>
       (newSelectedDate === initDateData[0] || newSelectedDate.label === item.clinicDate) &&
@@ -234,7 +235,7 @@ class Schedule extends Component {
               requestErrMsg: { msg },
             },
           });
-          this.handleRequestException({ msg });
+          Toast.show(`错误：${msg}`);
         }
       } else {
         const { start, limit, total } = page;
@@ -286,8 +287,9 @@ class Schedule extends Component {
     return (
       <View style={Global.styles.CONTAINER}>
         <View style={styles.topBar}>
-          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.datePickerRef.toggle()}>
-            <Text style={styles.blueText}>{selectedDate.label}</Text>
+          <TouchableOpacity style={[styles.topBarItem, styles.flex5]} onPress={() => this.datePickerRef.toggle()}>
+            <Text style={styles.blueText} numberOfLines={1}>{selectedDate.label}</Text>
+            {CaretIcon}
           </TouchableOpacity>
           <Picker
             ref={(ref) => { this.datePickerRef = ref; }}
@@ -296,9 +298,10 @@ class Schedule extends Component {
             onChange={item => this.onChange('selectedDate', item)}
             center
           />
-          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
-          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.jobTitlePickerRef.toggle()}>
-            <Text style={styles.blueText}>{selectedJobTitle.label}</Text>
+          <Sep width={Global.lineWidth} bgColor={Global.colors.LINE} />
+          <TouchableOpacity style={[styles.topBarItem, styles.flex5]} onPress={() => this.jobTitlePickerRef.toggle()}>
+            <Text style={styles.blueText} numberOfLines={1}>{selectedJobTitle.label}</Text>
+            {CaretIcon}
           </TouchableOpacity>
           <Picker
             ref={(ref) => { this.jobTitlePickerRef = ref; }}
@@ -307,9 +310,10 @@ class Schedule extends Component {
             onChange={item => this.onChange('selectedJobTitle', item)}
             center
           />
-          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
-          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.shiftPickerRef.toggle()}>
-            <Text style={styles.blueText}>{selectedShift.label}</Text>
+          <Sep width={Global.lineWidth} bgColor={Global.colors.LINE} />
+          <TouchableOpacity style={[styles.topBarItem, styles.flex4]} onPress={() => this.shiftPickerRef.toggle()}>
+            <Text style={styles.blueText} numberOfLines={1}>{selectedShift.label}</Text>
+            {CaretIcon}
           </TouchableOpacity>
           <Picker
             ref={(ref) => { this.shiftPickerRef = ref; }}
@@ -318,9 +322,10 @@ class Schedule extends Component {
             onChange={item => this.onChange('selectedShift', item)}
             center
           />
-          <Icon name="ios-arrow-forward" size={20} width={20} height={20} color={Global.colors.IOS_ARROW} />
-          <TouchableOpacity style={Global.styles.CENTER} onPress={() => this.areaPickerRef.toggle()}>
-            <Text style={styles.blueText}>{selectedArea.label}</Text>
+          <Sep width={Global.lineWidth} bgColor={Global.colors.LINE} />
+          <TouchableOpacity style={[styles.topBarItem, styles.flex4]} onPress={() => this.areaPickerRef.toggle()}>
+            <Text style={styles.blueText} numberOfLines={1}>{selectedArea.label}</Text>
+            {CaretIcon}
           </TouchableOpacity>
           <Picker
             ref={(ref) => { this.areaPickerRef = ref; }}
@@ -362,14 +367,27 @@ class Schedule extends Component {
 
 const styles = StyleSheet.create({
   topBar: {
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderBottomWidth: Global.lineWidth,
     borderBottomColor: Global.colors.LINE,
   },
+  topBarItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  flex4: {
+    flex: 4,
+  },
+  flex5: {
+    flex: 5,
+  },
   blueText: {
     color: Global.colors.IOS_BLUE,
+    fontSize: 13,
   },
 });
 

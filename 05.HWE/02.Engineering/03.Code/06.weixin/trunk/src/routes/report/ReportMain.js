@@ -32,11 +32,13 @@ class ReportMain extends React.Component {
     this.props.dispatch(routerRedux.goBack());
   }
   showDetail(data) {
+    // console.log('showDetail====',data);
     const query = { testId: data.barcode };
     this.props.dispatch({
       type: 'report/setState',
       payload: { rowData: data },
     });
+    // console.log('route====loadReportDetail====query==',query);
     this.props.dispatch({
       type: 'report/loadReportDetail',
       payload: query,
@@ -48,8 +50,10 @@ class ReportMain extends React.Component {
 
   render() {
     const { data, dataSource, height, isLoading } = this.props.report;
+    // console.log("ReportMain===data===",data);
     if (isLoading) { return <ActivityIndicatorView />; }
     const row = (rowData) => {
+      // console.log("ReportMain===rowData=====",rowData);
       return (<div className={style['rowContainer']} onClick={this.showDetail.bind(this, rowData)}>
         <div className={style['rowLogo']}> 化验</div>
         <div className={style['rowContent']} >

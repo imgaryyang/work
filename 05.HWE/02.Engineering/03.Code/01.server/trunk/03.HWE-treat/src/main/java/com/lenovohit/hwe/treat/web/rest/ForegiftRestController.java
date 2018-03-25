@@ -1,15 +1,20 @@
 package com.lenovohit.hwe.treat.web.rest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.lenovohit.core.dao.Page;
 import com.lenovohit.core.exception.BaseException;
@@ -21,6 +26,7 @@ import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
 import com.lenovohit.hwe.treat.model.Foregift;
+import com.lenovohit.hwe.treat.model.Trade;
 
 @RestController
 @RequestMapping("/hwe/treat/foregift")
@@ -28,6 +34,8 @@ public class ForegiftRestController extends OrgBaseRestController {
 	@Autowired
 	private GenericManager<Foregift, String> foregiftManager;
 	
+	@Value("${his.baseUrl}")
+	private String baseUrl;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
   	public Result getInfo(@PathVariable("id") String id){
@@ -53,14 +61,6 @@ public class ForegiftRestController extends OrgBaseRestController {
   		if(!StringUtils.isEmpty(query.getUserId())){
   			jql.append(" and userId = ? ");
   			values.add(query.getUserId());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
   		}
   		if(!StringUtils.isEmpty(query.getTradeChannel())){
   			jql.append(" and tradeChannel = ? ");
@@ -104,14 +104,6 @@ public class ForegiftRestController extends OrgBaseRestController {
   			jql.append(" and userId = ? ");
   			values.add(query.getUserId());
   		}
-  		if(!StringUtils.isEmpty(query.getAppChannel())){
-  			jql.append(" and appChannel = ? ");
-  			values.add(query.getAppChannel());
-  		}
-  		if(!StringUtils.isEmpty(query.getAppId())){
-  			jql.append(" and appId = ? ");
-  			values.add(query.getAppId());
-  		}
   		if(!StringUtils.isEmpty(query.getTradeChannel())){
   			jql.append(" and tradeChannel = ? ");
   			values.add(query.getTradeChannel());
@@ -133,7 +125,7 @@ public class ForegiftRestController extends OrgBaseRestController {
   	@RequestMapping(value="",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
   	public Result forCreate(@RequestBody String data){
   		Foregift foregift =  JSONUtils.deserialize(data, Foregift.class);
-  		foregift.setStatus("0");
+  		foregift.setForegiftTime(new Date());
   		Foregift saved = this.foregiftManager.save(foregift);
   		return ResultUtils.renderSuccessResult(saved);
   	}
@@ -167,6 +159,38 @@ public class ForegiftRestController extends OrgBaseRestController {
   			e.printStackTrace();
   			throw new BaseException("删除失败");
   		}
+  		return ResultUtils.renderSuccessResult();
+  	}
+  	
+ 	@RequestMapping(value="/callback",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+  	public Result ForegiftCallback(@RequestBody String data){
+  		Trade trade =  JSONUtils.deserialize(data, Trade.class);
+  		if (StringUtils.isEmpty(trade.getBizNo())) {
+  			ResultUtils.renderFailureResult();
+  		}
+  		// 1.回写运存表
+  		Foregift foregiftModel = this.foregiftManager.get(trade.getBizNo());
+  		
+		if (trade.getPayChannleCode().equals("wxpay")) {
+			foregiftModel.setTradeChannel("W");
+  		} else if (trade.getPayChannleCode().equals("aliPay")) {
+  			foregiftModel.setTradeChannel("Z");
+  			foregiftModel.setTradeChannelCode("9999");
+  		}
+
+		foregiftModel.setTradeNo(trade.getTradeNo()); 
+		foregiftModel.setStatus(trade.getStatus());
+  		this.foregiftManager.save(foregiftModel);
+  	
+		RestTemplate restTemplate = new RestTemplate();
+    	ResponseEntity<Foregift> response = restTemplate.postForEntity(baseUrl + "hcp/app/test/foregift/recharge", foregiftModel, Foregift.class);
+    	if(response.getStatusCode() == HttpStatus.OK){
+    		Foregift resultForegift = response.getBody();
+    		foregiftModel.setNo(resultForegift.getNo());
+    		foregiftModel.setTradeTime(resultForegift.getTradeTime());
+    		foregiftModel.setBalance(resultForegift.getBalance());
+    		this.foregiftManager.save(foregiftModel);
+    	}
   		return ResultUtils.renderSuccessResult();
   	}
 }

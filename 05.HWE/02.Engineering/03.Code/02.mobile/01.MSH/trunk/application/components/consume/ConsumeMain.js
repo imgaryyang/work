@@ -21,15 +21,13 @@ import ctrlState from '../../modules/ListState';
 import { getPreRecords, getConsumeRecords } from '../../services/consume/ConsumeRecordsService';
 import { getPreStore } from '../../services/payment/AliPayService';
 
+const BlankScene = () => {
+  return (<View style={{ flex: 1, backgroundColor: 'white' }} />);
+};
+
 class ConsumeMain extends Component {
   static displayName = 'ConsumeMain';
   static description = '消费记录';
-
-  static renderPlaceholderView() {
-    return (
-      <View style={Global.styles.CONTAINER} />
-    );
-  }
 
   constructor(props) {
     super(props);
@@ -154,8 +152,25 @@ class ConsumeMain extends Component {
       });
     }
   }
+
+  renderPlaceholderView() {
+    return (
+      <ScrollableTabView
+        initialPage={0}
+        renderTabBar={() => <PintrestTabBar />}
+      >
+        <BlankScene
+          tabLabel="缴费记录"
+        />
+        <BlankScene
+          tabLabel="预存记录"
+        />
+      </ScrollableTabView>
+    );
+  }
+
   render() {
-    if (!this.state.doRenderScene) { return ConsumeMain.renderPlaceholderView(); }
+    if (!this.state.doRenderScene) { return this.renderPlaceholderView(); }
     return (
       <ScrollableTabView
         initialPage={0}

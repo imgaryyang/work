@@ -20,8 +20,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.lenovohit.hwe.base.model.AuditableModel;
-
 /**
  * TREAT_DEPOSIT
  * 
@@ -30,10 +28,18 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_DEPOSIT")
-public class Deposit extends AuditableModel implements java.io.Serializable {
+public class Deposit extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 2752604019696410424L;
+    /** hosId */
+    private String hosId;
 
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
+    
     /** proId */
     private String proId;
 
@@ -49,24 +55,30 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
     /** cardNo */
     private String cardNo;
 
-    /** tradeType */
-    private String tradeType;
+    /** cardType */
+    private String cardType;
+    
+    /** type */
+    private String type;
+    
+    /** no */
+    private String no;
 
-    /** tradeTime */
-    private Date tradeTime;
-
-    /** tradeNo */
-    private String tradeNo;
-
-    /** outTradeNo */
-    private String outTradeNo;
+    /** depositTime */
+    private Date depositTime;
 
     /** amt */
     private BigDecimal amt;
 
     /** balance */
     private BigDecimal balance;
-
+    
+    /** tradeNo */
+    private String tradeNo;
+    
+    /** tradeTime */
+    private Date tradeTime;
+    
     /** userId */
     private String userId;
 
@@ -75,12 +87,9 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
 
     /** accountName */
     private String accountName;
-
-    /** appChannel */
-    private String appChannel;
-
-    /** appId */
-    private String appId;
+    
+    /** accountType */
+    private String accountType;
 
     /** C-现金
             Z-支付宝
@@ -88,18 +97,84 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
             B-银行
             … */
     private String tradeChannel;
+    
+    /** accountType */
+    private String tradeChannelCode;
+    
+    /** tradeTerminalCode */
+    private String tradeTerminalCode;
+    
+    /** batchNo */
+    private String batchNo;
 
     /** adFlag */
     private String adFlag;
-
-    /** operator */
-    private String operator;
+    
+    /** comment */
+    private String comment;
 
     /** status */
     private String status;
     
-
     private Profile profile;
+
+    
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
 
     /**
      * 获取proId
@@ -195,81 +270,71 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
     }
+    
+    public String getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
 
     /**
-     * 获取tradeType
+     * 获取type
      * 
-     * @return tradeType
+     * @return type
      */
-    @Column(name = "TRADE_TYPE", nullable = true, length = 1)
-    public String getTradeType() {
-        return this.tradeType;
+    @Column(name = "TYPE", nullable = true, length = 1)
+    public String getType() {
+        return this.type;
     }
 
     /**
-     * 设置tradeType
+     * 设置type
      * 
-     * @param tradeType
+     * @param type
      */
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
-     * 获取tradeTime
+     * 获取no
      * 
-     * @return tradeTime
+     * @return no
      */
-    @Column(name = "TRADE_TIME", nullable = true)
-    public Date getTradeTime() {
-        return this.tradeTime;
+    @Column(name = "NO", nullable = true, length = 50)
+    public String getNo() {
+        return this.no;
     }
 
     /**
-     * 设置tradeTime
+     * 设置no
      * 
-     * @param tradeTime
+     * @param no
      */
-    public void setTradeTime(Date tradeTime) {
-        this.tradeTime = tradeTime;
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    
+    /**
+     * 获取depositTime
+     * 
+     * @return depositTime
+     */
+    @Column(name = "DEPOSIT_TIME", nullable = true)
+    public Date getDepositTime() {
+        return this.depositTime;
     }
 
     /**
-     * 获取tradeNo
+     * 设置time
      * 
-     * @return tradeNo
+     * @param time
      */
-    @Column(name = "TRADE_NO", nullable = true, length = 50)
-    public String getTradeNo() {
-        return this.tradeNo;
-    }
-
-    /**
-     * 设置tradeNo
-     * 
-     * @param tradeNo
-     */
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
-
-    /**
-     * 获取outTradeNo
-     * 
-     * @return outTradeNo
-     */
-    @Column(name = "OUT_TRADE_NO", nullable = true, length = 50)
-    public String getOutTradeNo() {
-        return this.outTradeNo;
-    }
-
-    /**
-     * 设置outTradeNo
-     * 
-     * @param outTradeNo
-     */
-    public void setOutTradeNo(String outTradeNo) {
-        this.outTradeNo = outTradeNo;
+    public void setDepositTime(Date depositTime) {
+        this.depositTime = depositTime;
     }
 
     /**
@@ -310,6 +375,44 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
         this.balance = balance;
     }
 
+    /**
+     * 获取tradeNo
+     * 
+     * @return tradeNo
+     */
+    @Column(name = "TRADE_NO", nullable = true, length = 50)
+    public String getTradeNo() {
+        return this.tradeNo;
+    }
+
+    /**
+     * 设置tradeNo
+     * 
+     * @param tradeNo
+     */
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
+    }
+
+    /**
+     * 获取tradeTime
+     * 
+     * @return tradeTime
+     */
+    @Column(name = "TRADE_TIME", nullable = true)
+    public Date getTradeTime() {
+        return this.tradeTime;
+    }
+
+    /**
+     * 设置tradeTime
+     * 
+     * @param tradeTime
+     */
+    public void setTradeTime(Date tradeTime) {
+        this.tradeTime = tradeTime;
+    }
+    
     /**
      * 获取userId
      * 
@@ -367,51 +470,16 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
         this.accountName = accountName;
     }
 
-    /**
-     * 获取appChannel
-     * 
-     * @return appChannel
-     */
-    @Column(name = "APP_CHANNEL", nullable = true, length = 1)
-    public String getAppChannel() {
-        return this.appChannel;
-    }
+	public String getAccountType() {
+		return accountType;
+	}
 
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+	
     /**
-     * 设置appChannel
-     * 
-     * @param appChannel
-     */
-    public void setAppChannel(String appChannel) {
-        this.appChannel = appChannel;
-    }
-
-    /**
-     * 获取appId
-     * 
-     * @return appId
-     */
-    @Column(name = "APP_ID", nullable = true, length = 32)
-    public String getAppId() {
-        return this.appId;
-    }
-
-    /**
-     * 设置appId
-     * 
-     * @param appId
-     */
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    /**
-     * 获取C-现金
-            Z-支付宝
-            W-微信
-            B-银行
-            …
-     * 
+     * 获取 tradeChannel
      * @return C-现金
             Z-支付宝
             W-微信
@@ -431,16 +499,36 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
             …
      * 
      * @param tradeChannel
-     *          C-现金
-            Z-支付宝
-            W-微信
-            B-银行
-            …
      */
     public void setTradeChannel(String tradeChannel) {
         this.tradeChannel = tradeChannel;
     }
 
+    
+    public String getTradeChannelCode() {
+		return tradeChannelCode;
+	}
+
+	public void setTradeChannelCode(String tradeChannelCode) {
+		this.tradeChannelCode = tradeChannelCode;
+	}
+
+	public String getTradeTerminalCode() {
+		return tradeTerminalCode;
+	}
+
+	public void setTradeTerminalCode(String tradeTerminalCode) {
+		this.tradeTerminalCode = tradeTerminalCode;
+	}
+
+	public String getBatchNo() {
+		return batchNo;
+	}
+
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
+	}
+	
     /**
      * 获取adFlag
      * 
@@ -461,24 +549,19 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取operator
+     * 获取comment
      * 
-     * @return operator
+     * @return comment
      */
-    @Column(name = "OPERATOR", nullable = true, length = 50)
-    public String getOperator() {
-        return this.operator;
-    }
+    @Column(name = "COMMENT", nullable = true, length = 200)
+	public String getComment() {
+		return comment;
+	}
 
-    /**
-     * 设置operator
-     * 
-     * @param operator
-     */
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
     /**
      * 获取status
      * 
@@ -506,4 +589,5 @@ public class Deposit extends AuditableModel implements java.io.Serializable {
    	public void setProfile(Profile profile) {
    		this.profile = profile;
    	}
+
 }

@@ -18,8 +18,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lenovohit.hwe.base.model.AuditableModel;
 
@@ -34,6 +32,15 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 public class Diagnose extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -7079810595163066282L;
+    
+    /** hosId */
+    private String hosId;
+
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
 
     /** actId */
     private String actId;
@@ -81,18 +88,65 @@ public class Diagnose extends AuditableModel implements java.io.Serializable {
             0 - 正常
             1 - 废弃 */
     private String status;
+
     
-    private String hosNo;
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
 
-    @Transactional
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
     public String getHosNo() {
-		return hosNo;
-	}
+        return this.hosNo;
+    }
 
-	public void setHosNo(String hosNo) {
-		this.hosNo = hosNo;
-	}
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
 
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
+    
 	/**
      * 获取actId
      * 

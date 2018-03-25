@@ -15,14 +15,11 @@ import Payment from '../payment/advicePaymentBySelf/PaymentChargeDetail';
 import Global from '../../Global';
 import { getPreStore, getPatientPayment, getPrePay } from '../../services/payment/AliPayService';
 
+const BlankScene = () => {
+  return (<View style={{ flex: 1, backgroundColor: 'white' }} />);
+};
 
 class PaymentMain extends Component {
-  static renderPlaceholderView() {
-    return (
-      <View style={Global.styles.CONTAINER} />
-    );
-  }
-
   constructor(props) {
     super(props);
     this.afterChooseHospital = this.afterChooseHospital.bind(this);
@@ -136,8 +133,24 @@ class PaymentMain extends Component {
     }
   }
 
+  renderPlaceholderView() {
+    return (
+      <ScrollableTabView
+        initialPage={0}
+        renderTabBar={() => <PintrestTabBar />}
+      >
+        <BlankScene
+          tabLabel="在线充值"
+        />
+        <BlankScene
+          tabLabel="医嘱缴费"
+        />
+      </ScrollableTabView>
+    );
+  }
+
   render() {
-    if (!this.state.doRenderScene) { return PaymentMain.renderPlaceholderView(); }
+    if (!this.state.doRenderScene) { return this.renderPlaceholderView(); }
     return (
       <ScrollableTabView
         initialPage={0}

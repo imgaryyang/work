@@ -35,3 +35,8 @@ export async function forList(query) {
 export async function forReservedList(query) {
   return get(`${appoint().reservedList}`, query);
 }
+
+// 无卡预约记录查询
+export async function forReservedNoCardList(cond) {
+  return get(`${appoint().reservedNoCardList}`, cond);
+}

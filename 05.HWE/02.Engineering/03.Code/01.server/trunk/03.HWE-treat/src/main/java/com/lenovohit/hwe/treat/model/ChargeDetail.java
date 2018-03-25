@@ -51,24 +51,6 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     /** depName */
     private String depName;
 
-    /** depClazz */
-    private String depClazz;
-
-    /** depClazzName */
-    private String depClazzName;
-
-    /** sepId */
-    private String sepId;
-
-    /** sepCode */
-    private String sepCode;
-
-    /** sepName */
-    private String sepName;
-
-    /** sepType */
-    private String sepType;
-
     /** docId */
     private String docId;
 
@@ -96,18 +78,39 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     /** cardNo */
     private String cardNo;
 
+    /** cardType */
+    private String cardType;
+
     /** actId */
     private String actId;
 
     /** actNo */
     private String actNo;
+    
+    /** chargeId */
+    private String chargeId;
 
-    /** recordId */
-    private String recordId;
+    /** chargeNo */
+    private String chargeNo;
+    
+    /** invoiceNo */
+    private String invoiceNo;
+
+    /** invoiceTime */
+    private Date invoiceTime;
 
     /** recordNo */
     private String recordNo;
+    
+    /** recordTime */
+    private Date recordTime;
+    
+    /** groupNo */
+    private String groupNo;
 
+    /** groupSort */
+    private Integer groupSort;
+    
     /** code */
     private String code;
 
@@ -119,6 +122,9 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
 
     /** unit */
     private String unit;
+    
+    /** count */
+    private Integer count;
 
     /** num */
     private BigDecimal num;
@@ -129,38 +135,20 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     /** 治疗费、X光费、化验费 */
     private String type;
 
+    /** cost */
+    private BigDecimal cost;
+    
     /** miType */
     private String miType;
 
     /** myselfScale */
     private BigDecimal myselfScale;
 
-    /** cost */
-    private BigDecimal cost;
-
     /** amount */
     private BigDecimal amount;
 
     /** realAmount */
     private BigDecimal realAmount;
-
-    /** recipeNo */
-    private String recipeNo;
-
-    /** recipeTime */
-    private Date recipeTime;
-
-    /** invoiceNo */
-    private String invoiceNo;
-
-    /** invoiceTime */
-    private Date invoiceTime;
-
-    /** chargeId */
-    private String chargeId;
-
-    /** chargeNo */
-    private String chargeNo;
 
     /** chargeUser */
     private String chargeUser;
@@ -286,120 +274,6 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
      */
     public void setDepName(String depName) {
         this.depName = depName;
-    }
-
-    /**
-     * 获取depClazz
-     * 
-     * @return depClazz
-     */
-    @Column(name = "DEP_CLAZZ", nullable = true, length = 50)
-    public String getDepClazz() {
-        return this.depClazz;
-    }
-
-    /**
-     * 设置depClazz
-     * 
-     * @param depClazz
-     */
-    public void setDepClazz(String depClazz) {
-        this.depClazz = depClazz;
-    }
-
-    /**
-     * 获取depClazzName
-     * 
-     * @return depClazzName
-     */
-    @Column(name = "DEP_CLAZZ_NAME", nullable = true, length = 50)
-    public String getDepClazzName() {
-        return this.depClazzName;
-    }
-
-    /**
-     * 设置depClazzName
-     * 
-     * @param depClazzName
-     */
-    public void setDepClazzName(String depClazzName) {
-        this.depClazzName = depClazzName;
-    }
-
-    /**
-     * 获取sepId
-     * 
-     * @return sepId
-     */
-    @Column(name = "SEP_ID", nullable = true, length = 32)
-    public String getSepId() {
-        return this.sepId;
-    }
-
-    /**
-     * 设置sepId
-     * 
-     * @param sepId
-     */
-    public void setSepId(String sepId) {
-        this.sepId = sepId;
-    }
-
-    /**
-     * 获取sepCode
-     * 
-     * @return sepCode
-     */
-    @Column(name = "SEP_CODE", nullable = true, length = 50)
-    public String getSepCode() {
-        return this.sepCode;
-    }
-
-    /**
-     * 设置sepCode
-     * 
-     * @param sepCode
-     */
-    public void setSepCode(String sepCode) {
-        this.sepCode = sepCode;
-    }
-
-    /**
-     * 获取sepName
-     * 
-     * @return sepName
-     */
-    @Column(name = "SEP_NAME", nullable = true, length = 50)
-    public String getSepName() {
-        return this.sepName;
-    }
-
-    /**
-     * 设置sepName
-     * 
-     * @param sepName
-     */
-    public void setSepName(String sepName) {
-        this.sepName = sepName;
-    }
-
-    /**
-     * 获取sepType
-     * 
-     * @return sepType
-     */
-    @Column(name = "SEP_TYPE", nullable = true, length = 1)
-    public String getSepType() {
-        return this.sepType;
-    }
-
-    /**
-     * 设置sepType
-     * 
-     * @param sepType
-     */
-    public void setSepType(String sepType) {
-        this.sepType = sepType;
     }
 
     /**
@@ -574,6 +448,25 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     }
 
     /**
+     * 获取cardType
+     * 
+     * @return cardType
+     */
+    @Column(name = "CARD_TYPE", nullable = true, length = 1)
+    public String getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+    
+    /**
      * 获取actId
      * 
      * @return actId
@@ -612,22 +505,79 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     }
 
     /**
-     * 获取recordId
+     * 获取chargeId
      * 
-     * @return recordId
+     * @return chargeId
      */
-    @Column(name = "RECORD_ID", nullable = true, length = 32)
-    public String getRecordId() {
-        return this.recordId;
+    @Column(name = "CHARGE_ID", nullable = true, length = 32)
+    public String getChargeId() {
+        return this.chargeId;
     }
 
     /**
-     * 设置recordId
+     * 设置chargeId
      * 
-     * @param recordId
+     * @param chargeId
      */
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
+    public void setChargeId(String chargeId) {
+        this.chargeId = chargeId;
+    }
+
+    /**
+     * 获取chargeNo
+     * 
+     * @return chargeNo
+     */
+    @Column(name = "CHARGE_NO", nullable = true, length = 50)
+    public String getChargeNo() {
+        return this.chargeNo;
+    }
+
+    /**
+     * 设置chargeNo
+     * 
+     * @param chargeNo
+     */
+    public void setChargeNo(String chargeNo) {
+        this.chargeNo = chargeNo;
+    }
+
+    /**
+     * 获取invoiceNo
+     * 
+     * @return invoiceNo
+     */
+    @Column(name = "INVOICE_NO", nullable = true, length = 50)
+    public String getInvoiceNo() {
+        return this.invoiceNo;
+    }
+
+    /**
+     * 设置invoiceNo
+     * 
+     * @param invoiceNo
+     */
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+
+    /**
+     * 获取invoiceTime
+     * 
+     * @return invoiceTime
+     */
+    @Column(name = "INVOICE_TIME", nullable = true)
+    public Date getInvoiceTime() {
+        return this.invoiceTime;
+    }
+
+    /**
+     * 设置invoiceTime
+     * 
+     * @param invoiceTime
+     */
+    public void setInvoiceTime(Date invoiceTime) {
+        this.invoiceTime = invoiceTime;
     }
 
     /**
@@ -647,6 +597,63 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
      */
     public void setRecordNo(String recordNo) {
         this.recordNo = recordNo;
+    }
+
+    /**
+     * 获取recordTime
+     * 
+     * @return recordTime
+     */
+    @Column(name = "RECORD_TIME", nullable = true)
+    public Date getRecordTime() {
+        return this.recordTime;
+    }
+
+    /**
+     * 设置recordTime
+     * 
+     * @param recordTime
+     */
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
+    }
+
+    /**
+     * 获取groupNo
+     * 
+     * @return groupNo
+     */
+    @Column(name = "GROUP_NO", nullable = true, length = 50)
+    public String getGroupNo() {
+        return this.groupNo;
+    }
+
+    /**
+     * 设置groupNo
+     * 
+     * @param groupNo
+     */
+    public void setGroupNo(String groupNo) {
+        this.groupNo = groupNo;
+    }
+
+    /**
+     * 获取groupSort
+     * 
+     * @return groupSort
+     */
+    @Column(name = "GROUP_SORT", nullable = true, length = 10)
+    public Integer getGroupSort() {
+        return this.groupSort;
+    }
+
+    /**
+     * 设置groupSort
+     * 
+     * @param groupSort
+     */
+    public void setGroupSort(Integer groupSort) {
+        this.groupSort = groupSort;
     }
 
     /**
@@ -724,7 +731,26 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
     public void setUnit(String unit) {
         this.unit = unit;
     }
+    
+    /**
+     * 获取count
+     * 
+     * @return count
+     */
+    @Column(name = "COUNT", nullable = true, length = 10)
+    public Integer getCount() {
+        return this.count;
+    }
 
+    /**
+     * 设置count
+     * 
+     * @param count
+     */
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+    
     /**
      * 获取num
      * 
@@ -878,119 +904,7 @@ public class ChargeDetail extends AuditableModel implements java.io.Serializable
         this.realAmount = realAmount;
     }
 
-    /**
-     * 获取recipeNo
-     * 
-     * @return recipeNo
-     */
-    @Column(name = "RECIPE_NO", nullable = true, length = 50)
-    public String getRecipeNo() {
-        return this.recipeNo;
-    }
-
-    /**
-     * 设置recipeNo
-     * 
-     * @param recipeNo
-     */
-    public void setRecipeNo(String recipeNo) {
-        this.recipeNo = recipeNo;
-    }
-
-    /**
-     * 获取recipeTime
-     * 
-     * @return recipeTime
-     */
-    @Column(name = "RECIPE_TIME", nullable = true)
-    public Date getRecipeTime() {
-        return this.recipeTime;
-    }
-
-    /**
-     * 设置recipeTime
-     * 
-     * @param recipeTime
-     */
-    public void setRecipeTime(Date recipeTime) {
-        this.recipeTime = recipeTime;
-    }
-
-    /**
-     * 获取invoiceNo
-     * 
-     * @return invoiceNo
-     */
-    @Column(name = "INVOICE_NO", nullable = true, length = 50)
-    public String getInvoiceNo() {
-        return this.invoiceNo;
-    }
-
-    /**
-     * 设置invoiceNo
-     * 
-     * @param invoiceNo
-     */
-    public void setInvoiceNo(String invoiceNo) {
-        this.invoiceNo = invoiceNo;
-    }
-
-    /**
-     * 获取invoiceTime
-     * 
-     * @return invoiceTime
-     */
-    @Column(name = "INVOICE_TIME", nullable = true)
-    public Date getInvoiceTime() {
-        return this.invoiceTime;
-    }
-
-    /**
-     * 设置invoiceTime
-     * 
-     * @param invoiceTime
-     */
-    public void setInvoiceTime(Date invoiceTime) {
-        this.invoiceTime = invoiceTime;
-    }
-
-    /**
-     * 获取chargeId
-     * 
-     * @return chargeId
-     */
-    @Column(name = "CHARGE_ID", nullable = true, length = 32)
-    public String getChargeId() {
-        return this.chargeId;
-    }
-
-    /**
-     * 设置chargeId
-     * 
-     * @param chargeId
-     */
-    public void setChargeId(String chargeId) {
-        this.chargeId = chargeId;
-    }
-
-    /**
-     * 获取chargeNo
-     * 
-     * @return chargeNo
-     */
-    @Column(name = "CHARGE_NO", nullable = true, length = 50)
-    public String getChargeNo() {
-        return this.chargeNo;
-    }
-
-    /**
-     * 设置chargeNo
-     * 
-     * @param chargeNo
-     */
-    public void setChargeNo(String chargeNo) {
-        this.chargeNo = chargeNo;
-    }
+    
 
     /**
      * 获取chargeUser

@@ -34,6 +34,15 @@ public class Consume extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 104664346478712983L;
 
+    /** hosId */
+    private String hosId;
+
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
+    
     /** proId */
     private String proId;
 
@@ -48,36 +57,91 @@ public class Consume extends AuditableModel implements java.io.Serializable {
 
     /** cardNo */
     private String cardNo;
+    
+    /** cardType */
+    private String cardType;
 
     /** 1:挂号 2:门诊收费  3:体检收费 4.医院授权透支冲账 */
-    private String tradeType;
+    private String type;
 
-    /** tradeTime */
-    private Date tradeTime;
-
-    /** tradeNo */
-    private String tradeNo;
+    /** 消费流水号 */
+    private String no;
+    
+    /** 消费时间 */
+    private Date consumeTime;
 
     /** amt */
     private BigDecimal amt;
 
     /** balance */
     private BigDecimal balance;
-
-    /** appChannel */
-    private String appChannel;
-
-    /** appId */
-    private String appId;
-
-    /** operator */
-    private String operator;
+    
+    /** comment */
+    private String comment;
 
     /** status */
     private String status;
     
     private Profile profile;
 
+    
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
+    
     /**
      * 获取proId
      * 
@@ -174,61 +238,76 @@ public class Consume extends AuditableModel implements java.io.Serializable {
     }
 
     /**
+     * 获取cardType
+     * 
+     * @return cardType
+     */
+    @Column(name = "CARD_TYPE", nullable = true, length = 1)
+    public String getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+    /**
      * 获取1:挂号 2:门诊收费  3:体检收费 4.医院授权透支冲账
      * 
      * @return 1:挂号 2:门诊收费  3:体检收费 4
      */
-    @Column(name = "TRADE_TYPE", nullable = true, length = 1)
-    public String getTradeType() {
-        return this.tradeType;
+    @Column(name = "TYPE", nullable = true, length = 1)
+    public String getType() {
+        return this.type;
     }
 
     /**
      * 设置1:挂号 2:门诊收费  3:体检收费 4.医院授权透支冲账
-     * 
-     * @param tradeType
-     *          1:挂号 2:门诊收费  3:体检收费 4
      */
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    /**
+     * 获取no
+     * 
+     * @return no
+     */
+    @Column(name = "NO", nullable = true, length = 50)
+    public String getNo() {
+        return this.no;
     }
 
     /**
-     * 获取tradeTime
+     * 设置no
      * 
-     * @return tradeTime
+     * @param no
      */
-    @Column(name = "TRADE_TIME", nullable = true)
-    public Date getTradeTime() {
-        return this.tradeTime;
+    public void setNo(String no) {
+        this.no = no;
+    }
+    
+    /**
+     * 获取consumeTime
+     * 
+     * @return consumeTime
+     */
+    @Column(name = "CONSUME_TIME", nullable = true)
+    public Date getConsumeTime() {
+        return this.consumeTime;
     }
 
     /**
-     * 设置tradeTime
+     * 设置consumeTime
      * 
-     * @param tradeTime
+     * @param consumeTime
      */
-    public void setTradeTime(Date tradeTime) {
-        this.tradeTime = tradeTime;
-    }
-
-    /**
-     * 获取tradeNo
-     * 
-     * @return tradeNo
-     */
-    @Column(name = "TRADE_NO", nullable = true, length = 50)
-    public String getTradeNo() {
-        return this.tradeNo;
-    }
-
-    /**
-     * 设置tradeNo
-     * 
-     * @param tradeNo
-     */
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
+    public void setConsumeTime(Date consumeTime) {
+        this.consumeTime = consumeTime;
     }
 
     /**
@@ -270,60 +349,22 @@ public class Consume extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取appChannel
+     * 获取comment
      * 
-     * @return appChannel
+     * @return comment
      */
-    @Column(name = "APP_CHANNEL", nullable = true, length = 1)
-    public String getAppChannel() {
-        return this.appChannel;
+    @Column(name = "COMMENT", nullable = true, length = 200)
+    public String getComment() {
+        return this.comment;
     }
 
     /**
-     * 设置appChannel
+     * 设置comment
      * 
-     * @param appChannel
+     * @param comment
      */
-    public void setAppChannel(String appChannel) {
-        this.appChannel = appChannel;
-    }
-
-    /**
-     * 获取appId
-     * 
-     * @return appId
-     */
-    @Column(name = "APP_ID", nullable = true, length = 32)
-    public String getAppId() {
-        return this.appId;
-    }
-
-    /**
-     * 设置appId
-     * 
-     * @param appId
-     */
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    /**
-     * 获取operator
-     * 
-     * @return operator
-     */
-    @Column(name = "OPERATOR", nullable = true, length = 50)
-    public String getOperator() {
-        return this.operator;
-    }
-
-    /**
-     * 设置operator
-     * 
-     * @param operator
-     */
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     /**

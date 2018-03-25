@@ -9,6 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Toast from 'react-native-root-toast';
 import Item from './DeptItem';
 import Global from '../../../Global';
 import PlaceholderView from '../../../modules/PlaceholderView';
@@ -79,7 +80,7 @@ class AppAndReg extends Component {
           doRenderScene: true,
           reloading: false,
         });
-        this.handleRequestException({ msg });
+        Toast.show(`错误：${msg}`);
       }
     } catch (e) {
       this.setState({
@@ -105,6 +106,7 @@ class AppAndReg extends Component {
       afterChooseHospital: null,
       afterChoosePatient: null,
       hideNavBarBottomLine: false,
+      backIndex: this.props.nav.index,
     });
   }
 
@@ -161,6 +163,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+  nav: state.nav,
   currHospital: state.base.currHospital,
 });
 

@@ -80,7 +80,10 @@ class AppointRecordDetail extends React.Component {
               onClick={() => Modal.alert(
                 null,
                 <div className={less.alert}>您是否要取消预约？</div>,
-                [{ text: '取消' }, { text: '确定', onPress: () => this.cancelAppoint(item), style: { color: colors.ORANGE } }],
+                [
+                  { text: '取消', style: { fontSize: '15px' } },
+                  { text: '确定', onPress: () => this.cancelAppoint(item), style: { color: colors.ORANGE, fontSize: '15px' } },
+                ],
               )}
             >
               取消预约

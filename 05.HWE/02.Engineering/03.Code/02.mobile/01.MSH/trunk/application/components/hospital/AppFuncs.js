@@ -20,8 +20,38 @@ export default class AppFuncs extends Component {
 
   onPressMenuItem(component, title, passProps) {
     if (component) {
-      if (_.indexOf(Global.Config.needChooseHospServices, component) === -1 || this.props.currHospital) {
-        this.props.navigate({ component, params: { title, ...passProps, hospital: this.props.currHospital } });
+      // 判断当前档案，如果没选择档案，则需要先选择
+      if (_.indexOf(Global.Config.needProfileComp, component) !== -1 && !this.props.base.currProfile) {
+        Toast.show('请先选择就诊人');
+        this.props.navigate({
+          component: 'ChoosePatient',
+          params: {
+            title: '选择就诊人',
+            callback: (hospital, patient, profile) => {
+              if (profile) {
+                this.props.setCurrPatient(patient, profile);
+                this.props.navigate({
+                  component,
+                  params: {
+                    title,
+                    ...passProps,
+                    hospital: this.props.currHospital,
+                  },
+                });
+              }
+            },
+            hideNavBarBottomLine: false,
+          },
+        });
+      } else if (_.indexOf(Global.Config.needChooseHospServices, component) === -1 || this.props.currHospital) {
+        this.props.navigate({
+          component,
+          params: {
+            title,
+            ...passProps,
+            hospital: this.props.currHospital,
+          },
+        });
       } else {
         this.props.navigate({
           component: 'HospitalList',
@@ -104,7 +134,7 @@ export default class AppFuncs extends Component {
               <View style={[styles.iconContainer]} >
                 <Image source={imgIcons[imgIcon]} resizeMode="contain" style={styles.icon} />
               </View>
-              <Text style={[styles.text]}>{name}</Text>
+              <Text style={[styles.text]} numberOfLines={1}>{name}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -230,7 +260,7 @@ const styles = StyleSheet.create({
   },
   text: {
     width: AppFuncs.itemWidth - 10,
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
     overflow: 'hidden',
     marginTop: 0,

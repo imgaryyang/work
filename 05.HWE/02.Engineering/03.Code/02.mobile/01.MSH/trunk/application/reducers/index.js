@@ -21,10 +21,11 @@ function nav(state, action) {
   }
   const { backIndex, routeName, params } = action;
   let nextState = { ...state };
+
   switch (action.type) {
     case types.AUTH.GOTO_LOGIN:
       nextState = MainStackNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Login', params: { title: '登录' } }),
+        NavigationActions.navigate({ routeName: Global.getLoginRoute(), params: { title: '登录' } }),
         state,
       );
       break;
@@ -43,7 +44,7 @@ function nav(state, action) {
       if (Global.getUser() === null && _.indexOf(Global.Config.needLoginComp, routeName) !== -1) {
         Toast.show('您还未登录，请先登录！');
         nextState = MainStackNavigator.router.getStateForAction(
-          NavigationActions.navigate({ routeName: 'Login', params: { title: '登录' } }),
+          NavigationActions.navigate({ routeName: Global.getLoginRoute(), params: { title: '登录' } }),
           state,
         );
         break;

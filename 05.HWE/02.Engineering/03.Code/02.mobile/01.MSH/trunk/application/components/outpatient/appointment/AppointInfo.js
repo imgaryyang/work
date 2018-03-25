@@ -39,7 +39,7 @@ export default class AppointInfo extends PureComponent {
     return (
       <View style={[styles.container, style]}>
         <View style={styles.header}>
-          <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_GRAY_BG} imageSource={imageSource} />
+          <Portrait width={30} height={30} radius={15} bgColor={Global.colors.IOS_LIGHT_GRAY} imageSource={imageSource} />
           <ViewText text={docName} textStyle={{ marginLeft: 10, fontSize: 15 }} />
           <ViewText text={docJobTitle} textStyle={{ marginLeft: 10, fontSize: 12 }} />
         </View>
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    fontSize: 15,
+    fontSize: 13,
     color: Global.colors.FONT_GRAY,
     width: 65,
   },
   contentText: {
-    fontSize: 15,
+    fontSize: 13,
     // marginLeft: 15,
   },
   orange: {

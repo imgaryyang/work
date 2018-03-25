@@ -1,39 +1,36 @@
 package com.lenovohit.hwe.pay.service.impl;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdom.JDOMException;
 import org.springframework.stereotype.Service;
 
 import com.lenovohit.core.utils.DateUtils;
 import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.hwe.pay.model.Settlement;
 import com.lenovohit.hwe.pay.service.PayBaseService;
-import com.lenovohit.hwe.pay.support.wxpay.app.model.WxAppPreReqData;
-import com.lenovohit.hwe.pay.support.wxpay.app.utils.PayCommonUtil;
-import com.lenovohit.hwe.pay.support.wxpay.app.utils.XMLUtil;
-import com.lenovohit.hwe.pay.support.wxpay.scan.WXPay;
-import com.lenovohit.hwe.pay.support.wxpay.scan.common.Util;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultPayCallbackBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultPrecreateBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultRefundBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultRefundQueryBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.listener.DefaultScanPayQueryBusinessResultListener;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.pay_callback.PayCallbackResData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.pay_query_protocol.ScanPayQueryReqData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.pay_query_protocol.ScanPayQueryResData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.refund_protocol.RefundReqData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.refund_protocol.RefundResData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.refund_query_protocol.RefundOrderData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.refund_query_protocol.RefundQueryReqData;
-import com.lenovohit.hwe.pay.support.wxpay.scan.protocol.refund_query_protocol.RefundQueryResData;
+import com.lenovohit.hwe.pay.support.wxpay.WXPay;
+import com.lenovohit.hwe.pay.support.wxpay.common.Util;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultPayCallbackBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultPrecreateBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultRefundBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultRefundQueryBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.listener.DefaultScanPayQueryBusinessResultListener;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.pay_callback.PayCallbackResData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.pay_query_protocol.ScanPayQueryResData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.precreate_protocol.PrecreateReqData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.precreate_protocol.PrecreateResData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.refund_protocol.RefundReqData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.refund_protocol.RefundResData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.refund_query_protocol.RefundOrderData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
+import com.lenovohit.hwe.pay.support.wxpay.protocol.refund_query_protocol.RefundQueryResData;
+import com.lenovohit.hwe.pay.support.wxpay.utils.PayCommonUtil;
 import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
 
 @Service("cwxpayTappPayService")
@@ -43,9 +40,10 @@ public class CwxpayTappPayServiceImpl implements PayBaseService {
     @Override
 	public void prePay(Settlement settlement) {
     	Configuration config = PayMerchantConfigCache.getConfig(settlement.getPayType().getPayMerchant());
-    	WxAppPreReqData preData = new WxAppPreReqData(
+    	
+    	PrecreateReqData precreateReqData = new PrecreateReqData(
     			settlement.getSettleTitle(),
-    			"APP",
+    			settlement.getAppType(),
     			settlement.getSettleNo(),
     			settlement.getAmt().multiply(new BigDecimal(100)).intValue(),
     			settlement.getTerminalCode(),
@@ -53,36 +51,40 @@ public class CwxpayTappPayServiceImpl implements PayBaseService {
     			DateUtils.date2String(settlement.getCreatedAt(), "yyyyMMddHHmmss"),
     			DateUtils.date2String(DateUtils.addSecond(settlement.getCreatedAt(), config.getInt("trade_out_time"))/*Configure.getTradeOutTime())*/, "yyyyMMddHHmmss"),
     			"",
+    			"APP",
+    			"",
     			config.getString("local_domain") + config.getString("pay_callback_url") + settlement.getId(),
     			config);
+    	DefaultPrecreateBusinessResultListener resultListener = new DefaultPrecreateBusinessResultListener();
+    	PrecreateResData precreateResData = null;
 		try {
-			//封装请求参数结束
-	         String requestXML = PayCommonUtil.getRequestXml(preData.getDataMap());  
-	         log.info("wx.prePay request:" + requestXML);
-	         String result = PayCommonUtil.httpsRequest(config.getString("unifiedOrderUrl"), "POST", requestXML);
-	         log.info("wx.prePay response:" + result);
+			WXPay.doPrecreateBusiness(precreateReqData, resultListener);
+			precreateResData = resultListener.getPrecreateResData();
 	         
-	         SortedMap<String, Object> appMap = new TreeMap<String, Object>();  
-	         packageAppData(appMap, result,preData, config.getString("key"));
-	         switch (preData.getRespCode()) {
-	            case "SUCCESS":
+			switch (resultListener.getResult()) {
+	            case DefaultPrecreateBusinessResultListener.ON_PRECREATE_SUCCESS:
 	                settlement.setTradeStatus(Settlement.SETTLE_TRADE_INITIAL);
 	                settlement.setTradeTime(DateUtils.getCurrentDate());
-	                settlement.setTradeRspCode(preData.getRespCode());
-		    		settlement.setTradeRspMsg(preData.getMessage());
-		    		settlement.setRespText(result);
+	                settlement.setTradeRspCode(precreateResData.getReturn_code());
+		    		settlement.setTradeRspMsg(precreateResData.getReturn_msg());
+		    		settlement.setRespText(precreateResData.getResponseString());
+		    		SortedMap<String, Object> appMap = new TreeMap<String, Object>();  
+		    		packageAppData(appMap, precreateReqData, precreateResData, config.getString("key"));
 		    		settlement.setVariables(appMap);
-		    		log.info("微信App支付-统一下单成功: )");
+		    		log.info("微信扫码支付-统一下单成功: )");
 	                break;
 	                
-	            case "FAIL":
+	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_RETURN_CODE_ERROR:
+	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_RETURN_CODE_FAIL:
+	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_SIGN_INVALID:
+	            case DefaultPrecreateBusinessResultListener.ON_PRECREATE_FAIL:
 	            	settlement.setStatus(Settlement.SETTLE_STAT_CLOSED);
 	                settlement.setTradeStatus(Settlement.SETTLE_TRADE_CLOSED);
 	                settlement.setTradeTime(DateUtils.getCurrentDate());
-	                settlement.setTradeRspCode(preData.getRespCode());
-		    		settlement.setTradeRspMsg(preData.getMessage());
-		    		settlement.setRespText(result);
-		    		log.error("微信App支付-统一下单失败，交易关闭，错误原因【" + preData.getMessage() + "】");
+	                settlement.setTradeRspCode(precreateResData.getReturn_code());
+		    		settlement.setTradeRspMsg(precreateResData.getReturn_msg());
+		    		settlement.setRespText(precreateResData.getResponseString());
+		    		log.error("微信扫码支付-统一下单失败，交易关闭，错误原因【" + resultListener.getResult() + "】");
 	                break;
 	        }
 		} catch (Exception e) {
@@ -92,33 +94,24 @@ public class CwxpayTappPayServiceImpl implements PayBaseService {
 			settlement.setTradeTime(DateUtils.getCurrentDate());
         	settlement.setTradeRspCode("40004");
     		settlement.setTradeRspMsg("系统处理错误！");
-			log.error("微信App支付-统一下单系统异常，预下单状态未知，交易关闭!!!");
+			log.error("微信扫码支付-统一下单系统异常，预下单状态未知，交易关闭!!!");
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	private void packageAppData(SortedMap<String, Object> appMap, String result,WxAppPreReqData predata,String key) {
-		try {
-			/**统一下单接口返回正常的prepay_id，再按签名规范重新生成签名后，将数据传输给APP。参与签名的字段名为appId，partnerId，prepayId，nonceStr，timeStamp，package。注意：package的值格式为Sign=WXPay**/
-		   System.out.println("\n"+result);
-		   Map<String, String> map = XMLUtil.doXMLParse(result);
-		   appMap.put("appId", predata.getAppid());  
-		   appMap.put("partnerId", predata.getMch_id());  
-		   appMap.put("prepayId", map.get("prepay_id"));  
-		   appMap.put("package", "Sign=WXPay");  
-		   appMap.put("nonceStr", PayCommonUtil.CreateNoncestr());  
-		   //本来生成的时间戳是13位，但是ios必须是10位，所以截取了一下
-		   appMap.put("timeStamp", String.valueOf(System.currentTimeMillis()).toString().substring(0,10));  
-		   String sign2 = PayCommonUtil.createSign("UTF-8",appMap,key);
-		   appMap.put("sign", sign2);  
-		   appMap.put("packageValue", "Sign=WXPay"); 
-		   predata.setRespCode(map.get("return_code"));
-		   predata.setMessage(map.get("return_msg"));
-         } catch (JDOMException e) {
-		   e.printStackTrace();
-         } catch (IOException e) {
-		   e.printStackTrace();
-         }
+    /**
+	 * 统一下单接口返回正常的prepay_id，再按签名规范重新生成签名后，将数据传输给APP。参与签名的字段名为appId，partnerId
+	 * ，prepayId，nonceStr，timeStamp，package。注意：package的值格式为Sign=WXPay
+	 **/
+	private void packageAppData(SortedMap<String, Object> appMap, PrecreateReqData reqData, PrecreateResData resDate, String key) {
+		appMap.put("appId", reqData.getAppid());
+		appMap.put("partnerId", reqData.getMch_id());
+		appMap.put("prepayId", resDate.getPrepay_id());
+		appMap.put("package", "Sign=WXPay");
+		appMap.put("nonceStr", PayCommonUtil.CreateNoncestr());
+		// 本来生成的时间戳是13位，但是ios必须是10位，所以截取了一下
+		appMap.put("timeStamp", String.valueOf(System.currentTimeMillis()).toString().substring(0, 10));
+		String sign2 = PayCommonUtil.createSign("UTF-8", appMap, key);
+		appMap.put("sign", sign2);
+		appMap.put("packageValue", "Sign=WXPay");
 	}
     
     @Override

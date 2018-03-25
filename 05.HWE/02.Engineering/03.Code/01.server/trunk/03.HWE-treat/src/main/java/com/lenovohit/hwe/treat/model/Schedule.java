@@ -33,8 +33,6 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -5641462371192966513L;
 
-    private String no;
-
     /** hosId */
     private String hosId;
 
@@ -58,12 +56,6 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
 
     /** depWubi */
     private String depWubi;
-
-    /** depClazz */
-    private String depClazz;
-
-    /** depClazzName */
-    private String depClazzName;
 
     /** sepId */
     private String sepId;
@@ -94,7 +86,7 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
 
     /** docWubi */
     private String docWubi;
-
+    
     /** clinicType */
     private String clinicType;
 
@@ -103,6 +95,9 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
 
     /** clinicDate */
     private String clinicDate;
+    
+    /** no */
+    private String no;
 
     /** shift */
     private String shift;
@@ -140,14 +135,6 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
     /** status */
     private String status;
 
-    @Column(name = "NO", nullable = true, length = 50)
-    public String getNo() {
-		return this.no;
-	}
-
-	public void setNo(String no) {
-		this.no = no;
-	}
     
     /**
      * 获取hosId
@@ -299,44 +286,6 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
      */
     public void setDepWubi(String depWubi) {
         this.depWubi = depWubi;
-    }
-
-    /**
-     * 获取depClazz
-     * 
-     * @return depClazz
-     */
-    @Column(name = "DEP_CLAZZ", nullable = true, length = 50)
-    public String getDepClazz() {
-        return this.depClazz;
-    }
-
-    /**
-     * 设置depClazz
-     * 
-     * @param depClazz
-     */
-    public void setDepClazz(String depClazz) {
-        this.depClazz = depClazz;
-    }
-
-    /**
-     * 获取depClazzName
-     * 
-     * @return depClazzName
-     */
-    @Column(name = "DEP_CLAZZ_NAME", nullable = true, length = 50)
-    public String getDepClazzName() {
-        return this.depClazzName;
-    }
-
-    /**
-     * 设置depClazzName
-     * 
-     * @param depClazzName
-     */
-    public void setDepClazzName(String depClazzName) {
-        this.depClazzName = depClazzName;
     }
 
     /**
@@ -586,6 +535,15 @@ public class Schedule extends AuditableModel implements java.io.Serializable {
         this.clinicDate = clinicDate;
     }
 
+    @Column(name = "NO", nullable = true, length = 50)
+    public String getNo() {
+		return this.no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
+	}
+	
 	/**
      * 获取shift
      * 

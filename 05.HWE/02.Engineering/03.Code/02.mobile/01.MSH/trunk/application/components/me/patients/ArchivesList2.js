@@ -34,19 +34,11 @@ class ArchivesList2 extends Component {
       const datas = [];
       const pro = data[i].profiles;
       for (let j = 0; j < pro.length; j++) {
-        if (flag) {
-          if (pro[j].hosId === id) {
-            datas.push(pro[j]);
-          }
-        } else {
+        if (pro[j].hosId === id) {
           datas.push(pro[j]);
         }
       }
-      if (flag) {
-        if (data[i].id === id) {
-          sections.push({ key: data[i].name, data: datas });
-        }
-      } else {
+      if (data[i].id === id) {
         sections.push({ key: data[i].name, data: datas });
       }
     }

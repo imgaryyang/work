@@ -53,12 +53,6 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     /** depName */
     private String depName;
 
-    /** depClazz */
-    private String depClazz;
-
-    /** depClazzName */
-    private String depClazzName;
-
     /** docId */
     private String docId;
 
@@ -85,6 +79,9 @@ public class Activity extends AuditableModel implements java.io.Serializable {
 
     /** cardNo */
     private String cardNo;
+    
+    /** cardType */
+    private String cardType;
 
     /** appointId */
     private String appointId;
@@ -92,20 +89,14 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     /** appointNo */
     private String appointNo;
 
+    /** 诊疗类型 */
+    private String clinicType;
+    
+    /** 诊疗类型名称 */
+    private String clinicTypeName;
+    
     /** no */
     private String no;
-
-    /** disease */
-    private String disease;
-
-    /** diseaseName */
-    private String diseaseName;
-
-    /** diseaseType */
-    private String diseaseType;
-
-    /** diseaseTypeName */
-    private String diseaseTypeName;
 
     /** treatStart */
     private Date treatStart;
@@ -113,9 +104,24 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     /** treatEnd */
     private Date treatEnd;
 
-    /** diagnosis */
+    /** 主诉 */
+    private String complaint;
+    
+    /** 主诊断 */
     private String diagnosis;
-
+    
+    /** 现病史 */
+    private String presentHistory;
+    
+    /** 既往史 */
+    private String pastHistory;
+    
+    /** 体格检查 */
+    private String bodyExamination;
+    
+    /** 治疗处理 */
+    private String treatment;
+    
     /** printStatus */
     private String printStatus;
 
@@ -132,15 +138,6 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     private Doctor doctor;
     
     private Profile profile;
-    
-    /** 诊疗类型 */
-    private String clinicType;
-    
-    /** 诊疗类型名称 */
-    private String clinicTypeName;
-    
-    /** 主诉 */
-    private String complaint;
     
     //所关联的Diagnose医生诊断表里的数据
     private List<Diagnose> diagnose;
@@ -267,45 +264,6 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     public void setDepName(String depName) {
         this.depName = depName;
     }
-
-    /**
-     * 获取depClazz
-     * 
-     * @return depClazz
-     */
-    @Column(name = "DEP_CLAZZ", nullable = true, length = 50)
-    public String getDepClazz() {
-        return this.depClazz;
-    }
-
-    /**
-     * 设置depClazz
-     * 
-     * @param depClazz
-     */
-    public void setDepClazz(String depClazz) {
-        this.depClazz = depClazz;
-    }
-
-    /**
-     * 获取depClazzName
-     * 
-     * @return depClazzName
-     */
-    @Column(name = "DEP_CLAZZ_NAME", nullable = true, length = 50)
-    public String getDepClazzName() {
-        return this.depClazzName;
-    }
-
-    /**
-     * 设置depClazzName
-     * 
-     * @param depClazzName
-     */
-    public void setDepClazzName(String depClazzName) {
-        this.depClazzName = depClazzName;
-    }
-
 
     /**
      * 获取docId
@@ -479,6 +437,26 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     }
 
     /**
+     * 获取cardType
+     * 
+     * @return cardType
+     */
+    @Column(name = "CARD_TYPE", nullable = true, length = 1)
+    public String getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     * 设置cardType
+     * 
+     * @param cardType
+     */
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+    
+    
+    /**
      * 获取appointId
      * 
      * @return appointId
@@ -516,6 +494,23 @@ public class Activity extends AuditableModel implements java.io.Serializable {
         this.appointNo = appointNo;
     }
 
+	public String getClinicType() {
+		return clinicType;
+	}
+
+	public void setClinicType(String clinicType) {
+		this.clinicType = clinicType;
+	}
+
+	public String getClinicTypeName() {
+		return clinicTypeName;
+	}
+
+	public void setClinicTypeName(String clinicTypeName) {
+		this.clinicTypeName = clinicTypeName;
+	}
+
+	
     /**
      * 获取no
      * 
@@ -533,82 +528,6 @@ public class Activity extends AuditableModel implements java.io.Serializable {
      */
     public void setNo(String no) {
         this.no = no;
-    }
-
-    /**
-     * 获取disease
-     * 
-     * @return disease
-     */
-    @Column(name = "DISEASE", nullable = true, length = 50)
-    public String getDisease() {
-        return this.disease;
-    }
-
-    /**
-     * 设置disease
-     * 
-     * @param disease
-     */
-    public void setDisease(String disease) {
-        this.disease = disease;
-    }
-
-    /**
-     * 获取diseaseName
-     * 
-     * @return diseaseName
-     */
-    @Column(name = "DISEASE_NAME", nullable = true, length = 50)
-    public String getDiseaseName() {
-        return this.diseaseName;
-    }
-
-    /**
-     * 设置diseaseName
-     * 
-     * @param diseaseName
-     */
-    public void setDiseaseName(String diseaseName) {
-        this.diseaseName = diseaseName;
-    }
-
-    /**
-     * 获取diseaseType
-     * 
-     * @return diseaseType
-     */
-    @Column(name = "DISEASE_TYPE", nullable = true, length = 1)
-    public String getDiseaseType() {
-        return this.diseaseType;
-    }
-
-    /**
-     * 设置diseaseType
-     * 
-     * @param diseaseType
-     */
-    public void setDiseaseType(String diseaseType) {
-        this.diseaseType = diseaseType;
-    }
-
-    /**
-     * 获取diseaseTypeName
-     * 
-     * @return diseaseTypeName
-     */
-    @Column(name = "DISEASE_TYPE_NAME", nullable = true, length = 50)
-    public String getDiseaseTypeName() {
-        return this.diseaseTypeName;
-    }
-
-    /**
-     * 设置diseaseTypeName
-     * 
-     * @param diseaseTypeName
-     */
-    public void setDiseaseTypeName(String diseaseTypeName) {
-        this.diseaseTypeName = diseaseTypeName;
     }
 
     /**
@@ -651,6 +570,15 @@ public class Activity extends AuditableModel implements java.io.Serializable {
         this.treatEnd = treatEnd;
     }
 
+    @Column(name = "COMPLAINT", nullable = true, length = 255)
+    public String getComplaint() {
+		return complaint;
+	}
+
+	public void setComplaint(String complaint) {
+		this.complaint = complaint;
+	}
+	
     /**
      * 获取diagnosis
      * 
@@ -669,8 +597,44 @@ public class Activity extends AuditableModel implements java.io.Serializable {
     public void setDiagnosis(String diagnosis) {
         this.diagnosis = diagnosis;
     }
+    
+    @Column(name = "PRESENT_HISTORY", nullable = true, length = 255)
+    public String getPresentHistory() {
+		return presentHistory;
+	}
 
-    /**
+	public void setPresentHistory(String presentHistory) {
+		this.presentHistory = presentHistory;
+	}
+
+	@Column(name = "PAST_HISTORY", nullable = true, length = 255)
+	public String getPastHistory() {
+		return pastHistory;
+	}
+
+	public void setPastHistory(String pastHistory) {
+		this.pastHistory = pastHistory;
+	}
+
+	@Column(name = "BODY_EXAMINATION", nullable = true, length = 255)
+	public String getBodyExamination() {
+		return bodyExamination;
+	}
+
+	public void setBodyExamination(String bodyExamination) {
+		this.bodyExamination = bodyExamination;
+	}
+
+	@Column(name = "TREATMENT", nullable = true, length = 255)
+	public String getTreatment() {
+		return treatment;
+	}
+
+	public void setTreatment(String treatment) {
+		this.treatment = treatment;
+	}
+
+	/**
      * 获取printStatus
      * 
      * @return printStatus
@@ -796,32 +760,5 @@ public class Activity extends AuditableModel implements java.io.Serializable {
 	public void setRecordTest(List<RecordTest> recordTest) {
 		this.recordTest = recordTest;
 	}
-
-	public String getClinicType() {
-		return clinicType;
-	}
-
-	public void setClinicType(String clinicType) {
-		this.clinicType = clinicType;
-	}
-
-	public String getClinicTypeName() {
-		return clinicTypeName;
-	}
-
-	public void setClinicTypeName(String clinicTypeName) {
-		this.clinicTypeName = clinicTypeName;
-	}
-
-	public String getComplaint() {
-		return complaint;
-	}
-
-	public void setComplaint(String complaint) {
-		this.complaint = complaint;
-	}
-	
-	
-    
     
 }

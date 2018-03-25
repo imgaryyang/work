@@ -74,6 +74,10 @@
   color: @FONT;
 }
 
+.font11 {
+  font-size: 11px;
+}
+
 .font12 {
   font-size: 12px;
 }
@@ -102,6 +106,15 @@
   font-size: 20px;
 }
 
+.listFooterContainer {
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 13px;
+  color: @FONT_LIGHT_GRAY;
+}
+
 // logo
 .logo { background-image: url('../assets/images/logo/logo-m.png'); }
 
@@ -123,18 +136,20 @@
 .meActive { background-image: url('../assets/images/icons/tab-me-active.png'); }
 
 // icons for main menu
-.appAndReg { background-image: url('../assets/images/icons/app-and-reg.png'); } // 预约挂号
-.payment { background-image: url('../assets/images/icons/payment.png'); } // 缴费
+.outpatientAppoint { background-image: url('../assets/images/icons/outpatient-appoint.png'); } // 预约挂号
+.outpatientPayment { background-image: url('../assets/images/icons/outpatient-payment.png'); } // 缴费
 .reports { background-image: url('../assets/images/icons/reports.png'); } // 报告查询
-.paymentRecords { background-image: url('../assets/images/icons/payment-records.png'); } // 消费记录
-.treatRecords { background-image: url('../assets/images/icons/treat-records.png'); } // 就诊记录
+.outpatientAppointRecords { background-image: url('../assets/images/icons/outpatient-appoint-records.png'); } // 预约记录
+.outpatientSignIn { background-image: url('../assets/images/icons/outpatient-sign-in.png'); } // 预约签到
+.outpatientRefund { background-image: url('../assets/images/icons/outpatient-refund.png'); } // 门诊退费
+.outpatientTreatRecords { background-image: url('../assets/images/icons/outpatient-treat-records.png'); } // 就诊记录
+.outpatientPaymentRecords { background-image: url('../assets/images/icons/outpatient-payment-records.png'); } // 消费记录
+.inpatientInfo { background-image: url('../assets/images/icons/inpatient-info.png'); } // 住院单查询
+.inpatientPrepaidRecords { background-image: url('../assets/images/icons/inpatient-prepaid-records.png'); } // 住院预缴记录查询
+.inpatientDailyBill { background-image: url('../assets/images/icons/inpatient-daily-bill.png'); } // 住院日清单
 .news { background-image: url('../assets/images/icons/news.png'); } // 健康资讯
 .consult { background-image: url('../assets/images/icons/consult.png'); } // 咨询医生
 .forum { background-image: url('../assets/images/icons/forum.png'); } // 论坛
-.signIn { background-image: url('../assets/images/icons/sign-in.png'); } // 预约签到
-.appAndRegRecords { background-image: url('../assets/images/icons/app-and-reg-records.png'); } // 预约记录
-.inpatientInfo { background-image: url('../assets/images/icons/inpatient-info.png'); } // 住院单查询
-.inpatientDailyBill { background-image: url('../assets/images/icons/inpatient-daily-bill.png'); } // 住院日清单
 
 // default images
 .userPortrait { background-image: url('../assets/images/me/default-portrait.png'); } // 用户默认头像（未上传头像时显示）
@@ -142,7 +157,8 @@
 .hospLogo { background-image: url('../assets/images/hosp/default-logo.png'); } // 医院默认logo（未上传logo时显示）
 .hospScenery { background-image: url('../assets/images/hosp/default-scenery.png'); } // 医院默认相册图片（无图片时显示）
 .hospBg { background-image: url('../assets/images/hosp/default-bg.png'); } // 医院微主页背景图
-.docPortrait { background-image: url('../assets/images/hosp/default-doc-portrait.png'); } // 医生默认头像（未上传头像时显示）
+@docPortrait: url('../assets/images/hosp/default-doc-portrait.png'); // 有些地方需要直接使用变量
+.docPortrait { background-image: @docPortrait } // 医生默认头像（未上传头像时显示）
 .docBg { background-image: url('../assets/images/hosp/default-bg.png'); } // 医生微主页背景图
 
 // images for payment channel

@@ -4,7 +4,7 @@ export default {
   namespace: 'home',
 
   state: {
-    selectedTab: 'hospital',
+    selectedTab: 'hfc',
   },
 
   subscriptions: {

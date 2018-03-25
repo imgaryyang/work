@@ -209,11 +209,11 @@
 	<bean id="inpatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
 		<constructor-arg ref="inpatientDao" />
 	</bean>
-	<bean id="inpatientChargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.InpatientChargeDetail" />
+	<bean id="inChargeDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InChargeDetail" />
 	</bean>
-	<bean id="inpatientChargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
-		<constructor-arg ref="inpatientChargeDetailDao" />
+	<bean id="inChargeDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="inChargeDetailDao" />
 	</bean>
 	<!-- **************** 住院病人 Inpatient  START **************** -->
 	
@@ -250,6 +250,7 @@
 	<bean id="hisDepartmentService" class="com.lenovohit.hwe.treat.service.impl.HisDepartmentRestServiceImpl">
 		<constructor-arg ref="departmentDto" />
 		<constructor-arg ref="consultDeptDto" />
+		<property name="hisRestDao" ref="hisRestDao" />
 	</bean>
 	<bean id="docDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Doctor" />
@@ -375,12 +376,23 @@
 	<bean id="inpatientDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
 		<constructor-arg value="com.lenovohit.hwe.treat.model.Inpatient" />
 	</bean>
-	<bean id="inpatientDailyDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
-		<constructor-arg value="com.lenovohit.hwe.treat.model.InpatientChargeDetail" />
+	<bean id="inChargeDetailDto" class="com.lenovohit.hwe.treat.dto.impl.GenericRestDtoImpl">
+		<constructor-arg value="com.lenovohit.hwe.treat.model.InChargeDetail" />
 	</bean>
 	<bean id="hisInpatientService" class="com.lenovohit.hwe.treat.service.impl.HisInpatientRestServiceImpl">
 		<constructor-arg ref="inpatientDto" />
-		<constructor-arg ref="inpatientDailyDto" />
+	</bean>
+	<bean id="hisInChargeDetailService" class="com.lenovohit.hwe.treat.service.impl.HisInChargeDetailRestServiceImpl">
+		<constructor-arg ref="inChargeDetailDto" />
 	</bean>
 	<!-- **************** Inpatient HIS END **************** -->
+	
+	<bean id="hisRestDao" class="com.lenovohit.hwe.treat.dao.impl.HisRestDaoImpl">
+		<property name="location" value="${his.dq.api.location}" />
+		<property name="postUrl" value="${his.dq.api.postUrl}" />
+		<property name="needAuth" value="${his.dq.api.needAuth}" />
+		<property name="authorizeUrl" value="${his.dq.api.authorizeUrl}" />
+		<property name="appid" value="${his.dq.api.appid}" />
+		<property name="secret" value="${his.dq.api.secret}" />
+	</bean>
 </beans>

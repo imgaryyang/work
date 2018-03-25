@@ -13,7 +13,7 @@ class Patient extends React.Component {
     });
   }
   addPatient() {
-    this.props.dispatch(routerRedux.push('/patientMain/addPatient'));
+    this.props.dispatch(routerRedux.push('/stack/addPatient'));
   }
   showProfile(patient) {
     this.props.dispatch({
@@ -22,7 +22,7 @@ class Patient extends React.Component {
         currPatient: patient,
       },
     });
-    this.props.dispatch(routerRedux.push({ pathname: '/patientMain/profiles', state: patient }));
+    this.props.dispatch(routerRedux.push({ pathname: '/stack/archives', state: patient }));
   }
   showDelBut() {
     const { showDelBut } = this.props.user;

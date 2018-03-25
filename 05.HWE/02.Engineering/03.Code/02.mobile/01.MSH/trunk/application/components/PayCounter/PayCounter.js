@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import moment from 'moment';
 import {
   InteractionManager,
   StyleSheet,
@@ -21,6 +22,14 @@ import Icon from 'rn-easy-icon';
 import Global from '../../Global';
 import { createBill, createSettlement } from '../../services/payment/AliPayService';
 
+const orderMap = {
+  '00': '门诊预存',
+  '01': '预约',
+  '02': '挂号',
+  '03': '缴费（诊间结算）',
+  '04': '住院预缴',
+  '05': '办理就诊卡',
+};
 class PayCounter extends Component {
   static displayName = 'PayCounter';
   static description = '收银台';
@@ -51,12 +60,11 @@ class PayCounter extends Component {
       bizType: '预存',
       bizNo: '000001',
       bizBean: 'aliPay',
-      bizTime: '2018-01-20',
+      bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
     },
     doRenderScene: false,
     value: '1',
     showLabel: true,
-    labelPosition: 'left',
     checked: true,
     payType: 'aliPay',
     wxPay:
@@ -71,25 +79,18 @@ class PayCounter extends Component {
         },
   };
   componentWillMount() {
+    console.log(this.props.navigation);
     const param = this.props.navigation.state.params;
     const payInfo = {
+      ...param,
       // amt: param.amt,
       amt: 0.01,
-      billTitle: param.billTitle,
-      appCode: param.appCode,
-      terminalCode: param.terminalCode,
-      payerNo: param.payerNo,
-      bizType: param.bizType,
-      // bizNo: param.id,
-      bizNo: '0000001',
-      billId: '0000001',
-      bizBean: 'aliPay',
-      bizTime: '2018-01-20',
     };
+    console.log(payInfo);
     this.setState({
       payInfo,
     });
-    this.payCreateOrder(payInfo);
+    // this.payCreateOrder(payInfo);
     this.props.navigation.setParams({
       title: '支付订单',
     });
@@ -138,12 +139,14 @@ class PayCounter extends Component {
       if (paytype === 'wxPay') {
         subParams = {
           ...this.state.payInfo,
+          bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
           PayChannelCode: this.state.wxPay.PayChannelCode,
           payTypeId: this.state.wxPay.payTypeId,
         };
       } else if (paytype === 'aliPay') {
         subParams = {
           ...this.state.payInfo,
+          bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
           PayChannelCode: this.state.aliPay.PayChannelCode,
           payTypeId: this.state.aliPay.payTypeId,
         };
@@ -189,6 +192,7 @@ class PayCounter extends Component {
       return PayCounter.renderPlaceholderView();
     }
 
+    console.log(this.state.payInfo);
     const checked = !this.state.checked;
     const iconName = checked ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline';
     const aliIconName = !checked ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline';
@@ -198,8 +202,8 @@ class PayCounter extends Component {
       <View style={{ flex: 1, flexDirection: 'column' }} >
         <ScrollView style={styles.scrollView} >
           <Card>
-            <Text style={{ color: 'black', marginLeft: 10 }}>支付编号：{this.state.payInfo.billNo}</Text>
-            <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }}>订单类型：{this.state.payInfo.billTitle}</Text>
+            <Text style={{ color: 'black', marginLeft: 10 }}>支付编号：{this.state.payInfo.settleTitle}</Text>
+            <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }}>订单类型：{orderMap[this.state.payInfo.bizType]}</Text>
             <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }} >需要支付金额：<Text style={{ color: 'red' }}>{this.state.payInfo.amt}元</Text><Text style={{ fontSize: 10 }} > ( 演示版将支付金额固定为 0.01 )</Text></Text>
           </Card>
           <Card style={{ marginTop: 15 }} >

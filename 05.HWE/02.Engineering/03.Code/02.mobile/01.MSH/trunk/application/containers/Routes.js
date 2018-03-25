@@ -14,6 +14,7 @@ import Cards from '../components/me/cards/Cards';
 
 // components of me/login
 import Login from '../components/me/login/Login';
+import LoginBySMS from '../components/me/login/LoginBySMS';
 import ResetPwd from '../components/me/login/ResetPwd';
 import Register from '../components/me/login/Register';
 import ChangePwd from '../components/me/login/ChangePwd';
@@ -25,18 +26,22 @@ import Portrait from '../components/me/profile/Portrait';
 
 // components of me/patients
 import Patients from '../components/me/patients/Patients';
-import PatientList from '../components/me/patients/PatientList';
-import PatientListNew from '../components/me/patients/PatientListNew';
-import AddPatient from '../components/me/patients/AddPatient'; // 多医院
-import AddPatientSingle from '../components/me/patients/AddPatientSingle'; // 单医院
-import EditPatient from '../components/me/patients/EditPatient';
-import EditMyPatient from '../components/me/patients/EditMyPatient';
-import ChangePatient from '../components/me/patients/ChangePatient';
-import BindArchives from '../components/me/patients/BindArchives';
-import Identify from '../components/me/patients/Identify';
-import Identify2 from '../components/me/patients/Identify2';
-import ArchivesList2 from '../components/me/patients/ArchivesList2';
-import AddArchives from '../components/me/patients/AddArchives';
+import ChoosePatient from '../components/me/patients/ChoosePatient'; // 选择就诊人组件
+import EditPatientInfo from '../components/me/patients/EditPatientInfo'; // 新增/修改就诊人
+import PatientInfo from '../components/me/patients/PatientInfo'; // 就诊人信息及档案列表
+import BindProfile from '../components/me/patients/BindProfile'; // 档案绑定
+
+// import PatientList from '../components/me/patients/PatientList';
+// import AddPatient from '../components/me/patients/AddPatient'; // 多医院
+// import AddPatientSingle from '../components/me/patients/AddPatientSingle'; // 单医院
+// import EditPatient from '../components/me/patients/EditPatient';
+// import EditMyPatient from '../components/me/patients/EditMyPatient';
+// import ChangePatient from '../components/me/patients/ChangePatient';
+// import BindArchives from '../components/me/patients/BindArchives';
+// import Identify from '../components/me/patients/Identify';
+// import Identify2 from '../components/me/patients/Identify2';
+// import ArchivesList2 from '../components/me/patients/ArchivesList2';
+// import AddArchives from '../components/me/patients/AddArchives';
 
 
 // components of hospital
@@ -57,7 +62,8 @@ import AppointSuccess from '../components/outpatient/appointment/AppointSuccess'
 
 // components of reports 检查检验单
 import Reports from '../components/reports/Reports';
-import ShowDetailItems from '../components/reports/ShowDetailItems';
+import ShowLisDetail from '../components/reports/ShowLisDetail';
+import ShowPacsDetail from '../components/reports/ShowPacsDetail';
 
 // components of records 报告单
 import Records from '../components/records/Records';
@@ -152,6 +158,7 @@ import Guide from '../components/guide/OutpatientGuidance';
 // components of inpatient 住院
 import InpatientInfo from '../components/inpatient/InpatientInfo';
 import InpatientDailyBill from '../components/inpatient/InpatientDailyBill';
+import InpatientPrepaidRecords from '../components/inpatient/InpatientPrepaidRecords';
 
 const initOptions = { headerTruncatedBackTitle: '返回' };
 
@@ -164,6 +171,7 @@ export default {
 
   // components of me/login
   Login: { screen: Login }, // 登录
+  LoginBySMS: { screen: LoginBySMS }, // 通过短信验证登录
   ResetPwd: { screen: ResetPwd }, // 重置密码
   Register: { screen: Register }, // 用户注册
   ChangePwd: { screen: ChangePwd }, // 修改密码
@@ -178,18 +186,22 @@ export default {
 
   // components of me/patients
   Patients: { screen: Patients }, // 常用就诊人
-  PatientList: { screen: PatientList }, // 就诊人组件
-  PatientListNew: { screen: PatientListNew }, // 就诊人组件
-  AddPatient: { screen: AddPatient }, // 新增就诊人 多医院
-  AddPatientSingle: { screen: AddPatientSingle }, // 新增就诊人 单医院
-  BindArchives: { screen: BindArchives }, // 绑定档案
-  ArchivesList2: { screen: ArchivesList2 }, // 档案列表
-  Identify: { screen: Identify }, // 档案认证
-  Identify2: { screen: Identify2 }, // 档案认证
-  AddArchives: { screen: AddArchives }, // 新建档案
-  EditPatient: { screen: EditPatient, navigationOptions: initOptions }, // 编辑就诊人资料
-  EditMyPatient: { screen: EditMyPatient, navigationOptions: initOptions }, // 编辑本人资料
-  ChangePatient: { screen: ChangePatient }, // 切换就诊人
+  ChoosePatient: { screen: ChoosePatient }, // 选择就诊人组件
+  EditPatientInfo: { screen: EditPatientInfo }, // 新增/修改就诊人
+  PatientInfo: { screen: PatientInfo }, // 就诊人信息及档案列表
+  BindProfile: { screen: BindProfile }, // 档案绑定
+
+  // PatientList: { screen: PatientList }, // 就诊人组件
+  // AddPatient: { screen: AddPatient }, // 新增就诊人 多医院
+  // AddPatientSingle: { screen: AddPatientSingle }, // 新增就诊人 单医院
+  // BindArchives: { screen: BindArchives }, // 绑定档案
+  // ArchivesList2: { screen: ArchivesList2 }, // 档案列表
+  // Identify: { screen: Identify }, // 档案认证
+  // Identify2: { screen: Identify2 }, // 档案认证
+  // AddArchives: { screen: AddArchives }, // 新建档案
+  // EditPatient: { screen: EditPatient, navigationOptions: initOptions }, // 编辑就诊人资料
+  // EditMyPatient: { screen: EditMyPatient, navigationOptions: initOptions }, // 编辑本人资料
+  // ChangePatient: { screen: ChangePatient }, // 切换就诊人
 
   // components of hospital
   HospitalList: {
@@ -231,7 +243,8 @@ export default {
 
   // components of reports
   Reports: { screen: Reports }, // 报告查询
-  ShowDetailItems: { screen: ShowDetailItems },
+  ShowLisDetail: { screen: ShowLisDetail },
+  ShowPacsDetail: { screen: ShowPacsDetail },
 
   // components of records
   Records: { screen: Records }, // 诊疗记录
@@ -308,4 +321,5 @@ export default {
   // components of inpatient
   InpatientInfo: { screen: InpatientInfo }, // 住院单查询
   InpatientDailyBill: { screen: InpatientDailyBill }, // 住院日清单
+  InpatientPrepaidRecords: { screen: InpatientPrepaidRecords }, // 住院预缴记录
 };

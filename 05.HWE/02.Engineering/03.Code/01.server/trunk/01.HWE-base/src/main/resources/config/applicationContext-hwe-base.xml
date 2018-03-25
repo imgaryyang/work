@@ -56,7 +56,16 @@
 	<bean id="commonRedisSequenceDao" class="com.lenovohit.hwe.base.dao.impl.CommonRedisSequenceDao" />
 	<bean id="commonRedisSequenceManager" class="com.lenovohit.hwe.base.manager.impl.CommonRedisSequenceManager" />
 		
-		
+	
+	<!-- **************** 应用 START **************** -->
+	<bean id="applicationDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.base.model.Application" />
+	</bean>
+	<bean id="applicationManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="applicationDao" />
+	</bean>
+	<!-- **************** 应用 END **************** -->
+	
 	<!-- **************** 配置 START **************** -->
 	<bean id="configDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.base.model.Config" />

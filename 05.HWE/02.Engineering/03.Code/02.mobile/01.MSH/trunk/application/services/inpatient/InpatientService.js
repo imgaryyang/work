@@ -12,3 +12,7 @@ export async function loadHisInpatientDailylist(query) {
   return get(`${inpatient().loadHisInpatientDailylist}`, query);
 }
 
+export async function loadHisInpatientPrepaidRecords(query) {
+  return get(`${inpatient().loadHisInpatientPrepaidRecords}`, query);
+}
+

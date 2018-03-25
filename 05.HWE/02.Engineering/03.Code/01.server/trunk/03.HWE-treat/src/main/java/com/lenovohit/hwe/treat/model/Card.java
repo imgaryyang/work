@@ -17,8 +17,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.lenovohit.hwe.base.model.AuditableModel;
-
 /**
  * TREAT_MED_CARD
  * 
@@ -27,7 +25,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  */
 @Entity
 @Table(name = "TREAT_CARD")
-public class Card extends AuditableModel implements java.io.Serializable {
+public class Card extends HisAuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 1751638763524290856L;
 

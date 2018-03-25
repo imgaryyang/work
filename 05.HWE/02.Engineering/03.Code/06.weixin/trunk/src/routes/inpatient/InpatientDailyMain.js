@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { DatePicker, List, NavBar, Icon, Toast } from 'antd-mobile';
+import { DatePicker, List, Toast } from 'antd-mobile';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import styles from './InpatientDailyMain.less';
 import ProfileList from '../patients/ProfileList';
@@ -91,7 +91,7 @@ class InpatientDailyMain extends React.Component {
     if (tmpData && tmpData.length > 0) {
       let i = 0;
       for (const d of tmpData) {
-        itemList.push(<Item key={i} align="left"><Brief><span className={styles['text_style']}>项目：{d.name}</span> </Brief><Brief><span className={styles['text1_style']}>单价：{ d.price.formatMoney()}元</span>&nbsp;&nbsp;<span className={styles['text1_style']}>数量：{d.num}</span><span className={styles['text2_style']}>总金额：{ d.realAmount.formatMoney()}元</span></Brief></Item>);
+        itemList.push(<Item key={i} align="left"><Brief><span className={styles['text_1']}>{d.name}</span></Brief><Brief><span className={styles['text_2']}>单价：</span><span className={styles['text_3']}>{ d.price.formatMoney()}元</span>&nbsp;&nbsp;&nbsp;<span className={styles['text_2']}>数量：</span><span className={styles['text_3']}>{d.num}</span><span className={styles['text_4']}>小计：{ d.realAmount.formatMoney()}元</span></Brief></Item>);
         tmpTotalAmount += parseFloat(d.realAmount);
         i += 1;
       }
@@ -101,13 +101,13 @@ class InpatientDailyMain extends React.Component {
     }
     return (
       <div>
-        <NavBar
+        {/* <NavBar
           mode="dark"
           leftContent="返回"
           icon={<Icon type="left" />}
           onLeftClick={() => this.goback()}
         >住院日清单
-        </NavBar>
+        </NavBar>*/}
         <ProfileList callback={this.callback} />
         <List className="my-list">
           <DatePicker
@@ -118,7 +118,7 @@ class InpatientDailyMain extends React.Component {
             value={this.state.selectDate}
             onChange={date => this.changeDate(date)}
           >
-            <Item arrow="horizontal" className={styles['date']}>选择日期</Item>
+            <Item arrow="horizontal" className={styles['date']}>&nbsp;</Item>
           </DatePicker>
           {itemList}
           <Item>

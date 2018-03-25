@@ -4,7 +4,6 @@ package com.lenovohit.hwe.treat.service.impl;
 import java.util.Map;
 
 import com.lenovohit.hwe.treat.dto.GenericRestDto;
-import com.lenovohit.hwe.treat.model.AccountInfo;
 import com.lenovohit.hwe.treat.model.Deposit;
 import com.lenovohit.hwe.treat.service.HisDepositService;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;

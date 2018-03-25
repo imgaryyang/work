@@ -71,6 +71,18 @@ function launchFullScreen(element) {
     element.msRequestFullscreen();
   }
 }
+
+// 获取浏览器类型
+function getBroswerType() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  console.log(`getBroswerType:${userAgent}`);
+  if (userAgent.match(/Alipay/i) === 'alipay') {
+    return 'A';
+  } else if (userAgent.match(/MicroMessenger/i) === 'micromessenger') {
+    return 'W';
+  }
+}
+
 const util = {
   sleep,
   getLogger,
@@ -83,5 +95,6 @@ const util = {
   launchFullScreen,
   dev_mode,
   loginUser,
+  getBroswerType,
 };
 export default util;

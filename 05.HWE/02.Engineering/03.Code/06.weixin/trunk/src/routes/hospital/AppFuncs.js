@@ -124,31 +124,27 @@ class AppFuncs extends Component {
         id, name, imgIcon, route, /* borderColor, */passProps,
       }) => {
         return (
-          <Flex.Item
+          <div
             key={id}
-            className={styles.itemContainer}
+            className={classnames(styles.item)}
+            style={{
+              height: (screen.width / 4) + 10,
+              // borderRightWidth: idx === 2 ? 0 : 1,
+              paddingTop: ((screen.width / 4) + 10 - (screen.width / 15) - 25) / 2,
+            }}
             onClick={() => {
               this.onPressMenuItem(route, name, passProps);
             }}
           >
             <div
-              className={classnames(styles.item)}
+              className={classnames(commonStyles[imgIcon], commonStyles.icon, styles.iconContainer)}
               style={{
-                height: (screen.width / 4) + 10,
-                // borderRightWidth: idx === 2 ? 0 : 1,
-                paddingTop: ((screen.width / 4) + 10 - (screen.width / 15) - 25) / 2,
+                width: (screen.width / 15),
+                height: (screen.width / 15),
               }}
-            >
-              <div
-                className={classnames(commonStyles[imgIcon], commonStyles.icon, styles.iconContainer)}
-                style={{
-                  width: (screen.width / 15),
-                  height: (screen.width / 15),
-                }}
-              />
-              <div className={classnames(styles.text)}>{name}</div>
-            </div>
-          </Flex.Item>
+            />
+            <div className={classnames(styles.text)}>{name}</div>
+          </div>
         );
       });
       let blankItems = null;

@@ -12,7 +12,6 @@
 
 package com.lenovohit.hwe.treat.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -86,35 +85,20 @@ public class Record extends AuditableModel implements java.io.Serializable {
     /** cataName */
     private String cataName;
 
-    /** feeItemId */
-    private String feeItemId;
-
-    /** feeGroupId */
-    private String feeGroupId;
-
     /** no */
     private String no;
 
     /** applyNo */
     private String applyNo;
 
-    /** name */
-    private String name;
-
-    /** count */
-    private BigDecimal count;
-
-    /** price */
-    private BigDecimal price;
-
-    /** amt */
-    private BigDecimal amt;
-
     /** bizType */
     private String bizType;
 
     /** bizName */
     private String bizName;
+    
+    /** name */
+    private String name;
 
     /** needPay */
     private String needPay;
@@ -122,11 +106,11 @@ public class Record extends AuditableModel implements java.io.Serializable {
     /** comment */
     private String comment;
 
-    /** startTime */
-    private Date startTime;
+    /** treatStart */
+    private Date treatStart;
 
-    /** endTime */
-    private Date endTime;
+    /** treatEnd */
+    private Date treatEnd;
 
     /** status */
     private String status;
@@ -173,8 +157,6 @@ public class Record extends AuditableModel implements java.io.Serializable {
 	public void setActNo(String actNo) {
 		this.actNo = actNo;
 	}
-
-    
     
     /**
      * 获取hosId
@@ -462,44 +444,6 @@ public class Record extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取feeItemId
-     * 
-     * @return feeItemId
-     */
-    @Column(name = "FEE_ITEM_ID", nullable = true, length = 32)
-    public String getFeeItemId() {
-        return this.feeItemId;
-    }
-
-    /**
-     * 设置feeItemId
-     * 
-     * @param feeItemId
-     */
-    public void setFeeItemId(String feeItemId) {
-        this.feeItemId = feeItemId;
-    }
-
-    /**
-     * 获取feeGroupId
-     * 
-     * @return feeGroupId
-     */
-    @Column(name = "FEE_GROUP_ID", nullable = true, length = 32)
-    public String getFeeGroupId() {
-        return this.feeGroupId;
-    }
-
-    /**
-     * 设置feeGroupId
-     * 
-     * @param feeGroupId
-     */
-    public void setFeeGroupId(String feeGroupId) {
-        this.feeGroupId = feeGroupId;
-    }
-
-    /**
      * 获取no
      * 
      * @return no
@@ -554,63 +498,6 @@ public class Record extends AuditableModel implements java.io.Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * 获取count
-     * 
-     * @return count
-     */
-    @Column(name = "COUNT", nullable = true)
-    public BigDecimal getCount() {
-        return this.count;
-    }
-
-    /**
-     * 设置count
-     * 
-     * @param count
-     */
-    public void setCount(BigDecimal count) {
-        this.count = count;
-    }
-
-    /**
-     * 获取price
-     * 
-     * @return price
-     */
-    @Column(name = "PRICE", nullable = true)
-    public BigDecimal getPrice() {
-        return this.price;
-    }
-
-    /**
-     * 设置price
-     * 
-     * @param price
-     */
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    /**
-     * 获取amt
-     * 
-     * @return amt
-     */
-    @Column(name = "AMT", nullable = true)
-    public BigDecimal getAmt() {
-        return this.amt;
-    }
-
-    /**
-     * 设置amt
-     * 
-     * @param amt
-     */
-    public void setAmt(BigDecimal amt) {
-        this.amt = amt;
     }
 
     /**
@@ -690,41 +577,41 @@ public class Record extends AuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取startTime
+     * 获取treatStart
      * 
-     * @return startTime
+     * @return treatStart
      */
-    @Column(name = "START_TIME", nullable = true)
-    public Date getStartTime() {
-        return this.startTime;
+    @Column(name = "TREAT_START", nullable = true)
+    public Date getTreatStart() {
+        return this.treatStart;
     }
 
     /**
-     * 设置startTime
+     * 设置treatStart
      * 
-     * @param startTime
+     * @param treatStart
      */
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setTreatStart(Date treatStart) {
+        this.treatStart = treatStart;
     }
 
     /**
-     * 获取endTime
+     * 获取treatEnd
      * 
-     * @return endTime
+     * @return treatEnd
      */
-    @Column(name = "END_TIME", nullable = true)
-    public Date getEndTime() {
-        return this.endTime;
+    @Column(name = "TRAT_END", nullable = true)
+    public Date getTreatEnd() {
+        return this.treatEnd;
     }
 
     /**
-     * 设置endTime
+     * 设置treatEnd
      * 
-     * @param endTime
+     * @param treatEnd
      */
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setTreatEnd(Date treatEnd) {
+        this.treatEnd = treatEnd;
     }
 
     /**

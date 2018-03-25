@@ -87,8 +87,8 @@ class NewsContent extends Component {
       const uriImage = `${uriBefore}?timestamp=${uriAfter}`;*/
       const portrait = (
         <Portrait
-          width={Global.screen.width - 20}
-          height={(Global.screen.width - 20) * (177 / 340)}
+          width={Global.screen.width - 40}
+          height={(Global.screen.width - 40) * (177 / 340)}
           imageSource={{ uri: `${Global.getImageHost()}${this.state.value.image}?timestamp=${new Date().getTime()}` }}
         />
       );
@@ -104,11 +104,11 @@ class NewsContent extends Component {
               labelWidth={100}
               value={this.state.value}
             >
-              <View radius={8} style={{ margin: 10 }} >
+              <View radius={8} style={{ margin: 20 }} >
                 <Text style={styles.titleText}>{this.state.value.caption}</Text>
                 <Text style={styles.addText}>{moment(this.state.value.createdAt).format('YYYY-MM-DD HH:MM')}</Text>
                 <Sep height={23 / 2} />
-                <Text style={styles.text}>{this.state.value.digest}</Text>
+                <Text style={[styles.text, { color: Global.colors.FONT_GRAY }]}>{this.state.value.digest}</Text>
                 <Sep height={10} />
                 <View>
                   {portrait}
@@ -140,19 +140,19 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 19,
-    color: Global.colors.FONT,
-    // fontWeight: 'bold',
-    // textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '600',
+    marginBottom: 20,
+    color: 'black',
   },
-
   addText: {
     fontSize: 12,
     color: Global.colors.FONT_LIGHT_GRAY1,
   },
   text: {
-    fontSize: 15,
-    color: Global.colors.FONT_GRAY,
+    fontSize: 14,
+    lineHeight: 25,
+    color: 'black',
   },
 });
 

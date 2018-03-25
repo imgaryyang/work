@@ -19,7 +19,7 @@ export class BackButton extends Component {
     const { navigation } = this.props;
     return (
       <TouchableOpacity style={styles.backBtnContainer} onPress={() => { navigation.goBack(); }} >
-        <Icon name="md-arrow-round-back" size={22} style={styles.backIcon} />
+        <Icon name="md-arrow-round-back" size={20} style={styles.backIcon} />
       </TouchableOpacity>
     );
   }
@@ -67,9 +67,9 @@ class NavigationBar extends Component {
   }
 
   render() {
-    const { bottom, bottomHeight, containerStyle, content, nav, hideBottomLine/* , hideShadow*/ } = this.props;
+    const { bottom, bottomHeight, fixedRight, containerStyle, content, nav, hideBottomLine/* , hideShadow*/ } = this.props;
     // console.log(nav, navigation, navigationOptions);
-    const containerHeight = NAVBAR_HEIGHT + bottomHeight;
+    const containerHeight = NAVBAR_HEIGHT + (bottomHeight);
     const bottomLineStyle = hideBottomLine ? { borderBottomWidth: 0 } : null;
     return (
       <SafeAreaView
@@ -84,7 +84,7 @@ class NavigationBar extends Component {
       >
         {
           content || (
-            <View style={{ flex: 1, flexDirection: 'row' }} >
+            <View style={styles.mainView} >
               <View style={[styles.leftContainer, { width: nav && nav.routes.length > 1 ? BACKBTN_WIDTH : 15 }]} >
                 {this.renderBackBtn()}
               </View>
@@ -94,6 +94,7 @@ class NavigationBar extends Component {
               <View style={styles.rightContainer} >
                 {this.renderRight()}
               </View>
+              {fixedRight || null}
             </View>
           )
         }
@@ -105,13 +106,8 @@ class NavigationBar extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // position: 'absolute',
-    // left: 0,
-    // top: 0,
-    // width: Global.getScreen().width,
     backgroundColor: '#ffffff',
     flexDirection: 'column',
-    // overflow: 'hidden',
   },
   containerShadow: {
     shadowColor: '#bbbbbb',
@@ -125,14 +121,16 @@ const styles = StyleSheet.create({
   },
   mainView: {
     height: NAVBAR_HEIGHT,
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   leftContainer: {
     height: NAVBAR_HEIGHT,
     flexDirection: 'row',
     overflow: 'hidden',
     alignItems: 'center',
-    // backgroundColor: 'blue',
+    // backgroundColor: 'red',
   },
   centerContainer: {
     flex: 1,
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     overflow: 'hidden',
     alignItems: 'center',
-    // backgroundColor: 'brown',
+    // backgroundColor: 'yellow',
   },
   rightContainer: {
     maxWidth: 200,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingRight: 15,
-    // backgroundColor: 'green',
+    // backgroundColor: 'brown',
   },
   backBtnContainer: {
     width: BACKBTN_WIDTH,
@@ -158,16 +156,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 15,
-    paddingBottom: 2,
-    // backgroundColor: 'red',
+    paddingTop: 2,
+    // paddingBottom: 2,
   },
   backIcon: {
     color: '#BBBBBB',
-    // fontWeight: '600',
   },
   title: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: 'black',
   },
@@ -211,6 +208,11 @@ NavigationBar.propTypes = {
   bottomHeight: PropTypes.number,
 
   /**
+   * 导航栏右端扩展组件
+   */
+  fixedRight: PropTypes.node,
+
+  /**
    * 隐藏底端线条
    */
   hideBottomLine: PropTypes.bool,
@@ -226,6 +228,7 @@ NavigationBar.defaultProps = {
   containerStyle: null,
   bottom: null,
   bottomHeight: 0,
+  fixedRight: null,
   // bottomLineStyle: null,
   hideBottomLine: false,
   // hideShadow: false,

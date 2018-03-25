@@ -56,7 +56,7 @@ const config = Object.freeze({
     hfc: [
       {
         id: 'hf01', state: '1', route: 'appoint/departments', name: '预约挂号', iconLib: '', icon: '',
-        imgIcon: 'appAndReg', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        imgIcon: 'outpatientAppoint', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -64,8 +64,8 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf02', state: '1', route: '', name: '充值缴费', iconLib: '', icon: '',
-        imgIcon: 'payment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        id: 'hf02', state: '1', route: 'payCounterMain2', name: '充值缴费', iconLib: '', icon: '',
+        imgIcon: 'outpatientPayment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -83,17 +83,8 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf09', state: '1', route: '', name: '预约记录', iconLib: '', icon: '',
-        imgIcon: 'appAndRegRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: true,
-          allowSwitchHospital: true,
-          allowSwitchPatient: true,
-        },
-      },
-      {
-        id: 'hf08', state: '1', route: '', name: '来院签到', iconLib: '', icon: '',
-        imgIcon: 'signIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        id: 'hf08', state: '1', route: '', name: '预约签到', iconLib: '', icon: '',
+        imgIcon: 'outpatientSignIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -102,7 +93,7 @@ const config = Object.freeze({
       },
       {
         id: 'hf13', state: '1', route: 'outpatientReturn', name: '门诊退费', iconLib: '', icon: '',
-        imgIcon: 'signIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        imgIcon: 'outpatientRefund', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -110,8 +101,8 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf05', state: '1', route: '', name: '就诊记录', iconLib: '', icon: '',
-        imgIcon: 'treatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        id: 'hf09', state: '1', route: 'appoint/records', name: '预约记录', iconLib: '', icon: '',
+        imgIcon: 'outpatientAppointRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -120,7 +111,7 @@ const config = Object.freeze({
       },
       {
         id: 'hf04', state: '1', route: 'paymentRecord', name: '消费记录', iconLib: '', icon: '',
-        imgIcon: 'paymentRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        imgIcon: 'outpatientPaymentRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -128,30 +119,9 @@ const config = Object.freeze({
           hideNavBarBottomLine: true,
         },
       },
-      // {
-      //   id: 'hf06', state: '1', route: '', name: '医患沟通', iconLib: '', icon: '',
-      //   imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-      //   passProps: {
-      //     showCurrHospitalAndPatient: true,
-      //     allowSwitchHospital: true,
-      //     allowSwitchPatient: true,
-      //     hideNavBarBottomLine: true,
-      //   },
-      // },
       {
-        id: 'hf07', state: '1', route: 'news', name: '健康资讯', iconLib: '', icon: '',
-        imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
-        passProps: {
-          fkId: appId,
-          fkType: 'H4',
-          hideNavBarBottomLine: true,
-          headerRight: (<div><span style={{ backgroundColor: 'red' }} >测试按钮</span></div>),
-          showCurrHospitalAndPatient: true,
-        },
-      },
-      {
-        id: 'hf12', state: '1', route: 'inpatientPaymentRecord', name: '住院预缴记录', iconLib: '', icon: '',
-        imgIcon: 'inpatientInfo', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        id: 'hf05', state: '1', route: 'record', name: '就诊记录', iconLib: '', icon: '',
+        imgIcon: 'outpatientTreatRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
@@ -175,6 +145,36 @@ const config = Object.freeze({
           allowSwitchHospital: true,
           allowSwitchPatient: true,
           hideNavBarBottomLine: true,
+        },
+      },
+      {
+        id: 'hf12', state: '1', route: 'inpatientPaymentRecord', name: '住院预缴记录', iconLib: '', icon: '',
+        imgIcon: 'inpatientPrepaidRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          showCurrHospitalAndPatient: true,
+          allowSwitchHospital: true,
+          allowSwitchPatient: true,
+        },
+      },
+      // {
+      //   id: 'hf06', state: '1', route: '', name: '医患沟通', iconLib: '', icon: '',
+      //   imgIcon: 'consult', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+      //   passProps: {
+      //     showCurrHospitalAndPatient: true,
+      //     allowSwitchHospital: true,
+      //     allowSwitchPatient: true,
+      //     hideNavBarBottomLine: true,
+      //   },
+      // },
+      {
+        id: 'hf07', state: '1', route: 'news', name: '健康资讯', iconLib: '', icon: '',
+        imgIcon: 'news', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
+        passProps: {
+          fkId: appId,
+          fkType: 'H4',
+          hideNavBarBottomLine: true,
+          showCurrHospitalAndPatient: true,
+          headerRight: null,
         },
       },
     ],
@@ -248,8 +248,8 @@ const config = Object.freeze({
     ],
     me: [
       {
-        id: 'me01', state: '1', route: '', name: '个人资料', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
+        id: 'me01', state: '1', route: 'profile', name: '个人资料', iconLib: 'fa', icon: 'user',
+        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: false,
           allowSwitchHospital: false,
@@ -259,8 +259,30 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'me02', state: '1', route: '', name: '常用就诊人', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
+        id: 'me02', state: '1', route: 'patient', name: '常用就诊人', iconLib: 'fa', icon: 'users',
+        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '', separator: true,
+        passProps: {
+          showCurrHospitalAndPatient: false,
+          allowSwitchHospital: false,
+          allowSwitchPatient: false,
+          hideNavBarBottomLine: false,
+          headerRight: null,
+        },
+      },
+      // {
+      //   id: 'me03', state: '1', route: '', name: '消息开关', iconLib: 'fa', icon: 'bell',
+      //   imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '', separator: true,
+      //   passProps: {
+      //     showCurrHospitalAndPatient: false,
+      //     allowSwitchHospital: false,
+      //     allowSwitchPatient: false,
+      //     hideNavBarBottomLine: false,
+      //     headerRight: null,
+      //   },
+      // },
+      {
+        id: 'me04', state: '1', route: 'contactUs', name: '联系我们', iconLib: 'fa', icon: 'envelope',
+        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: false,
           allowSwitchHospital: false,
@@ -270,8 +292,8 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'me03', state: '1', route: '', name: '消息开关', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '', separator: true,
+        id: 'me05', state: '1', route: 'feedBack', name: '反馈意见', iconLib: 'fa', icon: 'paper-plane',
+        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: false,
           allowSwitchHospital: false,
@@ -281,30 +303,8 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'me04', state: '1', route: '', name: '联系我们', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: false,
-          allowSwitchHospital: false,
-          allowSwitchPatient: false,
-          hideNavBarBottomLine: false,
-          headerRight: null,
-        },
-      },
-      {
-        id: 'me05', state: '1', route: '', name: '反馈意见', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: false,
-          allowSwitchHospital: false,
-          allowSwitchPatient: false,
-          hideNavBarBottomLine: false,
-          headerRight: null,
-        },
-      },
-      {
-        id: 'me06', state: '1', route: '', name: '关于', iconLib: '', icon: '',
-        imgIcon: 'inpatientDailyBill', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
+        id: 'me06', state: '1', route: 'aboutUs', name: '关于', iconLib: 'fa', icon: 'newspaper-o',
+        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: false,
           allowSwitchHospital: false,
@@ -376,6 +376,12 @@ const config = Object.freeze({
   doc: {
     portraitVisible: true, // 是否显示医生头像
     evaluationAvailable: true, // 是否使用医院评价体系
+  },
+  // 检验项目说明
+  LISDesc: {
+    bloodRT: '血常规是最一般，最基本的血液检验。血液由液体和有形细胞两大部分组成，血常规检验的是血液的细胞部分。血液有三种不同功能的细胞——红细胞(俗称红血球)，白细胞(俗称白血球)、血小板。',
+    liverFunction: '肝功能检查是通过各种生化试验方法检测与肝脏功能代谢有关的各项指标、以反映肝脏功能基本状况的检查。',
+    UrineRT: '尿常规通过对人体尿液表象及成分的分析，检测是否可能患有某些泌尿系统疾病或糖尿病。尿常规检查内容包括尿的颜色、透明度、白细胞、上皮细胞、管型、蛋白质、比重及尿糖定性的检查。',
   },
 });
 

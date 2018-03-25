@@ -36,6 +36,7 @@ class Payment extends React.Component {
     const bizOrder = {
       amt, // 充值金额
       appCode: 'GZH', // 应用渠道
+      billTitle: 'test',
     };
     const { dispatch } = this.props;
     if (bizType === '00') {

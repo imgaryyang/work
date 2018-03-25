@@ -15,6 +15,8 @@ Storage.KEY.HOSPITAL = 'hospital';
 Storage.KEY.CURR_HOSPITAL = 'currHospital';
 // 当前就诊人
 Storage.KEY.CURR_PATIENT = 'currPatient';
+// 当前档案
+Storage.KEY.CURR_PROFILE = 'currProfile';
 // 当前选择地区
 Storage.KEY.CURR_AREA = 'currArea';
 // 当前版本类型
@@ -124,6 +126,16 @@ export async function setCurrPatient(patient) {
 }
 export async function removeCurrPatient() {
   removeItem(Storage.KEY.CURR_PATIENT);
+}
+
+export async function getCurrProfile() {
+  return getJsonItem(Storage.KEY.CURR_PROFILE);
+}
+export async function setCurrProfile(profile) {
+  setItem(Storage.KEY.CURR_PROFILE, profile);
+}
+export async function removeCurrProfile() {
+  removeItem(Storage.KEY.CURR_PROFILE);
 }
 
 export async function getCurrArea() {

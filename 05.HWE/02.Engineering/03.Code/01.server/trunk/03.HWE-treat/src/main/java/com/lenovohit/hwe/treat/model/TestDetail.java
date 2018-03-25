@@ -30,6 +30,15 @@ public class TestDetail extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 3077345804976891816L;
 
+    /** hosId */
+    private String hosId;
+
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
+    
     /** testId */
     private String testId;
 
@@ -54,6 +63,64 @@ public class TestDetail extends AuditableModel implements java.io.Serializable {
     /** status */
     private String status;
 
+    
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
+    
     /**
      * 获取testId
      * 

@@ -1,4 +1,4 @@
-/* eslint-disable indent,react/no-unused-state */
+/* eslint-disable indent,react/no-unused-state,no-trailing-spaces */
 /**
  * 报告查询
  */
@@ -10,7 +10,6 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Alert,
   SectionList,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -19,7 +18,8 @@ import Toast from 'react-native-root-toast';
 import Sep from 'rn-easy-separator';
 import Global from '../../Global';
 import ctrlState from '../../modules/ListState';
-import { loadHisCheckList } from '../../services/reports/MedicalCheckService';
+import { hisTestList } from '../../services/reports/TestService';
+
 class Item extends PureComponent {
      onPress = () => {
        this.props.onPressItem(this.props.data, this.props.index);
@@ -61,7 +61,7 @@ class Reports extends Component {
     this.renderTitle = this.renderTitle.bind(this);
     this.ConventData = this.ConventData.bind(this);
     this.sub = this.sub.bind(this);
-    this.renderProfile = this.renderProfile.bind(this);
+    // this.renderProfile = this.renderProfile.bind(this);
     this.getProfile = this.getProfile.bind(this);
   }
 
@@ -106,37 +106,100 @@ class Reports extends Component {
    * 获取检查列表
    */
   getProfile() {
-    const hospital = this.props.base.currHospital;
-    const patient = this.props.base.currPatient;
-    this.setState({ refreshing: true });
-    if ((hospital == null) || (hospital === undefined)) {
-      this.setState({ refreshing: false });
+    const { currHospital, currProfile } = this.props.base;
+    if ((currHospital == null) || (currHospital === undefined)) {
       Toast.show('未选择当前医院！');
       return null;
-    } else if ((patient == null) || (patient === undefined)) {
-      this.setState({ refreshing: false });
-      Toast.show('未选择当前病人！');
+    } else if (currProfile === null) {
+      Toast.show('当前就诊人无档案！');
+      return null;
+    } else if (currProfile.status !== '1' || currProfile.hosId !== currHospital.id) {
+      Toast.show('当前就诊人在当前医院暂无档案！');
       return null;
     } else {
-      const { profiles } = patient;
-      if (profiles === null) {
-        // todelete
-        this.loadCheckList();
-        this.setState({ refreshing: false });
-        // Toast.show('当前就诊人在当前医院暂无档案！');
-        // return null;
+      this.setState({
+      }, () => this.loadCheckList());
+    }
+  }
+  /**
+   * 调用接口,不需要条件判断
+   */
+  async loadCheckList() {
+    try {
+      const { currHospital, currProfile } = this.props.base;
+      // 获得当前的医院Id
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: true,
+        },
+      });
+          // lis 数据
+      const query = { proNo: currProfile.no, hosNo: currHospital.no };
+      const responseData = await hisTestList(query);
+      if (responseData.success === false) {
+        this.setState({
+          ctrlState: {
+            ...this.state.ctrlState,
+            refreshing: false,
+            infiniteLoading: false,
+            noMoreData: true,
+            requestErr: true,
+            requestErrMsg: { msg: responseData.msg },
+          },
+        });
+        this.handleRequestException({ msg: responseData.msg });
       } else {
-        const length = profiles.length ? profiles.length : 0;
-        for (let i = 0; i < length; i++) {
-          const pro = profiles[i];
-          if (pro.status === '1' && pro.hosId === hospital.id) {
-            this.setState({
-              profile: pro,
-            }, () => this.loadCheckList());
-          }
-        }
-        this.setState({ refreshing: false });
+        const newCtrlState = {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+        };
+        this.setState({
+          data: responseData.result,
+        });
+        const sections = await this.ConventData();
+        await this.setState({
+          sections,
+          ctrlState: newCtrlState,
+        });
       }
+          // // pacs 数据
+          // const query = { proNo: pro.no, hosNo: hospital.no };
+          // const responseData = await loadHisCheckList(query);
+          // console.log('responseData===', responseData);
+          // if (responseData.success === false) {
+          //   Alert.alert(
+          //     '提示',
+          //     responseData.msg,
+          //     [
+          //       {
+          //         text: '确定',
+          //         onPress: () => {
+          //           // this.setState({  });
+          //         },
+          //       },
+          //     ],
+          //   );
+          //   return null;
+          // } else {
+          //   allData.concat(responseData.result);
+          //   console.log('allData===', allData);
+          // }
+    } catch (e) {
+      // 隐藏遮罩
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          infiniteLoading: false,
+          noMoreData: true,
+          requestErr: true,
+          requestErrMsg: e,
+        },
+      });
+      this.handleRequestException(e);
     }
   }
   /**
@@ -164,12 +227,13 @@ class Reports extends Component {
   ConventData() {
     const result = this.state.data;
     const sections = [];
-    let isFind = false;
     for (let i = 0; i < result.length; i++) {
+      let isFind = false;
       const date = this.sub(result[i].reportTime);
       const info = {};
       info.key = date;
       const dataArry = [];
+      result[i].type = '0001';
       dataArry.push(result[i]);
       info.data = dataArry;
       if (i === 0) {
@@ -190,81 +254,40 @@ class Reports extends Component {
     }
     return sections;
   }
-
-  /**
-   * 调用接口
-   */
-  async loadCheckList() {
-    try {
-      // 获得当前的医院Id
-      const hosNo = this.props.base.currHospital.no;
-      this.setState({
-        ctrlState: {
-          ...this.state.ctrlState,
-          infiniteLoading: false,
-          noMoreData: false,
-          requestErr: false,
-          requestErrMsg: null,
-        },
-      });
-      const profileNo = this.state.profile.no;
-      const query = { proNo: profileNo, hosNo };
-      const responseData = await loadHisCheckList(query);
-      if (responseData.success === true) {
-        const newCtrlState = {
-          ...this.state.ctrlState,
-          infiniteLoading: false,
-        };
-        await this.setState({
-          data: responseData.result,
-          ctrlState: newCtrlState,
-        });
-        const sections = await this.ConventData();
-        await this.setState({
-          sections,
-        });
-      } else {
-        Alert.alert(
-          '提示',
-          responseData.msg,
-          [
-            {
-              text: '确定',
-              onPress: () => {
-                // this.setState({ value: {} });
-              },
-            },
-          ],
-        );
-      }
-    } catch (e) {
-      // 隐藏遮罩
-      this.handleRequestException(e);
-    }
-  }
   showDetail(item, index) {
     if (typeof index !== 'undefined') this.setState({ index });
-    this.props.navigation.navigate('ShowDetailItems', {
-      // checkId: item.id,
-      barcode: item.barcode,
-      checkName: item.itemName,
-      index,
-    });
-  }
-  renderProfile(hospital, item) {
-    const { profiles } = item;
-    if (profiles !== null) {
-      const length = profiles.length ? profiles.length : 0;
-      for (let i = 0; i < length; i++) {
-        const pro = profiles[i];
-        if (pro.status === '1' && pro.hosId === hospital.id) {
-          this.setState({
-            profile: pro,
-          });
-        }
-      }
+    if (item.type = '0001') {
+      this.props.navigation.navigate('ShowLisDetail', {
+        barcode: item.barcode,
+        data: item,
+        checkId: item.id,
+        checkName: item.itemName,
+        index,
+      });
+    } else {
+      this.props.navigation.navigate('ShowPacsDetail', {
+        barcode: item.barcode,
+        data: item,
+        checkId: item.id,
+        checkName: item.itemName,
+        index,
+      });
     }
   }
+  // renderProfile(hospital, item) {
+  //   const { profiles } = item;
+  //   if (profiles !== null) {
+  //     const length = profiles.length ? profiles.length : 0;
+  //     for (let i = 0; i < length; i++) {
+  //       const pro = profiles[i];
+  //       if (pro.status === '1' && pro.hosId === hospital.id) {
+  //         this.setState({
+  //           profile: pro,
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
   /**
    * 列表展示
    */
@@ -307,7 +330,7 @@ class Reports extends Component {
             renderItem={this.renderItem}
             sections={this.state.sections}
               // 控制下拉刷新
-            refreshing={this.state.refreshing}
+            refreshing={this.state.ctrlState.refreshing}
             onRefresh={this.getProfile}
               // 无数据占位符
             ListEmptyComponent={() => {

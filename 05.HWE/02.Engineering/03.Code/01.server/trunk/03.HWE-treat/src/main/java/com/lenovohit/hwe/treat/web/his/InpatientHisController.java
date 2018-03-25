@@ -11,8 +11,9 @@ import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
 import com.lenovohit.hwe.org.web.rest.OrgBaseRestController;
+import com.lenovohit.hwe.treat.model.InChargeDetail;
 import com.lenovohit.hwe.treat.model.Inpatient;
-import com.lenovohit.hwe.treat.model.InpatientChargeDetail;
+import com.lenovohit.hwe.treat.service.HisInChargeDetailService;
 import com.lenovohit.hwe.treat.service.HisInpatientService;
 import com.lenovohit.hwe.treat.transfer.RestEntityResponse;
 import com.lenovohit.hwe.treat.transfer.RestListResponse;
@@ -30,6 +31,9 @@ public class InpatientHisController extends OrgBaseRestController {
 	@Autowired
 	private HisInpatientService hisInpatientService;
 	
+	@Autowired
+	private HisInChargeDetailService hisInChargeDetailService;
+	
 	/**    
 	 * 功能描述：根据病人编号、医院编号查询患者当前住院单
 	 *@param data
@@ -38,7 +42,7 @@ public class InpatientHisController extends OrgBaseRestController {
 	 *@date 2018年2月1日             
 	*/
 	@RequestMapping(value = "info", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Result forInpatientInfo(@RequestParam(value = "data", defaultValue = "") String data) {
+	public Result forInfo(@RequestParam(value = "data", defaultValue = "") String data) {
 		Inpatient model = JSONUtils.deserialize(data, Inpatient.class);
 		RestEntityResponse<Inpatient> response = this.hisInpatientService.getInfo(model, null);
 		if(response.isSuccess())
@@ -57,7 +61,7 @@ public class InpatientHisController extends OrgBaseRestController {
 	@RequestMapping(value = "dailyList", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result forDailyList(@RequestParam(value = "data", defaultValue = "") String data) {
 		Inpatient model = JSONUtils.deserialize(data, Inpatient.class);
-		RestListResponse<InpatientChargeDetail> response = this.hisInpatientService.findDailyList(model, null);
+		RestListResponse<InChargeDetail> response = this.hisInChargeDetailService.findDailyList(model, null);
 		if(response.isSuccess())
 			return ResultUtils.renderSuccessResult(response.getList());
 		else 

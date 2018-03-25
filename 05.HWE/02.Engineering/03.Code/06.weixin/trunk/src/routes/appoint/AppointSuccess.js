@@ -32,7 +32,7 @@ class AppointSuccess extends React.Component {
         <div className={less.content}>
           您已预约成功，可到 <span onClick={this.gotoRecords}>预约历史</span> 中查看您的预约信息！
         </div>
-        <Button className={less.button} onClick={this.goBack}>确定返回</Button>
+        <Button className={less.button} onClick={this.goBack}><span className={less.font15}>确定返回</span></Button>
       </Flex>
     );
   }

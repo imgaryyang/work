@@ -27,6 +27,7 @@ export default {
       if (callback) callback();
     },
     *prePay({ payload, callback }, { call, put }) {
+      console.log('paymentModel:prePay');
       const { settlement } = payload;
       const { data } = yield call(prePay, settlement);
       if (data && data.success) {

@@ -1,3 +1,4 @@
+import Toast from 'react-native-root-toast';
 
 import { BASE } from '../ActionTypes';
 import Global from '../../Global';
@@ -17,11 +18,13 @@ export function showLoading(visible) {
   };
 }
 
-export function setCurrPatient(patient) {
+export function setCurrPatient(patient, profile) {
   Global.setCurrPatient(patient);
+  Global.setCurrProfile(profile);
   return {
     type: BASE.SET_CURR_PATIENT,
     patient,
+    profile,
   };
 }
 
@@ -58,16 +61,41 @@ export function resetBackNavigate(backIndex, routeName, params) {
 export function resetWhenLogout() {
   Global.clearCurrHospital();
   Global.clearCurrPatient();
+  Global.clearCurrProfile();
   return {
     type: BASE.RESET_WHEN_LOGOUT,
   };
 }
 
-export function switchEdition(edition) {
+export function switchEdition(edition, currPatient, currProfile) {
+  // console.log('edition, currPatient:', edition, currPatient);
   Global.setEdition(edition);
-  if (edition === Global.EDITION_SINGLE) Global.setCurrHospital(Global.Config.hospital);
+  const hospital = Global.Config.hospital;
+  let newProfile = null;
+  if (edition === Global.EDITION_SINGLE) {
+    /**
+     * 查找当前就诊人在所选医院是否有档案
+     * 如果有，则自动将第一个档案设为当前就诊人档案
+     * 如果没有，则清空当前就诊人及当前档案，并提示给用户
+     */
+    if (currPatient) {
+      for (let i = 0; currPatient.profiles && i < currPatient.profiles.length; i++) {
+        if (currPatient.profiles[i].hosId === hospital.id) {
+          newProfile = currPatient.profiles[i];
+          break;
+        }
+      }
+      if (!newProfile) Toast.show(`当前所选就诊人${currPatient.name}在${hospital.name}未绑定卡`);
+    }
+    Global.setCurrHospital(hospital);
+    Global.setCurrProfile(newProfile);
+  } else {
+    newProfile = currProfile;
+  }
   return {
     type: BASE.SWITCH_EDITION,
     edition,
+    currHospital: hospital,
+    currProfile: newProfile,
   };
 }

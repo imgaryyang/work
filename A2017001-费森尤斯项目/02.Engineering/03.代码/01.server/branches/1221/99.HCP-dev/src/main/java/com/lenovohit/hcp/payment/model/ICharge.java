@@ -123,6 +123,8 @@ public class ICharge implements java.io.Serializable {
     /** status */
     private String status;
     
+    private String no;
+    
     /**
      * 获取hosId
      * 
@@ -743,6 +745,14 @@ public class ICharge implements java.io.Serializable {
 
 	public void setReduceAmt(BigDecimal reduceAmt) {
 		this.reduceAmt = reduceAmt;
+	}
+
+	public String getNo() {
+		return no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
 	}
 
 }

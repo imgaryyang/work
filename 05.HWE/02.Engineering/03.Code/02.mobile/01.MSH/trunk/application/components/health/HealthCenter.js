@@ -97,7 +97,7 @@ class HealthCenter extends Component {
               outline
               stretch={false}
               style={{ width: 245, height: 30, marginTop: 30 }}
-              onPress={() => this.props.navigate({ component: 'Login' })}
+              onPress={() => this.props.navigate({ component: Global.getLoginRoute() })}
             />
           </View>
         </View>

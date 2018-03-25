@@ -16,6 +16,7 @@ import Global, { init } from './application/Global';
 import RootReducer from './application/reducers';
 import PlaceHolder from './application/containers/PlaceholderNavigation';
 import { MainStackNavigator } from './application/containers/RootNavigation';
+import ctrlState from './application/modules/ListState';
 
 // 初始化公共工具
 CustomPrototypes.init();
@@ -73,6 +74,7 @@ class App extends Component {
         auth: {
           isLoggedIn: false,
           user: null,
+          reloadUserCtrlState: ctrlState,
         },
         base: {
           edition: Global.edition,
@@ -85,11 +87,13 @@ class App extends Component {
           auth: {
             isLoggedIn: true,
             user: Global.getUser(),
+            reloadUserCtrlState: ctrlState,
           },
           base: {
             edition: Global.edition,
             currHospital: Global.getCurrHospital(),
             currPatient: Global.getCurrPatient(),
+            currProfile: Global.getCurrProfile(),
             currArea: Global.getCurrArea(),
           },
           nav,
