@@ -2,7 +2,10 @@ package com.lenovohit.hwe.treat.transfer;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class RestResponse {
+public class RestResponse implements java.io.Serializable{
+    /** 版本号 */
+    private static final long serialVersionUID = 2419789611124390712L;
+    
 	@JSONField(name="SUCCESS")
 	private String success;
 	@JSONField(name="RESULT")

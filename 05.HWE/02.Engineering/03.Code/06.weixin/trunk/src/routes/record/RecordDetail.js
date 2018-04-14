@@ -1,140 +1,202 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ListView, Flex } from 'antd-mobile';
-import style from './RecordDetail.less';
-import style2 from '../report/ReportMain.less';
-import up from '../../assets/images/up.png';
-import down from '../../assets/images/down.png';
-import Config from '../../Config';
 import { routerRedux } from 'dva/router';
+import { ListView, Flex } from 'antd-mobile';
+
+import style from './RecordDetail.less';
+import { colors } from '../../utils/common';
+import commonStyles from '../../utils/common.less';
+import FAIcon from '../../components/FAIcon';
 
 class RecordDetail extends React.Component {
   constructor(props) {
     super(props);
     this.showDetail = this.showDetail.bind(this);
     this.goback = this.goback.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
-  componentWillUnmount() {
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        title: '诊疗详情',
+        hideNavBarBottomLine: false,
+        showCurrHospitalAndPatient: false,
+        headerRight: (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <div
+              onClick={this.refresh}
+              className={commonStyles.navBtnContainer}
+            >
+              <FAIcon type="refresh" className={commonStyles.navBtnIcon} />
+              <div className={commonStyles.navBtnText}>刷新</div>
+            </div>
+          </div>
+        ),
+      },
+    });
   }
 
   goback() {
     this.props.dispatch(routerRedux.goBack());
   }
-
-  showDetail(data) {
-    const query = { testId: data.barcode };
+  refresh() {
+    const query = this.props.record.rowData;
     this.props.dispatch({
-      type: 'report/setState',
-      payload: { rowData: data },
-    });
-    this.props.dispatch({
-      type: 'report/loadReportDetail',
+      type: 'record/loadRecordDetail',
       payload: query,
     });
-    this.props.dispatch(routerRedux.push({
-      pathname: 'reportDetail',
-    }));
+  }
+  showDetail(data) {
+    // console.log('showDetail====', data);
+
+    if (data.testType === '0001') {
+      const query = { testId: data.barcode };
+      this.props.dispatch({
+        type: 'report/setState',
+        payload: { rowData: data },
+      });
+      this.props.dispatch({
+        type: 'report/loadReportDetail',
+        payload: query,
+      });
+      this.props.dispatch(routerRedux.push({
+        pathname: 'reportDetail',
+      }));
+    } else if (data.testType === '0002') {
+      this.props.dispatch({
+        type: 'report/setState',
+        payload: { rowData: data },
+      });
+      this.props.dispatch(routerRedux.push({
+        pathname: 'reportPacsDetail',
+      }));
+    }
   }
   render() {
-    const { diagnoseDataSource, diagnoses, drugDataSource, drugs, testDataSource, tests, height } = this.props.record;
-    const diagnosesLength = diagnoses.length * (130 + 15);
-    const drugLength = drugs.length * (80 + 15);
-    const testLength = tests.length * (55 + 15);
-    const diagRow = (diagnoseRowData) => {
-      return (<div >
-        <Flex direction="column" align="start" className={style['diagRowContainer']}>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >诊&thinsp;&thinsp;&thinsp;&thinsp;断:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.diseaseName}</div>
+    const { diagnoseDataSource, diagnoses, drugDataSource, drugs, testDataSource, tests } = this.props.record;
+    const diagnosesLength = diagnoses.length * 131;
+    const drugLength = drugs.length * 71;
+    const testLength = tests.length * 57;
+    const diagRow = (diagnoseRowData, idx) => {
+      // const borderTop = idx !== 0 ? { borderTop: `1px solid ${colors.LINE}` } : {};
+      const borderBottom = idx !== diagnoses.length - 1 ? { borderBottom: `1px solid ${colors.LINE}` } : {};
+      return (
+        <div key={idx} style={{ ...borderBottom, borderTopWidth: 0 }}>
+          <div className={style['separator5']} />
+          <Flex direction="column" align="start" className={style['diagRowContainer']}>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >诊&thinsp;&thinsp;&thinsp;&thinsp;断:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.diseaseName}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >时&thinsp;&thinsp;&thinsp;&thinsp;间:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.diseaseTime}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >医&thinsp;&thinsp;&thinsp;&thinsp;生:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.docName}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >病&thinsp;&thinsp;&thinsp;&thinsp;史:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.diseaseType ? '无' : '无'}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >科&thinsp;&thinsp;&thinsp;&thinsp;室:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.depName}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['diagRowTitle']} >主要诊断:</div>
+              <div className={style['diagRowContent']}> {diagnoseRowData.isCurrent === '1' ? '是' : '否'}</div>
+            </Flex>
           </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >时&thinsp;&thinsp;&thinsp;&thinsp;间:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.diseaseTime}</div>
-          </Flex>
-
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >医&thinsp;&thinsp;&thinsp;&thinsp;生:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.docName}</div>
-
-          </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >病&thinsp;&thinsp;&thinsp;&thinsp;史:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.diseaseType ? '无' : '无'}</div>
-
-          </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >科&thinsp;&thinsp;&thinsp;&thinsp;室:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.depName}</div>
-
-          </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['diagRowTitle']} >主要诊断:</div>
-            <div className={style['diagRowContent']}> {diagnoseRowData.isCurrent === '1' ? '是' : '否'}</div>
-          </Flex>
-        </Flex>
-      </div>);
-    };
-    const drugRow = (drugRowData) => {
-      // console.log('drugRowData====', drugRowData);
-      return (<div className={style['drugRowContainer']}>
-        <Flex direction="column" align="start" className={style['drugRowContainer']}>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['drugName']} > {drugRowData.name}{drugRowData.form ? ` ( ${drugRowData.form} )` : null}</div>
-            <div className={style['drugBarcode']} > {drugRowData.barcode}</div>
-          </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['drugTitle']} >计量：</div>
-            <div className={style['drugDesc']} >{drugRowData.dose}</div>
-            <div className={style['drugTitle']}> 频率：</div>
-            <div className={style['drugDesc']}> {drugRowData.frequency}</div>
-            <div className={style['drugTitle']}> 用法：</div>
-            <div className={style['drugDesc']}> {drugRowData.unit}</div>
-          </Flex>
-          <Flex direction="row" align="start" className={style['diagRow']}>
-            <div className={style['drugTitle']} >备注:</div>
-            <div className={style['drugDesc']}> {drugRowData.desc}</div>
-          </Flex>
-        </Flex>
-      </div>);
-    };
-    const testRow = (testRowData) => {
-      // console.log('rowData====', testRowData);
-      return (<div className={style2['rowContainer']} onClick={this.showDetail.bind(this, testRowData)}>
-        <div className={style2['rowLogo']}> 化验</div>
-        <div className={style2['rowContent']} >
-          <div className={style2['reportDate']}>{testRowData.reportTime}</div>
-          <div className={style2['reportName']}>{testRowData.itemName}</div>
+          <div className={style['separator5']} />
         </div>
-      </div>);
+      );
     };
-    const separator = () => {
-      return (<div className={style['separator']} />);
+    const drugRow = (drugRowData, idx) => {
+      // const borderTop = idx !== 0 ? { borderTop: `1px solid ${colors.LINE}` } : {};
+      const borderBottom = idx !== drugs.length - 1 ? { borderBottom: `1px solid ${colors.LINE}` } : {};
+      // console.log('drugRowData====', drugRowData);
+      return (
+        <div key={idx} style={{ ...borderBottom, borderTopWidth: 0 }}>
+          <div className={style['separator5']} />
+          <Flex direction="column" align="start" className={style['drugRowContainer']}>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['drugName']} > {drugRowData.name}{drugRowData.form ? ` ( ${drugRowData.form} )` : null}</div>
+              <div className={style['drugBarcode']} > {drugRowData.barcode}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['drugTitle']} >计量：</div>
+              <div className={style['drugDesc']} >{drugRowData.dose}</div>
+              <div className={style['drugTitle']}> 频率：</div>
+              <div className={style['drugDesc']}> {drugRowData.frequency}</div>
+              <div className={style['drugTitle']}> 用法：</div>
+              <div className={style['drugDesc']}> {drugRowData.unit}</div>
+            </Flex>
+            <Flex direction="row" align="start" className={style['diagRow']}>
+              <div className={style['drugTitle']} >备注:</div>
+              <div className={style['drugDesc']}> {drugRowData.desc}</div>
+            </Flex>
+          </Flex>
+          <div className={style['separator5']} />
+        </div>
+      );
     };
+    const testRow = (testRowData, idx) => {
+      // const borderTop = idx !== 0 ? { borderTop: `1px solid ${colors.LINE}` } : {};
+      const borderBottom = idx !== tests.length - 1 ? { borderBottom: `1px solid ${colors.LINE}` } : {};
+      const rowLogo = testRowData.pkgName === '特检' ? (<div className={style['rowLogoRed']}> {testRowData.pkgName}</div>) : (<div className={style['rowLogo']}> {testRowData.pkgName}</div>);
+      return (
+        <div key={idx} style={{ ...borderBottom, borderTopWidth: 0 }} onClick={this.showDetail.bind(this, testRowData)} >
+          <div className={style['separator5']} />
+          <Flex direction="row" align="start" className={style['testRowContainer']}>
+            <Flex direction="column" align="start" className={style['testRowLogo']}>
+              {rowLogo}
+            </Flex>
+            <Flex direction="column" align="start" className={style['testContent']}>
+              <div className={style['reportDate']}>{testRowData.reportTime}</div>
+              <div className={style['reportName']}>{testRowData.itemName}</div>
+            </Flex>
+          </Flex>
+          <div className={style['separator5']} />
+        </div>
+      );
+    };
+
+    // <div className={style2['testRowContainer']} onClick={this.showDetail.bind(this, testRowData)} style={{ ...borderBottom }}>
+    // {rowLogo}
+    // <div className={style2['rowContent']} >
+    //   <div className={style2['reportDate']}>{testRowData.reportTime}</div>
+    //   <div className={style2['reportName']}>{testRowData.itemName}</div>
+    // </div>
+    // </div>
     return (
       <div className={style['allContainer']}>
         <div className={style['listTitle']}>诊断详情</div>
-        {diagnoses.length === 0 ? (<div style={{ padding: 30, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的诊断信息</div>) : null}
+        {diagnoses.length === 0 ? (<div style={{ padding: 10, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的诊断信息</div>) : null}
         <ListView
-          ref={el => this.lv = el}
+          ref={(el) => { this.lv = el; }}
           dataSource={diagnoseDataSource.cloneWithRows(diagnoses)}
-          renderSeparator={separator}
+          // renderSeparator={separator}
           renderRow={diagRow}
           style={{
             height: diagnosesLength,
             overflow: 'auto',
           }}
-          pageSize={4}
+          pageSize={10}
           onScroll={() => { console.log('scroll'); }}
           scrollRenderAheadDistance={10}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
+        <div className={style['separator']} />
         <div className={style['listTitle']}>药物医嘱</div>
-        {drugs.length === 0 ? (<div style={{ padding: 30, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的药品信息</div>) : null}
+        {drugs.length === 0 ? (<div style={{ padding: 10, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的药品信息</div>) : null}
         <ListView
-          ref={el => this.lv = el}
+          ref={(el) => { this.drugLv = el; }}
           dataSource={drugDataSource.cloneWithRows(drugs)}
-          renderSeparator={separator}
           renderRow={drugRow}
           style={{
             height: drugLength,
@@ -146,12 +208,13 @@ class RecordDetail extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
+        <div className={style['separator']} />
         <div className={style['listTitle']}>化验医嘱</div>
-        {tests.length === 0 ? (<div style={{ padding: 30, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的化验信息</div>) : null}
+        {tests.length === 0 ? (<div style={{ padding: 10, textAlign: 'center', color: '#999999' }}>暂无符合查询条件的化验信息</div>) : null}
         <ListView
-          ref={el => this.lv = el}
+          ref={(el) => { this.testLv = el; }}
           dataSource={testDataSource.cloneWithRows(tests)}
-          renderSeparator={separator}
+          // renderSeparator={separatorLine}
           renderRow={testRow}
           style={{
             height: testLength,
@@ -170,5 +233,5 @@ class RecordDetail extends React.Component {
 }
 RecordDetail.propTypes = {
 };
-export default connect(({ report, record }) => ({ report, record }))(RecordDetail);
+export default connect(({ base, report, record }) => ({ base, report, record }))(RecordDetail);
 

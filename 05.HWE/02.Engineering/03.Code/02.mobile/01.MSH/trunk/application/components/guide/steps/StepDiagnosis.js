@@ -25,12 +25,13 @@ export default class StepDiagnosis extends Component {
                     size="small"
                     style={{ marginTop: 10, width: 80, height: 25 }}
                     onPress={() => this.props.navigate({
-                      routeName: 'SignIn',
+                      routeName: 'SignMain',
                       params: {
                         title: '来院签到',
                         showCurrHospitalAndPatient: true,
                         allowSwitchHospital: true,
                         allowSwitchPatient: true,
+                        hideNavBarBottomLine: false,
                       },
                     })}
                   />

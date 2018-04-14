@@ -30,8 +30,8 @@ public class Region extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -4592326007128517077L;
 
-    /** 父id */
-    private String 父id;
+    /** parentId */
+    private String parentId;
 
     /** name */
     private String name;
@@ -55,22 +55,22 @@ public class Region extends AuditableModel implements java.io.Serializable {
     private String status;
 
     /**
-     * 获取父id
+     * 获取parentId
      * 
-     * @return 父id
+     * @return parentId
      */
-    @Column(name = "父ID", nullable = true, length = 32)
-    public String get父id() {
-        return this.父id;
+    @Column(name = "PARENT_ID", nullable = true, length = 32)
+    public String getParentId() {
+        return this.parentId;
     }
 
     /**
-     * 设置父id
+     * 设置parentId
      * 
-     * @param 父id
+     * @param parentId
      */
-    public void set父id(String 父id) {
-        this.父id = 父id;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     /**
@@ -154,7 +154,7 @@ public class Region extends AuditableModel implements java.io.Serializable {
      * 
      * @return 等级(1省/直辖市
      */
-    @Column(name = "LEVEL", nullable = true, length = 10)
+    @Column(name = "LEVEL_", nullable = true, length = 10)
     public Integer getLevel() {
         return this.level;
     }

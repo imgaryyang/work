@@ -86,7 +86,7 @@ public class Images extends AuditableModel implements java.io.Serializable {
      * 
      * @return fkType
      */
-    @Column(name = "FK_TYPE", nullable = true, length = 2)
+    @Column(name = "FK_TYPE", nullable = true, length = 20)
     public String getFkType() {
         return this.fkType;
     }
@@ -200,7 +200,7 @@ public class Images extends AuditableModel implements java.io.Serializable {
      * 
      * @return size
      */
-    @Column(name = "SIZE", nullable = true)
+    @Column(name = "SIZE_", nullable = true)
     public BigDecimal getSize() {
         return this.size;
     }

@@ -43,7 +43,6 @@ import BindProfile from '../components/me/patients/BindProfile'; // 档案绑定
 // import ArchivesList2 from '../components/me/patients/ArchivesList2';
 // import AddArchives from '../components/me/patients/AddArchives';
 
-
 // components of hospital
 import HospitalList from '../components/hospital/HospitalList';
 import Hospital from '../components/hospital/Hospital';
@@ -51,9 +50,9 @@ import Department from '../components/hospital/Department';
 import Doctor from '../components/hospital/Doctor';
 
 // components of appointment 预约
-import AppAndRegRecords from '../components/outpatient/appointment/AppAndRegRecords';
-import SignIn from '../components/outpatient/appointment/SignIn';
-import SignInReceipt from '../components/outpatient/appointment/SignInReceipt';
+import AppointRecordsMain from '../components/outpatient/appointment/AppointRecordsMain';
+import SignMain from '../components/outpatient/appointment/SignMain';
+import SignReceipt from '../components/outpatient/appointment/SignReceipt';
 import AppAndReg from '../components/outpatient/appointment/AppAndReg';
 import Schedule from '../components/outpatient/appointment/Schedule';
 import AppointSource from '../components/outpatient/appointment/AppointSource';
@@ -62,8 +61,8 @@ import AppointSuccess from '../components/outpatient/appointment/AppointSuccess'
 
 // components of reports 检查检验单
 import Reports from '../components/reports/Reports';
-import ShowLisDetail from '../components/reports/ShowLisDetail';
-import ShowPacsDetail from '../components/reports/ShowPacsDetail';
+import LisDetail from '../components/reports/LisDetail';
+import PacsDetail from '../components/reports/PacsDetail';
 
 // components of records 报告单
 import Records from '../components/records/Records';
@@ -93,6 +92,11 @@ import PayCounter from '../components/PayCounter/PayCounter';
 import PaymentList from '../components/payment/payment/PaymentList';
 import PreSettlement from '../components/payment/payment/PreSettlement';
 
+// components of refund 退款
+import OutpatientRefund from '../components/refund/OutpatientRefund';
+import OutpatientRefundDetail from '../components/refund/OutpatientRefundDetail';
+import CompleteRefundSuccess from '../components/refund/CompleteRefundSuccess';
+import CompleteRefundFailure from '../components/refund/CompleteRefundFailure';
 // components of records 消费记录
 import ConsumeMain from '../components/consume/ConsumeMain';
 import ConsumeRecords from '../components/consume/ConsumeRecords';
@@ -222,9 +226,9 @@ export default {
   AppointSource: { screen: AppointSource, navigationOptions: initOptions }, // 号源
   Appoint: { screen: Appoint, navigationOptions: initOptions }, // 预约挂号
   AppointSuccess: { screen: AppointSuccess, navigationOptions: initOptions }, // 预约挂号
-  AppAndRegRecords: { screen: AppAndRegRecords, navigationOptions: initOptions }, // 预约挂号记录
-  SignIn: { screen: SignIn, navigationOptions: initOptions }, // 来院签到
-  SignInReceipt: { screen: SignInReceipt, navigationOptions: initOptions }, // 签到小票
+  AppointRecordsMain: { screen: AppointRecordsMain, navigationOptions: initOptions }, // 预约挂号记录
+  SignMain: { screen: SignMain, navigationOptions: initOptions }, // 来院签到
+  SignReceipt: { screen: SignReceipt, navigationOptions: initOptions }, // 签到小票
 
   // components of payment
   Payments: { screen: PaymentMain }, // 充值缴费
@@ -236,15 +240,21 @@ export default {
   PaymentChargeDetail: { screen: PaymentChargeDetail }, // 预结算
   PreSettlementBySelf: { screen: PreSettlementBySelf }, // 预结算
   PayCounter: { screen: PayCounter }, // 收银台
+  CompleteRefundFailure: { screen: CompleteRefundFailure }, // 充值缴费
+  CompleteRefundSuccess: { screen: CompleteRefundSuccess }, // 充值缴费
 
   // components of records 消费记录
   ConsumeMain: { screen: ConsumeMain }, // 消费记录
   ConsumeRecords: { screen: ConsumeRecords }, // 缴费记录
 
+  // component of refunds 退费
+  OutpatientRefund: { screen: OutpatientRefund }, // 门诊退费
+  OutpatientRefundDetail: { screen: OutpatientRefundDetail }, // 门诊退费
+
   // components of reports
   Reports: { screen: Reports }, // 报告查询
-  ShowLisDetail: { screen: ShowLisDetail },
-  ShowPacsDetail: { screen: ShowPacsDetail },
+  LisDetail: { screen: LisDetail },
+  PacsDetail: { screen: PacsDetail },
 
   // components of records
   Records: { screen: Records }, // 诊疗记录

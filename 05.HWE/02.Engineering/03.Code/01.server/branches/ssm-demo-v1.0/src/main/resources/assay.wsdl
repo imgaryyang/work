@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenCon">
+        <s:complexType />
+      </s:element>
+      <s:element name="OpenConResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="OpenConResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PrintForm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="patientId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="patientType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtReg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtEnd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PrintFormResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PrintFormResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PrintForm_ByBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PrintForm_ByBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PrintForm_ByBarcodeResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Upload_ResultXml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="reqXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Upload_ResultXmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Upload_ResultXmlResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF_byID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="machineId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sampleId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testdate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="testType" type="tns:TestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="TestType">
+        <s:restriction base="s:string">
+          <s:enumeration value="RT" />
+          <s:enumeration value="GM" />
+          <s:enumeration value="MB" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ExportTestFormPDF_byIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExportTestFormPDF_byIDResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF_RT">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="machineId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sampleId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testdate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF_RTResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExportTestFormPDF_RTResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF_GM">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="machineId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sampleId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testdate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF_GMResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExportTestFormPDF_GMResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="patientId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="patientType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtReg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtEnd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExportTestFormPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExportTestFormPDFResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestForm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="patientId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="patientType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtReg" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtEnd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestFormResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTestFormResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EditPrinted">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="machineId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sampleId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testdate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EditPrintedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EditPrintedResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="int" type="s:int" />
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+      <s:element name="base64Binary" nillable="true" type="s:base64Binary" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenConSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenCon" />
+  </wsdl:message>
+  <wsdl:message name="OpenConSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenConResponse" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormSoapIn">
+    <wsdl:part name="parameters" element="tns:PrintForm" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormSoapOut">
+    <wsdl:part name="parameters" element="tns:PrintFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:PrintForm_ByBarcode" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:PrintForm_ByBarcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlSoapIn">
+    <wsdl:part name="parameters" element="tns:Upload_ResultXml" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlSoapOut">
+    <wsdl:part name="parameters" element="tns:Upload_ResultXmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_byID" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_byIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTSoapIn">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_RT" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTSoapOut">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_RTResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMSoapIn">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_GM" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMSoapOut">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF_GMResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDF" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:ExportTestFormPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTestForm" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTestFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedSoapIn">
+    <wsdl:part name="parameters" element="tns:EditPrinted" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedSoapOut">
+    <wsdl:part name="parameters" element="tns:EditPrintedResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn" />
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="OpenConHttpGetIn" />
+  <wsdl:message name="OpenConHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormHttpGetIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeHttpGetIn">
+    <wsdl:part name="barcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlHttpGetIn">
+    <wsdl:part name="reqXml" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDHttpGetIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+    <wsdl:part name="testType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTHttpGetIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMHttpGetIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMHttpGetOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFHttpGetIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormHttpGetIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedHttpGetIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn" />
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="OpenConHttpPostIn" />
+  <wsdl:message name="OpenConHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormHttpPostIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintFormHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeHttpPostIn">
+    <wsdl:part name="barcode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintForm_ByBarcodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlHttpPostIn">
+    <wsdl:part name="reqXml" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Upload_ResultXmlHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDHttpPostIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+    <wsdl:part name="testType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_byIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTHttpPostIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_RTHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMHttpPostIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDF_GMHttpPostOut">
+    <wsdl:part name="Body" element="tns:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFHttpPostIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExportTestFormPDFHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormHttpPostIn">
+    <wsdl:part name="patientId" type="s:string" />
+    <wsdl:part name="patientType" type="s:string" />
+    <wsdl:part name="dtReg" type="s:string" />
+    <wsdl:part name="dtEnd" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetTestFormHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedHttpPostIn">
+    <wsdl:part name="machineId" type="s:string" />
+    <wsdl:part name="sampleId" type="s:string" />
+    <wsdl:part name="testdate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="EditPrintedHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:portType name="PrintServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <wsdl:input message="tns:OpenConSoapIn" />
+      <wsdl:output message="tns:OpenConSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <wsdl:input message="tns:PrintFormSoapIn" />
+      <wsdl:output message="tns:PrintFormSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <wsdl:input message="tns:PrintForm_ByBarcodeSoapIn" />
+      <wsdl:output message="tns:PrintForm_ByBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <wsdl:input message="tns:Upload_ResultXmlSoapIn" />
+      <wsdl:output message="tns:Upload_ResultXmlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <wsdl:input message="tns:ExportTestFormPDF_byIDSoapIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_byIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <wsdl:input message="tns:ExportTestFormPDF_RTSoapIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_RTSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <wsdl:input message="tns:ExportTestFormPDF_GMSoapIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_GMSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <wsdl:input message="tns:ExportTestFormPDFSoapIn" />
+      <wsdl:output message="tns:ExportTestFormPDFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <wsdl:input message="tns:GetTestFormSoapIn" />
+      <wsdl:output message="tns:GetTestFormSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <wsdl:input message="tns:EditPrintedSoapIn" />
+      <wsdl:output message="tns:EditPrintedSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PrintServiceHttpGet">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <wsdl:input message="tns:OpenConHttpGetIn" />
+      <wsdl:output message="tns:OpenConHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <wsdl:input message="tns:PrintFormHttpGetIn" />
+      <wsdl:output message="tns:PrintFormHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <wsdl:input message="tns:PrintForm_ByBarcodeHttpGetIn" />
+      <wsdl:output message="tns:PrintForm_ByBarcodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <wsdl:input message="tns:Upload_ResultXmlHttpGetIn" />
+      <wsdl:output message="tns:Upload_ResultXmlHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <wsdl:input message="tns:ExportTestFormPDF_byIDHttpGetIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_byIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <wsdl:input message="tns:ExportTestFormPDF_RTHttpGetIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_RTHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <wsdl:input message="tns:ExportTestFormPDF_GMHttpGetIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_GMHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <wsdl:input message="tns:ExportTestFormPDFHttpGetIn" />
+      <wsdl:output message="tns:ExportTestFormPDFHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <wsdl:input message="tns:GetTestFormHttpGetIn" />
+      <wsdl:output message="tns:GetTestFormHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <wsdl:input message="tns:EditPrintedHttpGetIn" />
+      <wsdl:output message="tns:EditPrintedHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PrintServiceHttpPost">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <wsdl:input message="tns:OpenConHttpPostIn" />
+      <wsdl:output message="tns:OpenConHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <wsdl:input message="tns:PrintFormHttpPostIn" />
+      <wsdl:output message="tns:PrintFormHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <wsdl:input message="tns:PrintForm_ByBarcodeHttpPostIn" />
+      <wsdl:output message="tns:PrintForm_ByBarcodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <wsdl:input message="tns:Upload_ResultXmlHttpPostIn" />
+      <wsdl:output message="tns:Upload_ResultXmlHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <wsdl:input message="tns:ExportTestFormPDF_byIDHttpPostIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_byIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <wsdl:input message="tns:ExportTestFormPDF_RTHttpPostIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_RTHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <wsdl:input message="tns:ExportTestFormPDF_GMHttpPostIn" />
+      <wsdl:output message="tns:ExportTestFormPDF_GMHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <wsdl:input message="tns:ExportTestFormPDFHttpPostIn" />
+      <wsdl:output message="tns:ExportTestFormPDFHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <wsdl:input message="tns:GetTestFormHttpPostIn" />
+      <wsdl:output message="tns:GetTestFormHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <wsdl:input message="tns:EditPrintedHttpPostIn" />
+      <wsdl:output message="tns:EditPrintedHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PrintServiceSoap" type="tns:PrintServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <soap:operation soapAction="http://tempuri.org/OpenCon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <soap:operation soapAction="http://tempuri.org/PrintForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <soap:operation soapAction="http://tempuri.org/PrintForm_ByBarcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <soap:operation soapAction="http://tempuri.org/Upload_ResultXml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <soap:operation soapAction="http://tempuri.org/ExportTestFormPDF_byID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <soap:operation soapAction="http://tempuri.org/ExportTestFormPDF_RT" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <soap:operation soapAction="http://tempuri.org/ExportTestFormPDF_GM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <soap:operation soapAction="http://tempuri.org/ExportTestFormPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <soap:operation soapAction="http://tempuri.org/GetTestForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <soap:operation soapAction="http://tempuri.org/EditPrinted" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintServiceSoap12" type="tns:PrintServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <soap12:operation soapAction="http://tempuri.org/OpenCon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <soap12:operation soapAction="http://tempuri.org/PrintForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <soap12:operation soapAction="http://tempuri.org/PrintForm_ByBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <soap12:operation soapAction="http://tempuri.org/Upload_ResultXml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <soap12:operation soapAction="http://tempuri.org/ExportTestFormPDF_byID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <soap12:operation soapAction="http://tempuri.org/ExportTestFormPDF_RT" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <soap12:operation soapAction="http://tempuri.org/ExportTestFormPDF_GM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <soap12:operation soapAction="http://tempuri.org/ExportTestFormPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <soap12:operation soapAction="http://tempuri.org/GetTestForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <soap12:operation soapAction="http://tempuri.org/EditPrinted" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintServiceHttpGet" type="tns:PrintServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <http:operation location="/OpenCon" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <http:operation location="/PrintForm" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <http:operation location="/PrintForm_ByBarcode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <http:operation location="/Upload_ResultXml" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <http:operation location="/ExportTestFormPDF_byID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <http:operation location="/ExportTestFormPDF_RT" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <http:operation location="/ExportTestFormPDF_GM" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <http:operation location="/ExportTestFormPDF" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <http:operation location="/GetTestForm" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <http:operation location="/EditPrinted" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintServiceHttpPost" type="tns:PrintServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenCon">
+      <http:operation location="/OpenCon" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm">
+      <http:operation location="/PrintForm" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PrintForm_ByBarcode">
+      <http:operation location="/PrintForm_ByBarcode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_ResultXml">
+      <http:operation location="/Upload_ResultXml" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_byID">
+      <http:operation location="/ExportTestFormPDF_byID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_RT">
+      <http:operation location="/ExportTestFormPDF_RT" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF_GM">
+      <http:operation location="/ExportTestFormPDF_GM" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExportTestFormPDF">
+      <http:operation location="/ExportTestFormPDF" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestForm">
+      <http:operation location="/GetTestForm" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditPrinted">
+      <http:operation location="/EditPrinted" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PrintService">
+    <wsdl:port name="PrintServiceSoap" binding="tns:PrintServiceSoap">
+      <soap:address location="http://10.10.210.190/ssm/PrintService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintServiceSoap12" binding="tns:PrintServiceSoap12">
+      <soap12:address location="http://10.10.210.190/ssm/PrintService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintServiceHttpGet" binding="tns:PrintServiceHttpGet">
+      <http:address location="http://10.10.210.190/ssm/PrintService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintServiceHttpPost" binding="tns:PrintServiceHttpPost">
+      <http:address location="http://10.10.210.190/ssm/PrintService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -87,7 +87,7 @@ class LoginBySMS extends Component {
       for (let i = 0; i < habits.length; i++) {
         const { habitType, habitContent } = habits[i];
         // TODO: 需要取完整医院信息
-        if (habitType === Global.habitsType.CURR_HOSPITAL) {
+        if (this.props.base.edition === Global.EDITION_MULTI && habitType === Global.habitsType.CURR_HOSPITAL) {
           this.props.setCurrHospital({ id: _.trim(habitContent) });
         } if (habitType === Global.habitsType.CURR_PATIENT) {
           for (let j = 0; j < userPatients.length; j++) {
@@ -178,9 +178,8 @@ class LoginBySMS extends Component {
         const responseData = await sendSecurityCode({
           type: Global.securityCodeType.REG_APP,
           mobile: value.mobile,
-          hospitalId: '',
         });
-        console.log('responseData of sendSecurityCode:', responseData);
+        // console.log('responseData of sendSecurityCode:', responseData);
         if (responseData.success) {
           Toast.show('验证码发送成功，请注意查收！');
           this.setState({ sendButtonDisabled: true }, () => {
@@ -189,13 +188,8 @@ class LoginBySMS extends Component {
               () => {
                 this.setState({ sendButtonDisabled: false });
               },
-              30000,
+              Global.Config.global.authCodeResendInterval * 1000,
             );
-          });
-          // TODO: 测试及演示期间直接显示验证码，上线时注释掉以下代码
-          this.setState({
-            value: { ...value, securityCode: responseData.result.code },
-            msg: responseData.result,
           });
         } else {
           Toast.show(responseData.msg);
@@ -214,7 +208,7 @@ class LoginBySMS extends Component {
   async login() {
     if (this.form.validate()) {
       try {
-        const { value, msg } = this.state;
+        const { value } = this.state;
         this.setState({
           buttonDisabled: true,
           sendButtonDisabled: true,
@@ -224,10 +218,8 @@ class LoginBySMS extends Component {
           type: Global.securityCodeType.REG_APP,
           mobile: value.mobile,
           code: value.securityCode,
-          hospitalId: '',
-          id: msg.id,
         });
-        console.log('responseData of verifySecurityCode:', responseData);
+        // console.log('responseData of verifySecurityCode:', responseData);
         if (responseData.success) {
           Toast.show(`验证码验证成功${'\n'}正在登录系统，请稍候...`);
           // 如果是单医院版，设置当前医院
@@ -235,12 +227,18 @@ class LoginBySMS extends Component {
           // 将用户信息放入redux
           const loginResponse = await login({
             mobile: value.mobile,
+            token: responseData.result.token,
           });
-          console.log('loginResponse:', loginResponse);
+          // console.log('loginResponse:', loginResponse);
           if (loginResponse.success) {
             const { result } = loginResponse;
             // 设置当前登录用户及登录状态
             this.props.afterLogin(result);
+            // 单医院版本直接将当前医院设为Config中配置的医院
+            if (this.props.base.edition === Global.EDITION_SINGLE) {
+              this.props.setCurrHospital(Global.Config.hospital);
+            }
+
             this.setState({
               buttonDisabled: false,
               sendButtonDisabled: false,

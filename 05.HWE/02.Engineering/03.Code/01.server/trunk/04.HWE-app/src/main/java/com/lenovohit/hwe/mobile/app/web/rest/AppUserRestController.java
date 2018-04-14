@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lenovohit.bdrp.authority.shiro.authc.AuthAccountToken;
@@ -22,6 +23,7 @@ import com.lenovohit.core.utils.StringUtils;
 import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
+import com.lenovohit.hwe.base.model.SmsMessage;
 import com.lenovohit.hwe.mobile.core.model.UserPatient;
 import com.lenovohit.hwe.mobile.core.model.UserPatientProfile;
 import com.lenovohit.hwe.mobile.core.web.rest.MobileBaseRestController;
@@ -43,13 +45,87 @@ public class AppUserRestController extends MobileBaseRestController {
 	private GenericManager<UserPatient, String> userPatientManager;
 	@Autowired
 	private GenericManager<UserPatientProfile, String> userPatientProfileManager;
+	@Autowired
+	private GenericManager<SmsMessage, String> smsMessageManager;
 	
+	/**
+	 * 注册/登录 功能
+	 * @param data
+	 * @return
+	 */
+	@SuppressWarnings(value="rawtypes")
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Result forRegister(@RequestBody String data) {
+		try {
+			Map dataMap = JSONUtils.deserialize(data, Map.class);
+			if(null == dataMap && dataMap.isEmpty()){
+				throw new BaseException("输入数据为空！");
+			}
+			String hospitalId = "";
+			if(dataMap.containsKey("hospitalId")){
+				hospitalId = dataMap.get("hospitalId").toString();
+			}
+			Object mobile = dataMap.get("mobile");
+			// 业务数据校验
+			if (StringUtils.isEmpty(mobile)) {
+				throw new BaseException("非法请求！");
+			}
+			User user = null;
+			Account model = this.accountManager.findOne("from Account u where u.username=? ", mobile);
+			if (null != model && !StringUtils.isEmpty(model.getId())) {
+				model.setUsername(mobile.toString());
+				model.setPassword("12345678");
+				Subject subject = SecurityUtils.getSubject();
+				AuthAccountToken authToken = new AuthAccountToken(model);
+				subject.login(authToken);
+				user = this.getMobileUser(hospitalId);
+				user.setSessionId(this.getSession().getId());
+				return ResultUtils.renderSuccessResult(user);
+			} else {
+				String token = "";
+				if(dataMap.containsKey("token")){
+					token = dataMap.get("token").toString();
+				}
+				SmsMessage smsMessage = this.smsMessageManager.get(token);
+				if(null == smsMessage){
+					throw new BaseException("非法请求！");
+				}
+				model = new Account();
+				model.setUsername(mobile.toString());
+				model.setPassword("12345678");
+				model.setType(Account.TYPE_APP);
+				model = (Account) AuthUtils.encryptAccount(model);
+				user = this.userManager.findOne(" from User where mobile = ?", mobile.toString());
+				if(null != user && StringUtils.isNotEmpty(user.getId())) {
+					user.setLoginAccount(model);
+				}else {
+					user = new User();
+					user.setIsActive("1");
+					user.setMobile(mobile.toString());
+					user.setLoginAccount(model);
+					user = this.userManager.save(user);
+				}
+				model.setUser(user);
+				this.accountManager.save(model);
+				model.setPassword("12345678");
+				Subject subject = SecurityUtils.getSubject();
+				AuthAccountToken authToken = new AuthAccountToken(model);
+				subject.login(authToken);
+				user = this.getMobileUser(hospitalId);
+				user.setSessionId(this.getSession().getId());
+				return ResultUtils.renderSuccessResult(user);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtils.renderFailureResult("请求出错");
+		}
+	}
 	/**
 	 * 用户登陆
 	 * @param data
 	 * @return
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/loginOld", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forLogin(@RequestBody String data) {
 		// 数据校验
 		if (StringUtils.isEmpty(data)) {
@@ -60,24 +136,31 @@ public class AppUserRestController extends MobileBaseRestController {
 			Subject subject = SecurityUtils.getSubject();
 			AuthAccountToken token = new AuthAccountToken(model);
 			subject.login(token);
-			User user = this.getCurrentUser();
-			user.setSessionId(this.getSession().getId());
-			List<UserPatient> userPatients = this.userPatientManager.find(" from UserPatient u where u.userId = ? order by u.relation asc ", user.getId());
-			for(UserPatient up : userPatients){
-				List<Profile> profiles = getProfile(up.getId(),null);
-				up.setProfiles(profiles);
-			}
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("userPatients", userPatients);
-			
-			UserPatient userPatient = this.getPatient(user);
-			map.put("currPatient", userPatient);
-			user.setMap(map);
+			User user = this.getMobileUser(null);
+			System.out.println("id:" + user.getId());
 			return ResultUtils.renderSuccessResult(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultUtils.renderFailureResult("用户名或密码错误");
 		}		
+	}
+	/**
+	 * 获取user信息
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forGetUser(@RequestParam(value = "data", defaultValue = "") String data){
+		Map dataMap = null;
+		String hospitalId = "";
+		if(StringUtils.isNotEmpty(data)){
+			dataMap = JSONUtils.deserialize(data, Map.class);
+			if(dataMap.containsKey("hospitalId")){
+				hospitalId = dataMap.get("hospitalId").toString();
+			}
+		}
+		User user = this.getMobileUser(hospitalId);
+		return ResultUtils.renderSuccessResult(user);
 	}
 	@RequestMapping(value = "/updataUser", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result updataUser(@RequestBody String data) {
@@ -106,7 +189,7 @@ public class AppUserRestController extends MobileBaseRestController {
 			return ResultUtils.renderSuccessResult(user);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResultUtils.renderFailureResult("");
+			return ResultUtils.renderFailureResult("更新出错");
 		}		
 	}
 	/**
@@ -127,12 +210,12 @@ public class AppUserRestController extends MobileBaseRestController {
 
 		// 业务数据校验
 		String mobile = dataMap.get("mobile").toString();
-		String password = dataMap.get("encpswd").toString();
+		String password = dataMap.get("password").toString();
 		if (StringUtils.isEmpty(mobile)) {
 			throw new BaseException("手机号为空！");
 		}
 		if (StringUtils.isEmpty(password)) {
-			throw new BaseException("登陆密码为空！");
+			throw new BaseException("密码为空！");
 		}
 		// 验证用户存在
 		Account account = this.accountManager.findOne("from Account u where u.username=? ", mobile);
@@ -145,6 +228,7 @@ public class AppUserRestController extends MobileBaseRestController {
 		}
 		account.setUsername(mobile);
 		account.setPassword(password);
+		account.setType(Account.TYPE_APP);
 		account = (Account) AuthUtils.encryptAccount(account);
 
 		user.setIsActive("1");
@@ -244,29 +328,6 @@ public class AppUserRestController extends MobileBaseRestController {
 		return ResultUtils.renderSuccessResult(user);
 	}
 	/**
-	 * 设置头像
-	 * @param data
-	 * @return
-	 */
-	@RequestMapping(value = "/setPortrait", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
-	public Result forSetPortrait(@RequestBody String data) {
-		// 数据校验
-		if (StringUtils.isEmpty(data)) {
-			throw new BaseException("输入数据为空！");
-		}
-		User model = JSONUtils.deserialize(data, User.class);
-		if (null == model) {
-			throw new BaseException("输入数据为空！");
-		}
-
-		// 业务数据校验
-		//		if (StringUtils.isEmpty(model.getPortrait())) {
-		//			throw new BaseException("头像地址为空！");
-		//		}
-		model = this.userManager.save(model);
-		return ResultUtils.renderSuccessResult(model);
-	}
-	/**
 	 * 修改个人资料
 	 * @param data
 	 * @return
@@ -284,13 +345,7 @@ public class AppUserRestController extends MobileBaseRestController {
 		model = this.userManager.save(model);
 		//保存用户信息的同时保存patient
 		UserPatient userPatient = copyUserToPatient(model);
-		List<UserPatient> userPatients = userPatientManager.find(" from UserPatient u where u.userId = ? ", model.getId());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userPatients", userPatients);
-		map.put("currPatient", userPatient);
-		
-		model.setMap(map);
-		
+		model = this.getMobileUser(null);
 		return ResultUtils.renderSuccessResult(model);
 	}
 	

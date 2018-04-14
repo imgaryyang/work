@@ -71,4 +71,12 @@
 		<constructor-arg ref="testDepositDao" />
 	</bean> 
 	<!-- ****************  TestDeposit  END **************** -->
+		<!-- ****************  TestProfile  START **************** -->
+	<bean id="testProfileDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hcp.test.model.TestProfile" />
+	</bean>
+	<bean id="testProfileManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="testProfileDao" />
+	</bean> 
+	<!-- ****************  TestProfile  END **************** -->
 </beans>	

@@ -46,18 +46,10 @@ public class HisChargeRestServiceImpl implements HisChargeService {
 	}
 
 	@Override
-	@Transient
-	public RestEntityResponse<Charge> prepay(List<ChargeDetail> chargeList) {
-		RestEntityResponse<Charge> response = dto.getForEntity("hcp/app/payment/outpatientCharge/getPreChargeInfo",
-				chargeList);
+	public RestEntityResponse<Charge> prepay(Charge model) {
+		RestEntityResponse<Charge> response = dto.postForEntity("hcp/app/payment/outpatientCharge/getPreChargeInfo",model);
 		if (response.isSuccess()) {
 			Charge charge = response.getEntity();
-			// charge.setComment(charge.getNo());
-			charge = chargeManager.save(charge);
-			for (ChargeDetail detail : chargeList) {
-				detail.setChargeId(charge.getId());
-				chargeDetailManager.save(detail);
-			}
 			response.setEntity(charge);
 			return response;
 		} else {
@@ -66,8 +58,15 @@ public class HisChargeRestServiceImpl implements HisChargeService {
 	}
 
 	@Override
-	public RestEntityResponse<Charge> pay(Charge request, Map<String, ?> variables) {
-		return null;
+	public RestEntityResponse<Charge> pay(Charge model) {
+		RestEntityResponse<Charge> response = dto.postForEntity("hcp/app/payment/outpatientCharge/pay",model);
+		if (response.isSuccess()) {
+			Charge charge = response.getEntity();
+			response.setEntity(charge);
+			return response;
+		} else {
+			return response;
+		}
 	}
 
 	@Override

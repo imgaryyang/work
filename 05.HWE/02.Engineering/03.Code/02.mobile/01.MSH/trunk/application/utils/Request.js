@@ -44,6 +44,9 @@ function handleRequestException(e) {
 }
 
 async function post(url, data, config) {
+  console.log('post');
+  console.info(url, '|', data, ',', config);
+  console.log('end');
   return request({
     method: 'POST',
     url,

@@ -1,0 +1,41 @@
+@import "../../utils/common";
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: @IOS_GRAY_BG;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.itemContainer {
+  padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @LINE;
+  background-color: white;
+}
+
+.channel {
+  font-size: 14px;
+  color: @FONT_GRAY;
+  padding-bottom: 5px;
+}
+
+.amtContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.date {
+  flex: 1;
+  font-size: 13px;
+  color: @FONT_LIGHT_GRAY;
+}
+
+.amt {
+  text-align: right;
+  font-size: 13px;
+  color: black;
+}

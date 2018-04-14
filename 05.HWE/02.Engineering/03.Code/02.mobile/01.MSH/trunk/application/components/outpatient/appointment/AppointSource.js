@@ -47,7 +47,15 @@ class AppointSource extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => { this.fetchData(); });
-    this.props.navigation.setParams({ title: this.props.navigation.state.params.data.docName || '选择号源' });
+    this.props.navigation.setParams({
+      title: this.props.navigation.state.params.data.docName || '选择号源',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: true,
+      afterChooseHospital: null,
+      afterChoosePatient: null,
+      hideNavBarBottomLine: false,
+    });
   }
 
   reFetchData() {

@@ -22,7 +22,7 @@ public class DepartmentHisController extends OrgBaseRestController {
 	private HisDepartmentService hisDepartmentService;
 	
 	/**
-	 * 获取预存记录
+	 * 获取部门列表
 	 * @param data
 	 * @return
 	 */

@@ -16,8 +16,9 @@ public class PayMerchantConfigCache {
 		return configCache.get(key);
 	}
 	public static Configuration getConfig(PayMerchant payMerchant){
-		Configuration config = null;
-		config = configCache.get(payMerchant.getId());
+		if(payMerchant == null || payMerchant.getConfigFile() == null)
+			return null;
+		Configuration config= configCache.get(payMerchant.getId());
 		if(config == null){
 			try {
 				config = new PropertiesConfiguration(payMerchant.getConfigFile());

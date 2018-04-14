@@ -18,6 +18,7 @@ export const { clientWidth, clientHeight } = document.documentElement;
 
 // 初始page
 export const initPage = { start: 0, limit: 20, total: 0 };
+export const navBarHeight = 45;
 
 export const guid = () => {
   function s4() {

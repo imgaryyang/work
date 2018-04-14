@@ -15,15 +15,15 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 import com.lenovohit.hwe.base.model.Images;
 
 @Entity
-@Table(name = "CONSULT_RECORD")
+@Table(name = "TREAT_CONSULT_RECORD")
 public class ConsultRecord extends AuditableModel implements java.io.Serializable {
+	private static final long serialVersionUID = 2785667409688656841L;
 	
 	public static final String STATUS_NO_REPLY ="1";    //未回复
 	public static final String STATUS_REPLY ="2";       //已回复
 	public static final String STATUS_COMPLETE ="3";    //已完成
 	
 	
-	private static final long serialVersionUID = 2785667409688656841L;
 	private String deptId;					
 	private String deptName;					
 	private String hosId;					
@@ -130,7 +130,5 @@ public class ConsultRecord extends AuditableModel implements java.io.Serializabl
 	public void setImages(List<Images> images) {
 		this.images = images;
 	}
-	
-	
 	
 }

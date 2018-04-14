@@ -37,9 +37,7 @@ public class HisChargeDetailRestServiceImpl implements HisChargeDetailService {
 	}
 
 	@Override
-	public RestListResponse<ChargeDetail> unpaids(ChargeDetail request, Map<String, ?> variables) {
-		// TODO Auto-generated method stub
-		return null;
+	public RestListResponse<ChargeDetail> unpaids(ChargeDetail request) {
+		return dto.getForList("hcp/app/payment/outpatientCharge/unpaids", request);
 	}
-
 }

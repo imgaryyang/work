@@ -14,6 +14,7 @@ package com.lenovohit.hwe.treat.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -124,6 +125,8 @@ public class Charge extends HisAuditableModel implements java.io.Serializable {
 
     /** status */
     private String status;
+    
+    
 
 
     private Hospital hospital;
@@ -136,6 +139,11 @@ public class Charge extends HisAuditableModel implements java.io.Serializable {
     
     private Activity activity;
     
+    private List<ChargeDetail> items;
+    
+    private String tradeChannel;
+    
+    private String tradeChannelCode;
     /**
      * 获取hosId
      * 
@@ -606,7 +614,7 @@ public class Charge extends HisAuditableModel implements java.io.Serializable {
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 50)
+    @Column(name = "COMMENT_", nullable = true, length = 50)
     public String getComment() {
         return this.comment;
     }
@@ -710,6 +718,29 @@ public class Charge extends HisAuditableModel implements java.io.Serializable {
 
 	public void setActivity(Activity activity) {
 		this.activity = activity;
+	}
+	
+	@Transient
+	public List<ChargeDetail> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ChargeDetail> items) {
+		this.items = items;
+	}
+	public String getTradeChannel() {
+		return tradeChannel;
+	}
+	
+	public void setTradeChannel(String tradeChannel) {
+		this.tradeChannel = tradeChannel;
+	}
+	public String getTradeChannelCode() {
+		return tradeChannelCode;
+	}
+	
+	public void setTradeChannelCode(String tradeChannelCode) {
+		this.tradeChannelCode = tradeChannelCode;
 	}
 
 }

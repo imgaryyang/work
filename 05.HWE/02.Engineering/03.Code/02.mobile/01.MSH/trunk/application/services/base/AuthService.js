@@ -2,6 +2,7 @@ import { post, get } from '../../utils/Request';
 import { auth } from '../RequestTypes';
 
 export async function login(data) {
+  // console.log('login data:', data);
   return post(`${auth().login}`, data);
 }
 
@@ -33,6 +34,6 @@ export async function sendAuthSM(data) {
   return post(`${auth().sendAuthSM}`, data);
 }
 
-export async function reloadUserInfo(userId) {
+export async function reloadUserInfo() {
   return get(`${auth().reloadUserInfo}`);
 }

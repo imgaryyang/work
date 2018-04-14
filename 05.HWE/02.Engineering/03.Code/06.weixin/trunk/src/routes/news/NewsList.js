@@ -20,9 +20,11 @@ class NewsList extends React.PureComponent {
 
   componentWillMount() {
     const { dispatch, news } = this.props;
+    // const { title } = base;
     dispatch({
       type: 'base/save',
       payload: {
+        title: '健康资讯',
         hideNavBarBottomLine: true,
         showCurrHospitalAndPatient: false,
         headerRight: null,

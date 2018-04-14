@@ -3,6 +3,7 @@ import { Button, Icon, Flex } from 'antd-mobile';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import less from './AppointSuccess.less';
+import { action } from '../../utils/common';
 
 class AppointSuccess extends React.Component {
   constructor(props) {
@@ -12,16 +13,29 @@ class AppointSuccess extends React.Component {
     this.gotoRecords = this.gotoRecords.bind(this);
   }
 
+  componentDidMount() {
+    this.props.dispatch(action('base/save', {
+      title: '预约成功',
+      allowSwitchPatient: false,
+      hideNavBarBottomLine: false,
+      showCurrHospitalAndPatient: true,
+      headerRight: null,
+    }));
+    this.props.dispatch(action('appoint/save', {
+      cond: {},
+      selectSchedule: {},
+      selectAppointSource: {},
+    }));
+  }
+
   goBack() {
-    this.props.dispatch(routerRedux.go(-3));
+    this.props.dispatch(routerRedux.go(-4));
   }
 
   gotoRecords() {
     // this.props.dispatch(routerRedux.go(-3));
     // this.props.dispatch(routerRedux.push());
-    this.props.dispatch(routerRedux.push({
-      pathname: 'records',
-    }));
+    this.props.dispatch(routerRedux.push({ pathname: 'records' }));
   }
 
   render() {

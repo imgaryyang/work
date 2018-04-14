@@ -41,11 +41,11 @@ class AppAndReg extends Component {
     InteractionManager.runAfterInteractions(() => this.fetchData());
     this.props.navigation.setParams({
       title: '预约挂号',
-      // showCurrHospitalAndPatient: true,
-      // allowSwitchHospital: true,
-      // allowSwitchPatient: true,
-      // afterChoosePatient: null,
-      // hideNavBarBottomLine: false,
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: true,
+      allowSwitchPatient: true,
+      hideNavBarBottomLine: false,
+      afterChoosePatient: null,
       afterChooseHospital: this.afterChooseHospital,
     });
   }

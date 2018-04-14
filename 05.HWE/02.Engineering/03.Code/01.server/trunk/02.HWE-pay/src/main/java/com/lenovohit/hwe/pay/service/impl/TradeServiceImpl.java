@@ -63,13 +63,12 @@ public class TradeServiceImpl implements TradeService {
 			this.settlementManager.save(settle);
 			log.info("【" +settle.getSettleNo()+ "】,【" +settle.getPayTypeName()+ "】预支付数据初始化完成。");
 			
-//			wuxs test begin
-//			//1.支付业务调用
-//			PayBaseService payBaseService = getAdaptPayService(settle.getPayType());
-//			payBaseService.prePay(settle);
-//			this.settlementManager.save(settle);
-//			log.info("【" +settle.getSettleNo()+ "】,【" +settle.getPayTypeName()+ "】预支付调用支付渠道完成，结算状态为："+ settle.getStatus());
-//			
+			//1.支付业务调用
+			PayBaseService payBaseService = getAdaptPayService(settle.getPayType());
+			payBaseService.prePay(settle);
+			this.settlementManager.save(settle);
+			log.info("【" +settle.getSettleNo()+ "】,【" +settle.getPayTypeName()+ "】预支付调用支付渠道完成，结算状态为："+ settle.getStatus());
+			
 ////			//2.账单状态
 ////			Bill bill = settle.getBill();
 ////			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_PAY_SUCCESS) ||
@@ -90,15 +89,11 @@ public class TradeServiceImpl implements TradeService {
 ////				new TradeCallback(settle.getBill(), settle).start();
 ////			}
 //			//TODO 去Bill模式
-//			//3.业务回调
-//			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_CLOSED)){
-//				new TradeCallback(settle).start();
-//			}
-//			log.info("【" +settle.getSettleNo()+ "】预支付完成---------------------------------");
-			settle.setStatus(Settlement.SETTLE_TRAN_SUCCESS);			
-			new TradeCallback(settle).start();
-			// wuxs test end
-		} catch (PayException e) {
+//3.业务回调
+			if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_CLOSED)){
+				new TradeCallback(settle).start();
+			}
+			log.info("【" +settle.getSettleNo()+ "】预支付完成---------------------------------");		} catch (PayException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,11 +190,9 @@ public class TradeServiceImpl implements TradeService {
 //	
 	@Override
 	public void refund(Settlement settle) throws PayException {
-
 		//0.初始化数据
 		initRefundSettle(settle);
 		this.settlementManager.save(settle);
-		
 		//1.支付业务调用
 		PayBaseService payBaseService = getAdaptPayService(settle.getPayType());
 		payBaseService.refund(settle);
@@ -233,13 +226,14 @@ public class TradeServiceImpl implements TradeService {
 //				|| StringUtils.equals(bill.getStatus(), Bill.BILL_STAT_REFUND_CANCELED)){
 //			new TradeCallback(settle.getBill(), settle).start();
 //		}
-		//TODO 去Bill模式
-		//3.业务回调
-		if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_SUCCESS)
-				|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_FAILURE)
-				|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_CANCELED)){
-			new TradeCallback(settle).start();
-		}
+//		//TODO 去Bill模式
+//		
+//		//3.业务回调
+//		if(StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_SUCCESS)
+//				|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_FAILURE)
+//				|| StringUtils.equals(settle.getStatus(), Settlement.SETTLE_STAT_REFUND_CANCELED)){
+//			new TradeCallback(settle).start();
+//		}
 	}
 	
 	@Override
@@ -542,6 +536,7 @@ public class TradeServiceImpl implements TradeService {
 	        settle.setPayMerchantName(payType.getPayMerchant().getMchName());
 	        settle.setPayTypeId(payType.getId());
 	        settle.setPayTypeCode(payType.getCode());
+	        settle.setPayTypeType(payType.getType());
 	        settle.setPayTypeName(payType.getName());
 	        settle.setPayType(payType);
 			
@@ -707,8 +702,19 @@ public class TradeServiceImpl implements TradeService {
 //				throw new PayException("91001010","billId should not be NULL!");
 //			}
 //	        Bill bill = this.billManager.get(settle.getBillId());
-	        if(!StringUtils.isEmpty(settle.getOriSettleId())){
-	        	Settlement oriSettle = this.settlementManager.findOne("from Settlement where billId = ? ", settle.getOriSettleId());
+	        if(!StringUtils.isEmpty(settle.getOriSettleNo())){
+	        	Settlement oriSettle = this.settlementManager.findOne("from Settlement where settleNo = ? ", settle.getOriSettleNo());
+	        	settle.setOriSettleId(oriSettle.getId());
+	        	settle.setOriTradeNo(oriSettle.getTradeNo());
+	        	settle.setOriAmt(oriSettle.getAmt());
+	        	if(StringUtils.isEmpty(settle.getPayTypeId())){
+	        		settle.setPayTypeId(oriSettle.getPayTypeId());
+	        	}
+	        	
+	        	settle.setOriSettlement(oriSettle);
+	        }
+	        if(!StringUtils.isEmpty(settle.getOriTradeNo())){
+	        	Settlement oriSettle = this.settlementManager.findOne("from Settlement where tradeNo = ? and settleType = ?", settle.getOriTradeNo(), Settlement.SETTLE_TYPE_PAY);
 	        	settle.setOriSettleId(oriSettle.getId());
 	        	settle.setOriTradeNo(oriSettle.getTradeNo());
 	        	settle.setOriAmt(oriSettle.getAmt());
@@ -764,6 +770,7 @@ public class TradeServiceImpl implements TradeService {
 	        settle.setPayMerchantName(payType.getPayMerchant().getMchName());
 	        settle.setPayTypeId(payType.getId());
 	        settle.setPayTypeCode(payType.getCode());
+	        settle.setPayTypeType(payType.getType());
 	        settle.setPayTypeName(payType.getName());
 	        settle.setPayType(payType);
 			
@@ -862,6 +869,7 @@ public class TradeServiceImpl implements TradeService {
         	tradeModel.put("payMerchantNo", settle.getPayMerchantNo());
         	tradeModel.put("payMerchantName", settle.getPayMerchantName());
         	tradeModel.put("payTypeCode", settle.getPayTypeCode());
+        	tradeModel.put("payTypeType", settle.getPayTypeType());
         	tradeModel.put("payTypeName", settle.getPayTypeName());
         	tradeModel.put("payerNo", settle.getPayerNo());
         	tradeModel.put("payerName", settle.getPayerName());
@@ -870,8 +878,12 @@ public class TradeServiceImpl implements TradeService {
         	tradeModel.put("payerLogin", settle.getPayerLogin());
         	tradeModel.put("tradeNo", settle.getTradeNo());
         	tradeModel.put("tradeTime", settle.getTradeTime());
-//        	tcService.callback(tradeModel);
+        	tradeModel.put("TradeRspMsg", settle.getTradeRspMsg());
         	
+//        	tcService.callback(tradeModel);
+        	log.info("业务回调数据:" + tradeModel);
+        	// http://123.206.123.247:80/api/hwe/treat/deposit/callBack
+        	// http://127.0.0.1:9500/hwe/treat/deposit/callBack
         	ResponseEntity<String> response = restTemplate.postForEntity(settle.getBizUrl(), tradeModel, String.class);
         	if(response.getStatusCode() == HttpStatus.OK){
         		settle.setTranStatus(Settlement.SETTLE_TRAN_SUCCESS);
@@ -882,5 +894,4 @@ public class TradeServiceImpl implements TradeService {
         	log.info("完成业务回调渠道---------独立进程----");
         }
     }
-	
 }

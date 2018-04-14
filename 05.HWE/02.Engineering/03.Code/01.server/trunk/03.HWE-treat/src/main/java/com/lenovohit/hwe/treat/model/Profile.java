@@ -480,7 +480,7 @@ public class Profile extends HisAuditableModel implements java.io.Serializable {
      * 
      * @return birthday
      */
-    @Column(name = "BIRTH_DAY", nullable = true, length = 10)
+    @Column(name = "BIRTHDAY", nullable = true, length = 10)
     public String getBirthday() {
         return this.birthday;
     }

@@ -45,6 +45,7 @@ class MainView extends Component {
   async reloadUser() {
     const { auth } = this.props;
     const { reloadUserCtrlState } = auth;
+    // this.props.showLoading(true);
     try {
       if (auth.isLoggedIn) {
         this.props.updateReloadUserCtrlState({
@@ -52,7 +53,7 @@ class MainView extends Component {
           refreshing: true,
         });
         const responseData = await reloadUserInfo(auth.user.id);
-        // console.log('responseData in reloadUserInfo:', responseData);
+        console.log('responseData in reloadUserInfo:', responseData);
         if (responseData.success) {
           this.props.updateReloadUserCtrlState({
             ...reloadUserCtrlState,
@@ -61,6 +62,7 @@ class MainView extends Component {
             requestErrMsg: '',
           });
           this.props.updateUser(responseData.result);
+          Toast.show('重载用户信息成功！');
         } else {
           this.props.updateReloadUserCtrlState({
             ...reloadUserCtrlState,

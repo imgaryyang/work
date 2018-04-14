@@ -79,18 +79,16 @@ class PayCounter extends Component {
         },
   };
   componentWillMount() {
-    console.log(this.props.navigation);
     const param = this.props.navigation.state.params;
     const payInfo = {
       ...param,
+      // will modify 改成实际值
       // amt: param.amt,
       amt: 0.01,
     };
-    console.log(payInfo);
     this.setState({
       payInfo,
     });
-    // this.payCreateOrder(payInfo);
     this.props.navigation.setParams({
       title: '支付订单',
     });
@@ -111,25 +109,25 @@ class PayCounter extends Component {
     this.payCreateSettle();
   }
 
-  async payCreateOrder(param) {
-    try {
-      const responseData = await createBill(param);
-      const data = responseData.result;
-      if (responseData.success) {
-        this.setState({
-          payInfo: {
-            ...this.state.payInfo,
-            billNo: data.billNo,
-            billTitle: data.billTitle,
-            billId: data.id,
-          },
-        });
-        return responseData;
-      }
-    } catch (e) {
-      this.handleRequestException(e);
-    }
-  }
+  // async payCreateOrder(param) {
+  //   try {
+  //     const responseData = await createBill(param);
+  //     const data = responseData.result;
+  //     if (responseData.success) {
+  //       this.setState({
+  //         payInfo: {
+  //           ...this.state.payInfo,
+  //           billNo: data.billNo,
+  //           billTitle: data.billTitle,
+  //           billId: data.id,
+  //         },
+  //       });
+  //       return responseData;
+  //     }
+  //   } catch (e) {
+  //     this.handleRequestException(e);
+  //   }
+  // }
 
   async payCreateSettle() {
     try {
@@ -139,18 +137,22 @@ class PayCounter extends Component {
       if (paytype === 'wxPay') {
         subParams = {
           ...this.state.payInfo,
-          bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+          // bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
           PayChannelCode: this.state.wxPay.PayChannelCode,
           payTypeId: this.state.wxPay.payTypeId,
         };
       } else if (paytype === 'aliPay') {
         subParams = {
           ...this.state.payInfo,
-          bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+          // bizTime: moment().format('YYYY-MM-DD HH:mm:ss'),
           PayChannelCode: this.state.aliPay.PayChannelCode,
           payTypeId: this.state.aliPay.payTypeId,
         };
       }
+      console.log('payCreateSettle');
+      console.info(this.state.payInfo);
+      console.log('payCreateSettle');
+      // 生成结算单，并且调用第三方接口
       const responseData = await createSettlement(subParams);
       if (responseData.success) {
         const data = responseData.result;
@@ -191,8 +193,6 @@ class PayCounter extends Component {
     if (!this.state.doRenderScene) {
       return PayCounter.renderPlaceholderView();
     }
-
-    console.log(this.state.payInfo);
     const checked = !this.state.checked;
     const iconName = checked ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline';
     const aliIconName = !checked ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline';

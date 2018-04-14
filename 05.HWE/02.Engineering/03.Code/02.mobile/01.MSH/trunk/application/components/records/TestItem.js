@@ -36,16 +36,17 @@ class TestItem extends Component {
   }
 
   showDetail(item, index) {
-    if (item.type = '0001') {
-      this.props.navigate('ShowLisDetail', {
+    // console.log("item====",item);
+    if (item.testType === '0001') {
+      this.props.navigate('LisDetail', {
         barcode: item.barcode,
         data: item,
         checkId: item.id,
         checkName: item.itemName,
         index,
       });
-    } else {
-      this.props.navigate('ShowPacsDetail', {
+    } else if(item.testType === '0002') {
+      this.props.navigate('PacsDetail', {
         barcode: item.barcode,
         data: item,
         checkId: item.id,
@@ -58,7 +59,7 @@ class TestItem extends Component {
    * 渲染检查项目行数据
    */
   renderTestItem({ item, index }) {
-    console.log('item....', item);
+    // console.log('item....', item);
     const color = item.pkgName === '特检' ? 'red' : '#F68B24';
     return (
       <Item

@@ -6,14 +6,16 @@ import javax.persistence.Table;
 import com.lenovohit.hwe.base.model.AuditableModel;
 
 @Entity
-@Table(name = "CONSULT_FEE")
+@Table(name = "TREAT_CONSULT_FEE")
 public class ConsultFee extends AuditableModel implements java.io.Serializable {
 	private static final long serialVersionUID = 2785667409688656841L;
+	
 	private String department;					
 	private String deptName;					
 	private String doctor;					
 	private String consultFee;					
-	private String stopFlag;					
+	private String stopFlag;	
+	
 	public String getDepartment() {
 		return department;
 	}
@@ -44,8 +46,5 @@ public class ConsultFee extends AuditableModel implements java.io.Serializable {
 	public void setConsultFee(String consultFee) {
 		this.consultFee = consultFee;
 	}
-	
-	
-	
 	
 }

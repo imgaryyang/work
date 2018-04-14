@@ -92,7 +92,7 @@ public class News extends AuditableModel implements java.io.Serializable {
             H4 - 健康指导
             HA - 广告
      */
-    @Column(name = "FK_TYPE", nullable = false, length = 2)
+    @Column(name = "FK_TYPE", nullable = false, length = 20)
     public String getFkType() {
         return this.fkType;
     }
@@ -158,7 +158,7 @@ public class News extends AuditableModel implements java.io.Serializable {
      * 
      * @return body
      */
-    @Column(name = "BODY", nullable = false, length = 2046)
+    @Column(name = "BODY")
     public String getBody() {
         return this.body;
     }

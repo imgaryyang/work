@@ -66,15 +66,13 @@ public class LoginRestController extends SSMBaseRestController  implements Appli
 	@RequestMapping(value="/machineInfo",method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
 	public Result forCurrentMachine() {
 		Machine machine = this.getCurrentMachine();
-		
-		Page page = new Page();
-		page.setStart(0);
-		page.setPageSize(10);
-		page.setQuery("from Config order by sort");
-		configManager.findPage(page);
-		return ResultUtils.renderSuccessResult( page);
-		
-		// return ResultUtils.renderSuccessResult(machine);
+//		Page page = new Page();
+//		page.setStart(0);
+//		page.setPageSize(10);
+//		page.setQuery("from Config order by sort");
+//		configManager.findPage(page);
+//		return ResultUtils.renderSuccessResult( page);
+		return ResultUtils.renderSuccessResult(machine);
 	}
 	@RequestMapping(value="/machine/config",method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/*TEXT_PLAIN_UTF_8*/)
 	public Result forMachineConfig() {

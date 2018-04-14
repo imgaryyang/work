@@ -163,7 +163,7 @@ public class ForegiftRestController extends OrgBaseRestController {
   	}
   	
  	@RequestMapping(value="/callback",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
-  	public Result ForegiftCallback(@RequestBody String data){
+  	public Result foregiftCallback(@RequestBody String data){
   		Trade trade =  JSONUtils.deserialize(data, Trade.class);
   		if (StringUtils.isEmpty(trade.getBizNo())) {
   			ResultUtils.renderFailureResult();
@@ -174,20 +174,27 @@ public class ForegiftRestController extends OrgBaseRestController {
 		if (trade.getPayChannleCode().equals("wxpay")) {
 			foregiftModel.setTradeChannel("W");
   		} else if (trade.getPayChannleCode().equals("aliPay")) {
+			foregiftModel.setTradeChannelCode("9998");
+  		} else if (trade.getPayChannleCode().equals("alipay")) {
   			foregiftModel.setTradeChannel("Z");
   			foregiftModel.setTradeChannelCode("9999");
   		}
 
 		foregiftModel.setTradeNo(trade.getTradeNo()); 
+		foregiftModel.setTradeTime(trade.getTradeTime());
 		foregiftModel.setStatus(trade.getStatus());
   		this.foregiftManager.save(foregiftModel);
   	
+  		// wuxs will delete begin
+  		// 此为测试数据，用于区分hcp中deposit表的数据是门诊还是住院(当前的模拟数据都存储在了deposit表中了)
+  		foregiftModel.setTradeTerminalCode("04");
+  		// wuxs will delete end
 		RestTemplate restTemplate = new RestTemplate();
+		// his端暂时用deposit来模拟foregift
     	ResponseEntity<Foregift> response = restTemplate.postForEntity(baseUrl + "hcp/app/test/foregift/recharge", foregiftModel, Foregift.class);
     	if(response.getStatusCode() == HttpStatus.OK){
     		Foregift resultForegift = response.getBody();
     		foregiftModel.setNo(resultForegift.getNo());
-    		foregiftModel.setTradeTime(resultForegift.getTradeTime());
     		foregiftModel.setBalance(resultForegift.getBalance());
     		this.foregiftManager.save(foregiftModel);
     	}

@@ -95,7 +95,15 @@ class Schedule extends Component {
         () => { this.fetchData(); },
       );
     });
-    this.props.navigation.setParams({ title: this.props.navigation.state.params.title || '选择排班' });
+    this.props.navigation.setParams({
+      title: this.props.navigation.state.params.title || '选择排班',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: true,
+      afterChooseHospital: null,
+      afterChoosePatient: null,
+      hideNavBarBottomLine: false,
+    });
   }
 
   onRefresh() {

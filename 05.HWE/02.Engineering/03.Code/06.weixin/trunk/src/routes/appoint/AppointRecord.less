@@ -1,0 +1,81 @@
+@import "../../utils/common";
+
+.container {
+  .flexCol;
+  flex: 0;
+  padding: 15px 0 15px 10px;
+  background-color: white;
+  .header {
+    .flexRow;
+    height: 30px;
+    margin-bottom: 10px;
+    .thumb {
+      background: @IOS_LIGHT_GRAY @docPortrait no-repeat center center;
+      background-size: cover;
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+    }
+    .main {
+      margin-left: 10px;
+      .font14;
+    }
+    .extra {
+      margin-left: 10px;
+      .font11;
+    }
+    .status {
+      .flex1;
+      justify-content: flex-end;
+      padding-right: 10px;
+      .button {
+        .flex;
+        width: 70px;
+        height: 25px;
+        background-color: transparent;
+        border: 1px solid @IOS_BLUE;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+        .text {
+          .font11;
+          color: @IOS_BLUE;
+        }
+      }
+      .view {
+        .flex;
+        width: 70px;
+        height: 25px;
+        background-color: transparent;
+        justify-content: center;
+        align-items: center;
+        .text {
+          .font11;
+          .fontGray;
+        }
+      }
+    }
+    .icon {
+      padding-right: 10px;
+    }
+  }
+  .row {
+    .flexRow;
+    margin-top: 5px;
+    .label {
+      .font13;
+      .fontGray;
+      width: 65px;
+    }
+    .content{
+      font-size: 13px;
+    }
+  }
+}
+
+.alert {
+  padding: 25px 5px 10px;
+  .font14;
+}
+
+

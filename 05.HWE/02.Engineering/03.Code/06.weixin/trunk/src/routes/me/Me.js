@@ -65,8 +65,8 @@ class Me extends React.Component {
   }
 
   render() {
-    const { user, screen } = this.props.base;
-    // console.log(user);
+    const { user, screen/* , currHospital, currPatient, currProfile*/ } = this.props.base;
+    // console.log('user, currHospital, currPatient, currProfile:', user, currHospital, currPatient, currProfile);
     const portrait = user.portrait ? { backgroundImage: `url(${image(user.portrait)})` } : {};
     // console.log(portrait);
     return (
@@ -81,7 +81,7 @@ class Me extends React.Component {
               style={portrait}
             />
           </div>
-          <div className={styles.name} >{user.name}</div>
+          <div className={styles.name} >{user.name || user.mobile}</div>
         </div>
         <div className={commonStyles.sep15} />
         <div>
@@ -96,4 +96,4 @@ class Me extends React.Component {
 Me.propTypes = {
 };
 
-export default connect(({ user, base }) => ({ user, base }))(Me);
+export default connect(({ base }) => ({ base }))(Me);

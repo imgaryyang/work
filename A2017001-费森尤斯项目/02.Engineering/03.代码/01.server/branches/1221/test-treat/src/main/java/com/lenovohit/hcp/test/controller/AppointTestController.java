@@ -115,11 +115,26 @@ public class AppointTestController extends AuthorityRestController {
 					values.add(query.getHosNo());
 				}
 				
-				if(!StringUtils.isEmpty(query.getProNo()) || !StringUtils.isEmpty(query.getMobile())){
-					jql.append(" and (proNo = ? or mobile = ?) ");
+				if(!StringUtils.isEmpty(query.getProNo())){
+					jql.append(" and proNo = ? ");
 					values.add(query.getProNo());
+				}
+				
+				if(!StringUtils.isEmpty(query.getMobile())){
+					jql.append(" and mobile = ? ");
 					values.add(query.getMobile());
 				}
+				
+				if(!StringUtils.isEmpty(query.getIdNo())){
+					jql.append(" and idNo = ? ");
+					values.add(query.getIdNo());
+				}
+				
+//				if(!StringUtils.isEmpty(query.getProNo()) || !StringUtils.isEmpty(query.getMobile())){
+//					jql.append(" and (proNo = ? or mobile = ?) ");
+//					values.add(query.getProNo());
+//					values.add(query.getMobile());
+//				}
 			}
 
 //			if(StringUtils.isEmpty(query))		throw new BaseException("参数错误！");
@@ -145,7 +160,7 @@ public class AppointTestController extends AuthorityRestController {
 		try {
 			log.info("\n======== forReservedInfo Start ========\ndata:\n"+data);
 			TestAppoint query =  JSONUtils.deserialize(data, TestAppoint.class);
-			StringBuilder jql = new StringBuilder( " from TestAppoint where 1=1 ");
+			StringBuilder jql = new StringBuilder( " from TestAppoint where 1 = 1 ");
 			List<Object> values = new ArrayList<Object>();
 
 			if(!StringUtils.isEmpty(query)) {
@@ -160,7 +175,7 @@ public class AppointTestController extends AuthorityRestController {
 				}
 				
 				if(!StringUtils.isEmpty(query.getNo())){
-					jql.append(" and no = ? ");
+					jql.append(" and id = ? ");
 					values.add(query.getNo());
 				}
 			}

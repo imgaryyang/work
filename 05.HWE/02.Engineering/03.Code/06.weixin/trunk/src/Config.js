@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import Global from './Global';
 
 /**
@@ -7,12 +7,14 @@ import Global from './Global';
  * @type {Object}
  */
 const appId = 'com.lenovohit.msh';
-const appUUID = '2c90a85c614a07ce01614a38f8d40004';
+const appUUID = '8a81a7db4dad2271014dad2271e20001';
 console.log('Global:', Global);
 const config = Object.freeze({
   appId,
   appUUID,
   appName: '联想智慧医院',
+  appType: 'W&Z', // TODO 临时
+  appCode: 'W&Z01', // TODO 临时
   mode: Global.MODE_DEV,
   edition: Global.EDITION_SINGLE,
   hospId: '8a81a7db4dad2271014dad2271e20001',
@@ -24,8 +26,8 @@ const config = Object.freeze({
     type: '1',
     level: '3A',
     status: '1',
-    logo: '8a50ad50e87c11e7be625254001f7cdb',
-    scenery: '54279a56e87d11e7be625254001f7cdb',
+    logo: '8a81a7db4dad2271014dad2271e20001.png',
+    scenery: '01-0001.jpg',
     sceneryNum: 4,
     longitude: 116.360788,
     latitude: 39.942493,
@@ -148,7 +150,7 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf12', state: '1', route: 'inpatientPaymentRecord', name: '住院预缴记录', iconLib: '', icon: '',
+        id: 'hf12', state: '1', route: 'inpatientPrepaidRecords', name: '住院预缴记录', iconLib: '', icon: '',
         imgIcon: 'inpatientPrepaidRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
@@ -247,19 +249,19 @@ const config = Object.freeze({
       // },
     ],
     me: [
+      // {
+      //   id: 'me01', state: '1', route: 'profile', name: '个人资料', iconLib: 'fa', icon: 'user',
+      //   imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
+      //   passProps: {
+      //     showCurrHospitalAndPatient: false,
+      //     allowSwitchHospital: false,
+      //     allowSwitchPatient: false,
+      //     hideNavBarBottomLine: false,
+      //     headerRight: null,
+      //   },
+      // },
       {
-        id: 'me01', state: '1', route: 'profile', name: '个人资料', iconLib: 'fa', icon: 'user',
-        imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '',
-        passProps: {
-          showCurrHospitalAndPatient: false,
-          allowSwitchHospital: false,
-          allowSwitchPatient: false,
-          hideNavBarBottomLine: false,
-          headerRight: null,
-        },
-      },
-      {
-        id: 'me02', state: '1', route: 'patient', name: '常用就诊人', iconLib: 'fa', icon: 'users',
+        id: 'me02', state: '1', route: 'patients', name: '常用就诊人', iconLib: 'fa', icon: 'users',
         imgIcon: '', iconSize: 26, iconSmallSize: 26, color: '', bgColor: '', borderColor: '', separator: true,
         passProps: {
           showCurrHospitalAndPatient: false,
@@ -348,20 +350,39 @@ const config = Object.freeze({
     'InpatientInfo',
     'InpatientDailyBill',
   ],
-  tagTypes: {
-    NEAREST: 'nearest',
-    LATEST: 'latest',
-    FREQUENT: 'frequent',
-  },
+  needProfileComp: [ // 需要先选档案才能操作的场景
+    'payCounterMain2', // 充值缴费
+    'report', // 报告查询
+    'signIn', // 预约签到
+    'outpatientReturn', // 门诊退费
+    // 'appoint/records', // 预约记录 无需选择就诊人，登陆即可
+    'paymentRecord', // 消费记录
+    'record', // 就诊记录
+    'inpatientBillQuery', // 住院单查询
+    'inpatientDaily', // 住院日清单
+    'inpatientPrepaidRecords', // 住院预缴记录
+  ],
+  // tagTypes: {
+  //   NEAREST: 'nearest',
+  //   LATEST: 'latest',
+  //   FREQUENT: 'frequent',
+  // },
   tagConfig: {
-    nearest: { label: '离我最近', bgColor: 'IOS_GREEN', borderColor: 'IOS_GREEN' },
-    latest: { label: '最近去过', bgColor: 'ORANGE', borderColor: 'ORANGE' },
-    frequent: { label: '去的最多', bgColor: 'ORANGE', borderColor: 'IOS_BLUE' },
+    nearest: { label: '离我最近', bgColor: '#4CD964', borderColor: '#4CD964' },
+    latest: { label: '最近去过', bgColor: '#FF6600', borderColor: '#FF6600' },
+    frequent: { label: '去的最多', bgColor: '#FF6600', borderColor: '#FF6600' },
+    // 就诊类型
+    clinicTypeNormal: { label: '普通门诊', bgColor: '#007AFF', borderColor: '#007AFF' },
+    clinicTypeOther: { label: '', bgColor: '#FF3B30', borderColor: '#FF3B30' },
+    // patientRelation
+    patientRelationMeself: { label: '本人', bgColor: '#4CD964', borderColor: '#4CD964' },
+    patientRelationOther: { label: '其他', bgColor: '#FF6600', borderColor: '#FF6600' },
   },
   // 系统配置
   // 全局
   global: {
-    // ?
+    loginMode: Global.LOGIN_MODE_SMS, // 登录模式：短信
+    authCodeResendInterval: 30, // 重新发送验证码时间间隔（秒 s）
   },
   // 医院
   hosp: {

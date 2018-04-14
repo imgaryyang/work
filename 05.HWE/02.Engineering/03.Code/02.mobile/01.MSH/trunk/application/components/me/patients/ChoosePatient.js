@@ -114,21 +114,14 @@ class ChoosePatient extends Component {
   renderCurrHospital() {
     const { base, navigation } = this.props;
     const { edition } = base;
+    const { params } = navigation.state;
     const currHospital = this.state.hospital;
     const portraitSource = currHospital && currHospital.logo ?
       { uri: `${Global.getImageHost()}${currHospital.logo}?timestamp=${new Date().getTime()}` } :
       Global.Config.defaultImgs.hospLogo;
-    const currHospitalView = (
-      <TouchableOpacity
-        style={styles.hospitalContainer}
-        onPress={() => navigation.navigate('ChooseHospital', {
-          chooseHospital: this.afterChooseHospital,
-          title: '选择医院',
-          hideNavBarBottomLine: true,
-        })}
-      >
-        <Portrait width={60} height={30} imageSource={portraitSource} resizeMode="contain" />
-        <Text style={styles.hospName} numberOfLines={1}>{currHospital ? currHospital.name : '您还未选择医院...'}</Text>
+
+    const switchView = params && params.allowSwitchHospital === true ? (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text style={styles.switchText}>{currHospital ? '切换' : '去选择'}</Text>
         <Icon
           iconLib="fa"
@@ -138,6 +131,24 @@ class ChoosePatient extends Component {
           height={20}
           color={Global.colors.IOS_ARROW}
         />
+      </View>
+    ) : null;
+    const currHospitalView = (
+      <TouchableOpacity
+        style={styles.hospitalContainer}
+        onPress={() => {
+          if (params && params.allowSwitchHospital === true) {
+            navigation.navigate('ChooseHospital', {
+              chooseHospital: this.afterChooseHospital,
+              title: '选择医院',
+              hideNavBarBottomLine: true,
+            });
+          }
+        }}
+      >
+        <Portrait width={60} height={30} imageSource={portraitSource} resizeMode="contain" />
+        <Text style={styles.hospName} numberOfLines={1}>{currHospital ? currHospital.name : '您还未选择医院...'}</Text>
+        {switchView}
       </TouchableOpacity>
     );
     // return currHospitalView;

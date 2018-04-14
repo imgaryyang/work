@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.lenovohit.core.model.BaseIdModel;
 
@@ -33,6 +34,15 @@ public class TestDeposit extends BaseIdModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 2752604019696410424L;
 
+    /** hosId */
+    private String hosId;
+
+    /** hosNo */
+    private String hosNo;
+
+    /** hosName */
+    private String hosName;
+    
     /** proId */
     private String proId;  
 
@@ -96,6 +106,81 @@ public class TestDeposit extends BaseIdModel implements java.io.Serializable {
 
     /** status */
     private String status;
+    
+    /** type */
+    private String type;
+
+    /** no */
+    private String no;
+    
+    private String settleNo;
+
+    // 交易时间最小值
+    private Date minTradeTime;
+    // 交易时间最大值
+    private Date maxTradeTime;
+    
+    private String bizType;
+    
+    private String tradeTerminalCode;
+    
+//    private Date createdAt;
+    /**
+     * 获取hosId
+     * 
+     * @return hosId
+     */
+    @Column(name = "HOS_ID", nullable = true, length = 32)
+    public String getHosId() {
+        return this.hosId;
+    }
+
+    /**
+     * 设置hosId
+     * 
+     * @param hosId
+     */
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    /**
+     * 获取hosNo
+     * 
+     * @return hosNo
+     */
+    @Column(name = "HOS_NO", nullable = true, length = 50)
+    public String getHosNo() {
+        return this.hosNo;
+    }
+
+    /**
+     * 设置hosNo
+     * 
+     * @param hosNo
+     */
+    public void setHosNo(String hosNo) {
+        this.hosNo = hosNo;
+    }
+
+    /**
+     * 获取hosName
+     * 
+     * @return hosName
+     */
+    @Column(name = "HOS_NAME", nullable = true, length = 50)
+    public String getHosName() {
+        return this.hosName;
+    }
+
+    /**
+     * 设置hosName
+     * 
+     * @param hosName
+     */
+    public void setHosName(String hosName) {
+        this.hosName = hosName;
+    }
 
     /**
      * 获取proId
@@ -493,4 +578,146 @@ public class TestDeposit extends BaseIdModel implements java.io.Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    /**
+     * 获取type
+     * 
+     * @return type
+     */
+    @Column(name = "TYPE")
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * 设置type
+     * 
+     * @param type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    /**
+     * 获取no
+     * 
+     * @return no
+     */
+    @Column(name = "NO")
+    public String getNo() {
+        return this.no;
+    }
+
+    /**
+     * 设置no
+     * 
+     * @param no
+     */
+    public void setNo(String no) {
+        this.no = no;
+    }
+    
+    /**
+     * 获取settleNo
+     * 
+     * @return settleNo
+     */
+    @Column(name = "SETTLE_NO", nullable = true, length = 50)
+    public String getSettleNo() {
+        return this.settleNo;
+    }
+
+    /**
+     * 设置settleNo
+     * 
+     * @param settleNo
+     */
+    public void setSettleNo(String settleNo) {
+        this.settleNo = settleNo;
+    }
+    
+    /**
+     * 获取bizType
+     * 
+     * @return bizType
+     */
+    @Transient
+    public String getBizType() {
+        return this.bizType;
+    }
+
+    /**
+     * 设置bizType
+     * 
+     * @param bizType
+     */
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
+    
+    /**
+     * 获取minTradeTime
+     * 
+     * @return minTradeTime
+     */
+    @Transient
+    public Date getMinTradeTime() {
+        return this.minTradeTime;
+    }
+
+    /**
+     * 设置minTradeTime
+     * 
+     * @param minTradeTime
+     */
+    public void setMinTradeTime(Date minTradeTime) {
+        this.minTradeTime = minTradeTime;
+    }
+    
+    /**
+     * 获取maxTradeTime
+     * 
+     * @return maxTradeTime
+     */
+    @Transient
+    public Date getMaxTradeTime() {
+        return this.maxTradeTime;
+    }
+
+    /**
+     * 设置maxTradeTime
+     * 
+     * @param maxTradeTime
+     */
+    public void setMaxTradeTime(Date maxTradeTime) {
+        this.maxTradeTime = maxTradeTime;
+    }
+    
+    @Column(name = "TRADE_TERMINAL_CODE", nullable = true, length = 50)
+	public String getTradeTerminalCode() {
+		return tradeTerminalCode;
+	}
+
+	public void setTradeTerminalCode(String tradeTerminalCode) {
+		this.tradeTerminalCode = tradeTerminalCode;
+	}
+
+//    /**
+//     * 获取createdAt
+//     * 
+//     * @return createdAt
+//     */
+//    @Column(name = "CREATED_AT")
+//    public Date getCreatedAt() {
+//        return this.createdAt;
+//    }
+//
+//    /**
+//     * 设置createdAt
+//     * 
+//     * @param createdAt
+//     */
+//    public void setCreatedAt(Date createdAt) {
+//        this.createdAt = createdAt;
+//    }
 }

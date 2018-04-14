@@ -20,9 +20,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
-import org.hibernate.type.CalendarDateType;
-
 /**
  * TREAT_FOREGIFT
  * 
@@ -544,7 +541,7 @@ public class Foregift extends HisAuditableModel implements java.io.Serializable 
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 200)
+    @Column(name = "COMMENT_", nullable = true, length = 200)
 	public String getComment() {
 		return comment;
 	}

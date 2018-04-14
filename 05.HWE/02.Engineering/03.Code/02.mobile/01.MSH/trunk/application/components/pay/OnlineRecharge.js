@@ -11,6 +11,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'rn-easy-button';
 // import Sep from 'rn-easy-separator';
@@ -19,8 +20,9 @@ import Form from '../../modules/form/EasyForm';
 import Global from '../../Global';
 import FormConfig from '../../modules/form/config/LineInputsConfigForPayment';
 import { filterMoney } from '../../utils/Filters';
-import { createDeposit } from '../../services/payment/ChargeService';
-
+import { createDeposit, createForegift } from '../../services/payment/ChargeService';
+import { patientPayment } from '../../services/RequestTypes';
+import config from "../../../Config";
 const dismissKeyboard = require('dismissKeyboard');
 
 class OnlineRecharge extends Component {
@@ -49,21 +51,21 @@ class OnlineRecharge extends Component {
 
   state = {
     doRenderScene: false,
-    preStoreBalance: 0.00, // 预存账户余额
-    prePayBalance: 0.00, // 预缴账户余额
+    // preStoreBalance: 0.00, // 预存账户余额
+    // prePayBalance: 0.00, // 预缴账户余额
     amt: 0.00, // 充值金额
-    cardType: '0',
-    type: '01',
+    // cardType: '0',
+    // type: '04',
     isPreStore: true,
-    showLabel: true,
-    labelPosition: 'top',
-    billTitle: '预存充值',
-    appCode: 'appCode',
-    terminalCode: 'zhangsan',
-    payerNo: 'lisi',
-    bizType: '预存',
+    // showLabel: true,
+    // labelPosition: 'top',
+    // billTitle: '预存充值',
+    // appCode: 'appCode',
+    // terminalCode: 'zhangsan',
+    // payerNo: 'lisi',
+    // bizType: '00',
     patient: {
-      type: '0',
+      type: '00',
     },
   };
 
@@ -76,20 +78,19 @@ class OnlineRecharge extends Component {
   }
 
   onChange(name, fValue, formValue) {
-    if (name === 'type' && fValue === '01') {
+    // 门诊充值
+    if (name === 'type' && fValue === '00') {
       this.setState({
-        cardType: '0',
+        // bizType: '00',
         patient: formValue,
         isPreStore: true,
       });
-      // this.getPreStoreInfo(this.state.profile);
-    } else if (name === 'type' && fValue === '04') {
+    } else if (name === 'type' && fValue === '04') { // 住院预缴
       this.setState({
-        cardType: '1',
+        // bizType: '04',
         patient: formValue,
         isPreStore: false,
       });
-      // this.getPrePayInfo(this.state.profile);
     }
     if (name === 'amt') {
       this.setState({
@@ -103,19 +104,31 @@ class OnlineRecharge extends Component {
   *
   */
   toPay() {
+    const { currProfile } = this.props.base;
+    const { user } = this.props.auth;
     if (this.state.amt && this.state.amt !== 0 && this.state.amt !== '0') {
       const pro = this.props.dataProps.profile;
       const params = {
-        proId: pro.id,
-        proNo: pro.no,
-        proName: pro.name,
-        hosName: pro.hosName,
-        hosId: pro.hosId,
-        hosNo: pro.hosNo,
+        proId: currProfile.id,
+        proNo: currProfile.no,
+        proName: currProfile.name,
+        hosName: currProfile.hosName,
+        hosId: currProfile.hosId,
+        hosNo: currProfile.hosNo,
+        cardNo: currProfile.cardNo,
+        cardType: '2',
         amt: this.state.amt,
-        tradeType: '0',
-        status: 'A',
-        tradeTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+        accountType: '9',
+        acccount: currProfile.acctNo,
+        accountName: currProfile.name,
+        type: '0', // 充值
+        status: 'A', // 初始状态
+        adFlag: '0',
+        appChannel: 'APP',
+        userId: user.id,
+        appType: config.appType, // 审计字段
+        appCode: config.appCode, // 审计字段
+        // tradeTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       };
       this.createDeposit(params);
     } else {
@@ -124,31 +137,33 @@ class OnlineRecharge extends Component {
   }
 
   async createDeposit(param) {
+    const { user } = this.props.auth;
+    const bizType = this.state.patient.type;
+    const createBill = bizType === '00' ? createDeposit : createForegift;
+    const bizUrl = bizType === '00' ? (patientPayment().depositCallback) : (patientPayment().foregiftCallback);
     try {
-      const responseData = await createDeposit(param);
+      console.log('createDeposit22 begin');
+      console.info(param);
+      console.log('createDeposit22 end');
+      const responseData = await createBill(param);
       const data = responseData.result;
-      console.log(responseData);
       if (responseData.success) {
-        /* this.setState({
-         payInfo: {
-           ...this.state.payInfo,
-           billNo: data.billNo,
-           billTitle: data.billTitle,
-           billId: data.id,
-         },
-       });*/
         const settle = {
-          settleTitle: this.state.type === '01' ? `预存充值——${data.amt}` : `预缴充值——${data.amt}`,
+          settleTitle: data.id,
           amt: data.amt,
-          appCode: '01',
-          bizType: '00',
+          bizType,
           settleType: 'SP',
           bizNo: data.id,
-          // bizTime: '',
-          tradeTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-          bizUrl: 'http://123.206.123.247:9500/hwe/treat/deposit/callBack',
+          bizTime: data.createdAt,
+          appType: config.appType, // 审计字段
+          appCode: config.appCode, // 审计字段
+          bizUrl,
           // payTypeId: '',
+          userId: user.id,
         };
+        console.log('createDeposit11');
+        console.info(settle);
+        console.log('createDeposit22');
         this.props.navigates('PayCounter', settle);
       }
     } catch (e) {
@@ -161,7 +176,6 @@ class OnlineRecharge extends Component {
       return OnlineRecharge.renderPlaceholderView();
     }
     // 场景过渡动画未完成前，先渲染过渡场景
-
     return (
       <View style={[Global.styles.CONTAINER, {}]}>
         <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
@@ -182,11 +196,11 @@ class OnlineRecharge extends Component {
                 <Form.Checkbox
                   name="type"
                   display="row"
-                  label=""
                   dataSource={[
                     { label: '门诊充值', value: '00' },
                     { label: '住院预缴', value: '04' },
                   ]}
+                  value="00"
                   required
                 />
                 <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >充值金额</Text>
@@ -229,4 +243,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnlineRecharge;
+const mapStateToProps = state => ({
+  base: state.base,
+  auth: state.auth,
+});
+export default connect(mapStateToProps)(OnlineRecharge);

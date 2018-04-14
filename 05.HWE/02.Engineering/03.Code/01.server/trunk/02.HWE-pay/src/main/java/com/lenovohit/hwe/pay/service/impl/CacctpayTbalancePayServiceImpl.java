@@ -16,7 +16,6 @@ import com.lenovohit.hwe.pay.utils.PayMerchantConfigCache;
 
 @Service("cacctpayTbalancePayService")
 public class CacctpayTbalancePayServiceImpl implements PayBaseService {
-	private static String PAY_SUCCESS_RET = "success";
 	private static Log log = LogFactory.getLog(CacctpayTbalancePayServiceImpl.class);
 
 	@Override
@@ -29,7 +28,6 @@ public class CacctpayTbalancePayServiceImpl implements PayBaseService {
 	public void payCallback(Settlement settlement) {
 		try {
 			settlement.setRespText((String) settlement.getVariables().get("responseStr"));
-			settlement.getVariables().put("_resultStr", PAY_SUCCESS_RET);
 			RestEntityResponse<BalancePayResponse> response = parseEntity(settlement.getRespText());
 			if (response.isSuccess()) {// 支付成功
 				BalancePayResponse result = response.getEntity();

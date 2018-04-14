@@ -6,5 +6,5 @@ export function findInpatientPaymentRecord(query) {
 }
 
 export function prePay(settlement) {
-  return ajax.POST('/api/hwe/pay/prePay', settlement || {});
+  return ajax.POST('/api/hwe/treat/his/charge/prePay', settlement || {});
 }

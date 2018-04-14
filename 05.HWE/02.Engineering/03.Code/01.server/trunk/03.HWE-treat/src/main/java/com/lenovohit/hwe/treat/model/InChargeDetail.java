@@ -893,7 +893,7 @@ public class InChargeDetail extends AuditableModel implements java.io.Serializab
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 50)
+    @Column(name = "COMMENT_", nullable = true, length = 50)
     public String getComment() {
         return this.comment;
     }

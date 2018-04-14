@@ -37,7 +37,7 @@ class CurrPatient extends Component {
   }
 
   gotoChoosePatient() {
-    const { /* base, */allowSwitchPatient } = this.props;
+    const { /* base, */allowSwitchPatient, allowSwitchHospital } = this.props;
     if (allowSwitchPatient) {
       // const { currHospital } = base;
       this.props.navigate(
@@ -47,6 +47,7 @@ class CurrPatient extends Component {
           // hospital: currHospital,
           title: '选择就诊人',
           hideNavBarBottomLine: false,
+          allowSwitchHospital,
         },
       );
     }

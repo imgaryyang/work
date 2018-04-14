@@ -191,15 +191,15 @@ public class ChargeRestController extends OrgBaseRestController {
   		return ResultUtils.renderSuccessResult();
   	}
   	
-	@RequestMapping(value = "prePayInfo", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Result prePayInfo(@RequestParam(value = "data", defaultValue = "") String data) {
-		List<ChargeDetail> chagerList = JSONUtils.parseObject(data, new TypeReference<List<ChargeDetail>>() {});
-		System.out.println("==============自费预结算开始===================");
-		RestEntityResponse<Charge> response = this.hisChargeService.prepay(chagerList);
-		System.out.println("==============自费预结算结束===================");
-		if(response.isSuccess())
-			return ResultUtils.renderSuccessResult(response.getEntity());
-		else 
-			return ResultUtils.renderFailureResult(response.getMsg());
-	}
+//	@RequestMapping(value = "prePayInfo", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+//	public Result prePayInfo(@RequestParam(value = "data", defaultValue = "") String data) {
+//		List<ChargeDetail> chagerList = JSONUtils.parseObject(data, new TypeReference<List<ChargeDetail>>() {});
+//		System.out.println("==============自费预结算开始===================");
+//		RestEntityResponse<Charge> response = this.hisChargeService.prepay(chagerList);
+//		System.out.println("==============自费预结算结束===================");
+//		if(response.isSuccess())
+//			return ResultUtils.renderSuccessResult(response.getEntity());
+//		else 
+//			return ResultUtils.renderFailureResult(response.getMsg());
+//	}
 }

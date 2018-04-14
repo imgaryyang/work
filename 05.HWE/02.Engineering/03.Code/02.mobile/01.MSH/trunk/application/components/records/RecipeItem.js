@@ -65,6 +65,7 @@ class RecipeItem extends PureComponent {
   }
 
   render() {
+    console.log("this。props ======", this.props);
     return (
       <View style={Global.styles.CONTAINER}>
         <FlatList
@@ -73,12 +74,21 @@ class RecipeItem extends PureComponent {
           keyExtractor={(item, index) => `${item}${index + 1}`}
           ItemSeparatorComponent={() => (<Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />)}
           renderItem={this.renderDrugItem}
+          refreshing={this.props.refreshing}
           style={styles.list}
+          ListEmptyComponent={() => {
+            return this.renderEmptyView({
+              msg: '暂无信息',
+              reloadMsg: '点击刷新按钮重新加载',
+              reloadCallback: this.props.reloadCallback,
+            });
+          }}
         />
       </View>
     );
   }
 }
+// ctrlState: this.state.ctrlState,
 
 const styles = StyleSheet.create({
   titleText: {

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,7 @@ import com.lenovohit.hcp.base.web.rest.HcpBaseRestController;
 import com.lenovohit.hcp.finance.model.OutpatientChargeDetail;
 import com.lenovohit.hcp.payment.model.ICharge;
 import com.lenovohit.hcp.payment.model.IChargeDetail;
+import com.lenovohit.hcp.test.controller.ChargeTestController;
 
 /**    
  *         
@@ -126,35 +128,101 @@ public class IChargeRestController extends HcpBaseRestController {
 		return ResultUtils.renderSuccessResult(records);
 	}
 	
-	@RequestMapping(value = "/getPreChargeInfo", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/* TEXT_PLAIN_UTF_8 */)
-	public Result getPreChargeInfo(@RequestParam(value = "data", defaultValue = "") String data) {
-		List<IChargeDetail> chagerList = JSONUtils.parseObject(data, new TypeReference<List<IChargeDetail>>() {
-		});
-		ICharge charge = new ICharge();
-		BigDecimal total = new BigDecimal(0);
-		StringBuilder sb = new StringBuilder();
-		if(chagerList!=null && chagerList.size()>0){
-			for(int i=0;i<chagerList.size();i++){
-				IChargeDetail detail = chagerList.get(i);
-				sb.append(detail.getChargeId());
-				sb.append(",");
-				if(i == 0){
-					BeanUtils.copyProperties(detail, charge);
-				}
-				total = total.add(detail.getCost());
+	/**
+	 * 功能描述：查询病人待缴费明细
+	 * 
+	 * @param data
+	 * @return
+	 * @author red
+	 * @date 2017年4月7日
+	 */
+	@RequestMapping(value = "/unpaids", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8/* TEXT_PLAIN_UTF_8 */)
+	public Result forfindUnpaidChargeDetail(@RequestParam(value = "data", defaultValue = "") String data) {
+		IChargeDetail query = JSONUtils.deserialize(data, IChargeDetail.class);
+		StringBuilder jql = new StringBuilder("from OutpatientChargeDetail  where applyState = '0' ");
+		List<Object> values = new ArrayList<Object>();
+		if(query!=null){
+			//医院编号
+			if (!StringUtils.isEmpty(query.getHosNo())) {
+				jql.append("and hosId = ? ");
+				values.add(query.getHosNo());
+			}
+			//档案编号
+			if (!StringUtils.isEmpty(query.getProNo())) {
+				jql.append("and patient.patientId = ? ");
+				values.add(query.getProNo());
+			}
+			//档案名称
+			if (!StringUtils.isEmpty(query.getProName())) {
+				jql.append("and patient.name = ? ");
+				values.add(query.getProName());
+			}
+			// 诊疗卡
+			if (!StringUtils.isEmpty(query.getCardNo())) {
+				jql.append("and patient.medicalCardNo = ?  ");
+				values.add(query.getCardNo());
 			}
 		}
-		charge.setAmt(total);
-		charge.setReduceAmt(total.multiply(new BigDecimal(0.1)));
-		charge.setMyselfAmt(total.multiply(new BigDecimal(0.9)));
+		List<OutpatientChargeDetail> chargeDetailList=(List<OutpatientChargeDetail>) outpatientChargeDetailManager.findByJql(jql.toString(), values.toArray());
+		List<IChargeDetail> records=ConventHisModel(chargeDetailList);
+		return ResultUtils.renderSuccessResult(records);
+	}
 		
-		HisOrder hisOrder = new HisOrder();
-		hisOrder = createHisOrder(total, sb, hisOrder);
+	// 预结算
+	@RequestMapping(value = "/getPreChargeInfo",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Result getPreChargeInfo(@RequestBody String data) {
+		ICharge model = JSONUtils.deserialize(data, ICharge.class);
+		ICharge charge = new ICharge();
+		 
+		if (model.getItems() != null) { 
+			for (int idx = 0; idx < model.getItems().size(); idx++) {
+				IChargeDetail chargeDetail = model.getItems().get(idx);
+				BigDecimal amt = charge.getAmt() == null ? new BigDecimal(0) : charge.getAmt(); 
+				BigDecimal reduceAmt = charge.getReduceAmt() == null ? new BigDecimal(0) : charge.getReduceAmt(); 
+				BigDecimal myselfAmt = charge.getMyselfAmt() == null ? new BigDecimal(0) : charge.getMyselfAmt(); 
+				charge.setAmt(amt.add(chargeDetail.getCost()));
+				charge.setReduceAmt(reduceAmt.add(chargeDetail.getCost().multiply(new BigDecimal(0.1))));
+				charge.setMyselfAmt(myselfAmt.add(chargeDetail.getCost().multiply(new BigDecimal(0.9))));
+				charge.setStatus("A");
+			}
+		}
+		// 取时间戳,模拟收费单号
+		charge.setNo(String.valueOf(System.currentTimeMillis()));
+		charge.setHosNo(model.getHosNo());
 		
-		charge.setNo(hisOrder.getOrderNo());
+	
+		
+
 		return ResultUtils.renderSuccessResult(charge);
 	}
-
+	
+	// 模拟HIS结算。
+	// 返回值：如果总金额 >100,则返回余额不足信息；否则返回成功
+	@RequestMapping(value = "/pay",method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Result pay(@RequestBody String data) {
+		ICharge model = JSONUtils.deserialize(data, ICharge.class);
+		ICharge charge = new ICharge();
+		 
+		if (model.getItems() != null) { 
+			for (int idx = 0; idx < model.getItems().size(); idx++) {
+				IChargeDetail chargeDetail = model.getItems().get(idx);
+				BigDecimal amt = charge.getAmt() == null ? new BigDecimal(0) : charge.getAmt(); 
+				BigDecimal reduceAmt = charge.getReduceAmt() == null ? new BigDecimal(0) : charge.getReduceAmt(); 
+				BigDecimal myselfAmt = charge.getMyselfAmt() == null ? new BigDecimal(0) : charge.getMyselfAmt(); 
+				charge.setAmt(amt.add(chargeDetail.getCost()));
+				charge.setReduceAmt(reduceAmt.add(chargeDetail.getCost().multiply(new BigDecimal(0.1))));
+				charge.setMyselfAmt(myselfAmt.add(chargeDetail.getCost().multiply(new BigDecimal(0.9))));
+			}
+		}
+		
+		if (charge.getAmt().compareTo(new BigDecimal(280)) > 0) {
+			return ResultUtils.renderFailureResult("余额不足");
+		}
+		charge.setChargeNo(model.getChargeNo());
+		charge.setStatus("0");	// 已收费
+		return ResultUtils.renderSuccessResult(charge);
+	}
+	
 	/**
 	 * 描述：  创建his收费记录
 	 * @param total
@@ -220,8 +288,8 @@ public class IChargeRestController extends HcpBaseRestController {
 		ichargeDetail.setCost(chargeDetails.getTotCost());
 		ichargeDetail.setAmount(chargeDetails.getTotCost());
 		ichargeDetail.setRealAmount(chargeDetails.getOwnCost());
-		ichargeDetail.setRecipeNo(chargeDetails.getRecipeId());
-		ichargeDetail.setRecipeTime(chargeDetails.getRecipeTime());
+		ichargeDetail.setRecordNo(chargeDetails.getRecipeId().trim());
+		ichargeDetail.setRecordTime(chargeDetails.getRecipeTime());
 		ichargeDetail.setStatus(chargeDetails.getDrugFlag());
 		if(chargeDetails.getFeeCode().equals("004") || chargeDetails.getFeeCode().equals("007")){
 			ichargeDetail.setType("1");

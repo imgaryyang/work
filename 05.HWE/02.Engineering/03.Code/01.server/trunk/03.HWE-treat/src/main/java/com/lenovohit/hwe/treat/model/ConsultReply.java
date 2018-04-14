@@ -6,20 +6,22 @@ import javax.persistence.Table;
 import com.lenovohit.hwe.base.model.AuditableModel;
 
 @Entity
-@Table(name = "CONSULT_REPLY")
+@Table(name = "TREAT_CONSULT_REPLY")
 public class ConsultReply extends AuditableModel implements java.io.Serializable{
+	private static final long serialVersionUID = 2785667409688656841L;
 	
 	public static final String STATUS_NO_READ ="0";    //未读
 	public static final String STATUS_READ ="1";       //已读
 	
-	private static final long serialVersionUID = 2785667409688656841L;
 	private String businessId;
 	private String sendId;
 	private String sendName;
 	private String sendContent;
 	private String status;      //  0未读   1已读
 	private String type;
-	private String stopFlag;					
+	private String stopFlag;	
+	
+	
 	public String getBusinessId() {
 		return businessId;
 	}
@@ -63,6 +65,4 @@ public class ConsultReply extends AuditableModel implements java.io.Serializable
 		this.sendContent = sendContent;
 	}
 	
-	
-
 }

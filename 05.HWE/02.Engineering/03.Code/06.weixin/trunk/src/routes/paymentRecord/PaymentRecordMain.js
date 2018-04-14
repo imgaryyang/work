@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'dva/router';
 import { connect } from 'dva';
 import styles from './PaymentMain.less';
-import PaymentRecordList from './PaymentRecordList';
-import CashierDesk from '../payCounter/PayCounter';
+import PaymentRecordList from './ConsumeRecordList';
+import PaymentRecordList from '../payCounter/PaymentRecordList';
 import InputMoney from '../payCounter/Payment';
 
 class PaymentMain extends React.Component {

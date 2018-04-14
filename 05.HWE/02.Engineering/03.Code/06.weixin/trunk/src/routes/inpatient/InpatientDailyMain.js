@@ -1,134 +1,182 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { DatePicker, List, Toast } from 'antd-mobile';
-import ActivityIndicatorView from '../../components/ActivityIndicatorView';
-import styles from './InpatientDailyMain.less';
-import ProfileList from '../patients/ProfileList';
+import { List, Toast, Calendar, Icon, Button } from 'antd-mobile';
+import moment from 'moment';
+import classnames from 'classnames';
 
-const { Item } = List;
-const { Brief } = Item;
+import { filterMoney, filterTextBreak } from '../../utils/Filters';
+
+import styles from './InpatientDailyMain.less';
+import commonStyles from '../../utils/common.less';
 
 class InpatientDailyMain extends React.Component {
   constructor(props) {
     super(props);
-    this.callback = this.callback.bind(this);
-    this.formatDate = this.formatDate.bind(this);
     this.changeDate = this.changeDate.bind(this);
-    this.formatMoney = this.formatMoney.bind(this);
     this.loadInpatientDaily = this.loadInpatientDaily.bind(this);
-    this.goback = this.goback.bind(this);
-    this.state = {
-      selectDate: new Date(),
-      maxDate: new Date(),
-    };
+    this.renderToolBar = this.renderToolBar.bind(this);
+    this.renderBottomBar = this.renderBottomBar.bind(this);
   }
+
+  state = {
+    visible: false,
+  }
+
   componentWillMount() {
-    const { currProfile } = this.props.base;
-    const arr = Object.keys(currProfile);
-    // 已经选择了就诊人
-    if (arr.length !== 0) {
-      const selectDate = this.formatDate(this.state.selectDate);
-      this.loadInpatientDaily(currProfile, selectDate);
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        title: '住院日清单',
+        hideNavBarBottomLine: true,
+        showCurrHospitalAndPatient: true,
+        headerRight: null,
+      },
+    });
+  }
+
+  componentDidMount() {
+    this.loadInpatientDaily();
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.loadInpatientDaily();
     }
   }
-  callback(item) {
-    const selectProfile = item;
-    const selectDate = this.formatDate(this.state.selectDate);
-    this.loadInpatientDaily(selectProfile, selectDate);
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        hideNavBarBottomLine: false,
+      },
+    });
   }
-  formatDate(date) {
-    const pad = n => (n < 10 ? `0${n}` : n);
-    const dateStr = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-    return `${dateStr}`;
-  }
+
   changeDate(date) {
-    const { currProfile } = this.props.base;
-    if (Object.keys(currProfile).length === 0) {
-      Toast.info('请选择就诊人', 1);
-    } else {
-      this.setState({ selectDate: date });
-      const selectDate = this.formatDate(date);
-      this.loadInpatientDaily(currProfile, selectDate);
-    }
+    this.props.dispatch({
+      type: 'inpatientDaily/setState',
+      payload: {
+        selectDate: date,
+      },
+    });
+    this.setState({
+      visible: false,
+    }, () => this.loadInpatientDaily());
   }
-  /**
-   * 格式化money
-   * s为要格式化的money
-   * n为小数位数
-   */
-  formatMoney(s, n) {
-    if (s === '') { return; }
-    n = n > 0 && n <= 20 ? n : 2;
-    s = `${parseFloat((`${s}`).replace(/[^\d\.-]/g, '')).toFixed(n)}`;
-    const l = s.split('.')[0].split('').reverse();
-    const r = s.split('.')[1];
-    let t = '';
-    for (let i = 0; i < l.length; i++) {
-      t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length ? ',' : '');
+
+  loadInpatientDaily() {
+    const { currHospital, currProfile } = this.props.base;
+    if (!currHospital.id) {
+      Toast.info('没有当前医院信息！', 2, null, false);
+      return;
     }
-    return `${t.split('').reverse().join('')}.${r}`;
-  }
-  loadInpatientDaily(profile, date) {
-    const query = { proNo: profile.no, hosNo: profile.hosNo, startDate: date, endDate: date };
-    console.info('query', query);
+    if (!currProfile.id) {
+      return;
+    }
+
+    const query = {
+      proNo: currProfile.no,
+      hosNo: currProfile.hosNo,
+    };
+    // console.info('query', query);
     this.props.dispatch({
       type: 'inpatientDaily/findInpatientDaily',
       payload: query,
     });
   }
-  goback() {
-    console.log('返回');
-    this.props.dispatch(routerRedux.goBack());
+
+  renderToolBar() {
+    return (
+      <div
+        className={classnames(styles.toolBar, styles.topBar)}
+        onClick={() => this.setState({ visible: true })}
+      >
+        <span className={styles.selectDate}>
+          {moment(this.props.inpatientDaily.selectDate).format('YYYY-MM-DD')}
+        </span>
+        <Icon type="down" className={styles.switchIcon} />
+      </div>
+    );
   }
+
+  renderBottomBar(amt) {
+    return (
+      <div className={classnames(styles.toolBar, styles.bottomBar)}>
+        <span>总计：{filterMoney(amt)} 元</span>
+      </div>
+    );
+  }
+
   render() {
-    const { data, isLoading } = this.props.inpatientDaily;
+    const { data, selectDate } = this.props.inpatientDaily;
+    const { currProfile } = this.props.base;
+
     const itemList = [];
     const tmpData = data;
     let totalAmount = 0;
     let tmpTotalAmount = 0;
-    if (isLoading) { return <ActivityIndicatorView />; }
+
     if (tmpData && tmpData.length > 0) {
       let i = 0;
       for (const d of tmpData) {
-        itemList.push(<Item key={i} align="left"><Brief><span className={styles['text_1']}>{d.name}</span></Brief><Brief><span className={styles['text_2']}>单价：</span><span className={styles['text_3']}>{ d.price.formatMoney()}元</span>&nbsp;&nbsp;&nbsp;<span className={styles['text_2']}>数量：</span><span className={styles['text_3']}>{d.num}</span><span className={styles['text_4']}>小计：{ d.realAmount.formatMoney()}元</span></Brief></Item>);
+        const firstPadding = i === 0 ? { paddingTop: 15 } : {};
+        const lastPadding = i === tmpData.length - 1 ? { paddingBottom: 15 } : {};
+        itemList.push((
+          <div key={i} className={styles.itemContainer} style={{ ...firstPadding, ...lastPadding }}>
+            <div className={classnames(commonStyles.ellipsisText, styles.name)}>{d.name}</div>
+            <div className={classnames(commonStyles.ellipsisText, styles.price)}>{filterMoney(d.price)} × {d.num}</div>
+            <div className={classnames(commonStyles.ellipsisText, styles.itemTotal)}>{filterMoney(d.realAmount)}</div>
+          </div>
+        ));
         tmpTotalAmount += parseFloat(d.realAmount);
         i += 1;
       }
       totalAmount = tmpTotalAmount;
-    } else {
-      itemList.push(<Item key={0} align="left"><div className={styles['none']}>暂无住院日清单</div></Item>);
     }
+
+    const list = (
+      <List className={styles.list}>
+        {itemList}
+      </List>
+    );
+
+    const emptyText = `暂无${currProfile.name}（卡号：${currProfile.no}）\n在 ${moment(selectDate).format('YYYY-MM-DD')} 的住院日清单信息！`;
+    const content = !currProfile.id ?
+      (
+        <div className={commonStyles.emptyView}>请先选择就诊人！
+          <Button
+            type="ghost"
+            inline
+            style={{ marginTop: 10, width: 200 }}
+            onClick={() => this.props.dispatch(routerRedux.push({ pathname: 'choosePatient' }))}
+          >选择就诊人
+          </Button>
+        </div>
+      ) :
+      (
+        data.length === 0 ? (
+          <div className={commonStyles.emptyView}>{filterTextBreak(emptyText)}</div>
+        ) : list
+      );
+
     return (
-      <div>
-        {/* <NavBar
-          mode="dark"
-          leftContent="返回"
-          icon={<Icon type="left" />}
-          onLeftClick={() => this.goback()}
-        >住院日清单
-        </NavBar>*/}
-        <ProfileList callback={this.callback} />
-        <List className="my-list">
-          <DatePicker
-            mode="date"
-            maxDate={this.state.maxDate}
-            title="选择日期"
-            extra="请选择"
-            value={this.state.selectDate}
-            onChange={date => this.changeDate(date)}
-          >
-            <Item arrow="horizontal" className={styles['date']}>&nbsp;</Item>
-          </DatePicker>
-          {itemList}
-          <Item>
-            <div className={styles['bottom']}>
-              <div className={styles['bottom_format']}>
-                总费用：{totalAmount.formatMoney()}&nbsp;元
-              </div>
-            </div>
-          </Item>
-        </List>
+      <div className={styles.container}>
+        {this.renderToolBar()}
+        <div className={styles.listContainer}>
+          {content}
+        </div>
+        {this.renderBottomBar(totalAmount)}
+        <Calendar
+          type="one"
+          visible={this.state.visible}
+          onConfirm={this.changeDate}
+          onCancel={() => this.setState({ visible: false })}
+          defaultDate={this.state.selectDate}
+        />
       </div>
     );
   }

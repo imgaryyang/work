@@ -28,6 +28,36 @@ class Global extends Object {
     Global.edition = edition;
   }
 
+  /**
+   * 验证码类型
+   * @type {{REG_APP: string, REG_WX: string, REG_ZFB: string, REG_WEB: string}}
+   */
+  static securityCodeType = {
+    REG_APP: 'REG_APP', // APP登录
+    REG_WX: 'REG_WX', // 微信登录
+    REG_ZFB: 'REG_ALIPAY', // 支付宝登录
+    REG_WEB: 'REG_WEB', // 网页登录
+    BIND_PROFILE: 'BIND_PROFILE', // 绑定his档案
+  };
+
+  /**
+   * 用户习惯数据类型
+   * @type {{CURR_HOSPITAL: string, CURR_PATIENT: string, CURR_PROFILE: string}}
+   */
+  static habitsType = {
+    CURR_HOSPITAL: 'CURR_HOSPITAL',
+    CURR_PATIENT: 'CURR_PATIENT',
+    CURR_PROFILE: 'CURR_PROFILE',
+  };
+
+  static relations = {
+    0: '本人',
+    1: '父母',
+    2: '夫妻',
+    3: '子女',
+    4: '其他',
+  };
+
   /* 配置文件 */
   static Config = null;
 

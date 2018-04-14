@@ -208,6 +208,7 @@ class Patients extends Component {
                 reloadMsg: '点击刷新按钮重新查询',
                 reloadCallback: this.reloadUserInfo,
                 ctrlState: auth.reloadUserCtrlState,
+                style: { marginTop: 15 },
               });
             }}
             // 列表底部

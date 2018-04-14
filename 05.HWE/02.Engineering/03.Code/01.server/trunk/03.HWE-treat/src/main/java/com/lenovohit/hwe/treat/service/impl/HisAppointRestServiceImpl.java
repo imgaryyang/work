@@ -67,7 +67,7 @@ public class HisAppointRestServiceImpl implements HisAppointService {
 
 	@Override
 	public RestEntityResponse<Appoint> findReservedInfo(Appoint request, Map<String, ?> variables) {
-		return dto.getForEntity("hcp/app/his/appoint/reserved/list", request, variables);
+		return dto.getForEntity("hcp/app/his/appoint/reserved/info", request, variables);
 	}
 
 	@Override

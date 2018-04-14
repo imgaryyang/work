@@ -76,7 +76,7 @@ CustomPrototypes.init = () => {
             >
               <EasyIcon name="ios-refresh-outline" color="rgba(187,187,187,1)" size={35} width={35} height={35} />
               <Text style={{ color: 'rgba(187,187,187,1)', textAlign: 'center' }}>
-                {`${ctrlState.requestErrMsg ? (ctrlState.requestErrMsg.msg || '处理请求出错') : '处理请求出错'}，点击刷新按钮重新查询`}
+                {`${ctrlState.requestErrMsg ? (ctrlState.requestErrMsg.msg || '处理请求出错') : '处理请求出错'}\n点击刷新按钮重新查询`}
               </Text>
             </TouchableOpacity>
           </View>
@@ -137,7 +137,7 @@ CustomPrototypes.init = () => {
 
       let msgText = ctrlState.requestErr ? (ctrlState.requestErrMsg ? (ctrlState.requestErrMsg.msg || '处理请求出错') : '处理请求出错') : (msg || '暂无相关数据');
       if (typeof reloadCallback === 'function') {
-        msgText += `，${reloadMsg || '点击刷新按钮重新查询'}`;
+        msgText += `\n${reloadMsg || '点击刷新按钮重新查询'}`;
       }
 
       let content = null;

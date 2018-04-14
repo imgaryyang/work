@@ -1,0 +1,41 @@
+@import "../../utils/common";
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: @IOS_GRAY_BG;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.contentContainer {
+  background-color: white;
+  margin-top: 15px;
+  border-top: 1px solid @LINE;
+}
+
+.itemContainer {
+  font-size: 13px;
+	line-height: 40px;
+  border-bottom: 1px solid @LINE;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.label {
+  color: black;
+}
+
+.value {
+  flex: 1;
+  text-align: right;
+  color: @FONT_GRAY;
+}
+
+.redText {
+  color: @IOS_RED;
+}
+

@@ -14,14 +14,13 @@ import {
   StyleSheet,
   InteractionManager,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 
 import Button from 'rn-easy-button';
-import Separator from 'rn-easy-separator';
 import Toast from 'react-native-root-toast';
 import Global from '../../Global';
 import { submit } from '../../services/me/FeedBackService';
+import { connect } from 'react-redux';
 
 class Suggest extends Component {
   static displayName = 'Suggest';
@@ -42,7 +41,6 @@ class Suggest extends Component {
     this.changeFeedBack = this.changeFeedBack.bind(this);
     this.doSave = this.doSave.bind(this);
     this.goPop = this.goPop.bind(this);
-    this.showLoading = this.showLoading.bind(this);
   }
 
   state = {
@@ -61,16 +59,17 @@ class Suggest extends Component {
 
   }
 
-
   // 保存反馈意见
   async doSave() {
-    // 显示遮罩   
     if (this.state.feedback === null || this.state.feedback === '') {
       Toast.show('您还没有输入哦');
       return;
     }
     const data = {
-      feedback: this.state.feedback, appId: '8a8c7db154ebe90c0154ebfdd1270004', hospId: '123', userId: Global.user.id,
+      feedback: this.state.feedback,
+      appId: Global.Config.appId,
+      hospId: Global.Config.hospId,
+      userId: this.props.auth.user ? this.props.auth.user.id || '' : '',
     };
     try {
       this.props.screenProps.showLoading();
@@ -174,4 +173,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Suggest;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Suggest);

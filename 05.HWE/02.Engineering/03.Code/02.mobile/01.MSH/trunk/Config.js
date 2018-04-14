@@ -6,11 +6,13 @@ import Global from './application/Global';
  * @type {Object}
  */
 const appId = 'com.lenovohit.msh';
-const appUUID = '2c90a85c614a07ce01614a38f8d40004';
+const appUUID = '8a81a7db4dad2271014dad2271e20001';
 const config = Object.freeze({
   appId,
   appUUID,
   appName: '联想智慧医院',
+  appType: 'APP', // 审计字段
+  appCode: 'APP01', // 审计字段
   mode: Global.MODE_DEV,
   edition: Global.EDITION_SINGLE,
   hospId: '8a81a7db4dad2271014dad2271e20001',
@@ -22,8 +24,8 @@ const config = Object.freeze({
     type: '1',
     level: '3A',
     status: '1',
-    logo: '8a50ad50e87c11e7be625254001f7cdb',
-    scenery: '54279a56e87d11e7be625254001f7cdb',
+    logo: '8a81a7db4dad2271014dad2271e20001.png',
+    scenery: '01-0001.jpg',
     sceneryNum: 4,
     longitude: 116.360788,
     latitude: 39.942493,
@@ -93,6 +95,10 @@ const config = Object.freeze({
     md: require('./assets/images/cards/md.jpg'),
     mdb: require('./assets/images/cards/mdb.jpg'),
   },
+  refundedChannelTypes: [ // 当前退款支持的渠道类型
+    'W',
+    'Z',
+  ],
   colors: [
     'rgb(246,77,83)', '#F54D53',
     'rgb(250,196,18)', '#FAC412',
@@ -135,16 +141,17 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf08', state: '1', route: 'SignIn', name: '预约签到',
+        id: 'hf08', state: '1', route: 'SignMain', name: '来院签到',
         iconLib: '', icon: '', imgIcon: 'outpatientSignIn', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
           allowSwitchPatient: true,
+          hideNavBarBottomLine: false,
         },
       },
       {
-        id: 'hf13', state: '1', route: '', name: '门诊退费',
+        id: 'hf13', state: '1', route: 'OutpatientRefund', name: '门诊退费',
         iconLib: '', icon: '', imgIcon: 'outpatientRefund', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
@@ -154,12 +161,13 @@ const config = Object.freeze({
         },
       },
       {
-        id: 'hf09', state: '1', route: 'AppAndRegRecords', name: '预约记录',
+        id: 'hf09', state: '1', route: 'AppointRecordsMain', name: '预约记录',
         iconLib: '', icon: '', imgIcon: 'outpatientAppointRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
           allowSwitchHospital: true,
           allowSwitchPatient: true,
+          hideNavBarBottomLine: true,
         },
       },
       {
@@ -309,8 +317,8 @@ const config = Object.freeze({
     'ConsumeMain',
     'Records',
     'ConsultRecords',
-    'AppAndRegRecords',
-    'SignIn',
+    'AppointRecordsMain',
+    'SignMain',
     'InpatientInfo',
     'InpatientDailyBill',
     'InpatientPrepaidRecords',
@@ -319,15 +327,14 @@ const config = Object.freeze({
     'HCTab',
     'Profile',
     'SecuritySettings',
-    'AppAndRegRecords',
+    'AppointRecordsMain',
     'Reports',
     'ConsumeMain',
     'Records',
     'Patients',
     'Cards',
     'Appoint',
-    'AppAndRegRecords',
-    'SignIn',
+    'SignMain',
     'Message',
     'ChooseHospital',
     'PatientList',
@@ -342,9 +349,9 @@ const config = Object.freeze({
   needProfileComp: [ // 需要先选档案才能操作的场景
     'Payments',
     'Reports',
-    'SignIn',
+    // 'SignMain',
     '', // 门诊退费
-    'AppAndRegRecords',
+    // 'AppointRecordsMain',
     'ConsumeMain',
     'Records',
     'InpatientInfo',

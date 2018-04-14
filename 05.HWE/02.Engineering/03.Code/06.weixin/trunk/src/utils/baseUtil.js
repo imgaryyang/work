@@ -2,7 +2,7 @@ const openLog = true;
 const dev_mode = true;
 const NoticeProviders = [];
 const loginUser = {
-  openid: 'oFTG9w2g0hkaicjKXp8pfO9lHcqY',
+  openid: 'oFTG9w2g0hkaicjKXp8pfO9lHxxx',
   // userId: '2088602198268947',
 };
 

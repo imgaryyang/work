@@ -2,29 +2,57 @@ import React from 'react';
 import { connect } from 'dva';
 
 import baseUtil from '../utils/baseUtil.js';
+
 import Config from '../Config';
 import Global from '../Global';
 
+const screenWidth = document.documentElement.clientWidth;
+const screenHeight = document.documentElement.clientHeight;
+
 class IndexPage extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     Global.setConfig(Config);
-    // const openid = this.getOpenId();
-    const openid = 'oFTG9w2g0hkaicjKXp8pfO9lHcqY';
-    // const userId = this.getUserId();
-    const userId = '2088812422349692';
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/setState',
+      payload: {
+        currHospital: Global.Config.hospital,
+      },
+    });
+    dispatch({
+      type: 'base/setScreen',
+      payload: {
+        width: screenWidth,
+        height: screenHeight,
+      },
+    });
+  }
+
+  componentDidMount() {
+    const openid = this.getOpenId();
+    console.log('openId:', openid);
+
+    const userId = this.getUserId();
+    console.log('userId:', userId);
+
+    const route = this.getRoute();
+    // route = 'appoint/departments';
+    console.log('route:', route);
     if (openid) {
       // alert(`openid：${openid}`);
       const { dispatch } = this.props;
       dispatch({
         type: 'base/loginByOpenId',
-        payload: { openid },
+        payload: { openid, route },
       });
     } else if (userId) {
       // alert(`userId：${userId}`);
       const { dispatch } = this.props;
       dispatch({
         type: 'base/loginByUserId',
-        payload: { userId },
+        payload: { userId, route },
       });
     } else {
       alert(`非法请求${window.location}`);
@@ -35,6 +63,9 @@ class IndexPage extends React.Component {
   }
   getUserId() {
     return baseUtil.dev_mode ? baseUtil.loginUser.userId : this.getUrlParam('userId');
+  }
+  getRoute() {
+    return this.getUrlParam('route');
   }
   getUrlParam(name) {
     const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i');
@@ -59,7 +90,7 @@ class IndexPage extends React.Component {
   }
   render() {
     return (
-      <div>您暂不具备访问权限！</div>
+      <div />
     );
   }
 }

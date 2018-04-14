@@ -78,7 +78,7 @@ public class Attachment extends AuditableModel implements java.io.Serializable {
      * 
      * @return fkType
      */
-    @Column(name = "FK_TYPE", nullable = true, length = 2)
+    @Column(name = "FK_TYPE", nullable = true, length = 20)
     public String getFkType() {
         return this.fkType;
     }

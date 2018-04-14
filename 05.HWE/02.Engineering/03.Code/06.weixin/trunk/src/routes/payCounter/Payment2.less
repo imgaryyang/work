@@ -1,11 +1,38 @@
+@import "../../utils/common";
+
 .mainView {
   display: flex;
   flex-direction: column;
   background-color: #fff;
   padding: 15px 0;
+  font-size: 13px;
 }
 
-.payTypeSegment {
-  height: 18px;
-  width: 100%;
+.item {
+  display: flex;
+  flex-direction: row;
+}
+
+.label {
+  width: 65px;
+  margin-left: 15px;
+  margin-right: 5px;
+  vertical-align: center;
+}
+
+.gender {
+  background-color: #F8F8F8;
+  height: 35px;
+  margin-left: 5px;
+  padding-left: 10px;
+  border-radius: 6px;
+}
+
+.recharge {
+  margin-left: 15px;
+}
+
+.value {
+  flex: 1;
+  color: @IOS_RED;
 }

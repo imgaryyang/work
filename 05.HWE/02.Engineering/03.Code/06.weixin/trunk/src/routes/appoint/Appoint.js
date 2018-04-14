@@ -2,15 +2,17 @@ import React from 'react';
 import { Card, List, InputItem, Button, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import { createForm } from 'rc-form';
-import classnames from 'classnames';
+import _ from 'lodash';
 import ModalSelect from '../../components/ModalSelect';
-import { action, isValidArray, testAppointItem } from '../../utils/common';
+import Global from '../../Global';
+import Radios from '../../components/Radios';
+import { action } from '../../utils/common';
 import less from './Appoint.less';
-import { testCnIdNo } from '../../utils/validation';
+import { testCnIdNo, testMobile } from '../../utils/validation';
 
 const initTypeData = [
-  { value: 0, label: '有卡预约' },
-  { value: 1, label: '无卡预约' },
+  { value: '0', label: '有卡预约' },
+  { value: '1', label: '无卡预约' },
 ];
 
 class Appoint extends React.Component {
@@ -21,7 +23,7 @@ class Appoint extends React.Component {
     this.onSelectType = this.onSelectType.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
 
-    const typeData = isValidArray(props.base.profiles) ? initTypeData : initTypeData.slice(1);
+    const typeData = _.isEmpty(props.base.currProfile) ? initTypeData.slice(1) : initTypeData;
     this.state = {
       modalVisible: false,
       typeData,
@@ -30,7 +32,13 @@ class Appoint extends React.Component {
   }
 
   componentDidMount() {
-    console.log('this.props.base', this.props.base);
+    this.props.dispatch(action('base/save', {
+      title: '预约挂号',
+      allowSwitchPatient: true,
+      hideNavBarBottomLine: false,
+      showCurrHospitalAndPatient: true,
+      headerRight: null,
+    }));
   }
 
   componentWillUnmount() {
@@ -38,37 +46,92 @@ class Appoint extends React.Component {
   }
 
   onSubmit() {
-    const { form, location, dispatch } = this.props;
-    form.validateFields((error, values) => {
-      if (!error) {
-        const { proName, mobile, idNo } = values;
-        if (!proName || !proName.length) {
-          Toast.info('无卡预约用户姓名必填');
-          return;
-        }
-        if (!mobile || !mobile.length) {
-          Toast.info('无卡预约用户手机号码必填');
-          return;
-        }
-        const trimMobile = mobile.replace(/\s/g, '');
-        if (trimMobile.length < 11) {
-          Toast.info('手机号不符合格式');
-          return;
-        }
-        if (!idNo || !idNo.length) {
-          Toast.info('无卡预约用户身份证号必填');
-          return;
-        } else if (!testCnIdNo(idNo)) {
-          Toast.info('身份证号不符合格式');
-          return;
-        }
+    const { selectedType } = this.state;
+    const {
+      form,
+      dispatch,
+      appoint: { selectAppointSource },
+      base: { currProfile, user: { id: terminalUser } }
+    } = this.props;
 
-        const item = location.state ? location.state.item : testAppointItem;
-        dispatch(action('appoint/forReserve', { ...item, mobile: trimMobile, proName, idNo }));
-      } else {
-        Toast.fail('表单校验失败');
+    if (_.isEmpty(selectAppointSource)) {
+      Toast.fail('号源信息不能为空', 3);
+      return;
+    }
+
+    if (selectedType.value === '1') {
+      form.validateFields((error, values) => {
+        const { name, mobile, idNo } = values;
+        const trimMobile = (mobile || '').replace(/\s/g, ''); // lodash的trim只能去除头尾，不能去除中间
+
+        if (!error) {
+          if (!name || !name.length) {
+            Toast.info('无卡预约用户姓名必填');
+            return;
+          }
+          if (!trimMobile || !trimMobile.length) {
+            Toast.info('无卡预约用户手机号码必填');
+            return;
+          } else if (!testMobile(trimMobile)) {
+            Toast.info('手机号不符合格式');
+            return;
+          }
+          if (!idNo || !idNo.length) {
+            Toast.info('无卡预约用户身份证号必填');
+            return;
+          } else if (!testCnIdNo(idNo)) {
+            Toast.info('身份证号不符合格式');
+            return;
+          }
+        } else {
+          Toast.fail('表单校验失败');
+          return;
+        }
+        dispatch(action('appoint/forReserve', {
+          ...selectAppointSource,
+          mobile: trimMobile,
+          proName: name,
+          idNo,
+          terminalUser,
+          appCode: Global.Config.appCode,
+          appType: Global.Config.appType,
+        }));
+      });
+    } else {
+      const { id: proId, no: proNo, cardNo, cardType, name: proName, mobile, idNo } = currProfile;
+      const trimMobile = (mobile || '').replace(/\s/g, ''); // lodash的trim只能去除头尾，不能去除中间
+      if (!proName || !proName.length) {
+        Toast.fail('姓名不能为空', 3);
+        return;
       }
-    });
+      if (!trimMobile || !trimMobile.length) {
+        Toast.fail('手机号不能为空', 3);
+        return;
+      } else if (!testMobile(trimMobile)) {
+        Toast.fail('手机号格式不符合要求', 3);
+        return;
+      }
+      if (!idNo || !idNo.length) {
+        Toast.fail('身份证号不能为空', 3);
+        return;
+      } else if (!testCnIdNo(idNo)) {
+        Toast.fail('身份证号格式不符合要求', 3);
+        return;
+      }
+      dispatch(action('appoint/forReserve', {
+        ...selectAppointSource,
+        mobile,
+        proName,
+        idNo,
+        proId,
+        proNo,
+        cardNo,
+        cardType,
+        terminalUser,
+        appCode: Global.Config.appCode,
+        appType: Global.Config.appType,
+      }));
+    }
   }
 
   onSelectType(item) {
@@ -81,12 +144,11 @@ class Appoint extends React.Component {
   }
 
   render() {
-    const item = this.props.location.state ? this.props.location.state.item : testAppointItem;
-    const { getFieldProps } = this.props.form;
+    const { form: { getFieldProps }, appoint: { selectAppointSource: item }, base: { currProfile } } = this.props;
     const { selectedType, typeData, modalVisible } = this.state;
 
     return (
-      <div>
+      <div className={less.scrolly}>
         <Card>
           <Card.Header
             className={less.cardHeader}
@@ -127,21 +189,50 @@ class Appoint extends React.Component {
         <div className={less.sep}>患者信息</div>
         <form>
           <List>
-            <List.Item arrow="horizontal" extra={<span className={classnames(less.fontBlack, less.font13)} onClick={this.toggleModal}>{selectedType.label}</span>}>
-              <span className={less.formFont}>预约类型</span>
+            <List.Item>
+              <div className={less.flexRow}>
+                <span className={less.formLabel}>预约方式</span>
+                <Radios data={typeData} value={selectedType.value} onSelect={obj => this.setState({ selectedType: obj })} />
+              </div>
             </List.Item>
-            <InputItem {...getFieldProps('proName')} placeholder="请输入患者名称">
-              <span className={less.formFont}>患者名称</span>
-            </InputItem>
-            <InputItem {...getFieldProps('mobile')} type="phone" placeholder="请输入手机号">
-              <span className={less.formFont}>手机号</span>
-            </InputItem>
-            <InputItem {...getFieldProps('idNo')} maxLength={18} placeholder="请输入身份证号">
-              <span className={less.formFont}>身份证号</span>
-            </InputItem>
+            {
+              selectedType.value === '0' ?
+              (
+                <div>
+                  <InputItem value={currProfile.name} editable={false}>
+                    <span className={less.formFont}>患者姓名</span>
+                  </InputItem>
+                  <InputItem value={currProfile.mobile} editable={false}>
+                    <span className={less.formFont}>手机号</span>
+                  </InputItem>
+                  <InputItem value={currProfile.idNo} editable={false}>
+                    <span className={less.formFont}>身份证号</span>
+                  </InputItem>
+                  <InputItem value={currProfile.no} editable={false}>
+                    <span className={less.formFont}>就诊卡</span>
+                  </InputItem>
+                </div>
+              ) : (
+                <div>
+                  <InputItem {...getFieldProps('name')} placeholder="请输入患者姓名">
+                    <span className={less.formFont}>患者姓名</span>
+                  </InputItem>
+                  <InputItem {...getFieldProps('mobile')} type="phone" placeholder="请输入手机号">
+                    <span className={less.formFont}>手机号</span>
+                  </InputItem>
+                  <InputItem {...getFieldProps('idNo')} maxLength={18} placeholder="请输入身份证号">
+                    <span className={less.formFont}>身份证号</span>
+                  </InputItem>
+                </div>
+              )
+            }
           </List>
         </form>
-        <div className={less.tips}>温馨提示：实名制预约挂号，就诊人信息不符将无法取号</div>
+        <div className={less.tips}>温馨提示：实名制预约挂号，就诊人信息不符将无法取号
+          {
+            selectedType.value === '0' ? null : <span><br />无卡预约请在医院现场签到</span>
+          }
+        </div>
         <Button className={less.button} type="primary" onClick={this.onSubmit}>确定预约</Button>
         <ModalSelect visible={modalVisible} data={typeData} defaultValue={selectedType.value} onClose={this.toggleModal} onSelect={this.onSelectType} />
       </div>

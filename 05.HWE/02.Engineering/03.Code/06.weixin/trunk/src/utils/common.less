@@ -37,6 +37,17 @@
 @BROWN: rgba(102,51,0,1); // '#663300',
 @PURPLE: rgba(102,0,102,1); // '#660066',
 
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
 .sep5 {
   height: 5px;
   background-color: @IOS_GRAY_BG;
@@ -106,6 +117,19 @@
   font-size: 20px;
 }
 
+.scrolly {
+  overflow-y: scroll;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  .flex;
+  flex: 1;
+}
+
 .listFooterContainer {
   width: 100%;
   height: 40px;
@@ -113,6 +137,75 @@
   line-height: 40px;
   font-size: 13px;
   color: @FONT_LIGHT_GRAY;
+}
+
+.emptyView {
+  // height: 60px;
+  border-top: 1px solid @LINE;
+  border-bottom: 1px solid @LINE;
+  font-size: 13px;
+  color: @FONT_LIGHT_GRAY;
+  line-height: 18px;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emptyViewContainer {
+  height: 100%;
+  background-color:@IOS_GRAY_BG;
+}
+.transparentEmptyView {
+  border-width: 0;
+  background: rgba(255, 255, 255, 0);
+}
+
+// 定高的容器文字超出的部分自动显示为省略号
+.ellipsisText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navBtnContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 15px;
+  height: 40px;
+}
+
+.navBtnIcon {
+  line-height: 20px;
+  font-size: 12px !important;
+  color: @FONT_GRAY;
+}
+
+.navBtnText {
+  line-height: 20px;
+  padding-left: 6px;
+  font-size: 13px;
+  color: @FONT_GRAY;
+}
+
+.defaultIcon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.chevronIcon {
+  width: 34px;
+  color: @FONT_LIGHT_GRAY1
 }
 
 // logo

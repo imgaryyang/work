@@ -1,86 +1,149 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { List, NavBar, Button, Modal } from 'antd-mobile';
+import { List, Toast, Flex } from 'antd-mobile';
 import moment from 'moment';
-import ProfileList from '../patients/ProfileList';
+import styles from './OutpatientRefundList.less';
+import commonStyles from '../../utils/common.less';
+import {filterMoney, filterTextBreak} from '../../utils/Filters';
+import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
-const alert = Modal.alert;
-const Item = List.Item;
-const Brief = Item.Brief;
+const { Item } = List;
+const { Brief } = Item;
 
 class OutpatientRefundList extends React.Component {
   constructor(props) {
     super(props);
-    this.callback = this.callback.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.gotoRefundDetail = this.gotoRefundDetail.bind(this);
+    this.onItemClick = this.onItemClick.bind(this);
+    this.loadOutpatientRefund = this.loadOutpatientRefund.bind(this);
   }
-  paymentReturn= (d) => {
-    console.log(d);
+  componentWillMount() {
+    console.log('componentWillMount');
     const { dispatch } = this.props;
-    const bill = {
-      billId: d.outTradeNo,
-    };
     dispatch({
-      type: 'outpatientReturn/refund',
-      payload: { query: bill },
+      type: 'base/save',
+      payload: {
+        title: '门诊退费',
+        hideNavBarBottomLine: false,
+        showCurrHospitalAndPatient: true,
+        headerRight: null,
+      },
     });
   }
-
-  callback(item) {
-    const selectProfile = item;
-    this.loadData(selectProfile);
+  componentDidMount() {
+    console.log('componentDidMount');
+    this.loadOutpatientRefund();
   }
-
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.loadOutpatientRefund();
+    }
+  }
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        hideNavBarBottomLine: false,
+      },
+    });
+  }
+  onItemClick(item) {
+    this.props.dispatch({
+      type: 'outpatientReturn/setRefundDetailData',
+      payload: item,
+      callback: () => { this.gotoRefundDetail(); },
+    });
+  }
+  loadOutpatientRefund() {
+    const { currHospital, currProfile } = this.props.base;
+    if (!currHospital.id) {
+      Toast.info('没有当前医院信息！', 2, null, false);
+      return;
+    }
+    if (!currProfile.id) {
+      return;
+    }
+    this.loadData(currProfile);
+  }
+  gotoRefundDetail() {
+    this.props.dispatch(routerRedux.push({
+      pathname: 'outpatientRefundDetail',
+    }));
+  }
   loadData(profile) {
-    const query = { proNo: profile.no, hosNo: profile.hosNo };
-    console.info('query', query);
+    // 1. 获取当前预存余额
+    this.props.dispatch({
+      type: 'deposit/getPreStore',
+    });
+    // 2. 获取充值列表
+    const { openid } = this.props.base;
+    const query = {
+      proNo: profile.no,
+      hosNo: profile.hosNo,
+      // tradeChannel: openid ? "'W'" : "'Z'", // 微信/支付宝
+      type: '0', // 充值
+      // bizType: '00', // 门诊充值
+    };
     this.props.dispatch({
       type: 'outpatientReturn/findChargeList',
-      payload: query,
+      payload: { query },
     });
   }
   render() {
+    const { currProfile } = this.props.base;
+    const { data: depositData } = this.props.deposit;
+    const balance = depositData.balance ? depositData.balance : 0;
     const itemList = [];
-    const tmpData = this.props.outpatientReturn.data;
-    const map = { C: '现金预存', Z: '支付宝预存', W: '微信预存', B: '银行卡预存' };
-    console.log(tmpData);
-    if (tmpData && tmpData.length > 0) {
+    const { data, isLoading } = this.props.outpatientReturn;
+    const filterTradeChannel = this.props.base.openid ? 'W' : 'Z';
+    // const map = { C: '现金预存', Z: '支付宝预存', W: '微信预存', B: '银行卡预存' };
+    if (data && data.length > 0) {
       let i = 0;
-      for (const d of tmpData) {
-        itemList.push(<Item
-          key={i}
-          extra={
-            <Button
-              type="warning"
-              onClick={() => alert('提示', '是否确认退款？', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            { text: '确定',
-              onPress: () => {
-              this.paymentReturn(d);
-              } },
-          ])}
-            >退费
-            </Button>
+      for (const item of data) {
+        console.log('item.tradeChannel:' + item.tradeChannel + '|' + filterTradeChannel);
+        if (item.tradeChannel === filterTradeChannel) {
+          itemList.push(<Item
+            key={i}
+            arrow="horizontal"
+            onClick={() => { this.onItemClick(item); }}
+            align="top"
+            multipleLine
+          >
+            <Brief><span className={styles.title}>订单号</span><span className={styles.content}>{item.tradeNo}</span></Brief>
+            <Brief>
+              <span className={styles.title}>充值时间</span>
+              <span className={styles.content}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss') : '' }</span>
+            </Brief>
+            <Brief>
+              <span className={styles.title}>支付金额</span>
+              <span className={styles.content}>{item.amt ? item.amt.formatMoney() : ''}元 </span>&nbsp;
+              <span className={styles.title}>已退金额</span>
+              <span className={styles.content}>{item.refunded ? item.refunded.formatMoney() : ''}元 </span>
+            </Brief>
+          </Item>);
         }
-          align="top"
-          multipleLine
-        >
-          <Brief>支付金额：{d.amt.formatMoney()}元 </Brief><Brief>订单号:{d.tradeNo}</Brief><Brief>充值时间:{moment(d.tradeTime).format('YYYY-MM-DD HH:mm:ss')}</Brief>
-        </Item>);
         i += 1;
       }
     }
+
+    const content = (
+      data.length === 0 ? (
+        <div className={commonStyles.emptyView}>
+          {filterTextBreak(`暂无${currProfile.name}（卡号：${currProfile.no}）\n的门诊充值信息！`)}
+        </div>
+      ) : itemList
+    );
     return (
-      <div>
-        <NavBar
-          mode="light"
-        >门诊退费
-        </NavBar>
-        <ProfileList callback={this.callback} />
-        <List className="my-list">
-          {itemList}
-        </List>
+      <div className={styles.container}>
+        <div className={styles.header}>当前余额&nbsp;{filterMoney(balance)}元</div>
+        <div>
+          {content}
+        </div>
+        { (isLoading) ? (<ActivityIndicatorView />) : null }
       </div>
     );
   }
@@ -88,5 +151,4 @@ class OutpatientRefundList extends React.Component {
 
 OutpatientRefundList.propTypes = {
 };
-
-export default connect(outpatientReturn => (outpatientReturn))(OutpatientRefundList);
+export default connect(({ outpatientReturn, deposit, base }) => ({ outpatientReturn, deposit, base }))(OutpatientRefundList);

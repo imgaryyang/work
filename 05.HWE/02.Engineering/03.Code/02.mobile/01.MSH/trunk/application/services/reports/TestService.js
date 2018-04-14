@@ -9,3 +9,12 @@ export async function hisTestList(query) {
 export async function hisTestDetailList(query) {
   return get(`${hisTest().testDetailList}`, query);
 }
+
+export async function hisPacsList(query) {
+  return get(`${hisTest().PACSList}`, query);
+}
+
+export async function hisPacsDetail(query) {
+
+  return get(`${hisTest().PACSDetail}`, query);
+}

@@ -18,8 +18,11 @@ public class SmsMessage extends BaseIdModel {
 	public static final String MESSAGE_TYPE_REP = "REP";
 	public static final String MESSAGE_TYPE_PAY = "PAY";
 	public static final String MESSAGE_TYPE_DEP = "DEP";
-	public static final String MESSAGE_TYPE_REGISTER = "REGISTER";
-	
+	public static final String MESSAGE_TYPE_REG_APP = "REG_APP"; //app登录
+	public static final String MESSAGE_TYPE_REG_WX = "REG_WX";	//wx登录
+	public static final String MESSAGE_TYPE_REG_ALIPAY = "REG_ALIPAY";	//支付宝登录
+	public static final String MESSAGE_TYPE_REG_WEB = "REG_WEB";	//网页登录
+	public static final String MESSAGE_TYPE_BIND_PRO = "BIND_PROFILE";	//绑卡验证
 	
 	/**
 	 * 类型
@@ -36,6 +39,11 @@ public class SmsMessage extends BaseIdModel {
 	 */
 	private String code;
 	
+	/**
+	 * 令牌
+	 */
+	private String token;
+
 	/**
 	 * 内容
 	 */
@@ -141,6 +149,14 @@ public class SmsMessage extends BaseIdModel {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }

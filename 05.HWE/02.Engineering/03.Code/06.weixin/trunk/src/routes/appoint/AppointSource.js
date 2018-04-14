@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Flex } from 'antd-mobile';
+import { Flex, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import _ from 'lodash';
 import less from './AppointSource.less';
 import { action, clientWidth, isValidArray } from '../../utils/common';
 
@@ -11,15 +12,29 @@ class AppointSource extends React.Component {
     this.onClickItem = this.onClickItem.bind(this);
   }
 
+  componentDidMount() {
+    const { dispatch, appoint: { selectSchedule, selectSchedule: { no: schNo, docName: title } } } = this.props;
+    dispatch(action('base/save', {
+      title,
+      allowSwitchPatient: true,
+      hideNavBarBottomLine: false,
+      showCurrHospitalAndPatient: true,
+      headerRight: null,
+    }));
+    if (_.isEmpty(selectSchedule)) {
+      Toast.fail('查询条件不能为空');
+    } else {
+      dispatch(action('appoint/forAppointSource', { schNo }));
+    }
+  }
+
   componentWillUnmount() {
     this.props.dispatch(action('appoint/save', { appointSourceData: [], isLoading: true }));
   }
 
   onClickItem(item) {
-    this.props.dispatch(routerRedux.push({
-      pathname: 'appoint',
-      state: { item },
-    }));
+    this.props.dispatch(action('appoint/save', { selectAppointSource: item }));
+    this.props.dispatch(routerRedux.push({ pathname: 'appoint' }));
   }
 
   render() {
@@ -27,9 +42,9 @@ class AppointSource extends React.Component {
     const { depName, clinicTypeName, clinicDate, shiftName } = selectSchedule;
     const title = `${depName} > ${clinicTypeName} > ${clinicDate} > ${shiftName}`;
     return (
-      <div>
+      <div className={less.scrolly}>
         <div className={less.title}>{title}</div>
-        <Flex direction="row" wrap="wrap">
+        <Flex direction="row" wrap="wrap" >
           {
             isValidArray(appointSourceData) ?
             appointSourceData.map((item, index) => {

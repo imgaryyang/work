@@ -346,7 +346,7 @@ class Me extends Component {
             }}
           >
             {leftIcon}
-            <Text style={{ flex: 1, marginLeft: 10 }}>{text}</Text>
+            <Text style={{ flex: 1, marginLeft: 10, color: 'black' }}>{text}</Text>
             {chevron}
           </TouchableOpacity>
           {itemLine}
@@ -358,6 +358,7 @@ class Me extends Component {
   }
 
   render() {
+    // console.log(this.props.base, this.props.auth);
     if (!this.state.doRenderScene) {
       return Me.renderPlaceholderView();
     }

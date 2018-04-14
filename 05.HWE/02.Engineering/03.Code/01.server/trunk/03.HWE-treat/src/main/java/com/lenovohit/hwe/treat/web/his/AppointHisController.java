@@ -133,8 +133,9 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			if (result.isSuccess()){
 				appoint.setStatus("1");
-				appoint.setStatusName("已预约");
+//				appoint.setStatusName("已预约");
 				appoint.setAppointTime(new Date());
+				appoint.setNo(result.getEntity().getId());
 				Appoint saved = this.appointManager.save(appoint);
 				
 				return ResultUtils.renderSuccessResult(saved);
@@ -160,7 +161,7 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			if (result.isSuccess()){
 				appoint.setStatus("2");
-				appoint.setStatusName("已签到");
+//				appoint.setStatusName("已签到");
 				appoint.setSignTime(new Date());
 				Appoint saved = this.appointManager.save(appoint);
 				
@@ -187,7 +188,7 @@ public class AppointHisController extends OrgBaseRestController {
 			
 			if (result.isSuccess()){
 				appoint.setStatus("3");
-				appoint.setStatusName("已取消");
+//				appoint.setStatusName("已取消");
 				Appoint saved = this.appointManager.save(appoint);
 				
 				return ResultUtils.renderSuccessResult(saved);

@@ -37,8 +37,6 @@ class InpatientPrepaidRecords extends Component {
     this.fetchData = this.fetchData.bind(this);
     this.renderItem = this.renderItem.bind(this);
     this.onSearch = this.onSearch.bind(this);
-    this.afterChooseHospital = this.afterChooseHospital.bind(this);
-    this.afterChoosePatient = this.afterChoosePatient.bind(this);
   }
 
   state = {
@@ -64,8 +62,24 @@ class InpatientPrepaidRecords extends Component {
           ...this.state.ctrlState,
           refreshing: true,
         },
-      }, () => this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile));
+      }, () => {
+        this.fetchData(
+          this.props.base.currHospital,
+          this.props.base.currPatient,
+          this.props.base.currProfile,
+        );
+      });
     });
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.fetchData(
+        props.base.currHospital,
+        props.base.currPatient,
+        props.base.currProfile,
+      );
+    }
   }
 
   // 搜索
@@ -80,15 +94,15 @@ class InpatientPrepaidRecords extends Component {
         requestErr: false,
         requestErrMsg: null,
       },
-    }, () => this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile));
+    }, () => {
+      this.fetchData(
+        this.props.base.currHospital,
+        this.props.base.currPatient,
+        this.props.base.currProfile,
+      );
+    });
   }
 
-  afterChooseHospital(hospital, patient, profile) {
-    this.fetchData(hospital, patient, profile);
-  }
-  afterChoosePatient(hospital, patient, profile) {
-    this.fetchData(hospital, patient, profile);
-  }
   async fetchData(hospital, patient, profile) {
     if (!profile) {
       this.setState({
@@ -115,7 +129,7 @@ class InpatientPrepaidRecords extends Component {
       });
       const profileNo = profile.no;
       /* const query = { proNo: '900000000021', hosNo, startDate, endDate };*/
-      const query = { proNo: profileNo, hosNo };
+      const query = { proNo: profileNo, hosNo, tradeChannel: "'Z','W'", type: '0', bizType: '04' };
       // console.log('query=', query);
       const responseData = await loadHisInpatientPrepaidRecords(query);
       if (responseData.success) {
@@ -166,9 +180,9 @@ class InpatientPrepaidRecords extends Component {
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text style={styles.tradeChannel}>{map[item.tradeChannel]}</Text>
+          <Text style={styles.tradeChannel}>{map[item.tradeChannel] || '未知渠道'}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 8 }}>
-            <Text style={styles.date}>{moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
+            <Text style={styles.date}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss') : ''}</Text>
             <Text style={styles.amt}>{filterMoney(item.amt, 2)}&nbsp;元</Text>
           </View>
         </View>

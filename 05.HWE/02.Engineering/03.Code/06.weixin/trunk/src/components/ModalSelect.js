@@ -52,10 +52,10 @@ export default class ModalSelect extends PureComponent {
 ModalSelect.propTypes = {
   visible: PropTypes.bool,
   data: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     label: PropTypes.string,
   })),
-  defaultValue: PropTypes.number,
+  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
 };

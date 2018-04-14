@@ -30,7 +30,14 @@
 		<constructor-arg ref="userDao" />
 	</bean>
 	<!-- **************** 用户 END **************** -->
-
+	<!-- **************** 用户习惯 START **************** -->
+	<bean id="habitsDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.org.model.Habits" />
+	</bean>
+	<bean id="habitsManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="habitsDao" />
+	</bean>
+	<!-- **************** Habits END **************** -->
 	<!-- **************** 机构 START **************** -->
 	<bean id="orgDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
 		<constructor-arg value="com.lenovohit.hwe.org.model.Org" />

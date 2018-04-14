@@ -2,6 +2,7 @@ package com.lenovohit.hwe.mobile.core.model;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -58,12 +59,15 @@ public class UserPatientProfile extends AuditableModel implements java.io.Serial
 		this.status = status;
 	}
 	
+	@Column(name = "HOS_ID", nullable = true, length = 32)
 	public String getHospitalId() {
 		return hospitalId;
 	}
 	public void setHospitalId(String hospitalId) {
 		this.hospitalId = hospitalId;
 	}
+	
+	@Column(name = "IDENTIFY", nullable = true, length = 1)
 	public String getIdentify() {
 		return identify;
 	}

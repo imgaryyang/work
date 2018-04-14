@@ -7,9 +7,10 @@ import ReactSwipe from 'react-swipe';
 import classnames from 'classnames';
 
 import Global from '../../Global';
+import { colors } from '../../utils/common';
+
 import styles from './AppFuncs.less';
 import commonStyles from '../../utils/common.less';
-import { colors } from '../../utils/common';
 
 class AppFuncs extends Component {
   constructor(props) {
@@ -143,7 +144,7 @@ class AppFuncs extends Component {
                 height: (screen.width / 15),
               }}
             />
-            <div className={classnames(styles.text)}>{name}</div>
+            <div className={classnames(commonStyles.ellipsisText, styles.text)}>{name}</div>
           </div>
         );
       });

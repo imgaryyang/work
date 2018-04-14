@@ -214,7 +214,7 @@ public class PayRestController extends BaseRestController{
 		try {
 	        //0. 状态检验
 	        String uuid = com.lenovohit.core.utils.StringUtils.uuid();
-			this.settlementManager.executeSql("UPDATE PAY_SETTLEMENT_NEW SET FLAG = ? where ID=? and STATUS = 'A' and FLAG is null", uuid, settleId);
+			this.settlementManager.executeSql("UPDATE PAY_SETTLEMENT SET FLAG = ? where ID=? and STATUS = 'A' and FLAG is null", uuid, settleId);
 			settle = this.settlementManager.get(settleId);
 			if(null == settle || !StringUtils.equals(settle.getFlag(), uuid)){
 				_returnStr = callbackReturn(settle, "Fail");
@@ -225,9 +225,9 @@ public class PayRestController extends BaseRestController{
 			tradeService.payCallback(settle);
 			_returnStr = callbackReturn(settle, "Success");
 		} catch (Exception e) {
-			log.error("支付回传交易失败，结算单号为【" + settle.getSettleNo() + "】");
-			log.error("PayRestController forWXPayCallback exception", e);
+			log.error("支付回传交易失败！" + data);
 			e.printStackTrace();
+			_returnStr = callbackReturn(settle, "Fail");
 		}
 		return _returnStr;
 	}
@@ -409,6 +409,9 @@ public class PayRestController extends BaseRestController{
 		if (StringUtils.isEmpty(settle.getPayTypeId())) {
 			throw new PayException("91001010", "payTypeId should not be NULL!");
 		}
+		if (!StringUtils.isEmpty(settle.getId())) {
+			throw new PayException("91001010", "ID must be NULL!");
+		}
 	}
 	
 	private void validCashPay(Cash cash) {
@@ -486,9 +489,9 @@ public class PayRestController extends BaseRestController{
 		if (StringUtils.isEmpty(settle.getBizNo())) {
 			throw new PayException("91001010", "bizNo should not be NULL!");
 		}
-		if (StringUtils.isEmpty(settle.getBizUrl()) && StringUtils.isEmpty(settle.getBizBean())) {
-			throw new PayException("91001010", "bizUrl or bizBean should not be NULL!");
-		}
+//		if (StringUtils.isEmpty(settle.getBizUrl()) && StringUtils.isEmpty(settle.getBizBean())) {
+//			throw new PayException("91001010", "bizUrl or bizBean should not be NULL!");
+//		}
 		if (StringUtils.isEmpty(settle.getBizTime())) {
 			throw new PayException("91001010", "bizTime should not be NULL!");
 		}

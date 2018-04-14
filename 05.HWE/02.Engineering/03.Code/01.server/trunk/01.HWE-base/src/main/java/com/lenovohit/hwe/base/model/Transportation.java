@@ -76,7 +76,7 @@ public class Transportation extends AuditableModel implements java.io.Serializab
      * 
      * @return fkType
      */
-    @Column(name = "FK_TYPE", nullable = true, length = 10)
+    @Column(name = "FK_TYPE", nullable = true, length = 20)
     public String getFkType() {
         return this.fkType;
     }

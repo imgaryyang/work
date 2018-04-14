@@ -1,11 +1,17 @@
+@import "../../utils/common";
+
 .container {
+  width: 100%;
   height: 100%;
+  background-color: @IOS_GRAY_BG;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .rowContainer {
   height:55px;  /*设置div的大小*/
   align-items: center;
   display: flex;/*边框*/
-  //background-color: #26AB28;
+  background-color: white;
 }
 .rowLogo {
   width:44px;
@@ -18,6 +24,17 @@
   margin-left: 10px;
   color:#F68B24 ;
   //background-color: #26AB28;
+}
+.rowLogoRed{
+  width:44px;
+  height:44px;  /*设置div的大小*/
+  border-radius: 22px;
+  border:1px solid #F68B24;    /*边框*/
+  text-align: center;        /*文字水平居中对齐*/
+  line-height: 44px;        /*设置文字行距等于div的高度*/
+  overflow:hidden; /*溢出元素内容是否滚动显示*/
+  margin-left: 10px;
+  color:red ;
 }
 .rowContent{
   margin-left: 10px;
@@ -36,9 +53,14 @@
 /*标题*/
 .section{
   font-size: 12px;
-  //width: 100%;
-  //font-weight: bold;
-  //background-color:#999999;
-  //background-color: #ebebef;
-  //height:10px;  /*设置div的大小*/
+  //background-color: #F68B24;
+  //height: 10px;
+}
+.separatorLine{
+  height:1px;  /*设置div的大小*/
+  background-color: @IOS_SEP_LINE;
+}
+.separator{
+  height:15px;  /*设置div的大小*/
+  background-color: white;
 }

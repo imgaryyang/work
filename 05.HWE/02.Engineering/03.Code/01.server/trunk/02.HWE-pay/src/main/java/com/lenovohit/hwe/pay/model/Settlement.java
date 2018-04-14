@@ -31,7 +31,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  * @version 1.0.0 2018-01-11
  */
 @Entity
-@Table(name = "PAY_SETTLEMENT_NEW")
+@Table(name = "PAY_SETTLEMENT")
 public class Settlement extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -7882211593967816916L;
@@ -142,8 +142,11 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
 
     /** payTypeCode */
     private String payTypeCode;
+    
+    /** payTypeType */
+    private String payTypeType;
 
-    /** payTypeName */
+	/** payTypeName */
     private String payTypeName;
 
     /** payerNo */
@@ -199,6 +202,9 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     
     /** oriSettleId */
     private String oriSettleId;  
+    
+    /** oriSettleNo */
+    private String oriSettleNo;  
    
     /** oriTradeNo */
     private String oriTradeNo;
@@ -737,7 +743,19 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     public void setPayTypeCode(String payTypeCode) {
         this.payTypeCode = payTypeCode;
     }
+    /**
+     * 获取payTypeType
+     * 
+     * @return payTypeType
+     */
+    @Column(name = "PAY_TYPE_TYPE", nullable = true, length = 50)
+    public String getPayTypeType() {
+		return payTypeType;
+	}
 
+	public void setPayTypeType(String payTypeType) {
+		this.payTypeType = payTypeType;
+	}
     /**
      * 获取payTypeName
      * 
@@ -1372,5 +1390,14 @@ public class Settlement extends AuditableModel implements java.io.Serializable {
     
 	public void setVariables(Map<String, Object> variables) {
 		this.variables = variables;
+	}
+	
+    @Transient
+	public String getOriSettleNo() {
+		return oriSettleNo;
+	}
+    
+	public void setOriSettleNo(String oriSettleNo) {
+		this.oriSettleNo = oriSettleNo;
 	}
 }

@@ -5,6 +5,7 @@ export default {
   namespace: 'inpatientPaymentRecord',
   state: {
     data: [],
+    isLoading: false,
   },
 
   subscriptions: {
@@ -20,6 +21,10 @@ export default {
 
   effects: {
     *findChargeList({ payload }, { call, put, select }) {
+      yield put({
+        type: 'save',
+        payload: { isLoading: true },
+      });
       const { query } = payload;
       let pro = {};
       if (query) {
@@ -35,6 +40,7 @@ export default {
           type: 'save',
           payload: {
             data: result || [],
+            isLoading: false,
           },
         });
       }

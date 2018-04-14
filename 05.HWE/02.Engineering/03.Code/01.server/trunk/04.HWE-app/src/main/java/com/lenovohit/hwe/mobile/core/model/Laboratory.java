@@ -26,7 +26,6 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 @Entity
 @Table(name = "APP_LABORATORY")
 public class Laboratory  extends AuditableModel implements java.io.Serializable {
-   
 	/** 版本号 */
     private static final long serialVersionUID = 5123120272341522921L;
    
@@ -35,7 +34,6 @@ public class Laboratory  extends AuditableModel implements java.io.Serializable 
     
     /** laboratoryName 名称 */
     private String laboratoryName;
-    
     
     /** classificationId 分类 */
     private String classificationId;
@@ -52,6 +50,8 @@ public class Laboratory  extends AuditableModel implements java.io.Serializable 
     /** sort 序号  */
     private String sort;
 	
+    
+    
 	public String getLaborId() {
 		return laborId;
 	}
@@ -107,9 +107,5 @@ public class Laboratory  extends AuditableModel implements java.io.Serializable 
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-
-	
-    
-   
 
    }

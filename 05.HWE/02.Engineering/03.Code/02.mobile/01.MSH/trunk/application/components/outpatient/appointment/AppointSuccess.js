@@ -23,7 +23,7 @@ class AppointSuccess extends Component {
   constructor(props) {
     super(props);
 
-    this.gotoRoot = this.gotoRoot.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.gotoAppointRecords = this.gotoAppointRecords.bind(this);
 
     this.state = {
@@ -33,39 +33,36 @@ class AppointSuccess extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => this.setState({ doRenderScene: true }));
-    // this.props.navigation.setParams({
-    //   title: '预约成功',
-    //   showCurrHospitalAndPatient: true,
-    //   allowSwitchHospital: false,
-    //   allowSwitchPatient: false,
-    //   afterChooseHospital: null,
-    //   afterChoosePatient: null,
-    //   hideNavBarBottomLine: false,
-    // });
+    this.props.navigation.setParams({
+      title: '预约成功',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: false,
+      afterChooseHospital: null,
+      afterChoosePatient: null,
+      hideNavBarBottomLine: false,
+    });
   }
 
-  gotoRoot() {
-    // 返回
-    // this.props.navigation.goBack(this.props.nav.routes[1].key);
+  goBack() {
     this.props.navigation.goBack();
   }
 
   gotoAppointRecords() {
-    const { screenProps, hospital } = this.props;
-    screenProps.resetBackNavigate(this.props.navigation.state.params.backIndex || 0, 'AppAndRegRecords', {
+    const { screenProps: { resetBackNavigate }, hospital } = this.props;
+    resetBackNavigate(this.props.navigation.state.params.backIndex || 0, 'AppointRecordsMain', {
       hospital,
       title: '预约记录',
       showCurrHospitalAndPatient: true,
-      allowSwitchHospital: true,
+      allowSwitchHospital: false,
       allowSwitchPatient: true,
-      // afterChooseHospital: this.onRefresh,
-      // afterChoosePatient: this.onRefresh,
-      hideNavBarBottomLine: false,
+      hideNavBarBottomLine: true,
     });
   }
 
   render() {
     const { doRenderScene } = this.state;
+    const { type } = this.props.navigation.state.params;
 
     if (!doRenderScene) {
       return <PlaceholderView />; // 场景过渡动画未完成前，先渲染过渡场景
@@ -76,9 +73,12 @@ class AppointSuccess extends Component {
         <View style={styles.info}>
           <Icon name="ios-checkmark-circle-outline" color={Global.colors.IOS_BLUE} size={175} width={175} height={175} />
           <Text style={styles.infoText}>预约成功</Text>
+          {
+            type === '1' ? <Text style={styles.noCardTip}>无卡预约请去医院现场签到</Text> : null
+          }
         </View>
         <BottomBar visible>
-          <Button text="返回" clear onPress={this.gotoRoot} />
+          <Button text="返回" clear onPress={this.goBack} />
           <Button text="查看预约" clear onPress={this.gotoAppointRecords} />
         </BottomBar>
       </View>
@@ -94,6 +94,12 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 18,
+    color: Global.colors.IOS_BLUE,
+  },
+  noCardTip: {
+    fontSize: 18,
+    color: Global.colors.ORANGE,
+    marginTop: 15,
   },
   buttonContainer: {
     flex: 0,
@@ -107,8 +113,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-
-// AppointSuccess.navigationOptions = { title: '预约成功' };
 
 const mapStateToProps = state => ({
   nav: state.nav,

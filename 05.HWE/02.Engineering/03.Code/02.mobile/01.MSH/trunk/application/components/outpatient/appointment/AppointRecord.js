@@ -13,11 +13,23 @@ import Global from '../../../Global';
 import ViewText from '../../../modules/ViewText';
 import { base } from '../../../services/RequestTypes';
 
+export function getStatusName(status) {
+  switch (status) {
+    case '1':
+      return '已预约';
+    case '2':
+      return '已签到';
+    case '3':
+      return '已取消';
+    default:
+      return '';
+  }
+}
+
 export default class AppointRecord extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.dialog = null;
     this.state = {
       selected: false,
     };
@@ -33,7 +45,7 @@ export default class AppointRecord extends PureComponent {
   };
 
   render() {
-    const { data, style } = this.props;
+    const { data, style, noCard } = this.props;
     const { selected } = this.state;
     const {
       clinicDate,
@@ -48,8 +60,12 @@ export default class AppointRecord extends PureComponent {
       num,
       totalFee,
       status,
-      statusName,
+      proNo,
+      proName,
+      idNo,
+      mobile,
     } = data;
+    const statusName = getStatusName(status);
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
     const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
 
@@ -111,6 +127,26 @@ export default class AppointRecord extends PureComponent {
                 <Text style={styles.labelText}>费用</Text>
                 <Text style={styles.contentText}>{totalFee}</Text>
               </View>
+              <View style={styles.row}>
+                <Text style={styles.labelText}>姓名</Text>
+                <Text style={styles.contentText}>{proName}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.labelText}>手机号</Text>
+                <Text style={styles.contentText}>{mobile}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.labelText}>身份证号</Text>
+                <Text style={styles.contentText}>{idNo}</Text>
+              </View>
+              {
+                noCard ?
+                  null :
+                  <View style={styles.row}>
+                    <Text style={styles.labelText}>卡号</Text>
+                    <Text style={styles.contentText}>{proNo}</Text>
+                  </View>
+              }
             </View>
           ) :
           null
@@ -143,19 +179,17 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 13,
     color: Global.colors.FONT_GRAY,
+    width: 65,
   },
   contentText: {
     fontSize: 13,
-    marginLeft: 10,
   },
   orange: {
     color: Global.colors.ORANGE,
   },
   button: {
-    // width: 82,
-    // height: 27,
-    width: 60,
-    height: 20,
+    width: 70,
+    height: 25,
     backgroundColor: 'transparent',
     borderWidth: Global.lineWidth,
     borderColor: Global.colors.IOS_BLUE,
@@ -168,10 +202,8 @@ const styles = StyleSheet.create({
     color: Global.colors.IOS_BLUE,
   },
   statusView: {
-    // width: 82,
-    // height: 27,
-    width: 60,
-    height: 20,
+    width: 70,
+    height: 25,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',

@@ -43,7 +43,10 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 50)  
 @DiscriminatorValue("base")  
 public class Account extends AuditableModel implements  AuthModel,AuthAccount {
-
+	public static final String TYPE_APP = "app";
+	public static final String TYPE_WX = "wx";
+	public static final String TYPE_ZFB = "zfb";
+	public static final String TYPE_WEB = "web";
 	/** 版本号 */
     private static final long serialVersionUID = 7491212560223673047L;
 

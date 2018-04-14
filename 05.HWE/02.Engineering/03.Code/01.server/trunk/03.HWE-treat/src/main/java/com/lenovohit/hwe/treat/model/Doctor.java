@@ -644,7 +644,7 @@ public class Doctor extends AuditableModel implements java.io.Serializable {
      * 
      * @return sort
      */
-    @Column(name = "SORTNO", nullable = true, length = 10)
+    @Column(name = "SORT", nullable = true, length = 10)
     public Integer getSort() {
         return this.sort;
     }

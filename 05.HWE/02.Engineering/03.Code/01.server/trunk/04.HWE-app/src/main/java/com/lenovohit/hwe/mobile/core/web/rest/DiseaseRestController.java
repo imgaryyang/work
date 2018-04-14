@@ -14,9 +14,8 @@ import com.lenovohit.core.utils.JSONUtils;
 import com.lenovohit.core.web.MediaTypes;
 import com.lenovohit.core.web.utils.Result;
 import com.lenovohit.core.web.utils.ResultUtils;
-import com.lenovohit.hwe.mobile.core.model.AppBodyPart;
+import com.lenovohit.hwe.mobile.core.model.BodyPart;
 import com.lenovohit.hwe.mobile.core.model.Disease;
-import com.lenovohit.hwe.base.model.Dic;
 
 @RestController
 @RequestMapping("hwe/app/disease")
@@ -24,7 +23,7 @@ public class DiseaseRestController extends MobileBaseRestController {
 	@Autowired
 	private GenericManager<Disease, String> diseaseManager;
 	@Autowired
-	private GenericManager<AppBodyPart, String> bodyPartManager;
+	private GenericManager<BodyPart, String> bodyPartManager;
 	
 	//查找常见疾病
 	@RequestMapping(value = "/listCommonDisease", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
@@ -45,7 +44,7 @@ public class DiseaseRestController extends MobileBaseRestController {
 	//根据身体部位查找
 	@RequestMapping(value = "/listPart", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Result listPart(@RequestParam(value = "data", defaultValue = "") String data) {
-		List<AppBodyPart> bodyParts=bodyPartManager.findAll();
+		List<BodyPart> bodyParts=bodyPartManager.findAll();
 		return ResultUtils.renderSuccessResult(bodyParts);
 	}
 	//根据身体部位查找相关疾病

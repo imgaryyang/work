@@ -242,7 +242,7 @@ class EasyCheckboxField extends Component {
             justifyContent: 'center',
           }]}
         >
-          <Icon name={iconName} color={iconColor} size={16} width={25} />
+          <Icon name={iconName} bgColor="transparent" color={iconColor} size={16} width={25} height={16} />
           <Text style={{ flex: 1, fontSize: 13 }} >{item.label}</Text>
         </TouchableOpacity>
       );

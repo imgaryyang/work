@@ -220,10 +220,10 @@ public class CwxpayTjsapiPayServiceImpl implements PayBaseService {
 		    		log.info("微信公众号支付-退款成功: )");
 	                break;
 	                
-	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_RETURN_CODE_ERROR:
-	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_RETURN_CODE_FAIL:
-	            case DefaultPrecreateBusinessResultListener.ON_FAIL_BY_SIGN_INVALID:
-	            case DefaultPrecreateBusinessResultListener.ON_PRECREATE_FAIL:
+	            case DefaultRefundBusinessResultListener.ON_FAIL_BY_RETURN_CODE_ERROR:
+	            case DefaultRefundBusinessResultListener.ON_FAIL_BY_RETURN_CODE_FAIL:
+	            case DefaultRefundBusinessResultListener.ON_FAIL_BY_SIGN_INVALID:
+	            case DefaultRefundBusinessResultListener.ON_REFUND_FAIL:
 	            	settlement.setStatus(Settlement.SETTLE_STAT_REFUND_FAILURE);
 	                settlement.setTradeStatus(Settlement.SETTLE_TRADE_FAILURE);
 		    		settlement.setRespText(refundResData.getResponseString());

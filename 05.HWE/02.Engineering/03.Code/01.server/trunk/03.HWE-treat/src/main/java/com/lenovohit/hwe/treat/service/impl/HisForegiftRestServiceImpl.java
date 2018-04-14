@@ -21,8 +21,7 @@ public class HisForegiftRestServiceImpl implements HisForegiftService {
 
 	@Override
 	public RestEntityResponse<Foregift> recharge(Foregift request, Map<String, ?> variables) {
-		// TODO Auto-generated method stub
-		return null;
+		return dto.postForEntity("hcp/app/test/foregift/recharge", request);
 	}
 	
 	@Override
@@ -33,8 +32,7 @@ public class HisForegiftRestServiceImpl implements HisForegiftService {
 
 	@Override
 	public RestListResponse<Foregift> findList(Foregift request, Map<String, ?> variables) {
-		// TODO Auto-generated method stub
-		return null;
+		return dto.getForList("hcp/app/test/foregift/list", request);
 	}
 
 }

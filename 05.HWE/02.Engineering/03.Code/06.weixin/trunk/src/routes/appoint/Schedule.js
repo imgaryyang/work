@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { ListView, PullToRefresh, Flex, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import classnames from 'classnames';
+import _ from 'lodash';
 import less from './Schedule.less';
 import { action, initPage, colors, clientHeight } from '../../utils/common';
 import ModalSelect from '../../components/ModalSelect';
@@ -29,6 +30,18 @@ class Schedule extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { dispatch, appoint: { cond: { name: title } } } = this.props;
+    dispatch(action('base/save', {
+      title,
+      allowSwitchPatient: true,
+      hideNavBarBottomLine: false,
+      showCurrHospitalAndPatient: true,
+      headerRight: null,
+    }));
+    this.onRefresh();
+  }
+
   componentWillUnmount() {
     // unmount时清理数据
     this.props.dispatch(action('appoint/save', {
@@ -40,7 +53,6 @@ class Schedule extends React.Component {
       renderData: [],
       dateData: initDateData,
       selectedDate: initDateData[0],
-      // unmount时清理数据
       jobTitleData: initJobTitleData,
       selectedJobTitle: initJobTitleData[0],
       shiftData: initShiftData,
@@ -53,32 +65,25 @@ class Schedule extends React.Component {
 
   onEndReached() {
     const { dispatch, appoint: { isLoading, refreshing, hasMore } } = this.props;
-    // const { isLoading, refreshing, hasMore } = appoint;
     if (isLoading || refreshing || !hasMore) { return; }
-
     dispatch(action('appoint/forScheduleList'));
   }
 
   onRefresh() {
-    const { dispatch } = this.props;
+    const { dispatch, appoint: { cond } } = this.props;
 
-    dispatch(action('appoint/save', {
-      refreshing: true,
-      isLoading: true,
-    }));
-    dispatch(action('appoint/forScheduleList'));
+    if (_.isEmpty(cond)) {
+      Toast.fail('查询条件不能为空', 3);
+    } else {
+      dispatch(action('appoint/save', { refreshing: true }));
+      dispatch(action('appoint/forScheduleList'));
+    }
   }
 
   onSelectRow(item) {
     if (item && item.enableNum > 0) {
-      this.props.dispatch(action('appoint/save', {
-        selectSchedule: item,
-      }));
-
-      this.props.dispatch(routerRedux.push({
-        pathname: 'source',
-        state: { item },
-      }));
+      this.props.dispatch(action('appoint/save', { selectSchedule: { ...item, schNo: item.no } }));
+      this.props.dispatch(routerRedux.push({ pathname: 'source' }));
     } else {
       Toast.info('该排班已约满，请选择其他排班！', 1);
     }
@@ -141,7 +146,7 @@ class Schedule extends React.Component {
     const { dateModal, jobTitleModal, shiftModal, areaModal, dataSource } = this.state;
 
     return (
-      <div>
+      <div className={less.flexCol}>
         <Flex direction="row" justify="around" className={less.topBar}>
           <Flex className={classnames(less.item, less.flex5)} justify="center" align="center" onClick={e => this.showModal(e, 'dateModal')}>
             {selectedDate.label}

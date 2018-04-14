@@ -8,8 +8,8 @@ export default {
 
   state: {
     user: {},
-    userPatients: [],
-    profiles: [],
+    // userPatients: [],
+    // profiles: [],
     visible: false,
     isLoading: true,
     showDelBut: false,
@@ -22,6 +22,7 @@ export default {
   subscriptions: {
 
   },
+
   effects: {
     *addPatient({ payload, callback }, { call, put, select }) {
       const { data } = yield call(addPatient, payload);

@@ -192,10 +192,5 @@ public class Disease  extends AuditableModel implements java.io.Serializable {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-    
-    
-   
 
-   
-
-   }
+}

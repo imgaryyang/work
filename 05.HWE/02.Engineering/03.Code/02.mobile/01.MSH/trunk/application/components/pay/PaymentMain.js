@@ -22,16 +22,24 @@ const BlankScene = () => {
 class PaymentMain extends Component {
   constructor(props) {
     super(props);
-    this.afterChooseHospital = this.afterChooseHospital.bind(this);
-    this.afterChoosePatient = this.afterChoosePatient.bind(this);
-    this.getProfile = this.getProfile.bind(this);
+    // this.afterChooseHospital = this.afterChooseHospital.bind(this);
+    // this.afterChoosePatient = this.afterChoosePatient.bind(this);
+    // this.getProfile = this.getProfile.bind(this);
     this.fetchData = this.fetchData.bind(this);
-    this.callback = this.callback.bind(this);
+    // this.callback = this.callback.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+    this.fetchPatientPayment = this.fetchPatientPayment.bind(this);
+    this.fetchPreStore = this.fetchPreStore.bind(this);
+    this.fetchPrePay = this.fetchPrePay.bind(this);
+    this.refreshData = this.refreshData.bind(this);
   }
 
   state = {
     doRenderScene: false,
-    profile: {},
+    chargeDetail: [],
+    preStoreBalance: 0,
+    prePayBalance: 0,
+    // profile: {},
   };
 
   async componentDidMount() {
@@ -43,10 +51,10 @@ class PaymentMain extends Component {
           ...this.state.ctrlState,
           refreshing: true,
         },
-      }, () => this.getProfile(this.props.base.currHospital, this.props.base.currPatient));
+      }, () => this.refreshData());
     });
     this.props.navigation.setParams({
-      title: '充值缴费',
+      // title: '充值缴费',
       showCurrHospitalAndPatient: true, // !!user,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
@@ -55,84 +63,117 @@ class PaymentMain extends Component {
       hideNavBarBottomLine: true,
     });
   }
-
-  getProfile(hospital, patient) {
-    if (hospital !== null && patient !== null) {
-      const { profiles } = patient;
-      if (profiles !== null) {
-        const length = profiles.length ? profiles.length : 0;
-        for (let i = 0; i < length; i++) {
-          const pro = profiles[i];
-          if (pro.status === '1' && pro.hosId === hospital.id) {
-            this.setState({
-              profile: pro,
-            }, () => this.fetchData());
-          }
-        }
-      } else {
-        Toast.show('当前就诊人在当前医院暂无档案！');
-        return null;
-      }
+  componentWillReceiveProps(props) {
+    console.log('componentWillReceiveProps:');
+    console.info(props.base.currProfile.no);
+    console.info(this.props.base.currProfile.no);
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      console.log('componentWillReceiveProps1');
+      this.refreshData(props.base.currProfile);
     }
   }
+  // getProfile(hospital, patient) {
+  //   if (hospital !== null && patient !== null) {
+  //     const { profiles } = patient;
+  //     if (profiles !== null) {
+  //       const length = profiles.length ? profiles.length : 0;
+  //       for (let i = 0; i < length; i++) {
+  //         const pro = profiles[i];
+  //         if (pro.status === '1' && pro.hosId === hospital.id) {
+  //           this.setState({
+  //             profile: pro,
+  //           }, () => this.fetchData());
+  //         }
+  //       }
+  //     } else {
+  //       Toast.show('当前就诊人在当前医院暂无档案！');
+  //       return null;
+  //     }
+  //   }
+  // }
 
-  afterChooseHospital(hospital) {
-    this.getProfile(hospital, this.props.base.currPatient);
-  }
+  // afterChooseHospital(hospital) {
+  //   this.getProfile(hospital, this.props.base.currPatient);
+  // }
+  //
+  // afterChoosePatient(patient, profile) {
+  //   if (typeof profile !== 'undefined' && profile !== null) {
+  //     this.setState({
+  //       profile,
+  //     }, () => this.fetchData());
+  //   }
+  // }
 
-  afterChoosePatient(patient, profile) {
-    if (typeof profile !== 'undefined' && profile !== null) {
+  // callback() {
+  //   this.fetchData();
+  // }
+
+  async fetchPatientPayment(profile) {
+    let profileData = {};
+    profileData = profile || this.props.base.currProfile;
+    this.setState({
+      ctrlState: {
+        ...this.state.ctrlState,
+        refreshing: true,
+      },
+    });
+    const patientPayment = await getPatientPayment({ proNo: profileData.no, hosNo: profileData.hosNo });
+    if (patientPayment.success) {
       this.setState({
-        profile,
-      }, () => this.fetchData());
-    }
-  }
-
-  callback() {
-    this.fetchData();
-  }
-
-  async fetchData() {
-    try {
-      this.setState({
+        chargeDetail: patientPayment.result ? patientPayment.result : [],
         ctrlState: {
           ...this.state.ctrlState,
-          refreshing: true,
+          refreshing: false,
         },
       });
-      const patientPayment = await getPatientPayment({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
-      const preStore = await getPreStore({ no: this.state.profile.no });
-      const prePay = await getPrePay({ no: this.state.profile.no });
-      if (patientPayment.success) {
-        this.setState({
-          chargeDetail: patientPayment.result ? patientPayment.result : 0,
-          ctrlState: {
-            ...this.state.ctrlState,
-            refreshing: false,
-          },
-        });
-      } else {
-        this.handleRequestException({ msg: '获取待缴费项目出错！' });
-      }
-      if (preStore.success) {
-        this.setState({
-          preStoreBalance: preStore.result.balance ? preStore.result.balance : 0,
-        });
-      } else {
-        this.handleRequestException({ msg: '获取门诊预存余额出错！' });
-      }
-      if (preStore.success) {
-        this.setState({
-          prePayBalance: prePay.result.balance ? prePay.result.balance : 0,
-        });
-      } else {
-        this.handleRequestException({ msg: '获取住院预缴余额出错！' });
-      }
-    } catch (e) {
-      this.handleRequestException(e);
+    } else {
+      this.handleRequestException({ msg: '获取待缴费项目出错！' });
     }
   }
-
+  async fetchPreStore(profile) {
+    let profileData = {};
+    console.log('fetchPreStore');
+    console.info(profile);
+    profileData = profile || this.props.base.currProfile;
+    const preStore = await getPreStore({ no: profileData.no });
+    console.log('fetchPreStore:', profileData.no);
+    console.info(preStore);
+    if (preStore.success) {
+      this.setState({
+        preStoreBalance: preStore.result.balance ? preStore.result.balance : 0,
+      });
+    } else {
+      this.handleRequestException({ msg: '获取门诊预存余额出错！' });
+    }
+  }
+  async fetchPrePay(profile) {
+    let profileData = {};
+    profileData = profile || this.props.base.currProfile;
+    const prePay = await getPrePay({ no: profileData.no });
+    if (prePay.success) {
+      this.setState({
+        prePayBalance: prePay.result.balance ? prePay.result.balance : 0,
+      });
+    } else {
+      this.handleRequestException({ msg: '获取住院预缴余额出错！' });
+    }
+  }
+  async refreshData(profile) {
+    console.log('refreshData1');
+    this.setState({
+      chargeDetail: [],
+      preStoreBalance: 0,
+      prePayBalance: 0,
+    }, () => this.fetchData(profile));
+    console.log('refreshData2');
+  }
+  async fetchData(profile) {
+    console.log('fetchData');
+    console.info('profile');
+    this.fetchPreStore(profile);
+    this.fetchPrePay(profile);
+    this.fetchPatientPayment(profile);
+  }
   renderPlaceholderView() {
     return (
       <ScrollableTabView
@@ -143,7 +184,7 @@ class PaymentMain extends Component {
           tabLabel="在线充值"
         />
         <BlankScene
-          tabLabel="医嘱缴费"
+          tabLabel="门诊缴费"
         />
       </ScrollableTabView>
     );
@@ -162,7 +203,7 @@ class PaymentMain extends Component {
           navigates={this.props.navigation.navigate}
         />
         <Payment
-          tabLabel="医嘱缴费"
+          tabLabel="门诊缴费"
           navigates={this.props.navigation.navigate}
           dataProps={this.state}
         />

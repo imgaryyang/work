@@ -290,7 +290,7 @@ class EasyTextInputField extends Component {
                 }} 
                 value = {this.state.value} 
                 onChangeText = {this.onChangeText} 
-                style = {[styles.textInput, _fontSize, _color, _fontWeight, _lineHeight, _textAlign]} 
+                style = {[styles.textInput, _fontSize, _color, _fontWeight, _lineHeight, _textAlign]}
                 clearButtonMode = {Platform.OS == 'ios' && this.props.showClearIcon ? 'always' : 'never'} 
                 underlineColorAndroid = "transparent" 
                 {...otherBaseProps} 
@@ -332,6 +332,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft: 10,
         paddingRight: 10,
+        paddingVertical: 0, // 安卓下textInput会默认加上padding，需去除
         borderWidth: 0,
     },
 });

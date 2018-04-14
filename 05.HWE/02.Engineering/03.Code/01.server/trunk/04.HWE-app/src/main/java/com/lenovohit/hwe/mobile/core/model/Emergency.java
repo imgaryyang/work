@@ -30,11 +30,14 @@ import com.lenovohit.hwe.base.model.AuditableModel;
 public class Emergency extends AuditableModel implements java.io.Serializable {
 	/** 版本号 */
 	private static final long serialVersionUID = 5123120272341522921L;
+	
 	private String fakId;
 	private String classificationId;
 	private String fakName;
 	private String sort;
 	private String fakDetails;
+	
+	
 	public String getFakId() {
 		return fakId;
 	}
@@ -65,15 +68,5 @@ public class Emergency extends AuditableModel implements java.io.Serializable {
 	public void setFakDetails(String fakDetails) {
 		this.fakDetails = fakDetails;
 	}
-	
-
-	
-
-	
-	
-
-   
-   
-
 
 }

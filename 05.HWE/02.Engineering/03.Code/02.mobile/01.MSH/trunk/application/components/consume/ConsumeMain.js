@@ -10,8 +10,6 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { connect } from 'react-redux';
-import Toast from 'react-native-root-toast';
-
 import PintrestTabBar from '../../modules/PintrestTabBar';
 import ConsumeRecords from './ConsumeRecords';
 import PreRecords from './PreRecords';
@@ -56,7 +54,11 @@ class ConsumeMain extends Component {
           ...this.state.ctrlState,
           refreshing: true,
         },
-      }, () => this.getProfile(this.props.base.currHospital, this.props.base.currPatient));
+      }, () => this.getProfile(
+        this.props.base.currHospital,
+        this.props.base.currPatient,
+        this.props.base.currProfile,
+      ));
     });
     this.props.navigation.setParams({
       title: '消费记录',
@@ -68,51 +70,56 @@ class ConsumeMain extends Component {
       hideNavBarBottomLine: true,
     });
   }
-  getProfile(hospital, patient) {
-    if (hospital !== null && patient !== null) {
-      const { profiles } = patient;
-      if (profiles !== null) {
-        const length = profiles.length ? profiles.length : 0;
-        for (let i = 0; i < length; i++) {
-          const pro = profiles[i];
-          if (pro.status === '1' && pro.hosId === hospital.id) {
-            this.setState({
-              profile: pro,
-            }, () => this.fetchData());
-          }
-        }
-      } else {
-        Toast.show('当前就诊人在当前医院暂无档案！');
-        this.setState({
-          ctrlState: {
-            ...this.state.ctrlState,
-            requestErrMsg: '当前就诊人在当前医院暂无档案！',
-          },
-        });
-        return null;
-      }
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.getProfile(
+        props.base.currHospital,
+        props.base.currPatient,
+        props.base.currProfile,
+      );
     }
+  }
+  getProfile(currHospital, currPatient, currProfile) {
+    if (!currProfile) {
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          requestErr: false,
+          requestErrMsg: null,
+        },
+        data: {},
+      });
+      return;
+    }
+    this.setState({
+    }, () => this.fetchData(currHospital, currPatient, currProfile));
   }
   afterChooseHospital(hospital) {
-    this.getProfile(hospital, this.props.base.currPatient);
+    // this.getProfile(hospital, this.props.base.currPatient);
   }
   afterChoosePatient(patient, profile) {
-    if (typeof profile !== 'undefined' && profile !== null) {
-      this.setState({
-        profile,
-      }, () => this.fetchData());
-    }
+    // if (typeof profile !== 'undefined' && profile !== null) {
+    //   this.setState({
+    //     profile,
+    //   }, () => this.fetchData());
+    // }
   }
   callback() {
+
     this.setState({
       ctrlState: {
         ...this.state.ctrlState,
         refreshing: true,
       },
     });
-    this.fetchData();
+    this.getProfile(
+      this.props.base.currHospital,
+      this.props.base.currPatient,
+      this.props.base.currProfile,
+    );
   }
-  async fetchData() {
+  async fetchData(currHospital, currPatient, currProfile) {
     try {
       this.setState({
         ctrlState: {
@@ -120,10 +127,18 @@ class ConsumeMain extends Component {
           refreshing: true,
         },
       });
-      const consumeRecordsData = await getConsumeRecords({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
-      const preRecordsData = await getPreRecords({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
-      const responseData = await getPreStore({ no: this.state.profile.no });
-      if (consumeRecordsData.success) {
+    const consumeRecordsData = await getConsumeRecords({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
+      const preRecordsData = await getPreRecords({
+        proNo: this.state.profile.no,
+        hosNo: this.state.profile.hosNo,
+        tradeChannel: "'Z','W'",
+        type: '0',
+        bizType: '00', // 门诊充值
+      });
+      const responseData = await getPreStore({
+        no: this.state.profile.no,
+        hosNo: this.state.profile.hosNo,
+      });      if (consumeRecordsData.success) {
         this.setState({
           preRecords: preRecordsData.result ? preRecordsData.result : [],
           consumeRecords: consumeRecordsData.result ? consumeRecordsData.result : [],

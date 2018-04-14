@@ -12,8 +12,12 @@
 
 package com.lenovohit.hcp.payment.model;
 
+import java.awt.ItemSelectable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.lenovohit.hcp.base.model.ChargeDetail;
 
 /**
  * TREAT_CHARGE
@@ -123,9 +127,11 @@ public class ICharge implements java.io.Serializable {
     /** status */
     private String status;
     
-    private String no;
+    private String no;    /** items */
+    private List<IChargeDetail> items;
     
-    /**
+    private String chargeNo;
+        /**
      * 获取hosId
      * 
      * @return hosId
@@ -746,6 +752,10 @@ public class ICharge implements java.io.Serializable {
 	public void setReduceAmt(BigDecimal reduceAmt) {
 		this.reduceAmt = reduceAmt;
 	}
+	
+	public List<IChargeDetail> getItems() {
+		return items;
+	}
 
 	public String getNo() {
 		return no;
@@ -753,6 +763,26 @@ public class ICharge implements java.io.Serializable {
 
 	public void setNo(String no) {
 		this.no = no;
+	}public void setItems(List<IChargeDetail> items) {
+		this.items = items;
 	}
+	
+    /**
+     * 获取chargeNo
+     * 
+     * @return chargeNo
+     */
+                                                                        
+    public String getChargeNo() {
+        return this.chargeNo;
+    }
 
-}
+    /**
+     * 设置chargeNo
+     * 
+     * @param chargeNo
+     */
+    public void setChargeNo(String chargeNo) {
+        this.chargeNo = chargeNo;
+    }
+    }

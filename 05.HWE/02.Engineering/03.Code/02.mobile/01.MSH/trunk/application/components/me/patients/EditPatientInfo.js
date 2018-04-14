@@ -6,6 +6,7 @@ import {
   View,
   InteractionManager,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 
 import Toast from 'react-native-root-toast';
@@ -143,6 +144,9 @@ class EditPatientInfo extends Component {
     for (const key in Global.relations) {
       relations[relations.length] = { value: key, label: Global.relations[key] };
     }
+
+    const { params } = this.props.navigation.state;
+
     return (
       <View style={Global.styles.CONTAINER}>
         <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
@@ -155,12 +159,18 @@ class EditPatientInfo extends Component {
               labelPosition={this.state.labelPosition}
             >
               <Form.Checkbox name="relation" label="关系" dataSource={relations} display="row" required />
-              <Form.TextInput name="name" label="姓名" placeholder="请输入您的真实姓名" required />
+              <Form.TextInput name="name" label="姓名" placeholder="请输入您的真实姓名" required editable={!(params && params.data && params.data.id && params.data.profiles.length > 0)} />
               <Form.Checkbox name="gender" label="性别" dataSource={genders} required />
-              <Form.TextInput name="idNo" label="身份证号" placeholder="请输入身份证号码，不允许修改" dataType="cnIdNo" required />
+              <Form.TextInput name="idNo" label="身份证号" placeholder="请输入身份证号码" dataType="cnIdNo" required editable={!(params && params.data && params.data.id && params.data.profiles.length > 0)} />
               <Form.TextInput name="mobile" label="手机号码" placeholder="请输入手机号码" dataType="mobile" required />
               <Form.TextInput name="address" label="联系地址" placeholder="请输入联系地址" address />
             </Form>
+            {params && params.data && params.data.id ? (
+              <View style={styles.noticeContainer}>
+                <Text style={styles.noticeTitle}>注意：</Text>
+                <Text style={styles.noticeContent}>就诊人已经绑定就诊卡时，姓名及身份证号不允许修改！</Text>
+              </View>
+            ) : null}
             <View style={styles.btnHolder} >
               <Button text="重置" onPress={this.clear} theme={Button.THEME.BLUE} />
               <Sep width={10} />
@@ -183,6 +193,24 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 0,
     marginBottom: 40,
+  },
+
+  noticeContainer: {
+    flexDirection: 'row',
+    padding: 15,
+    alignItems: 'flex-start',
+  },
+  noticeTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: Global.colors.FONT_GRAY,
+    lineHeight: 18,
+  },
+  noticeContent: {
+    flex: 1,
+    fontSize: 13,
+    color: Global.colors.FONT_LIGHT_GRAY,
+    lineHeight: 18,
   },
 });
 

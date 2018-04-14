@@ -14,6 +14,7 @@
     "dot-notation": [0], // ["error", { "allowKeywords": false }]
     "generator-star-spacing": [0],
     "global-require": [1],
+    "guard-for-in": [0],
     "linebreak-style": [0],
     "max-len": [0],
     "no-else-return": [0],
@@ -25,10 +26,14 @@
     "no-console": ["error", { "allow": ["group", "log", "info", "warn", "error"] }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-restricted-globals": ["error", "event"],
+    "no-lonely-if": [0],
     "no-mixed-operators": [0],
     "no-underscore-dangle": [0],
+    "no-param-reassign": [0],
     "object-curly-newline": ["error", { "minProperties": 15, "consistent": true }], // 属性少于8个时不再强制换行
     "object-property-newline": [0],
+    "prefer-destructuring": [0],
+    "quote-props": [0],
     "require-yield": [1],
     "spaced-comment": ["error", "always"],
 

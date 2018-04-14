@@ -288,9 +288,10 @@ public class User extends AuditableModel  implements AuthModel,AuthPrincipal {
         this.shortName = shortName;
     }
     /**
-     * 获取age
+     * 获取age，TODO 年龄应该是通过计算获取
      * @return
      */
+    @Transient
     public BigDecimal getAge() {
 		return age;
 	}

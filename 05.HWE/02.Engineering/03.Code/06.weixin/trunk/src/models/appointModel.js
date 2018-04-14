@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
-import { forDeptTree, forScheduleList, forList, forReserve, forReservedList, forCancel } from '../services/appointService';
+import { forDeptTree, forScheduleList, forList, forReserve, forReservedList, forReservedNoCardList, forCancel, forSign } from '../services/appointService';
 import { isValidArray, save, action, initPage } from '../utils/common';
 import less from '../utils/common.less';
 
@@ -50,117 +50,85 @@ export default {
 
     // AppointSource
     appointSourceData: [],
+    selectAppointSource: [],
 
-    // AppointRecords
-    appointRecordsData: [],
-  },
-
-  subscriptions: {
-    setup({ history, dispatch }) {
-      // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname }) => {
-        console.log('pathname', pathname);
-        if (pathname === '/stack/appoint/departments') {
-          dispatch(action('forDeptTree'));
-        }
-        if (pathname === '/stack/appoint/schedule') {
-          const payload = history.location.state ? { ...history.location.state.dept, refreshing: true } : { refreshing: true };
-          dispatch(action('forScheduleList', { ...payload }));
-        }
-        if (pathname === '/stack/appoint/source') {
-          dispatch(action('forAppointSource', {
-            // 为测试方便，无值时写死5
-            schNo: history.location.state ? history.location.state.item.no : 5,
-          }));
-        }
-        if (pathname === '/stack/appoint/records') {
-          dispatch(action('forReservedList'));
-        }
-      });
-    },
+    // AppointRecordsMain
+    hasCardRecords: [],
+    noCardRecords: [],
   },
 
   effects: {
     *forDeptTree({ payload }, { select, call, put }) {
-      try {
-        Toast.loading('正在加载', 0);
-        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-        const { data = {} } = yield call(forDeptTree, { ...payload, hosId, hosNo });
-        const { success, result, msg } = data;
+      Toast.loading('loading', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forDeptTree, { ...payload, hosId, hosNo });
+      if (data && data.success) {
+        const { result } = data;
+        for (let i = 0; isValidArray(result) && i < result.length; i++) {
+          const deptType = result[i];
+          const { children } = deptType;
 
-        if (success) {
-          // 为后台返回数据添加label和value，以适应menu组件的数据格式要求
-          for (let i = 0; isValidArray(result) && i < result.length; i++) {
-            const deptType = result[i];
-            const { children } = deptType;
-
-            for (let j = 0; j < children.length; j++) {
-              const dept = children[j];
-              result[i].children[j] = { ...dept, label: <span className={less.font14}>{dept.name}</span>, value: dept.no };
-            }
-            result[i] = { ...deptType, label: <span className={less.font14}>{deptType.name}</span>, value: deptType.type };
+          for (let j = 0; j < children.length; j++) {
+            const dept = children[j];
+            result[i].children[j] = { ...dept, label: <span className={less.font14}>{dept.name}</span>, value: dept.no };
           }
-          yield put(save({ deptTreeData: result || [] }));
-          Toast.hide();
-        } else {
-          Toast.fail(msg, 3);
+          result[i] = { ...deptType, label: <span className={less.font14}>{deptType.name}</span>, value: deptType.type };
         }
-      } catch (e) {
-        Toast.fail(e.toString(), 3);
+        yield put(save({ deptTreeData: result || [] }));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
       }
     },
 
-    *forScheduleList({ payload }, { select, call, put }) {
-      try {
-        yield put(save({ isLoading: true }));
-        const { page, refreshing, renderData, filterData, cond, selectedDate } = yield select(model => model.appoint);
-        if (refreshing || (payload ? payload.refreshing : false)) {
-          // const { currHospital } = yield select(model => model.base);
-          const newCond = {
-            ...cond,
-            ...payload,
-            startDate: moment().format('YYYY-MM-DD'),
-            endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
-          };
-          const { data = {} } = yield call(forScheduleList, { ...newCond });
-          const { result: newAllData = [], success, msg } = data;
-          // const newAllData = result || [];
-
-          const newDateData = initDateData.concat(_.uniqBy(newAllData, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
-          const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
-
-          if (success) {
-            yield put(save({ dateData: newDateData, cond: newCond }));
-            yield put(action('filterData', { allData: newAllData, selectedDate: newSelectedDate }));
-          } else {
-            // const total = newAllData.length;
-            // const { start, limit } = initPage;
-            yield put(save({
-              isLoading: false,
-              refreshing: false,
-              hasMore: false,
-              page: initPage,
-              // hasMore: total > start + limit,
-              // page: { ...page, total, start: start + limit },
-              cond: newCond,
-            }));
-            Toast.fail(msg, 3);
-          }
-        } else {
-          const { start, limit, total } = page;
-          const newRenderData = renderData.concat(filterData.slice(start, start + limit));
-
-          yield put(save({
-            renderData: newRenderData,
-            refreshing: false,
-            hasMore: total > start + limit,
-            page: { ...page, start: start + limit },
-            isLoading: false,
-          }));
+    *forScheduleList(obj, { select, call, put }) {
+      yield put(save({ isLoading: true }));
+      const { page, refreshing, renderData, filterData, cond, selectedDate } = yield select(model => model.appoint);
+      if (refreshing) {
+        // const { currHospital } = yield select(model => model.base);
+        if (_.isEmpty(cond)) {
+          Toast.fail('查询条件不能为空', 3);
+          return false;
         }
-      } catch (e) {
-        Toast.fail(e.toString(), 3);
-        yield put(save({ isLoading: false, refreshing: false }));
+        const newCond = {
+          ...cond,
+          startDate: moment().format('YYYY-MM-DD'),
+          endDate: moment().add(7, 'days').format('YYYY-MM-DD'),
+        };
+        const { data } = yield call(forScheduleList, { ...newCond });
+        if (data && data.success) {
+          const { result = [] } = data;
+          const newDateData = initDateData.concat(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
+          const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
+          yield put(save({ dateData: newDateData, cond: newCond }));
+          yield put(action('filterData', { allData: result, selectedDate: newSelectedDate }));
+        } else if (data && !data.success) {
+          // const total = newAllData.length;
+          // const { start, limit } = initPage;
+          yield put(save({
+            isLoading: false,
+            refreshing: false,
+            hasMore: false,
+            page: initPage,
+            // hasMore: total > start + limit,
+            // page: { ...page, total, start: start + limit },
+            cond: newCond,
+          }));
+          Toast.fail(data.msg || '未知错误', 3);
+        } else {
+          yield put(save({ isLoading: false, refreshing: false }));
+        }
+      } else {
+        const { start, limit, total } = page;
+        const newRenderData = renderData.concat(filterData.slice(start, start + limit));
+
+        yield put(save({
+          renderData: newRenderData,
+          refreshing: false,
+          hasMore: total > start + limit,
+          page: { ...page, start: start + limit },
+          isLoading: false,
+        }));
       }
     },
 
@@ -177,7 +145,6 @@ export default {
         (newSelectedJobTitle === initJobTitleData[0] || newSelectedJobTitle.label === item.docJobTitle) &&
         (newSelectedShift === initShiftData[0] || newSelectedShift.label === item.shiftName) &&
         (newSelectedArea === initAreaData[0] || newSelectedArea.label === item.area));
-
 
       const { start, limit } = initPage;
       const total = newFilterData.length;
@@ -199,63 +166,104 @@ export default {
 
     *forAppointSource({ payload }, { select, call, put }) {
       yield put(save({ isLoading: true }));
-      try {
-        Toast.loading('正在加载', 0);
-        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-        const { data = {} } = yield call(forList, { ...payload, hosId, hosNo });
-        const { success, result = [], msg } = data;
-
-        if (success) {
-          yield put(save({ appointSourceData: result }));
-          Toast.hide();
-        } else {
-          Toast.fail(msg, 3);
-        }
-      } catch (e) {
-        Toast.fail(e.toString(), 3);
+      Toast.loading('正在加载', 0);
+      if (_.isEmpty(payload)) {
+        Toast.fail('查询条件不能为空', 3);
+        return false;
+      }
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forList, { ...payload, hosId, hosNo });
+      if (data && data.success) {
+        yield put(save({ appointSourceData: data.result || [] }));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
       }
       yield put(save({ isLoading: false }));
     },
 
     *forReserve({ payload }, { select, call, put }) {
-      try {
-        Toast.loading('正在预约', 0);
-        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-        const { data = {} } = yield call(forReserve, { ...payload, hosId, hosNo });
-        const { success, msg } = data;
+      Toast.loading('正在预约', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forReserve, { ...payload, hosId, hosNo });
+      if (data && data.success) {
+        yield put(routerRedux.push('/stack/appoint/success'));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
+      }
+    },
 
-        if (success) {
-          yield put(routerRedux.push('/stack/appoint/success'));
-          Toast.hide();
+    *forAppointRecords({ payload }, { select, call, put }) {
+      Toast.loading('正在加载', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data: hasCardData } = yield call(forReservedList, { ...payload, hosId, hosNo });
+      const { data: noCardData } = yield call(forReservedNoCardList, { ...payload, hosId, hosNo });
+
+      if ((hasCardData && hasCardData.success) && (noCardData && noCardData.success)) {
+        yield put(save({ hasCardRecords: hasCardData.result, noCardRecords: noCardData.result }));
+        Toast.hide();
+      } else if ((hasCardData && !hasCardData.success) || (noCardData && !noCardData.success)) {
+        if (hasCardData.msg && noCardData.msg) {
+          Toast.fail(hasCardData.msg + noCardData.msg, 3);
+        } else if (hasCardData.msg && !noCardData.msg) {
+          Toast.fail(hasCardData.msg, 3);
+        } else if (!hasCardData.msg && noCardData.msg) {
+          Toast.fail(noCardData.msg, 3);
         } else {
-          Toast.fail(msg, 3);
+          Toast.fail('未知错误', 3);
         }
-      } catch (e) {
-        Toast.fail(e.toString(), 3);
       }
     },
 
     *forReservedList({ payload }, { select, call, put }) {
-      try {
-        Toast.loading('正在加载', 0);
-        const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-        const { data = {} } = yield call(forReservedList, { ...payload, hosId, hosNo });
-        const { result = [], success, msg } = data;
-        if (success) {
-          yield put(save({ appointRecordsData: result }));
-          Toast.hide();
-        } else {
-          Toast.fail(msg, 3);
-        }
-      } catch (e) {
-        Toast.fail(e.toString(), 3);
+      Toast.loading('正在加载', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forReservedList, { ...payload, hosId, hosNo });
+
+      if (data && data.success) {
+        yield put(save({ hasCardRecords: data.result }));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
+      }
+    },
+
+    *forReservedNoCardList({ payload }, { select, call, put }) {
+      Toast.loading('正在加载', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forReservedNoCardList, { ...payload, hosId, hosNo });
+
+      if (data && data.success) {
+        yield put(save({ noCardRecords: data.result }));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
       }
     },
 
     *forCancel({ payload }, { select, call }) {
       const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-      const { data = {} } = yield call(forCancel, { ...payload, hosId, hosNo });
-      return data;
+      const { data } = yield call(forCancel, { ...payload, hosId, hosNo });
+      if (data && data.success) {
+        return true;
+      } else if (data && !data.success) {
+        return Promise.reject(data.msg || '未知错误');
+      } else {
+        return false;
+      }
+    },
+
+    *forSign({ payload }, { select, call }) {
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forSign, { ...payload, hosId, hosNo });
+      if (data && data.success) {
+        return true;
+      } else if (data && !data.success) {
+        return Promise.reject(data.msg || '未知错误');
+      } else {
+        return false;
+      }
     },
   },
 

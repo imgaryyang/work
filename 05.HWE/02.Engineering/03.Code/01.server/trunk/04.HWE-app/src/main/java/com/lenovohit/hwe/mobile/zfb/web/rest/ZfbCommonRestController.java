@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,20 +57,21 @@ public class ZfbCommonRestController extends ZfbBaseRestController{
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
 	public void redirect(
 			@RequestParam(value = "auth_code") String auth_code, // auth_code作为换取token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
-			@RequestParam(value = "state") String state // 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			@RequestParam(value = "state") String state, // 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			@RequestParam(value = "route") String route
 			){
 		try {
 			String baseUrl = properties.getMpBaseUrl();
 			ZfbToken token = zfbBaseManger.getToken(auth_code);
 			String userId = token.getUserId();
-			
-			String url = baseUrl.contains("?")? (baseUrl+"userId="+userId) :( baseUrl+"?userId="+userId);
+			String url = baseUrl.contains("?")? (baseUrl+"userId="+userId+"&route="+route) :( baseUrl+"?userId="+userId+"&route="+route);
+			System.out.println("url："+url);
 			this.getResponse().sendRedirect(url);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
-	
+
 	@RequestMapping(value = "/token", method = RequestMethod.GET)
 	public Result forToken(
 			@RequestParam(value = "auth_code") String auth_code, // auth_code作为换取token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
@@ -90,24 +90,28 @@ public class ZfbCommonRestController extends ZfbBaseRestController{
 	/**
 	 * 登录
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@SuppressWarnings(value="rawtypes")
+	@RequestMapping(value = "/loginOld", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forLogin(@RequestBody String data) {
 		try {
 			//TODO ZfbToken 不合适
-			ZfbToken temp = JSONUtils.deserialize(data, ZfbToken.class);//接参数用
+//			ZfbToken temp = JSONUtils.deserialize(data, ZfbToken.class);//接参数用
+			Map dataMap = JSONUtils.deserialize(data, Map.class);
+			String userId = dataMap.get("userId").toString();
+			String hospitalId = dataMap.get("hospitalId").toString();
+			if(StringUtils.isEmpty(userId)) {
+				throw new BaseException("非法请求");
+			}
+			if(StringUtils.isEmpty(hospitalId)) {
+				throw new BaseException("非法请求");
+			}
 			Account model  = new Account();
-			model.setUsername(temp.getUserId());
+			model.setUsername(userId);
 			model.setPassword(properties.getPrivate_key());
 			Subject subject = SecurityUtils.getSubject();
 			AuthAccountToken authToken = new AuthAccountToken(model);
 			subject.login(authToken);
-			User user = this.getCurrentUser();
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<Profile> profiles = getMyProfiles();
-			map.put("profiles", profiles);
-			user.setMap(map);
-			user.setSessionId(this.getSession().getId());
-			user.setLoginAccount(model);
+			User user = this.getMobileUser(null);
 			return ResultUtils.renderSuccessResult(user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,57 +124,72 @@ public class ZfbCommonRestController extends ZfbBaseRestController{
 	 * @return
 	 */
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forRegister(@RequestBody String data) {
 		try {
 			Map dataMap = JSONUtils.deserialize(data, Map.class);
 			if(null == dataMap && dataMap.isEmpty()){
 				throw new BaseException("输入数据为空！");
 			}
-			Object mobile = dataMap.get("mobile");
-			Object smscode = dataMap.get("smscode");
-			Object userId = dataMap.get("userId");
-			System.out.println("mobile:" +mobile+ ", smscode:" +smscode+ ", userId:" + userId);
-//			String smsId = dataMap.get("smsId").toString();
+			String userId = "";
+			if(dataMap.containsKey("userId")){
+				userId = dataMap.get("userId").toString();
+			}
 			// 业务数据校验
 			if (StringUtils.isEmpty(userId)) {
 				throw new BaseException("非法请求！");
 			}
-			// 验证码校验
-//			Result result = validCode(smsId, smscode);
-//			if(!result.isSuccess()){
-//				return result;
-//			}
-			//TODO 校验验证码
+			String hospitalId = "";
+			if(dataMap.containsKey("hospitalId")){
+				hospitalId = dataMap.get("hospitalId").toString();
+			}
 			User user = null;
 			Account model = this.accountManager.findOne("from Account u where u.username=? ", userId);
 			if (null != model && !StringUtils.isEmpty(model.getId())) {
+				model.setUsername(userId.toString());
 				model.setPassword(properties.getPrivate_key());
 				Subject subject = SecurityUtils.getSubject();
 				AuthAccountToken authToken = new AuthAccountToken(model);
 				subject.login(authToken);
-				user = this.getCurrentUser();
-				Map<String, Object> map = new HashMap<String, Object>();
-				List<Profile> profiles = getMyProfiles();
-				map.put("profiles", profiles);
-				user.setMap(map);
+				user = this.getMobileUser(hospitalId.toString());
 				user.setSessionId(this.getSession().getId());
 				return ResultUtils.renderSuccessResult(user);
 			} else {
+				String token = "";
+				if(dataMap.containsKey("token")){
+					token = dataMap.get("token").toString();
+				}
+				SmsMessage smsMessage = this.smsMessageManager.get(token);
+				if(null == smsMessage){
+					throw new BaseException("非法请求！");
+				}
+				Object mobile = dataMap.get("mobile");
+				if (StringUtils.isEmpty(mobile)) {
+					throw new BaseException("非法请求！");
+				}
 				model = new Account();
 				user = new User();
 				model.setUsername(userId.toString());
 				model.setPassword(properties.getPrivate_key());
-				model.setType("zfb");
+				model.setType(Account.TYPE_ZFB);
 				model = (Account) AuthUtils.encryptAccount(model);
-				
-				user.setIsActive("1");
-				user.setMobile(mobile.toString());
-				user.setLoginAccount(model);
-				user = this.userManager.save(user);
-				
+				List<User> list = this.userManager.find(" from User where mobile = ?", mobile);
+				if(null != list && !list.isEmpty()) {
+					user = list.get(0);
+					user.setLoginAccount(model);
+				}else {
+					user = new User();
+					user.setIsActive("1");
+					user.setMobile(mobile.toString());
+					user.setLoginAccount(model);
+					user = this.userManager.save(user);
+				}
 				model.setUser(user);
 				this.accountManager.save(model);
+				model.setPassword(properties.getPrivate_key());
+				Subject subject = SecurityUtils.getSubject();
+				AuthAccountToken authToken = new AuthAccountToken(model);
+				subject.login(authToken);
 				user.setSessionId(this.getSession().getId());
 				return ResultUtils.renderSuccessResult(user);
 			}
@@ -265,7 +284,8 @@ public class ZfbCommonRestController extends ZfbBaseRestController{
 	public static void main(String args[]){
 		try {
 			//String url="http://tjdev.lenovohit.com/api/hwe/zfb/common/redirect";
-			String url="http://127.0.0.1:8000/api/hwe/zfb/common/redirect";
+//			String url="http://127.0.0.1:8000/api/hwe/zfb/common/redirect?route=";
+			String url = "https://www.baidu.com/";
 			String encodedUrl = URLEncoder.encode(url,"UTF-8");
 			System.out.println("encodedUrl : " +encodedUrl);
 		} catch (UnsupportedEncodingException e) {

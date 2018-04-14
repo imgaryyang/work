@@ -21,7 +21,7 @@ export const auth = () => ({
 
 export const hospital = () => ({
   page: `${Global.getHost()}treat/hospital/page`,
-  get: `${Global.getHost()}treat/hospital/get`,
+  get: `${Global.getHost()}treat/hospital`,
   nearest: `${Global.getHost()}treat/hospital/nearest`,
 });
 
@@ -125,8 +125,8 @@ export const dept = () => ({
 });
 
 export const doctor = () => ({
-  listByDept: `${Global.getHost()}treat/doctor/listByDept`,
-  listByHospital: `${Global.getHost()}treat/doctor/listByHospital`,
+  listByDept: `${Global.getHost()}treat/doctor/page`,
+  listByHospital: `${Global.getHost()}treat/doctor/page`,
 });
 
 export const records = () => ({
@@ -134,10 +134,13 @@ export const records = () => ({
   diagnoseList: `${Global.getHost()}treat/his/activity/diagnoseList`,
   recordList: `${Global.getHost()}treat/his/activity/recordList`,
 });
-// //LIS PACS接口
+// LIS PACS接口
 export const hisTest = () => ({
   testList: `${Global.getHost()}treat/his/test/list`,
   testDetailList: `${Global.getHost()}treat/his/testDetail/list`,
+  PACSList: `${Global.getHost()}treat/his/pacs/list`,
+  PACSDetail: `${Global.getHost()}treat/his/pacs/info`,
+
 });
 
 export const payRecords = () => ({
@@ -176,6 +179,12 @@ export const patientPayment = () => ({
   patientPaymentList: `${Global.getHost()}treat/his/chargeDetail/list`,
   getPrePaymentInfo: `${Global.getHost()}treat/charge/prePayInfo`,
   createDeposit: `${Global.getHost()}treat/deposit/recharge`, // 预存充值
+  createForegift: `${Global.getHost()}treat/foregift`, // 预存充值
+  refundDeposit: `${Global.getHost()}treat/deposit/refund`, // 门诊退费(退到支付宝,微信...)
+  depositPrePay: `${Global.getHost()}treat/his/charge/prepay`, // 门诊预存缴费->预结算
+  depositPay: `${Global.getHost()}treat/his/charge/pay`, // 门诊预存缴费->结算
+  depositCallback: `${Global.getHost()}treat/deposit/callback`, // 门诊充值回调
+  foregiftCallback: `${Global.getHost()}treat/foregift/callback`, // 住院预缴回调
 });
 
 
@@ -193,7 +202,6 @@ export const wxpay = () => ({
   createBill: `${Global.getHost()}pay/createBill`,
   createSettlement: `${Global.getHost()}pay/create/createSettlement`,
 });
-
 
 /** ------------------基础服务---------------------**/
 export const base = () => ({

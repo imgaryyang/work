@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+
+
+	<bean id="billDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.Bill" />
+	</bean>
+	<bean id="billManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="billDao" />
+	</bean>
+	
+	<bean id="settlementDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.Settlement" />
+	</bean>
+	<bean id="settlementManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="settlementDao" />
+	</bean>
+	
+	<bean id="payChannelDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.PayChannel" />
+	</bean>
+	<bean id="payChannelManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payChannelDao" />
+	</bean>
+	
+	<bean id="payMerchantDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.PayMerchant" />
+	</bean>
+	<bean id="payMerchantManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payMerchantDao" />
+	</bean>
+	
+	<bean id="payTypeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.PayType" />
+	</bean>
+	<bean id="payTypeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payTypeDao" />
+	</bean>
+	
+	<bean id="payAuthDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.PayAuth" />
+	</bean>
+	<bean id="payAuthManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="payAuthDao" />
+	</bean>
+	
+	
+	<bean id="cardBinDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CardBin" />
+	</bean>
+	<bean id="cardBinManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cardBinDao" />
+	</bean>
+	
+	<!-- **************** 现金记录 **************** -->
+	<bean id="cashDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.Cash" />
+	</bean>
+	<bean id="cashManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cashDao" />
+	</bean>
+	<!-- **************** 现金记录 cash END **************** -->
+	<!-- **************** 现金批次打印 **************** -->
+	<bean id="cashBatchDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CashBatch" />
+	</bean>
+	<bean id="cashBatchManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cashBatchDao" />
+	</bean>
+	<!-- **************** 现金批次打印 settle END **************** -->
+	<!-- **************** 对账记录CheckRecord START **************** -->
+	<bean id="checkRecordDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CheckRecord" />
+	</bean>
+	<bean id="checkRecordManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkRecordDao" />
+	</bean>
+	<!-- **************** 对账记录CheckRecord END **************** -->
+	<!-- **************** 银行对账明细CheckDetailBank START **************** -->
+	<bean id="checkDetailBankDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CheckDetailBank" />
+	</bean>
+	<bean id="checkDetailBankManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkDetailBankDao" />
+	</bean>
+	<!-- **************** 银行对账明细CheckDetailBank END **************** -->
+	<!-- **************** 支付宝对账明细CheckDetailAlipay START **************** -->
+	<bean id="checkDetailAlipayDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CheckDetailAlipay" />
+	</bean>
+	<bean id="checkDetailAlipayManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkDetailAlipayDao" />
+	</bean>
+	<!-- **************** 支付宝对账明细CheckDetailAlipay END **************** -->
+	<!-- **************** 微信对账明细CheckDetailWxpay START **************** -->
+	<bean id="checkDetailWxpayDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CheckDetailWxpay" />
+	</bean>
+	<bean id="checkDetailWxpayManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkDetailWxpayDao" />
+	</bean>
+	<!-- **************** 微信对账明细CheckDetailAlipay END **************** -->
+	
+	<!-- **************** 对账结果CheckDetailResult START **************** -->
+	<bean id="checkDetailResultDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.hwe.pay.model.CheckDetailResult" />
+	</bean>
+	<bean id="checkDetailResultManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkDetailResultDao" />
+	</bean>
+	<!-- **************** 对账结果CheckDetailResult END **************** -->
+	
+	<!-- 支付交易状态同步 -->
+	<bean id="tradeSchedule" class="com.lenovohit.hwe.pay.schedule.TradeSchedule">
+		<property name="checkRecordManager" ref="checkRecordManager" />
+		<property name="payMerchantManager" ref="payMerchantManager" />
+		<property name="settlementManager" ref="settlementManager" />
+		<property name="tradeService" ref="tradeService" />
+		<property name="checkService" ref="checkService" />
+	</bean>
+	<bean id="syncCheckFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="syncCheckFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncCheckFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncCheckFileJobDetail" />
+		<property name="cronExpression" value="0 0 */3 * * ?" />
+	</bean>
+	<bean id="importCheckFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="importCheckFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="importCheckFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="importCheckFileJobDetail" />
+		<property name="cronExpression" value="0 10 */3 * * ?" />
+	</bean>
+	<bean id="checkOrderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="checkOrder" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="checkOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="checkOrderDetail" />
+		<property name="cronExpression" value="0 30 */3 * * ?" />
+	</bean>
+	<bean id="syncPayFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="syncPayFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncPayFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncPayFileJobDetail" />
+		<property name="cronExpression" value="0 0 */3 * * ?" />
+	</bean>
+	<bean id="importPayFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="importPayFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="importPayFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="importPayFileJobDetail" />
+		<property name="cronExpression" value="0 10 */3 * * ?" />
+	</bean>
+	<bean id="checkPayOrderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="checkPayOrder" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="checkPayOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="checkPayOrderDetail" />
+		<property name="cronExpression" value="0 30 */3 * * ?" />
+	</bean>
+	<bean id="syncRefundFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="syncRefundFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncRefundFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncRefundFileJobDetail" />
+		<property name="cronExpression" value="0 0 */3 * * ?" />
+	</bean>
+	<bean id="importRefundFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="importRefundFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="importRefundFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="importRefundFileJobDetail" />
+		<property name="cronExpression" value="0 10 */3 * * ?" />
+	</bean>
+	<bean id="checkRefundOrderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="checkRefundOrder" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="checkRefundOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="checkRefundOrderDetail" />
+		<property name="cronExpression" value="0 30 */3 * * ?" />
+	</bean>
+	<bean id="syncReturnFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="syncReturnFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncReturnFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncReturnFileJobDetail" />
+		<property name="cronExpression" value="0 0 */3 * * ?" />
+	</bean>
+	<bean id="importReturnFileJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="importReturnFile" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="importReturnFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="importReturnFileJobDetail" />
+		<property name="cronExpression" value="0 10 */3 * * ?" />
+	</bean>
+	<bean id="checkReturnOrderJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="checkReturnOrder" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="checkReturnOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="checkReturnOrderJobDetail" />
+		<property name="cronExpression" value="0 30 */3 * * ?" />
+	</bean>
+	<bean id="syncRefundStatDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tradeSchedule" />
+		<property name="targetMethod" value="syncRefundStat" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="syncRefundStatTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="syncRefundStatDetail" />
+		<property name="cronExpression" value="0 */5 * * * ?" />
+	</bean>
+	<bean id="tradeScheduler" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
+		<property name="autoStartup" value= "false"/><!-- SchedulerFactoryBean在初始化后是否马上启动Scheduler，默认为true。如果设置为false，需要手工启动Scheduler -->
+		<property name="startupDelay" value="0" /><!-- 在SchedulerFactoryBean初始化完成后，延迟多少秒启动Scheduler，默认为0，表示马上启动 -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContextKey" /><!-- 用applicationContextSchedulerContextKey所定义的key得到对应的spring上下文-->
+		<property name="waitForJobsToCompleteOnShutdown" value="true" /><!-- -->
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.instanceName">tradeSchedule</prop><!--可为任何值，用在 JDBC JobStore 中来唯一标识实例，但是所有集群节点中必须相同。-->
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop><!-- 属性为AUTO即可，基于主机名和时间戳来产生实例ID。-->
+				<prop key="org.quartz.jobStore.class">org.quartz.simpl.RAMJobStore</prop><!-- 存储配置 内存存储 -->
+				<prop key="org.quartz.jobStore.misfireThreshold">60000</prop><!-- 最大能忍受的触发超时时间，如果超过则认为“失误” -->
+				<prop key="org.quartz.scheduler.rmi.export">false</prop><!-- 是否打开Quartz的RMI支持 默认 false-->
+				<prop key="org.quartz.scheduler.rmi.proxy">false</prop><!-- 是否打开Quartz的RMI支持 默认 false-->
+				<prop key="org.quartz.scheduler.wrapJobExecutionInUserTransaction">false</prop><!-- 是否在用户指定的事务中运行任务 默认false-->
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop> <!-- 线程池的实例类 -->
+				<prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">true</prop> <!-- 加载任务代码的ClassLoader是否从外部继承 默认true -->
+				<prop key="org.quartz.threadPool.threadCount">5</prop> <!-- 执行任务代码的线程池的大小 -->
+				<prop key="org.quartz.threadPool.threadPriority">5</prop> <!-- 执行任务代码的线程的优先级 -->
+			</props>
+		</property>
+		<property name="triggers">
+			<list> 
+				<ref bean="syncCheckFileTrigger" /> 
+				<ref bean="importCheckFileTrigger" /> 
+				<ref bean="checkOrderTrigger" />
+				<ref bean="syncPayFileTrigger" /> 
+				<ref bean="importPayFileTrigger" /> 
+				<ref bean="checkPayOrderTrigger" />
+				<ref bean="syncRefundFileTrigger" /> 
+				<ref bean="importRefundFileTrigger" /> 
+				<ref bean="checkRefundOrderTrigger" />
+				<ref bean="syncReturnFileTrigger" /> 
+				<ref bean="importReturnFileTrigger" />
+				<ref bean="checkReturnOrderTrigger" />
+				<ref bean="syncRefundStatTrigger" />  
+				<!-- <ref local="syncReverseStatTrigger" />  
+				<ref local="syncUpopCheckInfoTrigger" /> 
+				<ref local="sync99billCheckInfoTrigger" />  -->
+			</list>
+		</property>
+	</bean>
+</beans>

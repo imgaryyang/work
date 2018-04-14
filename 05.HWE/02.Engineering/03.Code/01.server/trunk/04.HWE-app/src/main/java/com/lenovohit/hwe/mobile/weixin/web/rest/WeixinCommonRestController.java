@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -138,15 +138,18 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
 	public void redirect(
 			@RequestParam(value = "code") String code, // code作为换取access_token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
-			@RequestParam(value = "state") String state // 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			@RequestParam(value = "state") String state, // 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			@RequestParam(value = "route") String route
 			){
 		try {
 			String baseUrl = properties.getMpBaseUrl();
 			System.out.println("code : "+code);
 			System.out.println("state : "+state);
+			System.out.println("route : "+route);
 			WeixinToken token = weixinBaseManger.getToken(code);
 			String openid = token.getOpenid();
-			String url = baseUrl.contains("?")? (baseUrl+"openid="+openid) :( baseUrl+"?openid="+openid);
+			String url = baseUrl.contains("?")? (baseUrl+"openid="+openid+"&route="+route) :( baseUrl+"?openid="+openid+"&route="+route);
+			System.out.println("url：" + url);
 			this.getResponse().sendRedirect(url);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,39 +157,49 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	}
 	
 	@RequestMapping(value = "/token", method = RequestMethod.GET)
-	public Result forToken(
+	public void forToken(
 			@RequestParam(value = "code") String code, 
-			@RequestParam(value = "state") String state 
+			@RequestParam(value = "state") String state,
+			@RequestParam(value = "route") String route
 			){
 		try {
+			System.out.println("code："+code+" ,state："+state+" ,route："+route);
+			String baseUrl = properties.getMpBaseUrl();
 			WeixinToken token = weixinBaseManger.getToken(code);
-			
-			return ResultUtils.renderSuccessResult(token);
+			String openid = token.getOpenid();
+			String url = baseUrl.contains("?")? (baseUrl+"openid="+openid+"&route="+route) :( baseUrl+"?openid="+openid+"&route="+route);
+			System.out.println("url：" + url);
+			this.getResponse().sendRedirect(url);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResultUtils.renderFailureResult("获取用户OpenId失败！");
 		} 
 	}
 	
 	/**
 	 * 登录
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@SuppressWarnings(value="rawtypes")
+	@RequestMapping(value = "/loginOld", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forLogin(@RequestBody String data) {
 		try {
 			//TODO WeixinToken 不合适
-			WeixinToken temp = JSONUtils.deserialize(data, WeixinToken.class);//接参数用
+//			WeixinToken temp = JSONUtils.deserialize(data, WeixinToken.class);//接参数用
+			Map dataMap = JSONUtils.deserialize(data, Map.class);
+			Object openid = dataMap.get("openid");
+			Object hospitalId = dataMap.get("hospitalId");
+			if(StringUtils.isEmpty(openid)) {
+				throw new BaseException("非法请求");
+			}
+			if(StringUtils.isEmpty(hospitalId)) {
+				throw new BaseException("非法请求");
+			}
 			Account model  = new Account();
-			model.setUsername(temp.getOpenid());
+			model.setUsername(openid.toString());
 			model.setPassword(properties.getSecret());
 			Subject subject = SecurityUtils.getSubject();
 			AuthAccountToken authToken = new AuthAccountToken(model);
 			subject.login(authToken);
-			User user = this.getCurrentUser();
-			Map<String, Object> map = new HashMap<String, Object>();
-			List<Profile> profiles = getMyProfiles();
-			map.put("profiles", profiles);
-			user.setMap(map);
+			User user = this.getMobileUser(hospitalId.toString());
 			user.setSessionId(this.getSession().getId());
 			user.setLoginAccount(model);
 			return ResultUtils.renderSuccessResult(user);
@@ -201,61 +214,79 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	 * @return
 	 */
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Result forRegister(@RequestBody String data) {
 		try {
+			System.out.println(data);
 			Map dataMap = JSONUtils.deserialize(data, Map.class);
 			if(null == dataMap && dataMap.isEmpty()){
 				throw new BaseException("输入数据为空！");
 			}
-			String openid = dataMap.get("openid").toString();
-			String mobile = dataMap.get("mobile").toString();
-//			String smscode = dataMap.get("smscode").toString();
-//			String smsId = dataMap.get("smsId").toString();
+			String openid = "";
+			if(dataMap.containsKey("openid")){
+				openid = dataMap.get("openid").toString();
+			}
 			// 业务数据校验
 			if (StringUtils.isEmpty(openid)) {
 				throw new BaseException("非法请求！");
 			}
-			// 验证码校验
-//			Result result = validCode(smsId, smscode);
-//			if(!result.isSuccess()){
-//				return result;
-//			}
+			String hospitalId = "";
+			if(dataMap.containsKey("hospitalId")){
+				hospitalId = dataMap.get("hospitalId").toString();
+			}
 			User user = null;
 			Account model = this.accountManager.findOne("from Account u where u.username=? ", openid);
 			if (null != model && !StringUtils.isEmpty(model.getId())) {
+				model.setUsername(openid.toString());
 				model.setPassword(properties.getSecret());
 				Subject subject = SecurityUtils.getSubject();
 				AuthAccountToken authToken = new AuthAccountToken(model);
 				subject.login(authToken);
-				user = this.getCurrentUser();
-				Map<String, Object> map = new HashMap<String, Object>();
-				List<Profile> profiles = getMyProfiles();
-				map.put("profiles", profiles);
-				user.setMap(map);
+				user = this.getMobileUser(hospitalId);
 				user.setSessionId(this.getSession().getId());
 				return ResultUtils.renderSuccessResult(user);
 			} else {
+				String token = "";
+				if(dataMap.containsKey("token")){
+					token = dataMap.get("token").toString();
+				}
+				SmsMessage smsMessage = this.smsMessageManager.get(token);
+				if(null == smsMessage){
+					throw new BaseException("非法请求！");
+				}
+				Object mobile = dataMap.get("mobile");
+				if (StringUtils.isEmpty(mobile)) {
+					throw new BaseException("非法请求！");
+				}
 				model = new Account();
-				user = new User();
-				model.setUsername(openid);
+				model.setUsername(openid.toString());
 				model.setPassword(properties.getSecret());
-				model.setType("wx");
+				model.setType(Account.TYPE_WX);
 				model = (Account) AuthUtils.encryptAccount(model);
-
-				user.setIsActive("1");
-				user.setMobile(mobile);
-				user.setLoginAccount(model);
-				user = this.userManager.save(user);
-
+				List<User> list = this.userManager.find(" from User where mobile = ?", mobile.toString());
+				if(null != list && !list.isEmpty()) {
+					user = list.get(0);
+					user.setLoginAccount(model);
+				}else {
+					user = new User();
+					user.setIsActive("1");
+					user.setMobile(mobile.toString());
+					user.setLoginAccount(model);
+					user = this.userManager.save(user);
+				}
 				model.setUser(user);
 				this.accountManager.save(model);
+				model.setPassword(properties.getSecret());
+				Subject subject = SecurityUtils.getSubject();
+				AuthAccountToken authToken = new AuthAccountToken(model);
+				subject.login(authToken);
+				user = this.getMobileUser(hospitalId);
 				user.setSessionId(this.getSession().getId());
 				return ResultUtils.renderSuccessResult(user);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResultUtils.renderFailureResult("登录出错");
+			return ResultUtils.renderFailureResult("请求出错");
 		}
 	}
 	/**
@@ -330,10 +361,24 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			throw new BaseException("输入数据为空！");
 		}
 		User user = this.getCurrentUser();
-		user.setName(model.getName());
-		user.setIdNo(model.getIdNo());
+		if(!StringUtils.isEmpty(model.getName())) {
+			user.setName(model.getName());
+		}
+		if(!StringUtils.isEmpty(model.getGender())) {
+			user.setGender(model.getGender());
+		}
+		if(!StringUtils.isEmpty(model.getIdNo())) {
+			user.setIdNo(model.getIdNo());
+		}
+		if(!StringUtils.isEmpty(model.getEmail())) {
+			user.setEmail(model.getEmail());
+		}
+		if(!StringUtils.isEmpty(model.getAddress())) {
+			user.setAddress(model.getAddress());
+		}
 		this.userManager.save(user);
-
+		this.getMobileUser(null);
+		user.setSessionId(this.getSession().getId());
 		return ResultUtils.renderSuccessResult(user);
 	}
 	/**
@@ -342,7 +387,7 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	 * @return
 	 */
 	public List<Profile> getProfile(String userPatientId, String hospitalId){
-		String sql = "select p.ID,p.NAME,p.NO,p.HOS_ID,p.HOS_NO,p.HOS_NAME,p.ID_NO,r.STATUS,r.IDENTIFY,p.GENDER,p.MOBILE from APP_USER_PATIENT_PROFILE r "
+		String sql = "select p.ID,p.NAME,p.NO,p.HOS_ID,p.HOS_NO,p.HOS_NAME,p.ID_NO,r.STATUS,r.IDENTIFY,p.GENDER,p.MOBILE,p.Type from APP_USER_PATIENT_PROFILE r "
 				+ "left join TREAT_PROFILE p ON r.PRO_ID = p.ID JOIN APP_USER_PATIENT a "
 				+ "ON a.ID = r.UP_ID where a.id = '"+ userPatientId + "'";
 		if(!StringUtils.isEmpty(hospitalId)){
@@ -364,6 +409,7 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 			profile.setIdentify(Object2String(objects[8]));
 			profile.setGender(Object2String(objects[9]));
 			profile.setMobile(Object2String(objects[10]));
+			profile.setType(Object2String(objects[11]));
 			profiles.add(profile);
 		}
 		return profiles;
@@ -389,8 +435,7 @@ public class WeixinCommonRestController extends WeixinBaseRestController{
 	public static void main(String args[]){
 		try {
 			//String url="http://tjdev.lenovohit.com/api/hwe/weixin/common/redirect";
-			String url="http://127.0.0.1:8000/api/hwe/weixin/common/redirect";
-			String encodedUrl = URLEncoder.encode(url,"UTF-8");
+			String url="http://tjdev.lenovohit.com/api/hwe/weixin/common/redirect?route=";			String encodedUrl = URLEncoder.encode(url,"UTF-8");
 			System.out.println("encodedUrl : " +encodedUrl);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

@@ -31,7 +31,9 @@
     <name>HWE :: Base</name>
     <packaging>jar</packaging> 
 
-
+	<properties>
+    	<argLine>-Dfile.encoding=UTF-8</argLine>
+	</properties>
 	<dependencies>
 	   <dependency>
 			<groupId>cn.jpush.api</groupId>
@@ -42,6 +44,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.2</version>
+		</dependency>
+		<dependency>
+		  	<groupId>com.oracle</groupId>
+		    <artifactId>ojdbc6</artifactId>
+		    <version>11.1.0.7.0</version>
 		</dependency>
 	</dependencies>
 	

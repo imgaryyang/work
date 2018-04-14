@@ -24,7 +24,7 @@ class HospitalFuncCenter extends Component {
   }
 
   render() {
-    // const { currHospital } = this.props.base;
+    const { currHospital } = this.props.base;
     return (
       <div className={styles.container} >
         <Ads />
@@ -36,7 +36,7 @@ class HospitalFuncCenter extends Component {
             title={(<div className={styles.cardTitle} >医院简介</div>)}
           />
           <Card.Body>
-            <div className={styles.brief} >{Global.Config.hospital.brief}</div>
+            <div className={styles.brief} >{currHospital.brief}</div>
           </Card.Body>
         </Card>
         <div className={commonStyles.sep15} />

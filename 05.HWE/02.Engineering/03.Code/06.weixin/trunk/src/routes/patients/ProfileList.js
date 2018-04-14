@@ -1,84 +1,173 @@
 import React from 'react';
 import { connect } from 'dva';
-import { createForm } from 'rc-form';
-import { List, Modal, Radio } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
+import { Toast, Modal } from 'antd-mobile';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-const { RadioItem } = Radio;
-const { Item } = List;
+import Global from '../../Global';
+import { spaceAfterThreeLetters } from '../../utils/Filters';
+import SMSVerify from '../common/SMSVerify';
 
-class FormItem extends React.Component {
+import styles from './ProfileList.less';
+import commonStyles from '../../utils/common.less';
+
+class ProfileList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.bind = this.bind.bind(this);
+    this.renderModal = this.renderModal.bind(this);
+    this.renderItems = this.renderItems.bind(this);
+  }
+
+  state = {
+    visible: false,
+    profile: {},
+  };
+
   componentWillMount() {
   }
-  showModal() {
-    this.props.dispatch({
-      type: 'user/save',
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    clearTimeout(this.clockTimer);
+  }
+
+  timer = null;
+  clockTimer = null;
+
+  bind(smsData) {
+    console.log(smsData);
+    const { dispatch, patient, profiles } = this.props;
+    const { profile } = this.state;
+    dispatch({
+      type: 'patient/bindProfile',
       payload: {
-        visible: true,
+        token: smsData.token,
+        hospitalId: profile.hosId,
+        patientId: patient.patientInfo.id,
+        profiles,
+      },
+      showMsg: msg => (msg === '_LOADING_' ? Toast.loading() : Toast.info(msg, 2, null, false)),
+      submitDown: () => {
+        dispatch({
+          type: 'base/reloadUserInfo',
+          callback: (result) => {
+            if (result.id) {
+              this.props.dispatch({
+                type: 'patient/setState',
+                payload: {
+                  patientInfo: this.getPatientById(result, patient.patientInfo.id),
+                },
+              });
+            } else {
+              Toast.info(result, 2, null, false);
+            }
+          },
+        });
+        dispatch(routerRedux.goBack());
       },
     });
   }
-  closeModal() {
-    this.props.dispatch({
-      type: 'user/save',
-      payload: {
-        visible: false,
-      },
-    });
-  }
-  selectItem(item) {
-    this.props.dispatch({
-      type: 'user/save',
-      payload: {
-        visible: false,
-      },
-    });
-    this.props.dispatch({
-      type: 'base/save',
-      payload: {
-        currProfile: item,
-      },
-    });
-    const { callback } = this.props;
-    if (typeof callback === 'function') {
-      callback(item);
-    }
-  }
-  render() {
-    const { visible } = this.props.user;
-    const { profiles, currProfile } = this.props.base;
-    console.log('profiles', profiles);
+
+  renderModal() {
     return (
-      <List style={{ backgroundColor: 'white' }} className="picker-list">
-        <Item arrow="horizontal" onClick={() => this.showModal()}>{ currProfile && currProfile.id ? `${currProfile.name} ${currProfile.no}` : '选择就诊人'}</Item>
-        <Modal
-          visible={visible}
-          transparent
-          animationType="fade"
-          onClose={() => this.closeModal()}
+      <Modal
+        visible={this.state.visible}
+        maskClosable
+        transparent
+        onClose={() => this.setState({ visible: false })}
+        className={styles.modal}
+      >
+        <div>
+          <SMSVerify
+            verifyType={Global.securityCodeType.BIND_PROFILE}
+            buttonText="绑定"
+            initMobile={this.state.profile.mobile}
+            mobileEditable={false}
+            afterVerifyText="验证成功，正在绑定，请稍候..."
+            afterVerify={this.bind}
+            buttonDisabled={this.props.patient.bindButtonDisabled}
+          />
+        </div>
+      </Modal>
+    );
+  }
 
+  /**
+   * 渲染行数据
+   */
+  renderItems() {
+    const { profiles, allowBind, showPatientInfo, patient } = this.props;
+    const { bindedProfiles } = patient;
+    return profiles.map((item, idx) => {
+      const { id, hosId, hosName, no, name, idNo, mobile } = item;
+
+      const key = `${hosId}${no}`;
+      const bindBtn = allowBind ? (!bindedProfiles[key] ? (
+        <div
+          className={styles.bindBtn}
+          onClick={() => this.setState({
+            visible: true,
+            profile: item,
+          })}
         >
-          {
-            profiles.map((profile, index) => (
-              <RadioItem key={index} checked={currProfile.id === profile.id} onClick={() => this.selectItem(profile)}>
-                <List.Item.Brief>{profile.name} {profile.no}</List.Item.Brief>
-              </RadioItem>
+          <span className={styles.bindText}>绑定</span>
+        </div>
+      ) : (
+        <span className={styles.bindedText}>已绑定</span>
+      )) : null;
 
-            ))
-          }
-        </Modal>
-      </List>
+      const patientInfo = showPatientInfo ? (
+        <div className={styles.patientContainer}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <span className={styles.name}>{name}</span>
+            <span className={styles.idNo}>{idNo}</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
+            <span className={styles.name}>医院预留手机号：</span>
+            <span className={styles.idNo}>{mobile}</span>
+          </div>
+        </div>
+      ) : null;
+      return (
+        <div key={`card_${id}_${idx + 1}`} className={styles.cardContainer}>
+          <div className={styles.cardBody}>
+            <div className={classnames(commonStyles.flexRow, styles.hospitalContainer)}>
+              <span className={styles.hospName}>{hosName}</span>
+              {bindBtn}
+            </div>
+            <span className={styles.cardNo}>{spaceAfterThreeLetters(no)}</span>
+            {patientInfo}
+          </div>
+        </div>
+      );
+    });
+  }
+
+  render() {
+    return (
+      <div className={styles.profilesContainer}>
+        {this.renderItems()}
+        {this.renderModal()}
+      </div>
     );
   }
 }
 
-FormItem.propTypes = {
+ProfileList.propTypes = {
+  profiles: PropTypes.array.isRequired,
+  // patientId: PropTypes.string.isRequired,
+  allowBind: PropTypes.bool,
+  showPatientInfo: PropTypes.bool,
 };
-const ProfileList = createForm()(FormItem);
-export default connect(({ home, user, base }) => ({ home, user, base }))(ProfileList);
-// {
-//   profiles.map((profile, index) => (
-//     <List.Item key={index} className={styles['placeholder']} onClick={() => this.selectItem(profile)}>
-//       <span>{profile.name} {profile.no}</span>
-//     </List.Item>
-//   ))
-// }
+
+ProfileList.defaultProps = {
+  allowBind: false,
+  showPatientInfo: false,
+};
+
+export default connect(({ base, patient }) => ({ base, patient }))(ProfileList);

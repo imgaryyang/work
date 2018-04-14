@@ -28,7 +28,7 @@ import com.lenovohit.hwe.base.model.AuditableModel;
  * @version 1.0.0 2017-12-22
  */
 @Entity
-@Table(name = "PAY_CASH_BATCH_NEW")
+@Table(name = "PAY_CASH_BATCH")
 public class CashBatch extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 3655251696801994332L;

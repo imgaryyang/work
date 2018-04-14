@@ -36,4 +36,14 @@ public class ChargeDetailHisController extends OrgBaseRestController {
 		else 
 			return ResultUtils.renderFailureResult(response.getMsg());
 	}
+	
+	@RequestMapping(value = "/unpaids", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Result forUnpaidsList(@RequestParam(value = "data", defaultValue = "") String data){
+		ChargeDetail model = JSONUtils.deserialize(data, ChargeDetail.class);
+		RestListResponse<ChargeDetail> response = this.hisChargeDetailService.unpaids(model);
+		if(response.isSuccess())
+			return ResultUtils.renderSuccessResult(response.getList());
+		else 
+			return ResultUtils.renderFailureResult(response.getMsg());
+	}
 }

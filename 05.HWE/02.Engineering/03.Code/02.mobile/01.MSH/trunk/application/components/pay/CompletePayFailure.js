@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
 });
 
-CompletePayFailure.navigationOptions = { title: '支付成功' };
+CompletePayFailure.navigationOptions = { title: '支付失败' };
 
 const mapStateToProps = state => ({
   nav: state.nav,

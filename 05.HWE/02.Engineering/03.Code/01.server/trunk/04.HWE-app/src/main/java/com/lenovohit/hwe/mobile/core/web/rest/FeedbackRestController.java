@@ -38,7 +38,10 @@ public class FeedbackRestController extends MobileBaseRestController {
 		}
 		
 		//Users user = (Users) this.getSession().getAttribute(ElConstants.APP_USER_KEY);
-		model.setUserId("111");
+		if (!model.getUserId().isEmpty()){
+			model.setUserId(model.getUserId());
+		}
+		
 		model.setFeededAt(DateUtils.getCurrentDate());
 		model = this.feedbackManager.save(model);
 

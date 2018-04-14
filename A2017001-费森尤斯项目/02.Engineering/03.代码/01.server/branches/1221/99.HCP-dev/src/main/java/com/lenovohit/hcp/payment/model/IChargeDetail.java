@@ -103,9 +103,6 @@ public class IChargeDetail  implements java.io.Serializable {
     /** recordId */
     private String recordId;
 
-    /** recordNo */
-    private String recordNo;
-
     /** code */
     private String code;
 
@@ -142,11 +139,11 @@ public class IChargeDetail  implements java.io.Serializable {
     /** realAmount */
     private BigDecimal realAmount;
 
-    /** recipeNo */
-    private String recipeNo;
+    /** recodeNo */
+    private String recordNo;
 
-    /** recipeTime */
-    private Date recipeTime;
+    /** recordTime */
+    private Date recordTime;
 
     /** invoiceNo */
     private String invoiceNo;
@@ -839,40 +836,23 @@ public class IChargeDetail  implements java.io.Serializable {
         this.realAmount = realAmount;
     }
 
+
     /**
-     * 获取recipeNo
+     * 获取recordTime
      * 
-     * @return recipeNo
+     * @return recordTime
      */
-    public String getRecipeNo() {
-        return this.recipeNo;
+    public Date getrecordTime() {
+        return this.recordTime;
     }
 
     /**
-     * 设置recipeNo
+     * 设置recordTime
      * 
-     * @param recipeNo
+     * @param recordTime
      */
-    public void setRecipeNo(String recipeNo) {
-        this.recipeNo = recipeNo;
-    }
-
-    /**
-     * 获取recipeTime
-     * 
-     * @return recipeTime
-     */
-    public Date getRecipeTime() {
-        return this.recipeTime;
-    }
-
-    /**
-     * 设置recipeTime
-     * 
-     * @param recipeTime
-     */
-    public void setRecipeTime(Date recipeTime) {
-        this.recipeTime = recipeTime;
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
     }
 
     /**

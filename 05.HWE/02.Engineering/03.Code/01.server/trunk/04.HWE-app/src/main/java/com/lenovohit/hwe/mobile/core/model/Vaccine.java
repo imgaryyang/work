@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.lenovohit.hwe.base.model.AuditableModel;
 
 /**
- * APP_LABORATORY
+ * APP_VACCINE
  * 
  * @author redstar
  * @version 1.0.0 2017-12-14
@@ -35,7 +35,6 @@ public class Vaccine  extends AuditableModel implements java.io.Serializable {
     
     /** vaccineName 名称 */
     private String vaccineName;
-    
     
     /** vaccinePinYin 拼音 */
     private String vaccinePinyin;
@@ -81,8 +80,6 @@ public class Vaccine  extends AuditableModel implements java.io.Serializable {
 	public void setVaccineName(String vaccineName) {
 		this.vaccineName = vaccineName;
 	}
-
-	
 
 	public String getVaccinePinyin() {
 		return vaccinePinyin;
@@ -155,8 +152,5 @@ public class Vaccine  extends AuditableModel implements java.io.Serializable {
 	public void setDayBirth(String dayBirth) {
 		this.dayBirth = dayBirth;
 	}
-	
-    
-   
 
    }

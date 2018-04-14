@@ -207,7 +207,7 @@ export function testEmail(email) {
 export function testAmt(amt) {
   if (!amt) { return true; }
 
-  const pattern = /^-?\d+\.{0,1}\d{0,}$/;
+  const pattern = /^-?\d+\.{0,1}\d{0,2}$/;
   const rst = pattern.test(amt);
   return rst;
 }

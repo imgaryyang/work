@@ -1,6 +1,7 @@
 import dva from 'dva';
 import './index.less';
 import './utils/prototype';
+import './utils/ajaxHandlers';
 
 // 1. Initialize
 const app = dva();
@@ -14,6 +15,7 @@ app.model(require('./models/homeModel').default);
 app.model(require('./models/appointModel').default);
 app.model(require('./models/paymentModel').default);
 app.model(require('./models/userModel').default);
+app.model(require('./models/patientModel').default);
 app.model(require('./models/paymentRecordModel').default);
 app.model(require('./models/inpatientPaymentRecordModel').default);
 app.model(require('./models/outpatientReturnModel').default);

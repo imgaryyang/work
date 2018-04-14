@@ -13,7 +13,6 @@ import {
 import Sep from 'rn-easy-separator';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import Toast from 'react-native-root-toast';
 
 import Global from '../../Global';
 import { list } from '../../services/records/RecordService';
@@ -54,26 +53,37 @@ class Records extends Component {
   };
 
   componentDidMount() {
-    const user = Global.getUser();
+    this.props.navigation.setParams({
+      title: '就诊记录',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: true,
+      allowSwitchPatient: true,
+      // afterChooseHospital: this.afterChooseHospital,
+      // afterChoosePatient: this.afterChoosePatient,
+    });
+    // const user = Global.getUser();
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
-        ctrlState: {
-          ...this.state.ctrlState,
-          refreshing: true,
-        },
-      }, () => this.getProfile());
-    });
-    this.props.navigation.setParams({
-      title: '就诊记录',
-      showCurrHospitalAndPatient: !!user,
-      allowSwitchHospital: true,
-      allowSwitchPatient: true,
-      afterChooseHospital: this.afterChooseHospital,
-      afterChoosePatient: this.afterChoosePatient,
+      }, () => {
+        this.getProfile(
+          this.props.base.currHospital,
+          this.props.base.currPatient,
+          this.props.base.currProfile,
+        );
+      });
     });
   }
 
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.getProfile(
+        props.base.currHospital,
+        props.base.currPatient,
+        props.base.currProfile,
+      );
+    }
+  }
   // 搜索
   onSearch() {
     // 滚动到列表顶端
@@ -82,32 +92,41 @@ class Records extends Component {
     this.setState({
       ctrlState: {
         ...this.state.ctrlState,
-        refreshing: true,
-        infiniteLoading: false,
+        // infiniteLoading: false,
         noMoreData: false,
         requestErr: false,
         requestErrMsg: null,
       },
-    }, () => this.fetchData());
+    }, () => {
+      this.getProfile(
+        this.props.base.currHospital,
+        this.props.base.currPatient,
+        this.props.base.currProfile,
+      );
+    });
   }
   /**
    * 获取用户信息的基本判断
    */
-  getProfile() {
-    const { currHospital, currProfile } = this.props.base;
-    if ((currHospital == null) || (currHospital === undefined)) {
-      Toast.show('未选择当前医院！');
-      return null;
-    } else if (currProfile === null) {
-      Toast.show('当前就诊人无档案！');
-      return null;
-    } else if (currProfile.status !== '1' || currProfile.hosId !== currHospital.id) {
-      Toast.show('当前就诊人在当前医院暂无档案！');
-      return null;
-    } else {
-      this.setState({
-      }, () => this.fetchData());
+  getProfile(currHospital, currPatient, currProfile) {
+    if (currHospital === null || currProfile === null) {
+      currHospital = this.props.base.currHospital;
+      currProfile = this.props.base.currProfile;
     }
+    if (!currProfile) {
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: false,
+          requestErr: false,
+          requestErrMsg: null,
+        },
+        data: {},
+      });
+      return;
+    }
+    this.setState({
+    }, () => this.fetchData(currHospital, currPatient, currProfile));
   }
   gotoScan(item) {
     this.props.navigation.navigate('RecordDetails', {
@@ -117,53 +136,55 @@ class Records extends Component {
     });
   }
   afterChooseHospital(hospital) {
-    this.getProfile(hospital, this.props.base.currPatient);
+    // this.getProfile(hospital, this.props.base.currPatient);
   }
   afterChoosePatient(patient, profile) {
-    if (typeof profile !== 'undefined' && profile !== null) {
-      this.setState({
-      }, () => this.fetchData());
-    }
+    // if (typeof profile !== 'undefined' && profile !== null) {
+    //   this.setState({
+    //   }, () => this.fetchData());
+    // }
   }
-  async fetchData() {
+  async fetchData(currHospital, currPatient, currProfile) {
     try {
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: true,
+          requestErr: false,
+          requestErrMsg: '',
         },
       });
-      const responseData = await list(this.props.base.currProfile);
+      const responseData = await list(currProfile);
       if (responseData.success) {
-        const newCtrlState = {
-          ...this.state.ctrlState,
-          refreshing: false,
-          infiniteLoading: false,
-          noMoreData: true,
-        };
+        // 隐藏遮罩
+        // this.props.screenProps.hideLoading();
         this.setState({
           data: responseData.result,
-          ctrlState: newCtrlState,
+          ctrlState: {
+            ...this.state.ctrlState,
+            refreshing: false,
+            requestErr: false,
+            requestErrMsg: '',
+          },
         });
       } else {
         this.setState({
           ctrlState: {
             ...this.state.ctrlState,
             refreshing: false,
-            infiniteLoading: false,
             noMoreData: true,
             requestErr: true,
-            requestErrMsg: { msg: responseData.msg },
+            requestErrMsg: { status: 600, msg: responseData.msg },
           },
         });
-        this.handleRequestException({ msg: responseData.msg });
+        this.handleRequestException({ status: 600, msg: responseData.msg });
       }
     } catch (e) {
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: false,
-          infiniteLoading: false,
+          // infiniteLoading: false,
           noMoreData: true,
           requestErr: true,
           requestErrMsg: e,
@@ -231,6 +252,7 @@ class Records extends Component {
                 reloadMsg: '点击刷新按钮重新加载',
                 reloadCallback: this.onSearch,
                 ctrlState: this.state.ctrlState,
+                style: { marginTop: 15 },
               });
             }}
             // 列表底部

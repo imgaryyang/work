@@ -8,12 +8,10 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://127.0.0.1:9500/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api" : "" }
+      "target": "http://localhost/"
     }
   },
-  "extraBabelPlugins": [         
+  "extraBabelPlugins": [
     ["import", { "libraryName": "antd-mobile", "style": "css" }]
   ],
   "env": {

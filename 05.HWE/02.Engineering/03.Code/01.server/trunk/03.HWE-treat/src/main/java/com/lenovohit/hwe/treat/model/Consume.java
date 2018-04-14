@@ -353,7 +353,7 @@ public class Consume extends AuditableModel implements java.io.Serializable {
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 200)
+    @Column(name = "COMMENT_", nullable = true, length = 200)
     public String getComment() {
         return this.comment;
     }

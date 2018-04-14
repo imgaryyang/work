@@ -41,6 +41,7 @@ export default class AppFuncs extends Component {
               }
             },
             hideNavBarBottomLine: false,
+            allowSwitchHospital: true,
           },
         });
       } else if (_.indexOf(Global.Config.needChooseHospServices, component) === -1 || this.props.currHospital) {

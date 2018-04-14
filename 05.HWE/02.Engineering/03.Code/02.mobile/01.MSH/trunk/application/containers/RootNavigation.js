@@ -35,6 +35,7 @@ export const MainStackNavigator = StackNavigator(Routes, {
             afterChooseHospital={params.afterChooseHospital}
           />
           <CurrPatient
+            allowSwitchHospital={params.allowSwitchHospital}
             allowSwitchPatient={params.allowSwitchPatient}
             afterChoosePatient={params.afterChoosePatient}
           />
@@ -43,6 +44,7 @@ export const MainStackNavigator = StackNavigator(Routes, {
     const fixedRight = Global.edition === Global.EDITION_SINGLE && params && params.showCurrHospitalAndPatient === true ?
       (
         <CurrPatient
+          allowSwitchHospital={params.allowSwitchHospital}
           allowSwitchPatient={params.allowSwitchPatient}
           afterChoosePatient={params.afterChoosePatient}
         />

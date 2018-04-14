@@ -48,9 +48,6 @@ class Global extends Object {
     Storage.setEdition(edition);
   }
 
-  static appType = 'APP'; // 审计字段
-  static appCode = 'APP01'; // 审计字段
-
   /**
    * 验证码类型
    * @type {{REG_APP: string, REG_WX: string, REG_ZFB: string, REG_WEB: string}}

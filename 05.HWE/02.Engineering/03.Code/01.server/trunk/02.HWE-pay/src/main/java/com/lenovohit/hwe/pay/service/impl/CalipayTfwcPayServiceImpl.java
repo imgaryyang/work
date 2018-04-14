@@ -56,7 +56,8 @@ public class CalipayTfwcPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-	    		log.info("支付宝扫码预下单成功: )");
+	    		settlement.getVariables().put("tradeNo", response.getTradeNo());
+	    		log.info("支付宝服务窗支付预下单成功: )");
                 break;
                 
             case FAILED:
@@ -66,7 +67,7 @@ public class CalipayTfwcPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-                log.error("支付宝扫码预下单失败!!!");
+                log.error("支付宝服务窗支付预下单失败!!!");
                 break;
                 
             case UNKNOWN:
@@ -76,7 +77,7 @@ public class CalipayTfwcPayServiceImpl implements PayBaseService {
                 settlement.setTradeRspCode(response.getCode());
 	    		settlement.setTradeRspMsg(response.getMsg());
 	    		settlement.setRespText(response.getBody());
-                log.error("支付宝扫码预下单系统异常，预下单状态未知，交易关闭!!!");
+                log.error("支付宝服务窗支付预下单系统异常，预下单状态未知，交易关闭!!!");
                 break;
         }
     }

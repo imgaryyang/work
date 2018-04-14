@@ -67,6 +67,8 @@ public class DrugInfo  extends AuditableModel implements java.io.Serializable {
 
     /** adverseReactions 不良反应 */
     private String adverseReactions;
+    
+    
 
 	public String getDrugId() {
 		return drugId;
@@ -172,7 +174,4 @@ public class DrugInfo  extends AuditableModel implements java.io.Serializable {
 		this.adverseReactions = adverseReactions;
 	}
 
-
-   
-
-   }
+}

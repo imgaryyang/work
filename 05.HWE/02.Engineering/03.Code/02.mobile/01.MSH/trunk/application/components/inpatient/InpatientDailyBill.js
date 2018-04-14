@@ -35,8 +35,6 @@ class InpatientDailyBill extends Component {
     this.renderToolBar = this.renderToolBar.bind(this);
     this.renderBottomBar = this.renderBottomBar.bind(this);
     this.onSearch = this.onSearch.bind(this);
-    this.afterChooseHospital = this.afterChooseHospital.bind(this);
-    this.afterChoosePatient = this.afterChoosePatient.bind(this);
   }
 
   state = {
@@ -60,8 +58,24 @@ class InpatientDailyBill extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
-      }, () => { this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile); });
+      }, () => {
+        this.fetchData(
+          this.props.base.currHospital,
+          this.props.base.currPatient,
+          this.props.base.currProfile,
+        );
+      });
     });
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.fetchData(
+        props.base.currHospital,
+        props.base.currPatient,
+        props.base.currProfile,
+      );
+    }
   }
 
   // 搜索
@@ -79,12 +93,6 @@ class InpatientDailyBill extends Component {
     }, () => this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile));
   }
 
-  afterChooseHospital(hospital, patient, profile) {
-    this.fetchData(hospital, patient, profile);
-  }
-  afterChoosePatient(hospital, patient, profile) {
-    this.fetchData(hospital, patient, profile);
-  }
   async fetchData(hospital, patient, profile) {
     if (!profile) {
       this.setState({

@@ -29,7 +29,17 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "TREAT_DEPOSIT")
 public class Deposit extends HisAuditableModel implements java.io.Serializable {
-    /** 版本号 */
+	public static final String TYPE_RECHARGE = "0"; // 充值
+	public static final String TYPE_REFUND = "1"; // 退款
+	public static final String TYPE_FREEZE = "2"; // 冻结
+	
+	public static final String STATUS_INITIAL = "A"; // 初始
+	public static final String STATUS_SUCCESS = "0"; // 成功
+	public static final String STATUS_IN_PROCESS = "1"; // 受理中
+	public static final String STATUS_CLOSED = "9"; // 关闭
+	public static final String STATUS_EXCEPTION = "E"; // 关闭
+
+	/** 版本号 */
     private static final long serialVersionUID = 2752604019696410424L;
     /** hosId */
     private String hosId;
@@ -72,6 +82,9 @@ public class Deposit extends HisAuditableModel implements java.io.Serializable {
 
     /** balance */
     private BigDecimal balance;
+
+    /** refunded */
+    private BigDecimal refunded;
     
     /** tradeNo */
     private String tradeNo;
@@ -118,6 +131,7 @@ public class Deposit extends HisAuditableModel implements java.io.Serializable {
     
     private Profile profile;
 
+    private String bizType;
     
     /**
      * 获取hosId
@@ -553,7 +567,7 @@ public class Deposit extends HisAuditableModel implements java.io.Serializable {
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 200)
+    @Column(name = "COMMENT_", nullable = true, length = 200)
 	public String getComment() {
 		return comment;
 	}
@@ -589,5 +603,42 @@ public class Deposit extends HisAuditableModel implements java.io.Serializable {
    	public void setProfile(Profile profile) {
    		this.profile = profile;
    	}
+   	
+    /**
+     * 获取refunded
+     * 
+     * @return refunded
+     */
+    @Transient
+    public BigDecimal getRefunded() {
+        return this.refunded;
+    }
 
+    /**
+     * 设置amt
+     * 
+     * @param refunded
+     */
+    public void setRefunded(BigDecimal refunded) {
+        this.refunded = refunded;
+    }
+    
+    /**
+     * 获取bizType
+     * 
+     * @return bizType
+     */
+    @Transient
+    public String getBizType() {
+        return this.bizType;
+    }
+
+    /**
+     * 设置bizType
+     * 
+     * @param bizType
+     */
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
 }

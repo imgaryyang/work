@@ -13,10 +13,10 @@ public interface HisChargeService {
 	
 	public RestListResponse<Charge> findList(Charge request);
 	
-	public RestEntityResponse<Charge> prepay(List<ChargeDetail> chagerList);
+	public RestEntityResponse<Charge> prepay(Charge charge);
 	
-	public RestEntityResponse<Charge> pay(Charge request, Map<String, ?> variables);
-
+	public RestEntityResponse<Charge> pay(Charge model);
+	
 	public RestEntityResponse<Charge> hisCallBack(Charge charge);
 	
 }

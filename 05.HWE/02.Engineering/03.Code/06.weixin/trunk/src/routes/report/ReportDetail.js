@@ -1,20 +1,43 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ListView } from 'antd-mobile';
+import { ListView, PullToRefresh } from 'antd-mobile';
 import style from './ReportDetail.less';
 import up from '../../assets/images/up.png';
 import down from '../../assets/images/down.png';
 import Config from '../../Config';
+import commonStyles from '../../utils/common.less';
+import { routerRedux } from 'dva/router';
 
 class ReportDetail extends React.Component {
-  componentWillUnmount() {
+  constructor(props) {
+    super(props);
+    this.refresh = this.refresh.bind(this);
+  }
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        title: '检查详情',
+        hideNavBarBottomLine: false,
+        showCurrHospitalAndPatient: false,
+        headerRight: null,
+      },
+    });
+  }
+
+  refresh() {
+    const data = this.props.report.rowData;
+    const query = { testId: data.barcode };
+    // console.log('refresh====', query);
     this.props.dispatch({
-      type: 'report/setState',
-      payload: { detail: [] },
+      type: 'report/loadReportDetail',
+      payload: query,
     });
   }
   render() {
-    const { detail, dataSource, height, rowData } = this.props.report;
+    const { detail, dataSource, height, rowData, refreshing } = this.props.report;
+    const currProfile = this.props.base.currProfile;
     let itemDesc = '';
     if (rowData.itemName === '血常规') {
       itemDesc = Config.LISDesc['bloodRT'];
@@ -22,6 +45,13 @@ class ReportDetail extends React.Component {
       itemDesc = Config.LISDesc['liverFunction'];
     } else if (rowData.itemName === '尿常规') {
       itemDesc = Config.LISDesc['UrineRT'];
+    }
+    if (detail.length === 0) {
+      return (
+        <div className={commonStyles.emptyViewContainer}>
+          <div className={commonStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的检查明细信息！`}</div>
+        </div>
+      );
     }
     const row = (rowData) => {
       // console.log('rowData====', rowData);
@@ -59,7 +89,7 @@ class ReportDetail extends React.Component {
           renderSeparator={separator}
           renderRow={row}
           style={{
-          height,
+            height,
           overflow: 'auto',
         }}
           pageSize={4}
@@ -67,6 +97,14 @@ class ReportDetail extends React.Component {
           scrollRenderAheadDistance={10}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
+          // 下拉刷新
+          pullToRefresh={<PullToRefresh
+            refreshing={refreshing}
+            onRefresh={this.refresh}
+            style={{
+              borderBottomWidth: 0,
+            }}
+          />}
         />
         <div style={{ height: 40 }} />
       </div>
@@ -75,4 +113,4 @@ class ReportDetail extends React.Component {
 }
 ReportDetail.propTypes = {
 };
-export default connect(report => (report))(ReportDetail);
+export default connect(({ report, base }) => ({ report, base }))(ReportDetail);

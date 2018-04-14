@@ -10,9 +10,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Card from 'rn-easy-card';
-import moment from 'moment/moment';
-import Sep from 'rn-easy-separator';
-import EasyIcon from 'rn-easy-icon';
 
 import Global from '../../Global';
 import Form from '../../modules/form/EasyForm';

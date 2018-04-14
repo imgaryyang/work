@@ -85,8 +85,6 @@ public class HisRestDaoImpl implements HisRestDao {
 		this.secret = secret;
 	}
 
-
-
 	// @Autowired TODO 使用默认回头看看bean的配置哪儿不对
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -165,7 +163,14 @@ public class HisRestDaoImpl implements HisRestDao {
 			String uuid = com.lenovohit.core.utils.StringUtils.uuid();
 			log.info(uuid+" HisRequest: TokenUrl 【" + authorizeUrl + "】");
 			log.info(uuid+" HisRequest: TokenParam【" + JSONUtils.serialize(params) + "】");
-			ResponseEntity<String> responseEntity = restTemplate.postForEntity(authorizeUrl, params, String.class);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+			acceptableMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+			headers.setAccept(acceptableMediaTypes);
+			HttpEntity<String> requestEntity = new HttpEntity<String>(JSONUtils.serialize(params), headers);
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity(authorizeUrl, requestEntity, String.class);
 			HisRestResponse response = JSONUtils.deserialize(responseEntity.getBody(), HisRestResponse.class);
 			log.info(uuid+" HisRequest: TokenResponse 【" + JSONUtils.serialize(response) + "】");
 			
@@ -181,21 +186,6 @@ public class HisRestDaoImpl implements HisRestDao {
 		}
 	}
 
-//	log.info(responseEntity.getBody());
-//	
-//	log.info("CONTENT : "+response.getContent());
-//	log.info("RESUST : "+response.getResult());
-//	log.info("RESULTcODE : "+response.getResultcode());
-//	
-////	HisDepartment dept =  JSONUtils.deserialize(response.getContent(), HisDepartment.class);
-////	log.info("deptname : "+dept.getName());
-//	List<HisDepartment> list = JSONUtils.parseObject(response.getContent(),new TypeReference<List<HisDepartment>>(){});
-//	log.info("deptname : "+list.get(0).getName());
-//	String small = JSONUtils.serialize(list.get(0));
-//	log.info("dept  : "+small);
-//	//log.info("deptSeized  : "+JSONUtils.parseObject(list.get(0)));
-//	log.info("************************************");
-//	return null;
 	public static void main(String args[]){
 		RestTemplate restTemplate = new RestTemplate();
 		Map<String,String> params = new HashMap<String,String>();
@@ -207,7 +197,13 @@ public class HisRestDaoImpl implements HisRestDao {
 		params.put("as_timestamp", timestamp);
 		System.out.println(JSONUtils.serialize(params));
 		try {
-			ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://119.62.102.75:8881/api/authorize", params, String.class);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+			acceptableMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+			headers.setAccept(acceptableMediaTypes);
+			HttpEntity<String> requestEntity = new HttpEntity<String>(JSONUtils.serialize(params), headers);
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://119.62.102.75:8881/api/authorize", requestEntity, String.class);
 			HisRestResponse response = JSONUtils.deserialize(responseEntity.getBody(), HisRestResponse.class);
 			System.out.println(JSONUtils.serialize(response));
 		} catch (Exception e) {

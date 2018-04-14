@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Icon, Toast } from 'antd-mobile';
 import classnames from 'classnames';
+import { routerRedux } from 'dva/router';
 
 // import Icon from '../components/CustomIcon';
 import styles from './CurrPatient.less';
@@ -15,11 +16,10 @@ class CurrPatient extends PureComponent {
   }
 
   gotoChoosePatient() {
-    const { base } = this.props;
+    const { base, dispatch } = this.props;
     const { allowSwitchPatient } = base;
     if (allowSwitchPatient) {
-      const { currHospital } = base;
-      // TODO: 调用选择就诊人
+      dispatch(routerRedux.push('/stack/choosePatient'));
     }
   }
 

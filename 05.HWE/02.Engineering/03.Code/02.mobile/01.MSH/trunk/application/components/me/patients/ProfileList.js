@@ -8,14 +8,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import PropTypes from 'prop-types';
-// import Toast from 'react-native-root-toast';
 import Button from 'rn-easy-button';
 import Card from 'rn-easy-card';
 import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-// import ctrlState from '../../../modules/ListState';
 import Global from '../../../Global';
 import { bindProfile } from '../../../services/me/PatientService';
 import { spaceAfterThreeLetters } from '../../../utils/Filters';
@@ -105,7 +103,6 @@ class ProfileList extends Component {
         const responseData = await sendSecurityCode({
           type: Global.securityCodeType.BIND_PROFILE,
           mobile: value.mobile,
-          hospitalId: '',
         });
         // console.log('responseData of sendSecurityCode:', responseData);
         if (responseData.success) {
@@ -119,11 +116,6 @@ class ProfileList extends Component {
               },
               30000,
             );
-          });
-          // TODO: 测试及演示期间直接显示验证码，上线时注释掉以下代码
-          this.setState({
-            value: { ...value, securityCode: responseData.result.code },
-            msg: responseData.result,
           });
         } else {
           // Toast.show(responseData.msg);
@@ -151,7 +143,7 @@ class ProfileList extends Component {
     const { patientId } = this.props;
     if (this.form.validate()) {
       try {
-        const { value, msg } = this.state;
+        const { value } = this.state;
         this.setState({
           buttonDisabled: true,
           sendButtonDisabled: true,
@@ -161,8 +153,8 @@ class ProfileList extends Component {
           type: Global.securityCodeType.BIND_PROFILE,
           mobile: value.mobile,
           code: value.securityCode,
-          hospitalId: value.hosId,
-          id: msg.id,
+          // hospitalId: value.hosId,
+          // id: msg.id,
         });
         // console.log('responseData of verifySecurityCode:', responseData);
         if (responseData.success) {
@@ -172,6 +164,7 @@ class ProfileList extends Component {
             hospitalId: value.hosId,
             patientId,
             profiles: this.props.profiles,
+            token: responseData.result.token,
           });
           // console.log('bindResponse:', bindResponse);
           if (bindResponse.success) {
@@ -273,16 +266,16 @@ class ProfileList extends Component {
     const { profiles, allowBind, showPatientInfo } = this.props;
     return profiles.map((item, idx) => {
       const { id, hosId, hosName, no, name, idNo, mobile } = item;
-      const cardHeader = idx === 0 ? (
-        <View style={styles.cardHeader} />
-      ) : (
-        <View style={styles.cardHeaderWrapper}>
-          <View style={[styles.cardHeader]} />
-        </View>
-      );
-      const cardFooter = idx === profiles.length - 1 ? (
-        <View style={styles.cardFooter} />
-      ) : null;
+      // const cardHeader = idx === 0 ? (
+      //   <View style={styles.cardHeader} />
+      // ) : (
+      //   <View style={styles.cardHeaderWrapper}>
+      //     <View style={[styles.cardHeader]} />
+      //   </View>
+      // );
+      // const cardFooter = idx === profiles.length - 1 ? (
+      //   <View style={styles.cardFooter} />
+      // ) : null;
 
       const key = `${hosId}${no}`;
       const bindBtn = allowBind ? (!this.bindedCards[key] ? (
@@ -292,6 +285,7 @@ class ProfileList extends Component {
       ) : (
         <Text style={styles.bindedText}>已绑定</Text>
       )) : null;
+
       const patientInfo = showPatientInfo ? (
         <View style={styles.patientContainer}>
           <View style={{ flexDirection: 'row' }}>
@@ -299,14 +293,14 @@ class ProfileList extends Component {
             <Text style={styles.idNo} numberOfLines={1}>{idNo}</Text>
           </View>
           <View style={{ flexDirection: 'row', marginTop: 4 }}>
-            <Text style={styles.name} numberOfLines={1}>医院登记手机号</Text>
+            <Text style={styles.name} numberOfLines={1}>医院预留手机号：</Text>
             <Text style={styles.idNo} numberOfLines={1}>{mobile}</Text>
           </View>
         </View>
       ) : null;
+
       return (
-        <View key={`card_${id}_${idx + 1}`} style={styles.cardContainer}>
-          {cardHeader}
+        <Card radius={6} fullWidth={false} key={`card_${id}_${idx + 1}`} style={styles.cardContainer}>
           <View style={styles.cardBody}>
             <View style={styles.hospitalContainer}>
               <Text style={styles.hospName} numberOfLines={1}>{hosName}</Text>
@@ -315,9 +309,8 @@ class ProfileList extends Component {
             <Text style={styles.cardNo} numberOfLines={1}>{spaceAfterThreeLetters(no)}</Text>
             {patientInfo}
           </View>
-          {cardFooter}
           {this.renderModal()}
-        </View>
+        </Card>
       );
     });
   }
@@ -337,57 +330,59 @@ const styles = StyleSheet.create({
   },
 
   cardContainer: {
-    // overflow: 'hidden',
-  },
-  cardHeaderWrapper: {
-    backgroundColor: cardBg,
-    // height: 35,
-    paddingTop: 15,
-    borderWidth: 1 / Global.pixelRatio,
-    borderColor: Global.colors.LINE,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-  },
-  cardHeader: {
-    // position: 'absolute',
-    // top: 15,
-    // left: 0,
-    // width: '100%',
-    height: 20,
-    backgroundColor: cardBg,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderWidth: 1 / Global.pixelRatio,
-    borderColor: Global.colors.LINE,
-    borderBottomWidth: 0,
-    // marginTop: 5,
-    // shadow for ios
-    // shadowColor: 'black',
-    // shadowOffset: { width: 0, height: -1 },
+    // // shadow for ios
+    // shadowColor: '#dddddd',
+    // shadowOffset: { width: 0, height: -3 },
     // shadowOpacity: 0.6,
     // shadowRadius: 2,
-    // for android
+    // // for android
     // elevation: -3,
+    marginBottom: 10,
   },
-  cardFooter: {
-    backgroundColor: cardBg,
-    height: 20,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    borderWidth: 1 / Global.pixelRatio,
-    borderColor: Global.colors.LINE,
-    borderTopWidth: 0,
-  },
+  // cardHeaderWrapper: {
+  //   backgroundColor: cardBg,
+  //   // height: 35,
+  //   paddingTop: 15,
+  //   borderWidth: 1 / Global.pixelRatio,
+  //   borderColor: Global.colors.LINE,
+  //   borderTopWidth: 0,
+  //   borderBottomWidth: 0,
+  // },
+  // cardHeader: {
+  //   // position: 'absolute',
+  //   // top: 15,
+  //   // left: 0,
+  //   // width: '100%',
+  //   height: 20,
+  //   backgroundColor: cardBg,
+  //   borderTopLeftRadius: 8,
+  //   borderTopRightRadius: 8,
+  //   borderWidth: 1 / Global.pixelRatio,
+  //   borderColor: Global.colors.LINE,
+  //   borderBottomWidth: 0,
+  //   // marginTop: 5,
+  //   // shadow for ios
+  //   // shadowColor: 'black',
+  //   // shadowOffset: { width: 0, height: -1 },
+  //   // shadowOpacity: 0.6,
+  //   // shadowRadius: 2,
+  //   // for android
+  //   // elevation: -3,
+  // },
+  // cardFooter: {
+  //   backgroundColor: cardBg,
+  //   height: 20,
+  //   borderBottomLeftRadius: 8,
+  //   borderBottomRightRadius: 8,
+  //   borderWidth: 1 / Global.pixelRatio,
+  //   borderColor: Global.colors.LINE,
+  //   borderTopWidth: 0,
+  // },
 
   cardBody: {
     backgroundColor: cardBg,
-    borderWidth: 1 / Global.pixelRatio,
-    borderColor: Global.colors.LINE,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
   },
   hospitalContainer: {
-    padding: 15,
     paddingTop: 0,
     paddingBottom: 0,
     marginBottom: 8,
@@ -420,12 +415,8 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: '600',
-    paddingLeft: 15,
-    paddingRight: 15,
   },
   patientContainer: {
-    // flexDirection: 'row',
-    margin: 15,
     marginTop: 8,
     marginBottom: 0,
     padding: 5,

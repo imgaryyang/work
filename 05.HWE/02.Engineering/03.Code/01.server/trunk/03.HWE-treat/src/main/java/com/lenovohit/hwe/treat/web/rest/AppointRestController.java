@@ -316,16 +316,17 @@ public class AppointRestController extends OrgBaseRestController {
 			
 			// 循环调HIS接口，找到本地无卡预约记录对应的HIS无卡预约记录，并放入结果集
 			for(Appoint item : appoints) {
-				log.info("\n======== forReservedNoCardList Before hisAppointService.findReservedInfo ========\nquery:\n"+JSONUtils.serialize(query));
+				log.info("\n======== forReservedNoCardList Before hisAppointService.findReservedInfo ========\nquery:\n"+JSONUtils.serialize(item));
 				RestEntityResponse<Appoint> res=this.hisAppointService.findReservedInfo(item, null);
-				log.info("\n======== forReservedNoCardList After hisAppointService.findReservedInfo ========\nresult:\n"+JSONUtils.serialize(result));
+				log.info("\n======== forReservedNoCardList After hisAppointService.findReservedInfo ========\nresult:\n"+JSONUtils.serialize(res));
 				if (res.isSuccess()){
-					result.add(res.getEntity());
+					if(res.getEntity() != null) result.add(res.getEntity());
 				} else {
 					throw new BaseException(res.getMsg());
 				}
 			}
 			
+			log.info("\n======== forReservedNoCardList Success End ========\nlist:\n"+JSONUtils.serialize(result));
 			return ResultUtils.renderSuccessResult(result);
 		} catch (Exception e) {
 			log.error("\n======== forReservedNoCardList Failure End ========\nmsg:\n"+e.getMessage());
@@ -334,20 +335,18 @@ public class AppointRestController extends OrgBaseRestController {
 	}
 	
 	private List<Appoint> getReservedNoCardList(Appoint query) {
-		StringBuilder jql = new StringBuilder( " from TreatAppoint where 1=1 ");
-		List<Object> values = new ArrayList<Object>();
+		if(StringUtils.isEmpty(query)) throw new BaseException("参数错误！参数不能为空！");
+		if(StringUtils.isEmpty(query.getHosNo())) throw new BaseException("参数错误！hosNo不能为空！");
+		if(StringUtils.isEmpty(query.getTerminalUser())) throw new BaseException("参数错误！terminalUser不能为空！");
 		
-		if(!StringUtils.isEmpty(query)) {
-			if(!StringUtils.isEmpty(query.getTerminalUser())){
-				jql.append(" and terminalUser = ? ");
-				values.add(query.getTerminalUser());
-			} else {
-				throw new BaseException("参数错误！terminalUser不能为空！");
-			}
-		} else {
-			throw new BaseException("参数错误！terminalUser不能为空！");
-		}
-		jql.append(" and status is not null and trim(status) <> '' and (proNo is null or trim(proNo) = '') order by appointTime desc, abs(num)");
+		List<Object> values = new ArrayList<Object>();
+		// mysql
+ 		// StringBuilder jql = new StringBuilder( " from Appoint where terminalUser = ? and hosNo = ? and status is not null and trim(status) <> '' and (proNo is null or trim(proNo) = '') order by appointTime desc, abs(num)"); 
+		// oracle
+		StringBuilder jql = new StringBuilder( " from Appoint where terminalUser = ? and hosNo = ? and status is not null and (proNo is null or trim(proNo) = '') order by appointTime desc, abs(num)");
+		values.add(query.getTerminalUser());
+		values.add(query.getHosNo());
+		
 		return this.appointManager.find(jql.toString(),values.toArray());
 	}
 }

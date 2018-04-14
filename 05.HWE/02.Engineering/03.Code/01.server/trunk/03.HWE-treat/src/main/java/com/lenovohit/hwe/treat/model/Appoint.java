@@ -61,8 +61,8 @@ public class Appoint extends HisAuditableModel implements java.io.Serializable {
     /** sepId */
     private String sepId;
 
-    /** sepCode */
-    private String sepCode;
+    /** sepNo */
+    private String sepNo;
 
     /** sepName */
     private String sepName;
@@ -360,22 +360,22 @@ public class Appoint extends HisAuditableModel implements java.io.Serializable {
     }
 
     /**
-     * 获取sepCode
+     * 获取sepNo
      * 
-     * @return sepCode
+     * @return sepNo
      */
-    @Column(name = "SEP_CODE", nullable = true, length = 50)
-    public String getSepCode() {
-        return this.sepCode;
+    @Column(name = "SEP_NO", nullable = true, length = 50)
+    public String getSepNo() {
+        return this.sepNo;
     }
 
     /**
-     * 设置sepCode
+     * 设置sepNo
      * 
-     * @param sepCode
+     * @param sepNo
      */
-    public void setSepCode(String sepCode) {
-        this.sepCode = sepCode;
+    public void setSepNo(String sepNo) {
+        this.sepNo = sepNo;
     }
 
     /**
@@ -942,7 +942,7 @@ public class Appoint extends HisAuditableModel implements java.io.Serializable {
         this.address = address;
     }
 
-    @Column(name = "COMMENT", nullable = true, length = 200)
+    @Column(name = "COMMENT_", nullable = true, length = 200)
     public String getComment() {
         return this.comment;
     }
@@ -973,8 +973,9 @@ public class Appoint extends HisAuditableModel implements java.io.Serializable {
      * 获取statusName
      * 
      * @return statusName
+     * @Column(name = "STATUS_NAME", nullable = true, length = 50)
      */
-    @Column(name = "STATUS_NAME", nullable = true, length = 50)
+    @Transient
     public String getStatusName() {
         return this.statusName;
     }

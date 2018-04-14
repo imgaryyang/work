@@ -12,6 +12,6 @@ public interface HisChargeDetailService {
 	
 	public RestListResponse<ChargeDetail> findList(ChargeDetail request);
 	
-	public RestListResponse<ChargeDetail> unpaids(ChargeDetail request, Map<String, ?> variables);
+	public RestListResponse<ChargeDetail> unpaids(ChargeDetail request);
 	
 }

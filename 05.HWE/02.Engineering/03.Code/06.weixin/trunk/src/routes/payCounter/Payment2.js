@@ -1,9 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { InputItem, Button, WingBlank, WhiteSpace, Flex, SegmentedControl,Modal } from 'antd-mobile';
+import { InputItem, Button, WingBlank, WhiteSpace, Toast } from 'antd-mobile';
+import classnames from 'classnames';
 import style from './Payment2.less';
-import util from '../../utils/baseUtil';
+import config from '../../Config';
+import Radios from '../../components/Radios';
+import { testAmt } from '../../utils/validation';
+import { filterMoney } from '../../utils/Filters';
 
 class Payment2 extends React.Component {
   constructor(props) {
@@ -13,94 +17,79 @@ class Payment2 extends React.Component {
     this.getBillTitle = this.getBillTitle.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.gotoCashierDesk = this.gotoCashierDesk.bind(this);
-    this.onSegmentedControChange = this.onSegmentedControChange.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
-  }
-  state = {
-    amt: 0.0,
-    bizType: '00', // 门诊充值:00;住院预缴:01
-    proNo: undefined,
+    this.setBizType = this.setBizType.bind(this);
+    this.setAmt = this.setAmt.bind(this);
+    this.checkRechargeValid = this.checkRechargeValid.bind(this);
+    this.onRechargeClick = this.onRechargeClick.bind(this);
   }
   componentWillMount() {
     const { currProfile } = this.props.base;
-    if (currProfile !== undefined) {
-      console.log('componentWillMount:refresh');
-      this.refreshBalance();
-    }
-  }
-  onSegmentedControChange = (e) => {
-    console.log(`selectedIndex:${e.nativeEvent.selectedSegmentIndex}`);
-    console.info(e.nativeEvent);
-    if (e.nativeEvent.selectedSegmentIndex === 0) { // 第一个标签是门诊充值
-      console.log('onSegmentedControChange:aaa');
-      this.setState({ bizType: '00' }, this.refreshBalance);
-    } else {
-      console.log('onSegmentedControChange:bbb');
-      this.setState({ bizType: '01' }, this.refreshBalance); // 第二个标签是住院预缴
+    const { bizType } = this.props.payment;
+    if (currProfile && currProfile.no !== undefined) {
+      this.refreshBalance(bizType);
     }
   }
   onChange = (amt) => {
-    console.log('onChange1');
-    this.setState({
+    this.setAmt(amt);
+  }
+  onRechargeClick() {
+    if (!this.checkRechargeValid()) {
+      return;
+    }
+    this.createBizOrder();
+  }
+  setBizType(bizType) {
+    this.props.dispatch({
+      type: 'payment/setBizType',
+      bizType,
+    });
+    this.refreshBalance(bizType);
+  }
+  setAmt(amt) {
+    this.props.dispatch({
+      type: 'payment/setAmt',
       amt,
     });
-    console.log('onChange2');
   }
-
   getBillTitle(amt, bizType) {
     const { currProfile: profile } = this.props.base;
     let bizTypeName = '';
     if (bizType === '00') {
       bizTypeName = '门诊充值';
-    } else if (bizType === '01') {
+    } else if (bizType === '04') {
       bizTypeName = '住院预缴';
     }
     return `患者${profile.name} ${bizTypeName}金额 ${amt} 元`;
   }
-  refreshBalance() {
-    const { bizType } = this.state;
-    const { dispatch } = this.props;
-    console.info('refreshBalance:', bizType);
+  refreshBalance(bizType) {
     let baseInfoRoute = '';
     if (bizType === '00') { // 门诊充值
       baseInfoRoute = 'deposit/getPreStore';
-    } else if (bizType === '01') { // 住院预缴
+    } else if (bizType === '04') { // 住院预缴
       baseInfoRoute = 'foregift/getPrePay';
     }
-    console.log('refreshBalance:', baseInfoRoute);
-    dispatch({
+    this.props.dispatch({
       type: baseInfoRoute,
       // payload: { query: bizOrder },
       // callback: () => { this.gotoCashierDesk(); },
     });
   }
-
   gotoCashierDesk = () => {
-    console.log('gotoCashierDesk:Payment begin');
-    const { dispatch } = this.props;
-    dispatch(routerRedux.push({
+    this.props.dispatch(routerRedux.push({
       pathname: 'payCounter',
     }));
   }
   createBizOrder = () => {
-    console.log('createBizOrder1');
-    const { amt, bizType } = this.state;
-    if (amt === 0) {
-      Modal.alert('提示', '充值金额不能为0', [
-        { text: '确认' },
-      ]);
-      return;
-    }
-
+    const { amt, bizType } = this.props.payment;
     const bizOrder = {
       amt, // 充值金额
-      appCode: util.getBroswerType() === 'W' ? 'GZH' : 'FWH', // 微信->公众号;支付宝->服务号
-      billTitle: this.getBillTitle(),
-      tradeType: '0', // 充值
+      appCode: config.appCode,
+      // billTitle: this.getBillTitle(amt, bizType),
+      type: '0', // 充值
       adFlag: '0', // '0',正常;'1',补录
       bizType,
     };
-    console.log('createBizOrder2');
     const { dispatch } = this.props;
     let type = '';
     // 生成业务单数据
@@ -109,7 +98,6 @@ class Payment2 extends React.Component {
     } else {
       type = 'foregift/create';
     }
-    console.log('createBizOrder3');
     // 本地生成交易订单后，跳转到收银台
     dispatch({
       type,
@@ -117,36 +105,69 @@ class Payment2 extends React.Component {
       callback: () => { this.gotoCashierDesk(); },
     });
   }
+  // 检查充值金额的合法性
+  checkRechargeValid() {
+    // 1.校验是否为空
+    if (!this.props.payment.amt) {
+      Toast.info('请填写充值金额');
+      return false;
+    }
+    // 2.校验格式是否正确
+    if (!testAmt(this.props.payment.amt)) {
+      Toast.info('金额格式不正确');
+      return false;
+    }
+    // 3.金额是否为0
+    if (this.props.payment.amt <= 0) {
+      Toast.info('充值金额需大于0');
+      return false;
+    }
+    return true;
+  }
 
   render() {
-    const { data } = this.state.bizType === '00' ? this.props.deposit : this.props.foregift;
-    const { balance } = data === undefined ? '' : data;
+    const { bizType } = this.props.payment;
+    let { balance } = bizType === '00' ? this.props.deposit.data : this.props.foregift.data;
+    balance = balance === undefined ? '' : balance;
     return (
       <div className={style['mainView']}>
         <WingBlank>
-          <WhiteSpace size="md" />
-          <div style={{ fontSize: 15 }}>
-            &nbsp;&nbsp;&nbsp;&nbsp;可用余额&nbsp;&nbsp;  <span style={{ fontColor: 'yellow' }}>{balance}</span>
+          <div className={style.item}>
+            <div className={style.label}>可用余额</div>
+            <div className={style.value}>
+              {balance ? filterMoney(balance) : ''}
+            </div>
           </div>
           <WhiteSpace size="lg" />
-          <SegmentedControl tintColor="#ff0000" selectedIndex={this.state.bizType === '00' ? 0 : 1} onChange={this.onSegmentedControChange} className={style['payTypeSegment']} values={['门诊充值', '住院预缴']} />
+          <div className={classnames(style.item, style.gender)}>
+            <Radios
+              data={[
+                { label: '门诊充值', value: '00' },
+                { label: '住院预缴', value: '04' },
+              ]}
+              value={bizType}
+              onSelect={(item) => {
+                this.setBizType(item.value);
+              }}
+              flexItem
+              containerStyle={{ flex: 1 }}
+            />
+          </div>
           <WhiteSpace size="lg" />
-          <Flex>
-            <Flex.Item>
-              <InputItem
-                type="money"
-                placeholder="输入充值金额"
-                onChange={this.onChange}
-                clear
-                moneyKeyboardAlign="left"
-                style={{ fontSize: 15 }}
-                disabled={this.props.base.currProfile.no === undefined}
-              ><span style={{ fontSize: 15 }}>充值金额</span>
-              </InputItem>
-            </Flex.Item>
-          </Flex>
+          <div className={style.recharge}>
+            充值金额
+          </div>
+          <InputItem
+            type="money"
+            placeholder="请输入充值金额"
+            onChange={this.onChange}
+            clear
+            moneyKeyboardAlign="left"
+            disabled={this.props.base.currProfile.no === undefined}
+            maxLength={10}
+          />
           <WhiteSpace size="lg" />
-          <Button type="primary" onClick={this.createBizOrder} disabled={this.props.base.currProfile.no === undefined}>马上充值</Button>
+          <Button type="primary" onClick={this.onRechargeClick} disabled={this.props.base.currProfile.no === undefined}>马上充值</Button>
         </WingBlank>
       </div>
     );

@@ -185,7 +185,7 @@ public class Hospital extends AuditableModel implements java.io.Serializable {
      * 
      * @return level
      */
-    @Column(name = "LEVEL", nullable = true, length = 2)
+    @Column(name = "LEVEL_", nullable = true, length = 2)
     public String getLevel() {
         return this.level;
     }
@@ -299,7 +299,7 @@ public class Hospital extends AuditableModel implements java.io.Serializable {
      * 
      * @return comment
      */
-    @Column(name = "COMMENT", nullable = true, length = 1000)
+    @Column(name = "COMMENT_", nullable = true, length = 1000)
     public String getComment() {
         return this.comment;
     }

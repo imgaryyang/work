@@ -33,6 +33,11 @@ import com.lenovohit.hwe.treat.model.Profile;
 public class UserPatient extends AuditableModel implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = -3330618678101308255L;
+	public static final String REL_ME = "0"; // 本人
+	public static final String REL_PARENT = "1"; // 父母
+	public static final String REL_SPOUSE = "2"; // 夫妻
+	public static final String REL_CHILDREN = "3"; // 子女
+	public static final String REL_OTHER = "4"; // 其他
 
     /** patientId */
     private String patientId;

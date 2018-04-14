@@ -8,24 +8,22 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
 import { connect } from 'react-redux';
-import Sep from 'rn-easy-separator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from 'rn-easy-button';
-import Icon from 'rn-easy-icon';
-import Picker from 'rn-easy-picker';
 import Global from '../../../Global';
 import AppointInfo from './AppointInfo';
 import PlaceholderView from '../../../modules/PlaceholderView';
 import ViewText from '../../../modules/ViewText';
+import Radios from '../../../modules/Radios';
 import { forReserve } from '../../../services/outpatient/AppointService';
 import Form from '../../../modules/form/EasyForm';
 import { testMobile, testCnIdNo } from '../../../modules/form/Validation';
 import dftConfig from '../../../modules/form/config/DefaultConfig';
 
+const formRowHeight = 33;
 const formConfig = {
   ...dftConfig,
   style: { paddingLeft: 10, paddingRight: 10, paddingTop: 0, paddingBottom: 0 },
@@ -33,11 +31,12 @@ const formConfig = {
     ...dftConfig.fields,
     style: { margin: 0 },
     label: { ...dftConfig.fields.label, style: { ...dftConfig.fields.label.style, fontSize: 13 } },
+    textInput: { ...dftConfig.fields.textInput, style: { ...dftConfig.fields.textInput.style, height: formRowHeight } },
   },
 };
 const initTypeData = [
-  { value: 0, label: '有卡预约' },
-  { value: 1, label: '无卡预约' },
+  { value: '0', label: '有卡预约' },
+  { value: '1', label: '无卡预约' },
 ];
 
 const dismissKeyboard = require('dismissKeyboard');
@@ -51,28 +50,33 @@ class Appoint extends Component {
   constructor(props) {
     super(props);
 
-    this.typePickerRef = null;
     this.formRef = null;
     this.confirmAppoint = this.confirmAppoint.bind(this);
     this.onChange = this.onChange.bind(this);
     this.validate = this.validate.bind(this);
     this.afterChoosePatient = this.afterChoosePatient.bind(this);
 
-    const { currProfile, currPatient } = props;
+    const { currProfile } = props;
     const typeData = currProfile ? initTypeData : initTypeData.slice(1);
-    const { name, mobile, idNo } = currProfile || currPatient;
 
     this.state = {
       doRenderScene: false,
       typeData,
       selectedType: typeData[0],
-      formValue: { name, mobile, idNo },
+      formValue: {},
     };
   }
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => { this.setState({ doRenderScene: true }); });
-    this.props.navigation.setParams({ afterChoosePatient: this.afterChoosePatient });
+    this.props.navigation.setParams({
+      title: '预约挂号',
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: true,
+      afterChoosePatient: this.afterChoosePatient,
+      hideNavBarBottomLine: false,
+    });
   }
 
   onChange(fieldName, fieldValue, formValue) {
@@ -81,9 +85,7 @@ class Appoint extends Component {
 
   afterChoosePatient(_, currPatient, currProfile) {
     const typeData = currProfile ? initTypeData : initTypeData.slice(1);
-    const { name, mobile, idNo } = currProfile || currPatient;
-    this.setState({ formValue: { name, mobile, idNo }, typeData, selectedType: typeData[0] });
-    this.typePickerRef.setState({ selected: typeData[0].value }); // 修改picker内部状态，避免picker的selected和外部selectedType不一致
+    this.setState({ typeData, selectedType: typeData[0] });
   }
 
   validate() {
@@ -109,7 +111,7 @@ class Appoint extends Component {
   }
 
   confirmAppoint() {
-    if (this.state.selectedType.value) { // 无卡预约
+    if (this.state.selectedType.value === '1') { // 无卡预约
       if (this.formRef.validate()) this.doSave();
     } else if (this.validate()) { // 有卡预约
       this.doSave();
@@ -125,7 +127,7 @@ class Appoint extends Component {
       user: { id: terminalUser },
     } = this.props;
     const { selectedType: { value: type }, formValue } = this.state;
-    const { id: proId, no: proNo, name: proName, cardNo, cardType, mobile, idNo } = type ? formValue : currProfile;
+    const { id: proId, no: proNo, name: proName, cardNo, cardType, mobile, idNo } = type === '0' ? currProfile : formValue;
 
     showLoading();
     try {
@@ -142,10 +144,9 @@ class Appoint extends Component {
         mobile,
         idNo,
         terminalUser,
-        appCode: Global.appCode,
-        appType: Global.appType,
+        appCode: Global.Config.appCode,
+        appType: Global.Config.appType,
       };
-      console.log('cond', cond);
       const { success, msg } = await forReserve(cond);
 
       if (success) {
@@ -160,6 +161,7 @@ class Appoint extends Component {
             afterChooseHospital: null,
             afterChoosePatient: null,
             hideNavBarBottomLine: false,
+            type,
           },
         );
       } else {
@@ -174,7 +176,6 @@ class Appoint extends Component {
   render() {
     const { doRenderScene, typeData, selectedType, formValue } = this.state;
     const { currProfile = {}, navigation: { state: { params: { data } } } } = this.props;
-    console.log('selectedType', selectedType);
 
     if (!doRenderScene) return <PlaceholderView />; // 场景过渡动画未完成前，先渲染过渡场景
 
@@ -187,17 +188,33 @@ class Appoint extends Component {
         >
           <AppointInfo data={data} style={styles.appointInfo} />
           <View style={styles.container}>
-            <View style={[styles.row]}>
-              <Text style={[styles.labelText, { flex: 1 }]}>预约类型</Text>
-              <TouchableOpacity onPress={() => this.typePickerRef.toggle()} style={styles.typeSwitch}>
-                <Text style={[styles.contentText, { color: Global.colors.IOS_BLUE }]}>{selectedType.label}</Text>
-                <Icon name="ios-arrow-forward" style={styles.icon} size={15} width={15} height={15} color={Global.colors.IOS_ARROW} />
-              </TouchableOpacity>
-            </View>
-            <Sep height={Global.lineWidth} bgColor={Global.colors.LINE} style={{ marginLeft: 15, marginTop: 10, marginBottom: 5 }} />
+            <Radios
+              data={typeData}
+              value={selectedType.value}
+              onSelect={obj => this.setState({ selectedType: obj })}
+              radiosContainerStyle={styles.radiosContainer}
+              radioContainerStyle={styles.radioContainer}
+            />
             {
-              selectedType.value ?
-              (
+              selectedType.value === '0' ?
+                <View>
+                  <View style={styles.row}>
+                    <Text style={styles.labelText}>患者姓名</Text>
+                    <Text style={styles.contentText}>{currProfile.name}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.labelText}>手机号</Text>
+                    <Text style={styles.contentText}>{currProfile.mobile}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.labelText}>身份证号</Text>
+                    <Text style={styles.contentText}>{currProfile.idNo}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.labelText}>就诊卡号</Text>
+                    <Text style={styles.contentText}>{currProfile.no}</Text>
+                  </View>
+                </View> :
                 <Form
                   config={formConfig}
                   ref={(ref) => { this.formRef = ref; }}
@@ -206,10 +223,10 @@ class Appoint extends Component {
                   showLabel
                 >
                   <Form.TextInput
-                    label="患者名称"
+                    label="患者姓名"
                     name="name"
                     dataType="string"
-                    placeholder="请输入患者名称"
+                    placeholder="请输入患者姓名"
                     autoFocus
                     required
                   />
@@ -230,36 +247,7 @@ class Appoint extends Component {
                     required
                   />
                 </Form>
-              ) : (
-                <View>
-                  <View style={styles.row}>
-                    <Text style={styles.labelText}>姓名</Text>
-                    <Text style={styles.contentText}>{currProfile.name}</Text>
-                  </View>
-                  <View style={styles.row}>
-                    <Text style={styles.labelText}>手机号</Text>
-                    <Text style={styles.contentText}>{currProfile.mobile}</Text>
-                  </View>
-                  <View style={styles.row}>
-                    <Text style={styles.labelText}>身份证号</Text>
-                    <Text style={styles.contentText}>{currProfile.idNo}</Text>
-                  </View>
-                  <View style={styles.row}>
-                    <Text style={styles.labelText}>就诊卡</Text>
-                    <Text style={styles.contentText}>{currProfile.no}</Text>
-                  </View>
-                </View>
-              )
             }
-            <Picker
-              ref={(ref) => { this.typePickerRef = ref; }}
-              dataSource={typeData}
-              selected={selectedType.value}
-              onChange={(item) => {
-                this.setState({ selectedType: item });
-              }}
-              center
-            />
           </View>
           <Button
             text="确定预约"
@@ -316,25 +304,28 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginLeft: 15,
+    marginLeft: 10,
+    height: formRowHeight,
+    borderWidth: Global.lineWidth,
+    borderColor: 'transparent',
     marginTop: 5,
     alignItems: 'center',
   },
   labelText: {
     fontSize: 13,
+    marginLeft: 5,
     color: Global.colors.FONT_GRAY,
-    width: 65,
+    width: 80,
   },
   contentText: {
     fontSize: 13,
   },
-  icon: {
-    marginLeft: 5,
-    marginRight: 10,
+  radiosContainer: {
+    marginTop: 5,
+    marginHorizontal: 10,
   },
-  typeSwitch: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  radioContainer: {
+    height: formRowHeight,
   },
 });
 

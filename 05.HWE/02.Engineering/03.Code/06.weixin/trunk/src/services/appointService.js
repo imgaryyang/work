@@ -3,7 +3,7 @@ import ajax from '../utils/ajax';
 // 预约挂号
 const appoint = '/api/hwe/treat/appoint/';
 const hisAppoint = '/api/hwe/treat/his/appoint/';
-const hisSchedule = 'api/hwe/treat/his/schedule/';
+const hisSchedule = '/api/hwe/treat/his/schedule/';
 
 // 3.4.1 可预约科室分类树查询
 export function forDeptTree(cond) {
@@ -43,4 +43,9 @@ export function forReservedList(cond) {
 // 3.4.9 科室排班列表查询
 export function forScheduleList(cond) {
   return ajax.GET(`${hisSchedule}/list`, cond);
+}
+
+// 无卡预约记录查询
+export function forReservedNoCardList(cond) {
+  return ajax.GET(`${appoint}reserved/noCard/list`, cond);
 }

@@ -155,8 +155,8 @@ public class IProfileRestController extends HcpBaseRestController {
 		Patient patients= this.patientManager.findOne(jql.toString(), values.toArray());
 		if(patients!=null){
 			IProfile iprofiles=TransFormModels(patients);
-			//费森不存在预存和预缴的概念所以余额暂时写死
-			iprofiles.setBalance(new BigDecimal(50));
+			//费森不存在预存和预缴的概念所以余额暂时写成动态随机值
+			iprofiles.setBalance(new BigDecimal(System.currentTimeMillis() % 1000));
 			return ResultUtils.renderSuccessResult(iprofiles);
 		} else {
 			return ResultUtils.renderFailureResult("无档案信息");

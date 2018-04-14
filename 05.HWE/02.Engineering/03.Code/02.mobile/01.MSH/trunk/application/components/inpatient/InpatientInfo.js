@@ -34,8 +34,8 @@ class InpatientInfo extends Component {
   constructor(props) {
     super(props);
     this.loadInpatientInfo = this.loadInpatientInfo.bind(this);
-    this.afterChooseHospital = this.afterChooseHospital.bind(this);
-    this.afterChoosePatient = this.afterChoosePatient.bind(this);
+    // this.afterChooseHospital = this.afterChooseHospital.bind(this);
+    // this.afterChoosePatient = this.afterChoosePatient.bind(this);
   }
 
   state = {
@@ -57,21 +57,24 @@ class InpatientInfo extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
-      }, () => { this.loadInpatientInfo(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile); });
+      }, () => {
+        this.loadInpatientInfo(
+          this.props.base.currHospital,
+          this.props.base.currPatient,
+          this.props.base.currProfile,
+        );
+      });
     });
   }
 
-  afterChooseHospital(hospital, patient, profile) {
-    // await this.getProfile(hospital, this.props.base.currPatient);
-    this.loadInpatientInfo(hospital, patient, profile);
-  }
-  afterChoosePatient(hospital, patient, profile) {
-    // if (typeof profile !== 'undefined' && profile !== null) {
-    //   this.setState({
-    //     profile,
-    //   }, () => this.loadInpatientInfo());
-    // }
-    this.loadInpatientInfo(hospital, patient, profile);
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.loadInpatientInfo(
+        props.base.currHospital,
+        props.base.currPatient,
+        props.base.currProfile,
+      );
+    }
   }
 
   async loadInpatientInfo(hospital, patient, profile) {
