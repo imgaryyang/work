@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-inpatient-config" raml="ssm-inpatient.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-inpatient-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/inpatient/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-inpatient-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    
+    <flow name="get:/{patientId}:ssm-inpatient-config">
+        <set-payload value="{    
+&quot;id&quot;: &quot;15&quot;,     
+&quot;bedArea&quot;: &quot;02&quot;,     
+&quot;bedNo&quot;: &quot;005&quot;,     
+&quot;inpatientId&quot;: &quot;02993030&quot;,     
+&quot;inpatientName&quot;: &quot;&#29579;&#27905;&#23454;&quot;,     
+&quot;admissionDate&quot;: &quot;2017-02-10&quot;, 
+&quot;billDate&quot;:&quot;2017-02-15&quot;,     
+&quot;feeType&quot;: &quot;001&quot;,     
+&quot;feeTypeName&quot;: &quot;&#33258;&#36153;&quot;, 
+&quot;billStartDate&quot;: &quot;2017-02-10&quot;,     
+&quot;billEndDate&quot;: &quot;2017-02-15&quot;,     
+&quot;totalAmt&quot;: 990.86,     
+&quot;totalSelfPaid&quot;: 990.86,     
+&quot;totalBookAmt&quot;: 0,     
+&quot;totalReductionAmt&quot;: 0   
+}" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/dailyBill/list:ssm-inpatient-config">
+        <set-payload value="[       {&quot;itemId&quot;: &quot;001&quot;,  &quot;itemName&quot;: &quot;&#26222;&#36890;&#30149;&#25151;&#24202;&#20301;&#36153;&quot;,         &quot;price&quot;: &quot;44.00&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;44.00&quot;      },        
+{&quot;itemId&quot;: &quot;002&quot;,  &quot;itemName&quot;: &quot;&#30149;&#25151;&#31354;&#35843;&#36153;&quot;,         &quot;price&quot;: &quot;12.00&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;12.00&quot;      },        
+{&quot;itemId&quot;: &quot;003&quot;,  &quot;itemName&quot;: &quot;&#23548;&#23615;&quot;,         &quot;price&quot;: &quot;12.00&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;12.00&quot;      },        
+{&quot;itemId&quot;: &quot;004&quot;,  &quot;itemName&quot;: &quot;&#21160;&#33033;&#37319;&#34880;&quot;,         &quot;price&quot;: &quot;5.90&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;5.90&quot;      },       
+{&quot;itemId&quot;: &quot;005&quot;,  &quot;itemName&quot;: &quot;&#20303;&#38498;&#35786;&#26597;&#36153;&quot;,         &quot;price&quot;: &quot;14.00&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;14.00&quot;      },        
+{&quot;itemId&quot;: &quot;006&quot;,  &quot;itemName&quot;: &quot;&#25975;&#36148;X&#65288;&#23567;&#20799;&#31185;&#65289;&quot;,         &quot;price&quot;: &quot;2.95&quot;,         &quot;count&quot;: 1,         &quot;amt&quot;: &quot;2.95&quot;      }    ]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/inpatientBill/list:ssm-inpatient-config">
+        <set-payload value="[
+  {
+    &quot;id&quot;: &quot;00001&quot;,
+    &quot;feeType&quot;: &quot;01&quot;,
+    &quot;feeTypeName&quot;: &quot;&#26448;&#26009;&#36153;&quot;,
+    &quot;totalAmt&quot;: 2.95,
+    &quot;totalSelfPaid&quot;: 2.95
+  },
+  {
+    &quot;id&quot;: &quot;00002&quot;,
+    &quot;feeType&quot;: &quot;02&quot;,
+    &quot;feeTypeName&quot;: &quot;&#24202;&#20301;&#36153;&quot;,
+    &quot;totalAmt&quot;: 484,
+    &quot;totalSelfPaid&quot;: 484
+  },
+  {
+    &quot;id&quot;: &quot;00003&quot;,
+    &quot;feeType&quot;: &quot;03&quot;,
+    &quot;feeTypeName&quot;: &quot;&#25252;&#29702;&#36153;&quot;,
+    &quot;totalAmt&quot;: 192,
+    &quot;totalSelfPaid&quot;: 192
+  },
+  {
+    &quot;id&quot;: &quot;00004&quot;,
+    &quot;feeType&quot;: &quot;04&quot;,
+    &quot;feeTypeName&quot;: &quot;&#35786;&#23519;&#36153;&quot;,
+    &quot;totalAmt&quot;: 154,
+    &quot;totalSelfPaid&quot;: 154
+  },
+  {
+    &quot;id&quot;: &quot;00005&quot;,
+    &quot;feeType&quot;: &quot;05&quot;,
+    &quot;feeTypeName&quot;: &quot;&#27835;&#30103;&#36153;&quot;,
+    &quot;totalAmt&quot;: 25.9,
+    &quot;totalSelfPaid&quot;: 25.9
+   },
+  {
+    &quot;id&quot;: &quot;00006&quot;,
+    &quot;feeType&quot;: &quot;06&quot;,
+    &quot;feeTypeName&quot;: &quot;&#20854;&#20182;&quot;,
+    &quot;totalAmt&quot;: 132,
+    &quot;totalSelfPaid&quot;: 132
+  }
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/inpatientBill/list/items:ssm-inpatient-config">
+        <set-payload value="[
+  {
+    &quot;billId&quot;: &quot;00001&quot;, 
+    &quot;typeCode&quot;: &quot;&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;006&quot;,
+    &quot;itemName&quot;: &quot;&#25975;&#36148;X&#65288;&#23567;&#20799;&#31185;&#65289;&quot;,
+    &quot;price&quot;: 2.95,
+    &quot;count&quot;: 1,
+    &quot;amt&quot;: 2.95,
+    &quot;selfPaid&quot;: 2.95,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+  },
+  {
+    &quot;billId&quot;: &quot;00002&quot;,
+    &quot;typeCode&quot;: &quot;11090000100&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;001&quot;,
+    &quot;itemName&quot;: &quot;&#26222;&#36890;&#30149;&#25151;&#24202;&#20301;&#36153;&quot;,
+    &quot;price&quot;: 44,
+    &quot;count&quot;: 11,
+    &quot;amt&quot;: 484,
+    &quot;selfPaid&quot;: 484,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+  },
+  {
+    &quot;billId&quot;: &quot;00003&quot;,
+    &quot;typeCode&quot;: &quot;12010000300&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;001&quot;,
+    &quot;itemName&quot;: &quot;&#31561;&#32423;&#25252;&#29702;&quot;,
+    &quot;price&quot;: 18,
+    &quot;count&quot;: 12,
+    &quot;amt&quot;: 192,
+    &quot;selfPaid&quot;: 192,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+  },
+  {
+    &quot;billId&quot;: &quot;00004&quot;,
+    &quot;typeCode&quot;: &quot;11020000501&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;005&quot;,
+    &quot;itemName&quot;: &quot;&#20303;&#38498;&#35786;&#26597;&#36153;&quot;,
+    &quot;price&quot;: 14,
+    &quot;count&quot;: 11,
+    &quot;amt&quot;: 154,
+    &quot;selfPaid&quot;: 154,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+  },
+  {
+    &quot;billId&quot;: &quot;00005&quot;,
+    &quot;typeCode&quot;: &quot;12160000100&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;003&quot;,
+    &quot;itemName&quot;: &quot;&#23548;&#23615;&quot;,
+    &quot;price&quot;: 12,
+    &quot;count&quot;: 1,
+    &quot;amt&quot;: 12,
+    &quot;selfPaid&quot;: 12,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+   },
+   {
+    &quot;billId&quot;: &quot;00005&quot;,
+    &quot;typeCode&quot;: &quot;12040000400&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;004&quot;,
+    &quot;itemName&quot;: &quot;&#21160;&#33033;&#37319;&#34880;&quot;,
+    &quot;price&quot;: 5.9,
+    &quot;count&quot;: 1,
+    &quot;amt&quot;: 5.9,
+    &quot;selfPaid&quot;: 5.9,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+   },
+   {
+    &quot;billId&quot;: &quot;00005&quot;,
+    &quot;typeCode&quot;: &quot;12010001300&quot;,
+    &quot;typeName&quot;: &quot;&#30002;&#31867;&quot;,
+    &quot;itemId&quot;: &quot;004&quot;,
+    &quot;itemName&quot;: &quot;&#21160;&#38745;&#33033;&#32622;&#31649;&#25252;&#29702;&quot;,
+    &quot;price&quot;: 8,
+    &quot;count&quot;: 1,
+    &quot;amt&quot;: 8,
+    &quot;selfPaid&quot;: 8,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+   },
+  {
+    &quot;billId&quot;: &quot;00006&quot;,
+    &quot;typeCode&quot;: &quot;11070000100&quot;,
+    &quot;typeName&quot;: &quot;&#33258;&#36153;&quot;,
+    &quot;itemId&quot;: &quot;002&quot;,
+    &quot;itemName&quot;: &quot;&#30149;&#25151;&#31354;&#35843;&#36153;&quot;,
+    &quot;price&quot;: 18,
+    &quot;count&quot;: 11,
+    &quot;amt&quot;: 132,
+    &quot;selfPaid&quot;: 132,
+    &quot;bookAmt&quot;: 0,
+    &quot;reductionAmt&quot;: 0
+  }
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/deposit/balance:ssm-inpatient-config">
+        <set-payload value="{&quot;prepaidBalance&quot;: 1450.00}" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="post:/deposit/book:ssm-inpatient-config">
+        <set-payload value="{     &quot;success&quot;: true, &quot;amt&quot;: 101.09 }" doc:name="Set Payload"/>
+    </flow>
+    
+</mule>

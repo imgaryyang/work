@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-assay-config" raml="ssm-assay.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-assay-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/assay/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-assay-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    
+    <flow name="get:/page:ssm-assay-config">
+        <set-payload value="[
+    {
+        &quot;id&quot;:&quot;00000001&quot;,
+        &quot;requestDate&quot;:&quot;2017-01-03 13:35&quot;,
+        &quot;checkType&quot;:&quot;02&quot;, 
+        &quot;checkTypeName&quot;:&quot;&#34880;&#24120;&#35268;&quot;,
+        &quot;departmentId&quot;:&quot;001001002&quot;,
+        &quot;departmentName&quot;:&quot;&#29289;&#29702;&#24247;&#22797;&quot;,
+        &quot;doctorId&quot;:&quot;0001&quot;,
+        &quot;doctorName&quot;:&quot;&#33931;&#24314;&#20809;&quot;,
+        &quot;doctorJobTitleId&quot;:&quot;001&quot;,
+        &quot;doctorJobTitle&quot;:&quot;&#20027;&#20219;&#21307;&#24072;&quot;,
+        &quot;state&quot;:&quot;0&quot;,
+        &quot;printTimes&quot;:&quot;0&quot;,
+        &quot;patientId&quot;:&quot;00000001&quot;,
+        &quot;patientName&quot;:&quot;&#29579;&#29577;&#26480;&quot;,
+        &quot;requestDeptId&quot;:&quot;001001009&quot;,
+        &quot;requestDeptName&quot;:&quot;&#20869;&#20998;&#27852;&#31185;&quot;,
+        &quot;requestDoctorId&quot;:&quot;0009&quot;,
+        &quot;requestDoctorName&quot;:&quot;&#24464;&#23493;&#21516;&quot;,
+        &quot;receiveDate&quot;:&quot;2016-12-01 08:55&quot;,
+        &quot;specimenType&quot;:&quot;01&quot;,
+        &quot;specimenTypeName&quot;:&quot;&#34880;&quot;,
+        &quot;checkDoctorId&quot;:&quot;D00005&quot;,
+        &quot;checkDoctorName&quot;:&quot;&#21346;&#29577;&#21452;&quot;,
+        &quot;checkDate&quot;:&quot;2017-02-13 13:35&quot;
+    },
+    {
+        &quot;id&quot;:&quot;00000002&quot;,
+        &quot;requestDate&quot;:&quot;2017-01-03 13:35&quot;,
+        &quot;checkType&quot;:&quot;02&quot;, 
+        &quot;checkTypeName&quot;:&quot;&#34880;&#24120;&#35268;&quot;,
+        &quot;departmentId&quot;:&quot;001001002&quot;,
+        &quot;departmentName&quot;:&quot;&#29289;&#29702;&#24247;&#22797;&quot;,
+        &quot;doctorId&quot;:&quot;0001&quot;,
+        &quot;doctorName&quot;:&quot;&#33931;&#24314;&#20809;&quot;,
+        &quot;doctorJobTitleId&quot;:&quot;001&quot;,
+        &quot;doctorJobTitle&quot;:&quot;&#20027;&#20219;&#21307;&#24072;&quot;,
+        &quot;state&quot;:&quot;1&quot;,
+        &quot;printTimes&quot;:&quot;0&quot;,
+        &quot;patientId&quot;:&quot;00000001&quot;,
+        &quot;patientName&quot;:&quot;&#29579;&#29577;&#26480;&quot;,
+        &quot;requestDeptId&quot;:&quot;001001009&quot;,
+        &quot;requestDeptName&quot;:&quot;&#20869;&#20998;&#27852;&#31185;&quot;,
+        &quot;requestDoctorId&quot;:&quot;0009&quot;,
+        &quot;requestDoctorName&quot;:&quot;&#24464;&#23493;&#21516;&quot;,
+        &quot;receiveDate&quot;:&quot;2016-12-01 08:55&quot;,
+        &quot;specimenType&quot;:&quot;01&quot;,
+        &quot;specimenTypeName&quot;:&quot;&#34880;&quot;,
+        &quot;checkDoctorId&quot;:&quot;D00005&quot;,
+        &quot;checkDoctorName&quot;:&quot;&#21346;&#29577;&#21452;&quot;,
+        &quot;checkDate&quot;:&quot;2017-02-13 13:35&quot;
+    },
+    {
+        &quot;id&quot;:&quot;00000003&quot;,
+        &quot;requestDate&quot;:&quot;2017-01-03 13:35&quot;,
+        &quot;checkType&quot;:&quot;02&quot;, 
+        &quot;checkTypeName&quot;:&quot;&#34880;&#24120;&#35268;&quot;,
+        &quot;departmentId&quot;:&quot;001001002&quot;,
+        &quot;departmentName&quot;:&quot;&#29289;&#29702;&#24247;&#22797;&quot;,
+        &quot;doctorId&quot;:&quot;0001&quot;,
+        &quot;doctorName&quot;:&quot;&#33931;&#24314;&#20809;&quot;,
+        &quot;doctorJobTitleId&quot;:&quot;001&quot;,
+        &quot;doctorJobTitle&quot;:&quot;&#20027;&#20219;&#21307;&#24072;&quot;,
+        &quot;state&quot;:&quot;2&quot;,
+        &quot;printTimes&quot;:&quot;0&quot;,
+        &quot;patientId&quot;:&quot;00000001&quot;,
+        &quot;patientName&quot;:&quot;&#29579;&#29577;&#26480;&quot;,
+        &quot;requestDeptId&quot;:&quot;001001009&quot;,
+        &quot;requestDeptName&quot;:&quot;&#20869;&#20998;&#27852;&#31185;&quot;,
+        &quot;requestDoctorId&quot;:&quot;0009&quot;,
+        &quot;requestDoctorName&quot;:&quot;&#24464;&#23493;&#21516;&quot;,
+        &quot;receiveDate&quot;:&quot;2016-12-01 08:55&quot;,
+        &quot;specimenType&quot;:&quot;01&quot;,
+        &quot;specimenTypeName&quot;:&quot;&#34880;&quot;,
+        &quot;checkDoctorId&quot;:&quot;D00005&quot;,
+        &quot;checkDoctorName&quot;:&quot;&#21346;&#29577;&#21452;&quot;,
+        &quot;checkDate&quot;:&quot;2017-02-13 13:35&quot;
+    },
+    {
+        &quot;id&quot;:&quot;00000004&quot;,
+        &quot;requestDate&quot;:&quot;2017-01-03 13:35&quot;,
+        &quot;checkType&quot;:&quot;02&quot;, 
+        &quot;checkTypeName&quot;:&quot;&#34880;&#24120;&#35268;&quot;,
+        &quot;departmentId&quot;:&quot;001001002&quot;,
+        &quot;departmentName&quot;:&quot;&#29289;&#29702;&#24247;&#22797;&quot;,
+        &quot;doctorId&quot;:&quot;0001&quot;,
+        &quot;doctorName&quot;:&quot;&#33931;&#24314;&#20809;&quot;,
+        &quot;doctorJobTitleId&quot;:&quot;001&quot;,
+        &quot;doctorJobTitle&quot;:&quot;&#20027;&#20219;&#21307;&#24072;&quot;,
+        &quot;state&quot;:&quot;2&quot;,
+        &quot;printTimes&quot;:&quot;0&quot;,
+        &quot;patientId&quot;:&quot;00000001&quot;,
+        &quot;patientName&quot;:&quot;&#29579;&#29577;&#26480;&quot;,
+        &quot;requestDeptId&quot;:&quot;001001009&quot;,
+        &quot;requestDeptName&quot;:&quot;&#20869;&#20998;&#27852;&#31185;&quot;,
+        &quot;requestDoctorId&quot;:&quot;0009&quot;,
+        &quot;requestDoctorName&quot;:&quot;&#24464;&#23493;&#21516;&quot;,
+        &quot;receiveDate&quot;:&quot;2016-12-01 08:55&quot;,
+        &quot;specimenType&quot;:&quot;01&quot;,
+        &quot;specimenTypeName&quot;:&quot;&#34880;&quot;,
+        &quot;checkDoctorId&quot;:&quot;D00005&quot;,
+        &quot;checkDoctorName&quot;:&quot;&#21346;&#29577;&#21452;&quot;,
+        &quot;checkDate&quot;:&quot;2017-02-13 13:35&quot;
+    }
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/{id}:ssm-assay-config">
+        <set-payload value="[
+{&quot;id&quot;:&quot;00000001&quot;,&quot;index&quot;: 0,&quot;item&quot;: &quot;&#28216;&#31163;&#19977;&#30872;&#30002;&#29366;&#33146;&#27688;&#37240;&quot;,&quot;result&quot;: &quot;1.53&quot;,&quot;state&quot;: &quot;3&quot;,&quot;range&quot;: &quot;1.80 - 4.10&quot;,&quot;unit&quot;: &quot;pg/ml&quot;,&quot;assayId&quot;:&quot;00000001&quot;},
+{&quot;id&quot;:&quot;00000002&quot;,&quot;index&quot;: 1,&quot;item&quot;: &quot;&#28216;&#31163;&#30002;&#29366;&#33146;&#32032;&quot;,      &quot;result&quot;: &quot;0.376&quot;,&quot;state&quot;: &quot;3&quot;,&quot;range&quot;: &quot;0.81 - 1.89&quot;,&quot;unit&quot;: &quot;ng/dl&quot;,&quot;assayId&quot;:&quot;00000001&quot;},
+{&quot;id&quot;:&quot;00000003&quot;,&quot;index&quot;: 2,&quot;item&quot;: &quot;&#19977;&#30872;&#30002;&#29366;&#33146;&#21407;&#27688;&#37240;&quot;,  &quot;result&quot;: &quot;0.484&quot;,&quot;state&quot;: &quot;3&quot;,&quot;range&quot;: &quot;0.66 - 1.92&quot;,&quot;unit&quot;: &quot;ng/ml&quot;,&quot;assayId&quot;:&quot;00000001&quot;},      
+{&quot;id&quot;:&quot;00000004&quot;,&quot;index&quot;: 3,&quot;item&quot;: &quot;&#30002;&#29366;&#33146;&#32032;&quot;,		 &quot;result&quot;: &quot;2.13&quot;,&quot;state&quot;: &quot;3&quot;,&quot;range&quot;: &quot;4.30 - 12.50&quot;,&quot;unit&quot;: &quot;&#956;g/ml&quot;,&quot;assayId&quot;:&quot;00000001&quot;},      
+{&quot;id&quot;:&quot;00000005&quot;,&quot;index&quot;: 4,&quot;item&quot;: &quot;&#20419;&#30002;&#29366;&#33146;&#28608;&#32032;&quot;,      &quot;result&quot;: &quot;85.120&quot;,&quot;state&quot;: &quot;2&quot;,&quot;range&quot;: &quot;0.38 - 4.34&quot;,&quot;unit&quot;: &quot;&#956;IU/mL&quot;,&quot;assayId&quot;:&quot;00000001&quot;}   
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="post:/printed:ssm-assay-config">
+        <set-payload value="{     &quot;success&quot;: true, &quot;printedDate&quot;: &quot;2017-02-13 17:40&quot; }" doc:name="Set Payload"/>
+    </flow>
+    
+</mule>

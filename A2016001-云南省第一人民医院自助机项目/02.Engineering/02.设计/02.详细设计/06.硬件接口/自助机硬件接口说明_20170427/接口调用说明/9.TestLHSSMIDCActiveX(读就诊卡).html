@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>电动读卡器测试</title>
+<script type="text/javascript">
+	var IDC_stateCode;
+	var IDC_nHandle;
+	var ssmocx;
+	function load(){
+		ssmocx = document.getElementById("LHSSMDeviceActiveX");
+	}
+
+	//电动读卡器
+	//ZT_IDC_OpenDevice(COM6:9600:E:8:1,&m_nIDCHandle,2) return = 0 , m_nIDCHandle = 4
+	function LH_IDC_OpenDevice(){//打开设备
+		var json = ssmocx.LH_IDC_OpenDevice("COM6:9600:E:8:1",2);//("COM3", "1", "0"));
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		console.info(IDC_nHandle);
+		if(IDC_stateCode == 0){
+			//alert("打开设备成功！");
+			console.info("打开设备成功");
+		}
+		else{
+			//alert("打开设备失败！");
+			console.info("打开设备失败");
+		}
+	}
+
+	//ZT_IDC_GetStatus(4) return = 2 
+	function LH_IDC_GetStatus(){//获取设备状态
+		var json = ssmocx.LH_IDC_GetStatus(IDC_nHandle);//
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		if(-111 == IDC_stateCode){
+			LH_IDC_Reset();
+		}
+		 else if( 0 > IDC_stateCode){
+			return ;
+		} else if( 0 == IDC_stateCode) {
+			console.info("卡片不在");
+		}else if( 1 == IDC_stateCode) {
+			console.info("卡在读卡器入口");
+		}
+			else if( 2 == IDC_stateCode) {
+			console.info("卡在读卡器内部");
+		}
+
+	}
+	
+	//ZT_IDC_Reset(4,1,2) return = 0 
+	function LH_IDC_Reset(){//ZT_IDC_Reset(nHandle ,1,2); //复位退卡
+		var json = ssmocx.LH_IDC_Reset(IDC_nHandle,1,2);//
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+	}
+	
+	//ZT_IDC_Accept(4,2) return = 0
+	function LH_IDC_Accept(){//ZT_IDC_Accept(int nHandle , int nType); 允许进卡;1-检测磁边进卡 2-不检测磁边进卡
+		var json = ssmocx.LH_IDC_Accept(IDC_nHandle,2);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+	}
+
+	function LH_IDC_M1Detect(){//ZT_IDC_M1Detect(int nHandle)非接M1寻卡
+		console.info(IDC_nHandle);
+		var json = ssmocx.LH_IDC_M1Detect(IDC_nHandle);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+	}
+
+	function LH_IDC_M1GetCardID(){//ZT_IDC_M1GetCardID(int nHandle, char* szOut, int* outLen)非接M1取卡ID
+		var szOut;
+		var json = ssmocx.LH_IDC_M1GetCardID(IDC_nHandle);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		var szOut = dataObj.szOut;
+		var outLen = dataObj.outLen;
+	}
+
+	function LH_IDC_M1LoadSecKey(){//ZT_IDC_M1LoadSecKey(int nHandle, short nSec, short KEYType, char *KEY)非接M1认证扇区密钥
+		var KEYType;
+		var KEY;
+		var json = ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,4,0,"ffffffffffff");
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+	}
+
+	function LH_IDC_M1ReadBlock(){//ZT_IDC_M1ReadBlock(int nHandle, short nSec, short Block, char *BlockData, short *nLen)非接M1读数据
+		var BlockData;
+		var json = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,4,0);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		var BlockData = dataObj.szOut;
+		var nLen = dataObj.nLen;
+	}
+	
+	/**
+	读上线后真实的就诊卡
+	省市编码：第1扇区第1块(块编码为0)
+	区县编码：第1扇区第2块(块编码为1)
+	医疗机构类别：第1扇区第3块(块编码为3)
+	顺序号：第2扇区第1块(块编码为0)
+	校验码：第2扇区第2块(块编码为1)
+	重复建卡标识：第2扇区第3块(块编码为2)
+	**/
+	//ZT_IDC_M1LoadSecKey(int nHandle, short nSec, short KEYType, char *KEY)非接M1认证扇区密钥
+	function LH_IDC_M1LoadSecKey1(){
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,1,0,"ffffffffffff");//省市编码：第1扇区第1块(块编码为0)
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,1,1,"ffffffffffff");//区县编码：第1扇区第2块(块编码为1)
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,1,2,"ffffffffffff");//医疗机构类别：第1扇区第3块(块编码为3)
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,2,0,"ffffffffffff");//顺序号：第2扇区第1块(块编码为0)
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,2,1,"ffffffffffff");//校验码：第2扇区第2块(块编码为1)
+		ssmocx.LH_IDC_M1LoadSecKey(IDC_nHandle,2,2,"ffffffffffff");//重复建卡标识：第2扇区第3块(块编码为2)
+	}
+	
+	//ZT_IDC_M1ReadBlock(int nHandle, short nSec, short Block, char *BlockData, short *nLen)非接M1读数据
+	function LH_IDC_M1ReadBlock1(){
+		var json1 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,1,0);//省市编码：第1扇区第1块(块编码为0)
+		var json2 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,1,1);//区县编码：第1扇区第2块(块编码为1)
+		var json3 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,1,2);//医疗机构类别：第1扇区第3块(块编码为3)
+		var json4 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,2,0);//顺序号：第2扇区第1块(块编码为0)
+		var json5 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,2,1);//校验码：第2扇区第2块(块编码为1)
+		var json6 = ssmocx.LH_IDC_M1ReadBlock(IDC_nHandle,2,2);//重复建卡标识：第2扇区第3块(块编码为2)
+		console.info(json1)
+		console.info(json2)
+		console.info(json3)
+		console.info(json4)
+		console.info(json5)
+		console.info(json6)
+		var dataObj1 = eval("("+json1+")");
+		var dataObj2 = eval("("+json2+")");
+		var dataObj3 = eval("("+json3+")");
+		var dataObj4 = eval("("+json4+")");
+		var dataObj5 = eval("("+json5+")");
+		var dataObj6 = eval("("+json6+")");
+		var cardNo1 = dataObj1.cardNo;
+		var cardNo2 = dataObj2.cardNo;
+		var cardNo3 = dataObj3.cardNo;
+		var cardNo4 = dataObj4.cardNo;
+		var cardNo5 = dataObj5.cardNo;
+		var cardNo6 = dataObj6.cardNo;
+		//最后需要按照cardNo1到cardNo6的顺序拼接，得到的就是完整的就诊卡号
+	}
+
+
+	function LH_IDC_Eject(){//退卡
+		var json = ssmocx.LH_IDC_Eject(IDC_nHandle);//("COM3", "1", "0"));
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		console.info(IDC_stateCode);
+		console.info(IDC_nHandle);
+	}
+
+	function LH_IDC_Capture(){//吞卡
+		var json = ssmocx.LH_IDC_Capture(IDC_nHandle);//("COM3", "1", "0"));
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		console.info(IDC_stateCode);
+		console.info(IDC_nHandle);
+	}
+
+	function LH_IDC_CloseDevice(){//关闭设备
+		var json = ssmocx.LH_IDC_CloseDevice(IDC_nHandle);//("COM3", "1", "0"));
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		IDC_stateCode = dataObj.stateCode;
+		IDC_nHandle = dataObj.nHandle;
+		console.info(IDC_stateCode);
+		console.info(IDC_nHandle);
+	}
+</script>   
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT> 
+	<span style="color: #FF0000;">就诊卡：</span><br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IDC_OpenDevice" value="打开电动读卡器" type="button" onclick="LH_IDC_OpenDevice()"/>&nbsp;&nbsp;
+	<input id="IDC_GetStatus" value="获取设备状态" type="button" onclick="LH_IDC_GetStatus()"/>&nbsp;&nbsp;
+	<input id="IDC_Reset" value="设备复位" type="button" onclick="LH_IDC_Reset()"/>&nbsp;&nbsp;
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IDC_Accept" value="允许进卡" type="button" onclick="LH_IDC_Accept()"/>&nbsp;&nbsp;
+	<input id="IDC_GetStatus1" value="获取设备状态" type="button" onclick="LH_IDC_GetStatus()"/>&nbsp;&nbsp;
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IDC_Eject" value="非接M1寻卡" type="button" onclick="LH_IDC_M1Detect()"/>&nbsp;&nbsp;
+	<input id="IDC_Eject" value="非接M1取卡ID" type="button" onclick="LH_IDC_M1GetCardID()"/>&nbsp;&nbsp;
+	<input id="IDC_Eject" value="非接M1认证扇区密钥" type="button" onclick="LH_IDC_M1LoadSecKey()"/>&nbsp;&nbsp;
+	<input id="IDC_Eject" value="非接M1读数据" type="button" onclick="LH_IDC_M1ReadBlock()"/>
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IDC_Eject" value="退卡" type="button" onclick="LH_IDC_Eject()"/>&nbsp;&nbsp;
+	<input id="IDC_Capture" value="吞卡" type="button" onclick="LH_IDC_Capture()"/>&nbsp;&nbsp;
+	<input id="IDC_CloseDevice" value="关闭电动读卡器" type="button" onclick="LH_IDC_CloseDevice()"/>&nbsp;&nbsp;
+</body>
+</html>
+
+  

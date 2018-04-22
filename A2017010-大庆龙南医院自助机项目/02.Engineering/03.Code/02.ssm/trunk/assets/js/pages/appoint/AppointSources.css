@@ -1,0 +1,27 @@
+
+.appoint_src_tpItem {
+  background-color: rgba(255, 255, 255, .6);
+  border-radius: .6rem;
+  width: 95%;
+  height: 8rem;
+  margin: .8rem .8rem 0 .8rem;
+  line-height: 8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .1);
+}
+
+.appoint_src_tpItem span { 
+  display: block;
+  float: left;
+  width: 8rem;
+  height: 8rem;
+  border-top-left-radius: .6rem;
+  border-bottom-left-radius: .6rem;
+  background-color: #BC1E1E;
+  line-height: 8rem;
+  font-size: 4rem;
+  color: #ffffff;
+  text-align: center;
+}
+

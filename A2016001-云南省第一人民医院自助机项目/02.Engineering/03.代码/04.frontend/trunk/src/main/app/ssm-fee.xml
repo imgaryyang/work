@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-fee-config" raml="ssm-fee.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-fee-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/fee/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-fee-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    
+    <flow name="get:/list:ssm-fee-config">
+        <set-payload value="[   
+{     
+  &quot;prescriptionId&quot;: &quot;201601000001&quot;,      
+  &quot;prescriptionDate&quot;: &quot;2017-01-20 11:00&quot;,      
+  &quot;deptId&quot;: &quot;001001002&quot;,      
+  &quot;deptName&quot;: &quot;&#29289;&#29702;&#24247;&#22797;&quot;,      
+  &quot;doctorId&quot;: &quot;0001&quot;,      
+  &quot;doctorName&quot;: &quot;&#33931;&#24314;&#20809;&quot;,      
+  &quot;typeId&quot;: &quot;01&quot;,      
+  &quot;typeName&quot;: &quot;&#35199;&#33647;&#36153;&quot;,      
+  &quot;totalAmt&quot;: 79.40
+},    
+{     
+  &quot;prescriptionId&quot;: &quot;201601000002&quot;,      
+  &quot;prescriptionDate&quot;: &quot;2017-01-20 11:00&quot;,      
+  &quot;deptId&quot;: &quot;001001002&quot;,      
+  &quot;deptName&quot;: &quot;&#29289;&#29702;&#24247;&#22797;&quot;,      
+  &quot;doctorId&quot;: &quot;0001&quot;,      
+  &quot;doctorName&quot;: &quot;&#33931;&#24314;&#20809;&quot;,      
+  &quot;typeId&quot;: &quot;02&quot;,      
+  &quot;typeName&quot;: &quot;&#20013;&#33647;&#36153;&quot;,      
+  &quot;totalAmt&quot;: 47.00
+},    
+{     
+  &quot;prescriptionId&quot;: &quot;201601000003&quot;,      
+  &quot;prescriptionDate&quot;: &quot;2017-01-20 11:05&quot;,      
+  &quot;deptId&quot;: &quot;001001002&quot;,      
+  &quot;deptName&quot;: &quot;&#29289;&#29702;&#24247;&#22797;&quot;,      
+  &quot;doctorId&quot;: &quot;0001&quot;,      
+  &quot;doctorName&quot;: &quot;&#33931;&#24314;&#20809;&quot;,      
+  &quot;typeId&quot;: &quot;03&quot;,      
+  &quot;typeName&quot;: &quot;&#26816;&#39564;&#36153;&quot;,      
+  &quot;totalAmt&quot;: 113.00
+},    
+{     
+  &quot;prescriptionId&quot;: &quot;201601000004&quot;,      
+  &quot;prescriptionDate&quot;: &quot;2017-01-20 11:05&quot;,      
+  &quot;deptId&quot;: &quot;001001002&quot;,      
+  &quot;deptName&quot;: &quot;&#29289;&#29702;&#24247;&#22797;&quot;,      
+  &quot;doctorId&quot;: &quot;0001&quot;,      
+  &quot;doctorName&quot;: &quot;&#33931;&#24314;&#20809;&quot;,      
+  &quot;typeId&quot;: &quot;03&quot;,      
+  &quot;typeName&quot;: &quot;&#26816;&#39564;&#36153;&quot;,      
+  &quot;totalAmt&quot;: 688.00
+}
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="get:/list/items:ssm-fee-config">
+        <set-payload value="[   
+{         
+    &quot;index&quot;: 1,          
+    &quot;typeId&quot;: &quot;01&quot;,          
+    &quot;typeName&quot;: &quot;&#35199;&#33647;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#38647;&#23612;&#26367;&#19969;&quot;,          
+    &quot;count&quot;: 2,          
+    &quot;price&quot;: 23.00,          
+    &quot;totalAmt&quot;: 46.00,
+    &quot;prescriptionId&quot;: &quot;201601000001&quot;
+},        
+{         
+    &quot;index&quot;: 2,          
+    &quot;typeId&quot;: &quot;01&quot;,          
+    &quot;typeName&quot;: &quot;&#35199;&#33647;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#33590;&#33519;&#28023;&#26126;&#29255;&quot;,          
+    &quot;count&quot;: 1,          
+    &quot;price&quot;: 3.40,          
+    &quot;totalAmt&quot;: 3.40,
+    &quot;prescriptionId&quot;: &quot;201601000001&quot;
+},        
+{         
+    &quot;index&quot;: 3,          
+    &quot;typeId&quot;: &quot;01&quot;,          
+    &quot;typeName&quot;: &quot;&#35199;&#33647;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#30334;&#24551;&#35299;&quot;,          
+    &quot;count&quot;: 3,          
+    &quot;price&quot;: 10.00,          
+    &quot;totalAmt&quot;: 30.00,
+    &quot;prescriptionId&quot;: &quot;201601000001&quot;
+},   
+{         
+    &quot;index&quot;: 1,          
+    &quot;typeId&quot;: &quot;02&quot;,          
+    &quot;typeName&quot;: &quot;&#20013;&#33647;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#33970;&#20844;&#33521;&#39278;&#29255;&quot;,          
+    &quot;count&quot;: 2,          
+    &quot;price&quot;: 12.00,          
+    &quot;totalAmt&quot;: 24.00,
+    &quot;prescriptionId&quot;: &quot;201601000002&quot;
+},        
+{         
+    &quot;index&quot;: 2,          
+    &quot;typeId&quot;: &quot;02&quot;,          
+    &quot;typeName&quot;: &quot;&#20013;&#33647;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#20845;&#21619;&#22320;&#40644;&#20024;&quot;,          
+    &quot;count&quot;: 1,          
+    &quot;price&quot;: 23.00,          
+    &quot;totalAmt&quot;: 23.00,
+    &quot;prescriptionId&quot;: &quot;201601000002&quot;
+},   
+{         
+    &quot;index&quot;: 1,          
+    &quot;typeId&quot;: &quot;03&quot;,          
+    &quot;typeName&quot;: &quot;&#26816;&#39564;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#32925;&#21151;&#33021;&quot;,          
+    &quot;count&quot;: 1,          
+    &quot;price&quot;: 45.00,          
+    &quot;totalAmt&quot;: 45.00,
+    &quot;prescriptionId&quot;: &quot;201601000003&quot;
+},        
+{         
+    &quot;index&quot;: 2,          
+    &quot;typeId&quot;: &quot;03&quot;,          
+    &quot;typeName&quot;: &quot;&#26816;&#39564;&#36153;&quot;,          
+    &quot;itemName&quot;: &quot;&#30002;&#21151;&#19977;&#39033;&quot;,          
+    &quot;count&quot;: 1,          
+    &quot;price&quot;: 68.00,          
+    &quot;totalAmt&quot;: 68.00,
+    &quot;prescriptionId&quot;: &quot;201601000003&quot;
+},    
+{     
+  &quot;index&quot;: 1,          
+  &quot;typeId&quot;: &quot;03&quot;,          
+  &quot;typeName&quot;: &quot;&#26816;&#39564;&#36153;&quot;,          
+  &quot;itemName&quot;: &quot;&#30284;&#30151;&#31579;&#26597;&quot;,          
+  &quot;count&quot;: 1,          
+  &quot;price&quot;: 688.00,          
+  &quot;totalAmt&quot;: 688.00,
+  &quot;prescriptionId&quot;: &quot;201601000004&quot; 
+}
+]" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="post:/paid:ssm-fee-config">
+        <set-payload value="{     &quot;success&quot;: true, &quot;paidDate&quot;: &quot;2017-01-10 15:49&quot; }" doc:name="Set Payload"/>
+    </flow>
+    
+</mule>

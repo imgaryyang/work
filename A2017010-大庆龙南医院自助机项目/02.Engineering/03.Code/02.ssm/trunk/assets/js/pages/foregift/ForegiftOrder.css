@@ -1,0 +1,15 @@
+
+.fgOrder_balance {
+  display: block;
+  line-height: 10rem;
+}
+
+.fgOrder_balance font {
+  color: #BC1E1E;
+}
+
+.fgOrder_tip {
+  display: block;
+  font-size: 2.6rem;
+  line-height: 3rem;
+}

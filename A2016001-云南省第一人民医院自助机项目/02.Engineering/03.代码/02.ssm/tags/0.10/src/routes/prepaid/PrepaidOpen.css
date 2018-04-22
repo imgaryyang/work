@@ -1,0 +1,20 @@
+
+.infoContainer {
+  position: relative;
+}
+
+.infoContainer div {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  height: 20rem;
+}
+
+.infoContainer div font {
+  font-size: 4rem;
+  line-height: 12rem;
+}

@@ -1,0 +1,48 @@
+
+.app_dept_deptsContainer {
+  overflow: auto;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-radius: .6rem;
+  font-size: 2.6rem;
+}
+
+.app_dept_deptLvl1 {
+  height: 5rem;
+  line-height: 5rem;
+  text-align: center;
+  border-bottom: 1px solid #a7a7aa;
+  cursor: pointer;
+}
+
+.app_dept_dept {
+  height: 5rem;
+  line-height: 5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #a7a7aa;
+  margin-left: 1rem;
+  padding-left: 1.5rem;
+  cursor: pointer;
+}
+
+.app_dept_noDept {
+  height: 5rem;
+  line-height: 5rem;
+  border-bottom: 1px solid #a7a7aa;
+  margin-left: 1rem;
+  padding-left: 1.5rem;
+}
+
+.app_dept_chevron {
+  width: 3rem;
+  height: 5rem;
+  float: right;
+}
+
+.app_dept_chevron i {
+  color: #828282;
+  font-size: 2.5rem;
+}
+

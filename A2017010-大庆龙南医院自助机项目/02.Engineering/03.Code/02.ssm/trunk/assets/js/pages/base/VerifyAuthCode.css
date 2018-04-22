@@ -1,0 +1,21 @@
+.auth_code_label {
+	font-size: 2.5rem;
+}
+.auth_code_left {
+	padding: 2rem;
+	padding-top: 0;
+}
+
+.auth_code_right {
+	padding-right: 2rem;
+}
+
+.auth_code_sendbtn {
+	margin-top:2rem;
+	margin-bottom:1rem;
+	font-size: 3rem;
+}
+
+.auth_code_checkbtn {
+	margin-top: 2.5rem
+}

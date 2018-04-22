@@ -1,0 +1,8 @@
+
+.row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.rows .row:last-child {
+	border-bottom: 0;
+}

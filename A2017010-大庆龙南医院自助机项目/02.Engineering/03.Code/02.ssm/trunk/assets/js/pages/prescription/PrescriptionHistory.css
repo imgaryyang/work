@@ -1,0 +1,26 @@
+
+.prescription_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.prescription_rows .row:last-child {
+	border-bottom: 0;
+}
+.prescription_toolBarItem {
+  text-align: center;
+  line-height: 6rem;
+  cursor: pointer;
+  font-size: 2.5rem;
+}
+
+.prescription_toolBarItem div {
+  padding-left: 3rem;
+}
+
+.prescription_toolBarItem img {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  left: 1rem;
+  top: 1.5rem;
+}

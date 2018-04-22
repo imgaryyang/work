@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-account-config" raml="ssm-account.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-account-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/account/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-account-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    
+    <flow name="get:/{accountNo}:ssm-account-config">
+        <set-payload value="{ &quot;accountNo&quot;: &quot;9000879076548900&quot;, &quot;name&quot;: &quot;&#29579;&#20116;&#22235;&quot;, &quot;balance&quot;: 65.80, &quot;state&quot;: &quot;1&quot;, &quot;prepaidOpened&quot;: true }" doc:name="Set Payload"/>
+    </flow>
+    
+    <flow name="post:/open:ssm-account-config">
+        <set-payload value="{&quot;success&quot;: true}" doc:name="Set Payload"/>
+    </flow>
+    
+    
+    <flow name="post:/prepaid/book:ssm-account-config">
+        <set-payload value="{&quot;success&quot;: true}" doc:name="Set Payload"/>
+    </flow>
+    <flow name="get:/{accountNo}/bill/list:ssm-account-config">
+        <set-payload value="[   
+ {     
+  &quot;id&quot;: &quot;0000000000001&quot;,      
+  &quot;orderCode&quot;: &quot;PPC20170123000001&quot;,      
+  &quot;orderType&quot;: &quot;0&quot;,      
+  &quot;orderTypeName&quot;: &quot;&#39044;&#23384;&quot;,            
+  &quot;orderDesc&quot;: &quot;&#29616;&#37329;&#39044;&#23384;&quot;,      
+  &quot;amt&quot;: 100.00,      
+  &quot;createdDate&quot;: &quot;2017-01-01 09:34&quot;,      
+  &quot;miPaid&quot;: 0.00,      
+  &quot;paPaid&quot;: 0.00,      
+  &quot;selfPaid&quot;: 100.00,      
+  &quot;paidType&quot;: &quot;10&quot;,      
+  &quot;paidTypeName&quot;: &quot;&#29616;&#37329;&quot;,      
+  &quot;paidDate&quot;: &quot;2017-01-01 09:34&quot;,      
+  &quot;state&quot;: &quot;2&quot;
+},    
+{     
+  &quot;id&quot;: &quot;0000000000002&quot;,      
+  &quot;orderCode&quot;: &quot;PPC20170123000002&quot;,      
+  &quot;orderType&quot;: &quot;0&quot;,      
+  &quot;orderTypeName&quot;: &quot;&#39044;&#23384;&quot;,           
+  &quot;orderDesc&quot;: &quot;&#38134;&#34892;&#21345;&#39044;&#23384;&quot;,      
+  &quot;amt&quot;: 100.00,      
+  &quot;createdDate&quot;: &quot;2017-01-01 09:30&quot;,      
+  &quot;miPaid&quot;: 0.00,      
+  &quot;paPaid&quot;: 0.00,      
+  &quot;selfPaid&quot;: 100.00,      
+  &quot;paidType&quot;: &quot;20&quot;,      
+  &quot;paidTypeName&quot;: &quot;&#38134;&#32852;&quot;,      
+  &quot;paidDate&quot;: &quot;2017-01-01 09:30&quot;,      
+  &quot;state&quot;: &quot;2&quot;
+},    
+{     
+  &quot;id&quot;: &quot;0000000000003&quot;,      
+  &quot;orderCode&quot;: &quot;PPC20170123000003&quot;,      
+  &quot;orderType&quot;: &quot;3&quot;,      
+  &quot;orderTypeName&quot;: &quot;&#32564;&#36153;&quot;,           
+  &quot;orderDesc&quot;: &quot;&#25903;&#20184;&#23453;&#32564;&#36153;&quot;,      
+  &quot;amt&quot;: 100.00,      
+  &quot;createdDate&quot;: &quot;2016-12-16 15:01&quot;,      
+  &quot;miPaid&quot;: 0.00,      
+  &quot;paPaid&quot;: 0.00,      
+  &quot;selfPaid&quot;: 32.30,      
+  &quot;paidType&quot;: &quot;32&quot;,      
+  &quot;paidTypeName&quot;: &quot;&#25903;&#20184;&#23453;&quot;,      
+  &quot;paidDate&quot;: &quot;2016-12-16 15:01&quot;,      
+  &quot;state&quot;: &quot;2&quot;
+},    
+{     
+  &quot;id&quot;: &quot;0000000000004&quot;,      
+  &quot;orderCode&quot;: &quot;PPC20170123000004&quot;,      
+  &quot;orderType&quot;: &quot;3&quot;,      
+  &quot;orderTypeName&quot;: &quot;&#32564;&#36153;&quot;,            
+  &quot;orderDesc&quot;: &quot;&#25903;&#20184;&#23453;&#32564;&#36153;&quot;,      
+  &quot;amt&quot;: 100.00,      
+  &quot;createdDate&quot;: &quot;2016-12-15 09:30&quot;,      
+  &quot;miPaid&quot;: 0.00,      
+  &quot;paPaid&quot;: 0.00,      
+  &quot;selfPaid&quot;: 21.00,      
+  &quot;paidType&quot;: &quot;20&quot;,      
+  &quot;paidTypeName&quot;: &quot;&#38134;&#32852;&quot;,      
+  &quot;paidDate&quot;: &quot;2016-12-15 09:30&quot;,      
+  &quot;state&quot;: &quot;2&quot;
+},    
+{     
+  &quot;id&quot;: &quot;0000000000005&quot;,      
+  &quot;orderCode&quot;: &quot;PPC20170123000005&quot;,      
+  &quot;orderType&quot;: &quot;2&quot;,      
+  &quot;orderTypeName&quot;: &quot;&#25346;&#21495;&quot;,            
+  &quot;orderDesc&quot;: &quot;&#25346;&#21495;&#32564;&#36153;&quot;,      
+  &quot;amt&quot;: 12,      
+  &quot;createdDate&quot;: &quot;2016-12-15 13:36&quot;,      
+  &quot;miPaid&quot;: 0.00,      
+  &quot;paPaid&quot;: 0.00,      
+  &quot;selfPaid&quot;: 3.5,      
+  &quot;paidType&quot;: &quot;00&quot;,      
+  &quot;paidTypeName&quot;: &quot;&#23601;&#35786;&#21345;&#34394;&#25311;&#36134;&#25143;&quot;,      
+  &quot;paidDate&quot;: &quot;2016-12-15 13:36&quot;,      
+  &quot;state&quot;: &quot;2&quot; 
+} 
+]" doc:name="Set Payload"/>
+    </flow>
+    <flow name="get:/{accountNo}/bill/list/items:ssm-account-config">
+        <set-payload value="[   
+ {     
+       
+  &quot;settlementId&quot;: &quot;0000000000001&quot;,          
+  &quot;settlementCode&quot;: &quot;STMT00001&quot;,          
+  &quot;paidType&quot;: &quot;10&quot;,          
+  &quot;paidTypeName&quot;: &quot;&#29616;&#37329;&quot;,          
+  &quot;amt&quot;: 100.00,          
+  &quot;createdDate&quot;: &quot;2017-01-01 09:34&quot;,          
+  &quot;paidDate&quot;: &quot;2017-01-01 09:34&quot;,          
+  &quot;state&quot;: &quot;2&quot;,          
+  &quot;desc&quot;: &quot;&quot;          
+},    
+{       
+  &quot;settlementId&quot;: &quot;0000000000002&quot;,          
+  &quot;settlementCode&quot;: &quot;STMT00002&quot;,          
+  &quot;paidType&quot;: &quot;20&quot;,          
+  &quot;paidTypeName&quot;: &quot;&#38134;&#32852;&quot;,          
+  &quot;amt&quot;: 100.00,          
+  &quot;createdDate&quot;: &quot;2017-01-01 09:30&quot;,          
+  &quot;paidDate&quot;: &quot;2017-01-01 09:30&quot;,          
+  &quot;state&quot;: &quot;2&quot;,          
+  &quot;desc&quot;: &quot;&#24037;&#21830;&#38134;&#34892;&#65288;****5789&#65289;&quot;          
+},    
+{     
+        
+  &quot;settlementId&quot;: &quot;0000000000003&quot;,          
+  &quot;settlementCode&quot;: &quot;STMT00003&quot;,          
+  &quot;paidType&quot;: &quot;32&quot;,          
+  &quot;paidTypeName&quot;: &quot;&#25903;&#20184;&#23453;&quot;,          
+  &quot;amt&quot;: 32.30,          
+  &quot;createdDate&quot;: &quot;2016-12-16 15:01&quot;,          
+  &quot;paidDate&quot;: &quot;2016-12-16 15:01&quot;,          
+  &quot;state&quot;: &quot;2&quot;,          
+  &quot;desc&quot;: &quot;&#25903;&#20184;&#23453;&#36134;&#25143;&#65288;****vic&#65289;&quot;       
+     
+},    
+{     
+      
+  &quot;settlementId&quot;: &quot;0000000000004&quot;,          
+  &quot;settlementCode&quot;: &quot;STMT00004&quot;,          
+  &quot;paidType&quot;: &quot;20&quot;,          
+  &quot;paidTypeName&quot;: &quot;&#38134;&#32852;&quot;,          
+  &quot;amt&quot;: 21.00,          
+  &quot;createdDate&quot;: &quot;2016-12-15 09:30&quot;,          
+  &quot;paidDate&quot;: &quot;2016-12-15 09:30&quot;,          
+  &quot;state&quot;: &quot;2&quot;,          
+  &quot;desc&quot;: &quot;&#25307;&#21830;&#38134;&#34892;&#65288;****0001&#65289;&quot;       
+     
+},    
+{     
+          
+  &quot;settlementId&quot;: &quot;0000000000005&quot;,          
+  &quot;settlementCode&quot;: &quot;STMT00005&quot;,          
+  &quot;paidType&quot;: &quot;00&quot;,          
+  &quot;paidTypeName&quot;: &quot;&#23601;&#35786;&#21345;&#34394;&#25311;&#36134;&#25143;&quot;,          
+  &quot;amt&quot;: 3.50,          
+  &quot;createdDate&quot;: &quot;2016-12-15 13:36&quot;,          
+  &quot;paidDate&quot;: &quot;2016-12-15 13:36&quot;,          
+  &quot;state&quot;: &quot;2&quot;,          
+  &quot;desc&quot;: &quot;&#23601;&#35786;&#21345;&#34394;&#25311;&#36134;&#25143;&#25903;&#20184;&quot;          
+} 
+]" doc:name="Set Payload"/>
+    </flow>
+    <flow name="post:/pay:ssm-account-config">
+        <set-payload value="{&quot;success&quot;: true}" doc:name="Set Payload"/>
+    </flow>
+</mule>

@@ -1,0 +1,16 @@
+
+.app_cfm_label {
+	text-align: right;
+	font-weight: 400;
+	color: #999999;
+	line-height: 7rem;
+}
+
+.app_cfm_text {
+	padding-left: 1rem;
+	line-height: 7rem;
+}
+
+.app_cfm_text font {
+	color: #BC1E1E;
+}

@@ -1,0 +1,162 @@
+#%RAML 0.8
+title: department_REST_API
+version: 1.0
+baseUri: http://server/api/{version}
+/list:
+  get:
+    responses:
+      200:
+        headers:
+          Accept-Charset:
+            type: "string"
+        body:
+          application/json:
+            example: |
+              [
+                {"id":"1","name":"内科"},
+                {"id":"1","name":"内科"}, 
+                {"id":"2","name":"外科"}
+              ]
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                     "id": {"type": "string"},
+                     "name": {"type": "string"}
+                  }                    
+                }
+              }
+/{deptId}:
+  uriParameters:
+      deptId:
+        "type": "string"
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":"1",
+                  "name":"内科"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+  delete:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {"success" : true}
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  }
+                }
+              }
+  put:
+    body:
+      application/json:
+        example: |
+          {
+              "id":"1",
+              "name":"内科"
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+             "name": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":"1",
+                  "name":"内科"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              } 
+/create:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":"1",
+              "name":"内科"
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+             "name": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":"1",
+                  "name":"内科"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }        

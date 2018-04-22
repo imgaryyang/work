@@ -1,0 +1,28 @@
+.pw_container {
+	padding: 1rem;
+	font-size: 3rem;
+	text-align: center;
+}
+
+.pw_infoContainer {
+	position: relative;
+}
+
+.pw_info {
+	margin-top: 2rem;
+	line-height: 6rem;
+	margin-bottom: 4rem;
+}
+
+.pw_btnContainer {
+	margin-top: 2rem;
+}
+
+.pw_btnContainer .btnCol {
+	padding-left: 1rem;
+}
+
+.pw_btnContainer .btnCol:first-child {
+	padding-left: 0;
+}
+

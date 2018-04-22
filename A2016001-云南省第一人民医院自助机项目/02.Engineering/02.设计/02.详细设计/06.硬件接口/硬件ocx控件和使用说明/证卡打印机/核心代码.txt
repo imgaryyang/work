@@ -1,0 +1,263 @@
+lenovohitP280ECtrl.cpp
+
+
+// lenovohitP280ECtrl.cpp : ClenovohitP280ECtrl ActiveX 控件类的实现。
+
+#include "stdafx.h"
+#include "lenovohitP280E.h"
+#include "lenovohitP280ECtrl.h"
+#include "lenovohitP280EPropPage.h"
+#include "afxdialogex.h"
+#pragma comment(lib, "PavoApi.lib")
+#include "PavoApi.h"
+#pragma comment(lib, "SSSE32.lib")
+#include "SSSE32.h"
+
+
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
+IMPLEMENT_DYNCREATE(ClenovohitP280ECtrl, COleControl)
+
+//去掉安全警告 BEGIN  
+BEGIN_INTERFACE_MAP(ClenovohitP280ECtrl, COleControl)  
+    INTERFACE_PART(ClenovohitP280ECtrl, IID_IObjectSafety, ObjectSafety)  
+END_INTERFACE_MAP()  
+  
+// Implementation of IObjectSafety  
+STDMETHODIMP ClenovohitP280ECtrl::XObjectSafety::GetInterfaceSafetyOptions(  
+    REFIID riid,  
+    DWORD __RPC_FAR *pdwSupportedOptions,  
+    DWORD __RPC_FAR *pdwEnabledOptions)  
+{  
+    METHOD_PROLOGUE_EX(ClenovohitP280ECtrl, ObjectSafety);  
+    if (!pdwSupportedOptions || !pdwEnabledOptions)  
+    {  
+        return E_POINTER;  
+    }  
+    *pdwSupportedOptions = INTERFACESAFE_FOR_UNTRUSTED_CALLER | INTERFACESAFE_FOR_UNTRUSTED_DATA;  
+    *pdwEnabledOptions = 0;  
+    if (NULL == pThis->GetInterface(&riid))  
+    {  
+        TRACE("Requested interface is not supported.\n");  
+        return E_NOINTERFACE;  
+    }  
+    // What interface is being checked out anyhow?  
+    OLECHAR szGUID[39];  
+    int i = StringFromGUID2(riid, szGUID, 39);  
+    if (riid == IID_IDispatch)  
+    {  
+        // Client wants to know if object is safe for scripting  
+        *pdwEnabledOptions = INTERFACESAFE_FOR_UNTRUSTED_CALLER;  
+        return S_OK;  
+    }  
+    else if (riid == IID_IPersistPropertyBag  
+            || riid == IID_IPersistStreamInit  
+            || riid == IID_IPersistStorage  
+            || riid == IID_IPersistMemory)  
+    {  
+        // Those are the persistence interfaces COleControl derived controls support  
+        // as indicated in AFXCTL.H  
+        // Client wants to know if object is safe for initializing from persistent data  
+        *pdwEnabledOptions = INTERFACESAFE_FOR_UNTRUSTED_DATA;  
+        return S_OK;  
+    }  
+    else  
+    {  
+        // Find out what interface this is, and decide what options to enable  
+        TRACE("We didn't account for the safety of this interface, and it's one we support\n");  
+        return E_NOINTERFACE;  
+    }  
+}  
+  
+STDMETHODIMP ClenovohitP280ECtrl::XObjectSafety::SetInterfaceSafetyOptions(  
+    REFIID riid,  
+    DWORD dwOptionSetMask,  
+    DWORD dwEnabledOptions)  
+{  
+    METHOD_PROLOGUE_EX(ClenovohitP280ECtrl, ObjectSafety);  
+    OLECHAR szGUID[39];  
+    // What is this interface anyway?  
+    // We can do a quick lookup in the registry under HKEY_CLASSES_ROOT\Interface  
+    int i = StringFromGUID2(riid, szGUID, 39);  
+    if (0 == dwOptionSetMask && 0 == dwEnabledOptions)  
+    {  
+        // the control certainly supports NO requests through the specified interface  
+        // so it"s safe to return S_OK even if the interface isn"t supported.  
+        return S_OK;  
+    }  
+  
+    // Do we support the specified interface?  
+    if (NULL == pThis->GetInterface(&riid))  
+    {  
+        TRACE1("%s is not support.\n", szGUID);  
+        return E_FAIL;  
+    }  
+  
+    if (riid == IID_IDispatch)  
+    {  
+        TRACE("Client asking if it's safe to call through IDispatch.\n");  
+            TRACE("In other words, is the control safe for scripting?\n");  
+        if (INTERFACESAFE_FOR_UNTRUSTED_CALLER == dwOptionSetMask && INTERFACESAFE_FOR_UNTRUSTED_CALLER == dwEnabledOptions)  
+        {  
+            return S_OK;  
+        }  
+        else  
+        {  
+            return E_FAIL;  
+        }  
+    }  
+    else if (riid == IID_IPersistPropertyBag  
+        || riid == IID_IPersistStreamInit  
+        || riid == IID_IPersistStorage  
+        || riid == IID_IPersistMemory)  
+    {  
+        TRACE("Client asking if it's safe to call through IPersist*.\n");  
+            TRACE("In other words, is the control safe for initializing from persistent data?\n");  
+        if (INTERFACESAFE_FOR_UNTRUSTED_DATA == dwOptionSetMask && INTERFACESAFE_FOR_UNTRUSTED_DATA == dwEnabledOptions)  
+        {  
+            return NOERROR;  
+        }  
+        else  
+        {  
+            return E_FAIL;  
+        }  
+    }  
+    else  
+    {  
+        TRACE1("We didn\"t account for the safety of %s, and it\"s one we support\n", szGUID);  
+        return E_FAIL;  
+    }  
+}  
+  
+STDMETHODIMP_(ULONG) ClenovohitP280ECtrl::XObjectSafety::AddRef()  
+{  
+    METHOD_PROLOGUE_EX_(ClenovohitP280ECtrl, ObjectSafety)  
+    return (ULONG)pThis->ExternalAddRef();  
+}  
+  
+STDMETHODIMP_(ULONG) ClenovohitP280ECtrl::XObjectSafety::Release()  
+{  
+    METHOD_PROLOGUE_EX_(ClenovohitP280ECtrl, ObjectSafety)  
+    return (ULONG)pThis->ExternalRelease();  
+}  
+  
+STDMETHODIMP ClenovohitP280ECtrl::XObjectSafety::QueryInterface(REFIID iid, LPVOID* ppvObj)  
+{  
+    METHOD_PROLOGUE_EX_(ClenovohitP280ECtrl, ObjectSafety)  
+    return (HRESULT)pThis->ExternalQueryInterface(&iid, ppvObj);  
+}
+
+//去掉安全警告 END
+
+
+
+
+
+// 调度映射
+
+BEGIN_DISPATCH_MAP(ClenovohitP280ECtrl, COleControl)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "AboutBox", DISPID_ABOUTBOX, AboutBox, VT_EMPTY, VTS_NONE)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "CheckPrinterStatus", dispidCheckPrinterStatus, CheckPrinterStatus, VT_I4, VTS_NONE)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "MoveCard", dispidMoveCard, MoveCard, VT_I4, VTS_I4)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "DoCommand", dispidDoCommand, DoCommand, VT_I4, VTS_I4)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "SetStandbyParameter", dispidSetStandbyParameter, SetStandbyParameter, VT_I4, VTS_I4 VTS_I4)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "PrintCard", dispidPrintCard, PrintCard, VT_I4, VTS_NONE)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "NameFontName", dispidNameFontName, m_NameFontName, OnNameFontNameChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "NameFontSize", dispidNameFontSize, m_NameFontSize, OnNameFontSizeChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "NameFontWeight", dispidNameFontWeight, m_NameFontWeight, OnNameFontWeightChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNoFontName", dispidCardNoFontName, m_CardNoFontName, OnCardNoFontNameChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNoFontSize", dispidCardNoFontSize, m_CardNoFontSize, OnCardNoFontSizeChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNoFontWeight", dispidCardNoFontWeight, m_CardNoFontWeight, OnCardNoFontWeightChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "Name", dispidName, m_Name, OnNameChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "Name_X", dispidName_X, m_Name_X, OnName_XChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "Name_Y", dispidName_Y, m_Name_Y, OnName_YChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNo", dispidCardNo, m_CardNo, OnCardNoChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNo_X", dispidCardNo_X, m_CardNo_X, OnCardNo_XChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "CardNo_Y", dispidCardNo_Y, m_CardNo_Y, OnCardNo_YChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNo", dispidStaticCardNo, m_StaticCardNo, OnStaticCardNoChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNo_X", dispidStaticCardNo_X, m_StaticCardNo_X, OnStaticCardNo_XChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNo_Y", dispidStaticCardNo_Y, m_StaticCardNo_Y, OnStaticCardNo_YChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNoFontName", dispidStaticCardNoFontName, m_StaticCardNoFontName, OnStaticCardNoFontNameChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNoFontSize", dispidStaticCardNoFontSize, m_StaticCardNoFontSize, OnStaticCardNoFontSizeChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "StaticCardNoFontWeight", dispidStaticCardNoFontWeight, m_StaticCardNoFontWeight, OnStaticCardNoFontWeightChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "bFlag1", dispidbFlag1, m_bFlag1, OnbFlag1Changed, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "bFlag2", dispidbFlag2, m_bFlag2, OnbFlag2Changed, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "bFlag3", dispidbFlag3, m_bFlag3, OnbFlag3Changed, VT_I4)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "ReadCard", dispidReadCard, ReadCard, VT_I4, VTS_NONE)
+	DISP_FUNCTION_ID(ClenovohitP280ECtrl, "WriteCard", dispidWriteCard, WriteCard, VT_I4, VTS_NONE)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "ShanQu", dispidShanQu, m_ShanQu, OnShanQuChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "Kuai", dispidKuai, m_Kuai, OnKuaiChanged, VT_I4)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "Key", dispidKey, m_Key, OnKeyChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "ReadStr", dispidReadStr, m_ReadStr, OnReadStrChanged, VT_BSTR)
+	DISP_PROPERTY_NOTIFY_ID(ClenovohitP280ECtrl, "WriteStr", dispidWriteStr, m_WriteStr, OnWriteStrChanged, VT_BSTR)
+END_DISPATCH_MAP()
+
+
+
+LONG ClenovohitP280ECtrl::CheckPrinterStatus(void)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// TODO: 在此添加调度处理程序代码
+
+	 DWORD		dwStatus = 0;
+    dwRet = PAVO_CheckPrinterStatus(_T("Fagoo P280E"), &dwStatus);
+	
+	if ( dwRet == PAVO_DS_OFFLINE )//打印机没有连接或脱机
+	{
+		dwRet = -1; 	
+	}
+    else if ( dwRet != 0 )//错误发生
+	{ 
+	   }
+
+	else
+	    {
+		     if(dwStatus == PAVO_DS_0400_CARD_OUT)//卡片用完
+			 dwRet = -2;
+		     else if(dwStatus==PAVO_DS_0304_RIBBON_OUT)//色带用完
+			 dwRet = -3;
+		     else if(dwStatus == PAVO_DS_BUSY)//打印机忙碌
+			 dwRet = -4;
+		     else if(dwStatus == PAVO_DS_PRINTING)//打印机正在打印
+			 dwRet = -5;
+			 else if(dwStatus ==PAVO_DS_0500_CARD_JAM|| dwStatus ==PAVO_DS_0501_CARD_JAM||dwStatus ==PAVO_DS_0502_CARD_JAM||dwStatus ==PAVO_DS_0503_CARD_JAM||dwStatus ==PAVO_DS_0504_CARD_JAM||dwStatus ==PAVO_DS_0505_CARD_JAM||dwStatus ==PAVO_DS_0506_CARD_JAM||dwStatus ==PAVO_DS_0507_CARD_JAM||dwStatus ==PAVO_DS_0508_CARD_JAM )//卡片卡在通道里面
+             dwRet = -6;
+		     else 
+			 dwRet = dwStatus;
+	    }
+	return dwRet;
+}
+
+
+LONG ClenovohitP280ECtrl::MoveCard(LONG Position)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// TODO: 在此添加调度处理程序代码
+    dwRet = PAVO_MoveCard(_T("Fagoo P280E"),Position);
+	return dwRet;
+}
+
+
+LONG ClenovohitP280ECtrl::DoCommand(LONG Command)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	// TODO: 在此添加调度处理程序代码
+	dwRet =  PAVO_DoCommand(_T("Fagoo P280E"),Command);
+	return dwRet;
+}
+
+
+LONG ClenovohitP280ECtrl::SetStandbyParameter(LONG byStandbyPos,LONG byStandbyTime)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	// TODO: 在此添加调度处理程序代码
+	dwRet = PAVO_SetStandbyParameters(_T("Fagoo P280E"),byStandbyPos,byStandbyTime);
+	return dwRet;
+}
+

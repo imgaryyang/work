@@ -1,0 +1,42 @@
+.m_t4_mg_container {
+	
+}
+.m_t4_col {
+	display: block;
+	width: 20%;
+	float: left;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+	position: relative;
+	min-height: 1px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.m_t4_mg_title {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	padding-bottom: 1rem;
+}
+
+.m_t4_mg_line {
+	height: 30px;
+	width: 100%;
+	border-bottom: 1px solid rgba(228, 228, 228, 1);
+	margin-bottom: -1rem;
+}
+
+.m_t4_mg_textwrapper {
+	width: 100%;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	font-size: 2.5rem;
+}
+
+.m_t4_mg_text {
+	font-size: 30px;
+	color: #4E4E4E;
+	letter-spacing: 3px;
+	font-weight:500;
+}

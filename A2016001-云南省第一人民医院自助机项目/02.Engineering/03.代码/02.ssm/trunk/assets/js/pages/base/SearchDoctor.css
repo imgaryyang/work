@@ -1,0 +1,28 @@
+
+.sdoc_wsContainer {
+	background-color: #ffffff;
+}
+
+.sdoc_searchResult {
+	display: block;
+	overflow: hidden;
+	/*background-color: #ddd;*/
+	margin-top: 2rem;
+}
+
+.sdoc_item {
+  border-bottom: 1px solid #a7a7aa;
+  line-height: 5rem;
+  padding-left: 2rem;
+  cursor: pointer;
+}
+
+.sdoc_item font {
+	font-size: 2.5rem;
+}
+
+.sdoc_keyboardContainer {
+	background-color: #ffffff;
+	margin-top: 1rem;
+}
+

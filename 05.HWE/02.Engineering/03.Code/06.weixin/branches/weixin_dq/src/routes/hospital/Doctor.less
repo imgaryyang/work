@@ -1,0 +1,101 @@
+@import "../../utils/common";
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: @IOS_GRAY_BG;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.row {
+  margin-top: 15px;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.portraitContainer {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background-color: rgba(255,255,255,.3);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.portrait {
+  width: 46px;
+  height: 46px;
+  border-radius: 23px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  margin-right: 15px;
+}
+
+.nameContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+  flex: 1;
+  font-size: 14px;
+  color: black;
+  font-weight: 600;
+}
+
+.docDept {
+  font-size: 13px;
+  color: @FONT_GRAY;
+}
+
+.appendText {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+  line-height: 18px;
+}
+
+.clinicDescContainer {
+  border-top: 1px solid @LINE;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.clinicDescTitle {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: @FONT_GRAY;
+}
+.clinicDesc {
+  margin-top: 6px;
+  display: block;
+  font-size: 13px;
+  color: @FONT_GRAY;
+}
+
+.descTitleContainer {
+  border-bottom: 1px solid @LINE;
+  padding: 0 0 8px 0;
+}
+
+.descTitle {
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+
+.descContent {
+  font-size: 13px;
+  color: black;
+  line-height: 20px;
+  padding: 6px 0 8px 0;
+}

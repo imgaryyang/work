@@ -1,0 +1,112 @@
+
+.appoint_sch_toolBarItem {
+  text-align: center;
+  line-height: 6rem;
+  cursor: pointer;
+  font-size: 2.5rem;
+}
+
+.appoint_sch_toolBarItem div {
+  padding-left: 3rem;
+}
+
+.appoint_sch_toolBarItem img {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  left: 1rem;
+  top: 1.5rem;
+}
+
+.appoint_sch_arrangeItem {
+  background-color: rgba(255, 255, 255, .6);
+  border-radius: .5rem;
+  height: 12rem;
+  cursor: pointer;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .1);
+}
+
+.appoint_sch_doctor {
+  font-size: 3rem;
+  padding: .4rem;
+  white-space: nowrap;
+  background-color: #BC1E1E;
+  color: #ffffff;
+  margin-bottom: .5rem;
+  overflow: hidden;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+  padding-left: 1.5rem;
+}
+
+.appoint_sch_doctor font {
+  font-size: 1rem;
+}
+.appoint_sch_doctor span {
+  font-size: 1.5rem;
+}
+/*.info1 {
+  font-size: 1.8rem;
+  line-height: 1.8rem;
+  padding-left: .5rem;
+  padding-top: .4rem;
+  white-space: nowrap;
+}
+
+.info1 span {
+  display: block;
+  float: right;
+  font-size: 2.3rem;
+  color: #ff3000;
+  width: 4.5rem;
+}
+
+.info1 font {
+  font-size: 1.6rem;
+  font-weight: 500;
+  white-space: nowrap;
+}*/
+
+.appoint_sch_info2 {
+  font-size: 2.2rem;
+  /*font-weight: 500;*/
+  text-align: center;
+  line-height: 3rem;
+  border-left: 1px solid #a7a7aa;
+}
+
+.appoint_sch_info2 font {
+  display: block;
+  font-size: 2.2rem;
+  line-height: 2.2rem !important;
+}
+
+.appoint_sch_dayPeriod span {
+  display: block;
+  font-size: 4rem;
+  line-height: 8rem;
+  text-align: center;
+  border-bottom: 1px solid #a7a7aa;
+  cursor: pointer;
+}
+
+.appoint_sch_dayPeriod span:last-child {
+  border-width: 0;
+}
+
+.appoint_sch_selectedDayPeriod {
+  background-color: #BC1E1E;
+  color: #ffffff;
+}
+.appoint_sch_notoday{
+	background-color: #F68C36 !important;;
+}
+.appoint_sch_today{
+	background-color: #BC1E1E !important;;
+}
+.appoint_sch_expert{
+	background-color: #4081D6 !important;;
+}
+.appoint_sch_none{
+	background-color: #BFBFBF !important;;
+}

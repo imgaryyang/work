@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_DIR" value="F:/SSM/Logs/" />  
+	<property name="MaxHistory" value="60"/> 
+	<!-- <property name="LOG_FILE" value="C:/SSM/Logs/spring.log"/> -->
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<appender name="DAYFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<!-- <file>${LOG_FILE}</file> -->
+		<!-- <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
+		</rollingPolicy>
+		-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">  
+            <!-- 按天回滚 daily -->  
+            <fileNamePattern>${LOG_DIR}/log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+            <!-- 日志最大的历史 60天 -->  
+            <maxHistory>${MaxHistory}</maxHistory>  
+            <maxFileSize>100MB</maxFileSize>   
+        </rollingPolicy>  
+        <!-- <triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>  -->
+	</appender>
+	<appender name="HISFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">  
+            <!-- 按天回滚 daily -->  
+            <fileNamePattern>${LOG_DIR}/hisLog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+            <!-- 日志最大的历史 60天 -->  
+            <maxHistory>${MaxHistory}</maxHistory>
+            <maxFileSize>100MB</maxFileSize>   
+        </rollingPolicy>  
+	</appender>
+	<logger name="com.lenovohit.ssm.treat.dao.impl.HisRestDaoImpl" level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="HISFILE" />
+	</logger>
+	<logger name="com.lenovohit" level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="DAYFILE" />
+	</logger>
+	<!-- logger name="org.springside.samples.quickservice" level="DEBUG"/ -->
+</configuration>

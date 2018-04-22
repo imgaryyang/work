@@ -1,0 +1,16 @@
+
+.tms_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.tms_rows .row:last-child {
+	border-bottom: 0;
+}
+
+.tms_resultCol img {
+	float: right;
+	top: .05rem;
+	right: 1rem;
+	height: 2.1rem;
+	width: 1.5rem;
+}

@@ -1,0 +1,78 @@
+#%RAML 0.8
+title: sms_REST_API
+version: 1.0
+baseUri: http://server/api/{version}
+/verifyCode:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":""
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+/verify:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":""
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+   
+

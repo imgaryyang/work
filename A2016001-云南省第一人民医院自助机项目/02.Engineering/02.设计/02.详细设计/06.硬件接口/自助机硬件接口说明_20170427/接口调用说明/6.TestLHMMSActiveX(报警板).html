@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="content-type" content="text/html; charset=gb2312">
+<title>串口网页测试ActiveX</title>
+<script type="text/javascript">
+  var ssmocx;
+  var hPort = 0;
+  function load(){
+	  ssmocx = document.getElementById("LHSSMDeviceActiveX");
+  }
+  function LH_Sensor_OpenPortBaud(){
+	  var json = ssmocx.LH_Sensor_OpenPortBaud("COM8",9600);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  hPort = dataObj.hPort;
+	  console.info(hPort);
+  }
+  function LH_Sensor_ClosePort(){
+	  var stateCode = ssmocx.LH_Sensor_ClosePort(hPort);
+	  console.info(stateCode);
+  }
+
+  function LH_Sensor_DoorStatus1(){
+	  var json = ssmocx.LH_Sensor_DoorStatus(hPort,1,2,3);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+function LH_Sensor_DoorStatus2(){
+	  var json = ssmocx.LH_Sensor_DoorStatus(hPort,1,2,3);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+function LH_Sensor_DoorStatus3(){
+	  var json = ssmocx.LH_Sensor_DoorStatus(hPort,1,2,3);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+</script>  
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT>
+	报警板：
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="Sensor_OpenPortBaud" value="打开串口" type="button" onclick="LH_Sensor_OpenPortBaud()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="Sensor_DoorStatus" value="门1状态" type="button" onclick="LH_Sensor_DoorStatus1()" />&nbsp;&nbsp;
+	<input id="Sensor_DoorStatus" value="门2状态" type="button" onclick="LH_Sensor_DoorStatus2()" />&nbsp;&nbsp;
+	<input id="Sensor_DoorStatus" value="门3状态" type="button" onclick="LH_Sensor_DoorStatus3()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="Sensor_ClosePort" value="关闭串口" type="button" onclick="LH_Sensor_ClosePort()" />&nbsp;&nbsp;
+</body>
+</html>
+
+  

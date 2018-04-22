@@ -1,0 +1,187 @@
+////////////////取设备状态 开始////////////////////
+// 最好连续取3次状态，最后一次为 “空闲状态”时才能进入循环投币
+int nRet = 0;
+for(int i = 0;i<3;i++){
+	/*nRet = ZT_BILL_GetStatus(m_nHandle);
+	RetMessage(nRet);
+	Sleep(200);*/
+}
+if(nRet==BILL_STATUS_IDLING||nRet==BILL_STATUS_DISABLE){
+Memo->Lines->Add("识币器状态正常 可以循环投币"+String(szMsg));
+}
+else{
+Memo->Lines->Add("识币器状态异常 不可以循环投币"+String(szMsg));
+}
+//////////////// 取设备状态 结束////////////////////
+
+//////////////// 循环投币 开始////////////////////
+int nRet = 0;
+if(ERR_NO_ERROR!=ZT_BILL_EnableBill(m_nHandle) ){
+_this->Memo->Lines->Add("执行允许投币失败，退出接收币");
+return 0;
+}
+_this->Memo->Lines->Add("执行允许投币成功，进入循环接收纸币");
+ZT_BILL_SetMainInfo("13988888888");
+Sleep(200);//注意要暂停200毫秒
+int m_nMoney = 0;
+while(1){
+nRet  = ZT_BILL_PollBill(m_nHandle);
+if(nRet >0 && nRet<101){
+	//成功接收纸币（nRet）元
+	m_nMoney += nRet;
+	_this->TotalMoney->Text = String(m_nMoney);
+	_this->Memo->Lines->Add("成功接收纸币（"+String(nRet)+"）元");
+}
+else if(nRet >1000 && nRet<1101){
+	//暂存纸币（nRet-1000）元
+	_this->Memo->Lines->Add("暂存纸币（"+String(nRet-1000)+"）元");
+	if(_this->ComboBox1->Text.Pos("不许退币")!=0)
+	{
+	    _this->Memo->Lines->Add("执行压币");
+	    ZT_BILL_StackedBill(m_nHandle);//注意要执行压币
+	}
+	else {
+	    //可退币模式
+	    _this->Memo->Lines->Add("执行持币");
+	    ZT_BILL_HoldBill(m_nHandle);
+	    if(MessageBox(NULL,"压币是吗?","退币还是压币",MB_YESNO)==ID_YES)
+	    {
+		_this->Memo->Lines->Add("执行压币");
+		ZT_BILL_StackedBill(m_nHandle);
+	    } else {
+		_this->Memo->Lines->Add("执行退币");
+		ZT_BILL_ReturnBill(m_nHandle);
+	    }
+	}
+}
+else  if(nRet >2000 && nRet<2101){
+	//最后压币失败（nRet-2000）元
+	 _this->Memo->Lines->Add("钱箱接收币异常（"+String(nRet-2000)+"）元，退出接收币");
+	break ;//请打开钱箱，请币取出，识币器可能坏了，最好换新识币器
+}
+else if(BILL_STATUS_IDLING == nRet){
+	_this->Memo->Lines->Add("空闲状态"+String(nRet));
+}
+else if(BILL_STATUS_ACCEPT == nRet)
+{
+	_this->Memo->Lines->Add("进币状态"+String(nRet));
+}
+else if(BILL_STATUS_RETURNING == nRet)
+{
+	_this->Memo->Lines->Add("正在退币状态"+String(nRet));
+}
+else if(BILL_STATUS_RETURN == nRet) //币已经退出，要重新允许投币
+{
+	if ( ERR_NO_ERROR != ZT_BILL_EnableBill(m_nHandle) ){
+		_this->Memo->Lines->Add("币已经退出，要重新允许投币失败，退出接收币"+String(nRet));
+		break ;
+	} 
+	else{
+		_this->Memo->Lines->Add("币已经退出，要重新允许投币成功"+String(nRet));
+	}
+}
+else  if(BILL_STATUS_DISABLE == nRet )
+{
+	if ( ERR_NO_ERROR != ZT_BILL_EnableBill(m_nHandle) )
+	{
+		_this->Memo->Lines->Add("禁止投币状态或不可收的面额，执行允许投币失败，退出接收币"+String(nRet));
+		break ;
+	} 
+	else{
+		_this->Memo->Lines->Add("禁止投币状态或不可收的面额，执行允许投币成功"+String(nRet));
+	}
+}
+else  if(BILL_STATUS_NEED_RESET == nRet )
+{
+	if ( ERR_NO_ERROR != ZT_BILL_Reset(m_nHandle))
+	{
+	    _this->Memo->Lines->Add("识币器需要重新复位，才能正常，执行复位失败，退出接收币"+String(nRet));
+	    break ;
+	}else{
+	    _this->Memo->Lines->Add("识币器需要重新复位，才能正常，执行复位成功"+String(nRet));
+	}
+}
+else if(BILL_STATUS_JAM == nRet || BILL_STATUS_BOX_FULL == nRet || BILL_STATUS_MECHANICAL_FAILURE == nRet)
+{
+	//设备故障或者不能投币
+	if(BILL_STATUS_JAM == nRet)
+	_this->Memo->Lines->Add("卡币，退出接收币 "+String(nRet));
+	else if(BILL_STATUS_JAM == nRet)
+	_this->Memo->Lines->Add("钱箱满，退出接收币 "+String(nRet));
+	else if(BILL_STATUS_MECHANICAL_FAILURE == nRet)
+	_this->Memo->Lines->Add("机械故障，退出接收币 "+String(nRet));
+	
+	ZT_BILL_DisableBill(m_nHandle);
+	break ;
+}
+else if(BILL_STATUS_FRAUDMONEY == nRet)
+{
+	_this->Memo->Lines->Add("发现钓鱼 "+String(nRet));
+}
+else if(BILL_STATUS_BOX_LEAVE == nRet)
+{
+	_this->Memo->Lines->Add("钱箱离位 "+String(nRet));
+}
+else if(BILL_STATUS_BOX_REPLACING == nRet)
+{
+	_this->Memo->Lines->Add("钱箱复位 "+String(nRet));
+}
+else if(BILL_STATUS_MUST_TAKE_MONEY == nRet)
+{
+	_this->Memo->Lines->Add("停止投币，必须从钱箱将钱取出，然后才能再次投币 "+String(nRet));
+break;
+} 
+else if(BILL_STATUS_RESUME == nRet)
+{
+	_this->Memo->Lines->Add("可恢复性错误 "+String(nRet));
+} 
+else if(ERR_CANT_OPEN_PORT == nRet)
+{
+	_this->Memo->Lines->Add("打开串口失败 "+String(nRet));
+}
+else if(ERR_TIMEOUT == nRet)
+{
+	_this->Memo->Lines->Add("串口通信超时错误 "+String(nRet));
+}
+else if(ERR_SENDBUF == nRet)
+{
+	_this->Memo->Lines->Add("串口通信发送指令错误 "+String(nRet));
+}
+else if(ERR_CANCELED == nRet)
+{
+	_this->Memo->Lines->Add("串口通信取消错误 "+String(nRet));
+}
+else if(ERR_READERROR == nRet)
+{
+	_this->Memo->Lines->Add("串口通信取读数据错误 "+String(nRet));
+}
+else if(ERR_PARAERROR == nRet)
+{
+	_this->Memo->Lines->Add("串口通信参数错误 "+String(nRet));
+}
+else {
+	_this->Memo->Lines->Add("未处理状态 "+String(nRet));
+}
+
+//----- 退出循环 方法一  ---
+if(m_bThreadExit && (BILL_STATUS_IDLING == nRet || BILL_STATUS_DISABLE == nRet || nRet<0 ))
+{
+	//此时可以退出
+	_this->Memo->Lines->Add("正常退出接收币");
+	ZT_BILL_DisableBill(m_nHandle);
+	break;
+}
+	//----- 退出循环 方法一  ---
+	
+	//----- 退出循环 方法二  ---
+	//if(0 == ZT_BILL_IsBusy() )
+	//{
+	//此时可以退出
+	//break;
+	//}
+	//----- 退出循环 方法二  ---
+	Sleep(200);//注意要暂停200毫秒
+}
+	ZT_BILL_DisableBill(m_nHandle);
+////////////////循环投币 结束////////////////////
+}

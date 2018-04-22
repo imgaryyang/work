@@ -1,0 +1,411 @@
+<html>   
+<head>
+<style type="text/css">
+div#container{width:1200px}
+div#header {background-color:#99bbbb;text-align:center;}
+div#leftside {background-color:#ffff99;height:500px;width:400px;float:left;text-align:left;}
+div#center {background-color:#EEEEEE;height:500px;width:400px;float:left;}
+div#rightside {background-color:#ffff99;height:500px;width:400px;float:left;text-align:left;}
+div#footer {background-color:#99bbbb;clear:both;text-align:center;}
+h1 {margin-bottom:0;}
+</style>
+</head>
+   
+<script>   
+var ocx;
+var PinCounter;
+var test;
+
+function OcxInit(){
+	ocx = document.getElementById("pos");
+}
+
+function len(s) { var l = 0; var a = s.split(""); for (var i=0;i<a.length;i++) { if (a[i].charCodeAt(0)<299) { l++; } else { l+=2; } } return l; }
+
+function UMS_Init()
+{
+	var iret;
+	if(document.all['apptype'][0].checked==true){
+		ocx.MySetApptype(1);
+		document.getElementById("btn_Build48TLV").style.display = "none";
+	}
+	if(document.all['apptype'][1].checked==true){
+		ocx.MySetApptype(2);
+		document.getElementById("btn_Build48TLV").style.display = "block";
+	}
+	iret = ocx.UMSInit();
+	if(iret==0)
+	{
+		document.getElementById("t1_stepCurr").innerHTML = "初始化成功！请输入左面的交易类型和其他参数";	
+	}
+	else
+		alert("初始化失败！");
+}
+
+function UMS_EnterCard()
+{
+	var iret;
+	iret=ocx.UmsEnterCard();
+	if(iret==0)
+	{
+		document.getElementById("t1_stepCurr").innerHTML = "初始化读卡器成功！";	
+	}else
+		alert("初始化读卡器失败!");
+}
+
+function UMS_CheckCard()
+{
+	var iret;
+	iret=ocx.UMSCheckCard();
+	if(iret<0)
+		alert("检测卡位置失败!");
+	else if(iret==0)
+		document.getElementById("t1_stepCurr").innerHTML = "卡在读卡器内!";	
+	else if(iret==1)
+		document.getElementById("t1_stepCurr").innerHTML = "卡在读卡器口!";	
+	else
+		document.getElementById("t1_stepCurr").innerHTML = "未检测到卡!";	
+}
+
+function UMS_ReadCard()
+{
+	var iret;
+	iret=ocx.UmsReadCard();
+	if(iret==0)
+		document.getElementById("t1_stepCurr").innerHTML = "卡号="+ocx.CardNum;	
+	else 
+		alert("读卡失败");
+}
+
+function UMS_EjectCard()
+{
+	var iret
+	iret=ocx.UMSEjectCard();
+	if(iret==0)
+		document.getElementById("t1_stepCurr").innerHTML = "弹卡成功";
+	else
+		alert("弹卡失败");
+}
+
+function UMS_StartPin()
+{
+		var iret
+		iret=ocx.UMSStartPin();
+		if(iret==0)
+			document.getElementById("t1_stepCurr").innerHTML = "键盘启动加密成功!";
+		else
+			alert("启动加密失败!");
+}
+
+
+var time;
+function UMS_GetOnePass()
+{
+	var i;
+	var iret=ocx.UMSGetOnePass();
+	if(iret==42)//"*"
+	  PinCounter=PinCounter+1;
+	else if(iret==8)//退格
+	{
+		if(PinCounter>0)
+			PinCounter=PinCounter-1;			
+	}
+	else if(iret==27)//取消
+	{
+		clearInterval(time);
+		document.getElementById("PinField").style.display = "none";
+		PinCounter=0;
+	}
+	else if(iret==13)//确认
+	{
+		clearInterval(time);
+		document.getElementById("PinField").style.display = "none";
+		document.getElementById("t1_stepCurr").innerHTML = "Pin操作结束!";
+	}
+	else if(iret==2)//超时
+	{
+		clearInterval(time);
+		document.getElementById("PinField").style.display = "none";
+		alert("输入超时");
+	}
+	else if(iret==0)
+	{
+		PinCounter=PinCounter;
+	}
+	else
+	{
+		clearInterval(time);
+		document.getElementById("PinField").style.display = "none";
+		alert("未知键值!");
+	}
+	document.getElementById("PinField").value="";
+	for(i=0;i<PinCounter;i++){
+		document.getElementById("PinField").value=document.getElementById("PinField").value+"*";
+	}
+}
+
+function PinProcess()
+{
+	document.getElementById("PinField").value= "";
+	document.getElementById("PinField").style.display = "block";
+	PinCounter=0;
+	time=setInterval(UMS_GetOnePass,100);        
+}
+function UMS_GetPin()
+{
+	var iret=ocx.UMSGetPin();
+	if(iret==0)
+		document.getElementById("t1_stepCurr").innerHTML = "取密文成功!";
+	else
+		alert("取密文失败!");
+}
+var TlvTime
+
+function TLV_Cancel()
+{
+	ocx.UMSTlvInit();
+	document.getElementById("TlvBlock").style.display = "none";
+}
+function TLV_OK()
+{
+	TlvTime=TlvTime+1;
+	switch(document.getElementById("t1TransType").value)
+	{
+		case "01"://手机充值
+			switch(TlvTime)
+			{
+				case 1:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+										document.getElementById("edt2_TlvBlock").value,
+										len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("t1_TlvBlock").innerHTML = "手机充值";
+					document.getElementById("t3_TlvBlock").innerHTML = "运营商";
+					document.getElementById("edt1_TlvBlock").value = "0F13";
+					document.getElementById("edt2_TlvBlock").value = "";
+					break;
+				case 2:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+														document.getElementById("edt2_TlvBlock").value,
+														len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("TlvBlock").style.display = "none";
+					document.getElementById("t1Memo").value = ocx.UMSTlvGetAscData();
+					return;
+			}			
+			break;
+		case "02":
+			switch(TlvTime)
+			{
+				case 1:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+						document.getElementById("edt2_TlvBlock").value,
+						len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("t1_TlvBlock").innerHTML = "信还费率查询";
+					document.getElementById("t3_TlvBlock").innerHTML = "信用卡号";
+					document.getElementById("edt1_TlvBlock").value = "0F14";	
+					document.getElementById("edt2_TlvBlock").value = "6222040000000001";	
+				break;
+				case 2:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+														document.getElementById("edt2_TlvBlock").value,
+														len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("TlvBlock").style.display = "none";
+					document.getElementById("t1Memo").value = ocx.UMSTlvGetAscData();
+					return;
+			}
+			break;
+		case "03":
+			switch(TlvTime)
+			{
+				case 1:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+						document.getElementById("edt2_TlvBlock").value,
+						len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("t1_TlvBlock").innerHTML = "信还缴费";
+					document.getElementById("t3_TlvBlock").innerHTML = "信用卡号";
+					document.getElementById("edt1_TlvBlock").value = "0F14";	
+					document.getElementById("edt2_TlvBlock").value = "6222040000000001";	
+				break;
+				case 2:
+					ocx.UMSTlvAddTag(	document.getElementById("edt1_TlvBlock").value,
+														document.getElementById("edt2_TlvBlock").value,
+														len(document.getElementById("edt2_TlvBlock").value));
+					document.getElementById("TlvBlock").style.display = "none";
+					document.getElementById("t1Memo").value = ocx.UMSTlvGetAscData();
+					return;
+			}
+			break;
+		default:
+			alert("错误的增值交易类型");
+			return; 
+	}
+
+}
+function BuildTlv()
+{
+	if(ocx.apptype==2)
+	{
+		switch(document.getElementById("t1TransType").value)
+		{
+			case "01":
+				alert("您选择的是手机充值交易，请填入相关信息");
+				ocx.UMSTlvInit();
+				document.getElementById("t1_TlvBlock").innerHTML = "手机充值";
+				document.getElementById("t3_TlvBlock").innerHTML = "手机号码";
+				document.getElementById("edt1_TlvBlock").value = "0F12";
+				document.getElementById("edt2_TlvBlock").value = "";
+				break;
+			case "02":
+				alert("您选择的是信用卡还款费率查询交易，填入相关信息");
+				ocx.UMSTlvInit();
+				document.getElementById("t1_TlvBlock").innerHTML = "信还费率查询";
+				document.getElementById("t3_TlvBlock").innerHTML = "手机号码";
+				document.getElementById("edt1_TlvBlock").value = "0F12";
+				document.getElementById("edt2_TlvBlock").value = "";				
+				break;
+			case "03":
+				alert("您选择的是信用卡还款缴费交易，请组织48域");
+				ocx.UMSTlvInit();
+				document.getElementById("t1_TlvBlock").innerHTML = "信还缴费";
+				document.getElementById("t3_TlvBlock").innerHTML = "手机号码";
+				document.getElementById("edt1_TlvBlock").value = "0F12";
+				document.getElementById("edt2_TlvBlock").value = "";	
+				break;
+			default:
+				alert("错误的增值交易类型");
+				return; 
+		}
+		TlvTime = 0;
+		document.getElementById("TlvBlock").style.display = "block";
+		//ocx.UMSTlvAddTag("0F01","12",2);
+		//ocx.UMSTlvGetTag("0F01");
+		//alert(ocx.TlvValue);
+		//TlvAscBuf = ocx.UMSTlvGetAscData();
+		//alert(TlvAscBuf);
+		//TlvBuf = ocx.GetTLV();
+		//alert(TlvBuf);
+	}
+	return;
+}
+function UMS_TransCard()
+{
+	ocx.Request=document.getElementById("t1CounterIdField").value+
+	document.getElementById("t1OperId").value+
+	document.getElementById("t1TransType").value+
+	document.getElementById("t1Amount").value+
+	document.getElementById("t1OldTrace").value+
+	document.getElementById("t1OldDate").value+
+	document.getElementById("t1OldRef").value+
+	document.getElementById("t1OldAuth").value+
+	document.getElementById("t1OldBatch").value+
+	document.getElementById("t1Memo").value+
+	document.getElementById("t1LRC").value;
+	ocx.UMSTransCard();
+	document.getElementById("t2RespCode").value=ocx.RespCode;
+	document.getElementById("t2RespInfo").value=ocx.RespInfo;
+	document.getElementById("t2CardNo").value=ocx.RespCardNo;
+	document.getElementById("t2Amount").value=ocx.RespAmount;
+	document.getElementById("t2Trace").value=ocx.RespTrace;
+	document.getElementById("t2Batch").value=ocx.RespBatch;
+	document.getElementById("t2TransDate").value=ocx.RespTransDate;
+	document.getElementById("t2TransTime").value=ocx.RespTransTime;
+	document.getElementById("t2Ref").value=ocx.RespRef;
+	document.getElementById("t2Auth").value=ocx.RespAuth;
+	document.getElementById("t2Memo").value=ocx.RespMemo;
+	document.getElementById("t2Lrc").value=ocx.RespLrc;
+}
+
+function onTransChange(val)
+{
+	if(ocx.apptype==2)
+	{
+		switch(val)
+		{
+			case "01":
+				document.getElementById("t1_stepCurr").innerHTML = "手机充值，有磁有密";
+				break;
+			case "02":
+				document.getElementById("t1_stepCurr").innerHTML = "信还费率查询，无磁无密，直接组48域即可";
+				break;
+			case "03":
+				document.getElementById("t1_stepCurr").innerHTML = "信还缴费，有磁有密";
+			break;
+			default:
+				document.getElementById("t1_stepCurr").innerHTML = "不支持的交易类型";
+			break;
+		}
+	}else if(ocx.apptype==1)
+	{
+		document.getElementById("t1_stepCurr").innerHTML = "您选择的是传统交易";
+	}else
+	{
+		document.getElementById("t1_stepCurr").innerHTML = "请您选择应用类型，并按UMS_Init按钮初始化";
+	}
+}
+function onAmountChange()
+{
+	document.getElementById("t1_stepCurr").innerHTML = "金额以分为单位，左补0";
+}
+</script>   
+
+<body onload="OcxInit()">
+	<form>
+		<div id="container">
+		<div id="header"><h1>－－－－自助终端标准版ocx测试页面－－－－</h1></div>
+		<div id="leftside">
+			<p><a id="left_tCounter">收银台号CounterId:</a><input type="text" size=8 maxlength=9 value="00000001" id="t1CounterIdField" /></p>
+			<p><a id="left_tOper">操作员号OperId:</a><input type="text" size=8 maxlength=9 value="00000002" id="t1OperId" /></p>
+			<p>交易类型TransType:<input type="text" size=2 maxlength=3 value="00" id="t1TransType" onKeyUp="onTransChange(this.value)"/></p>
+			<p>交易金额Amount:<input type="text" size=12 maxlength=13 value="000000000001" id="t1Amount" onKeyUp="onAmountChange()"/></p>
+			<p>原交易凭证号OldTrace:<input type="text" size=6 maxlength=7 value="666666" id="t1OldTrace" /></p>
+			<p>原交易日期OldDate:<input type="text" size=8 maxlength=9 value="20150805" id="t1OldDate" /></p>
+			<p>原交易参考号OldRef:<input type="text" size=12 maxlength=13 value="121212121212" id="t1OldRef" /></p>
+			<p>原交易授权码OldAuth:<input type="text" size=6 maxlength=7 value="777777" id="t1OldAuth" /></p>
+			<p>原交易批次号OldBatch:<input type="text" size=6 maxlength=7 value="888888" id="t1OldBatch" /></p>
+			<p>附加信息Memo:<input type="text" size=20 maxlength=2049 value="20202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020" id="t1Memo" /></p>
+			<p>交易校验值LRC:<input type="text" size=3 maxlength=4 value="999" id="t1LRC" /></p>
+		</div>
+		<div id="center"><p><a id="t1_stepCurr">第一步，初始化。请选择您要做的交易类型，并点击UMS_Init按钮。</a><br />
+			 <input type="button" value="UMS_Init" name="btn_UMS_Init" id="btn_UMS_Init" onclick="javascript:UMS_Init()" />
+			 <input type="radio" name="apptype" value="CUP" id="r1_apptype" checked/><a id="t1_apptype">银行卡</a>
+			 <input type="radio" name="apptype" value="PUB" id="r2_apptype" /><a id="t2_apptype">全民付</a></p>
+			 <fieldset id="TlvBlock" style="display:none;border:3px groove;">
+			 		<legend id="t1_TlvBlock">增加一个tag</legend>
+			    <center><a id="t2_TlvBlock">tag:</a><input type="text" size=20 id="edt1_TlvBlock"/><br />
+			    <a id="t3_TlvBlock">value:<a><input type="text" size=20 id="edt2_TlvBlock"/><br /></center>
+					<input type="button" value="  OK  "  name="btn_TlvOK" id="btn_TlvOK" style="margin-left:125px;" onclick="javascript:TLV_OK()"/>
+			  	<input type="button" value="Cancel"  name="btn_TlvCancel" id="btn_TlvCancel" style="margin-left:10px;" onclick="javascript:TLV_Cancel()"/>
+			 </fieldset>
+		
+		<p><input type="button" value="UMS_EnterCard" name="btn_UMS_EnterCard" id="btn_UMS_EnterCard" onclick="javascript:UMS_EnterCard()" /></p>
+		<p><input type="button" value="UMS_CheckCard" name="btn_UMS_CheckCard" id="btn_UMS_CheckCard" onclick="javascript:UMS_CheckCard()" /></p>
+		<p><input type="button" value="UMS_ReadCard" name="btn_UMS_ReadCard" id="btn_UMS_ReadCard" onclick="javascript:UMS_ReadCard()" /></p>
+		<p><input type="button" value="UMS_EjectCard" name="btn_UMS_EjectCard" id="btn_UMS_EjectCard" onclick="javascript:UMS_EjectCard()" /></p>
+		<p><input type="button" value="UMS_StartPin" name="btn_UMS_StartPin" id="btn_UMS_StartPin" onclick="javascript:UMS_StartPin()" /></p>
+		<p><input type="button" value="UMS_PinProcess" name="btn_PinProcess" id="btn_PinProcess" onclick="javascript:PinProcess()"/>
+			<input type="text" size=12 maxlength=24 value="" id="PinField" style="display:none"/></p>
+		<p><input type="button" value="UMS_GetPin" name="btn_UMS_GetPin" id="btn_UMS_GetPin" onclick="javascript:UMS_GetPin()"/></p>
+		<p><input type="button" value="Build48TLV" name="btn_Build48TLV" id="btn_Build48TLV" style="display:none;" onclick="javascript:BuildTlv()"/></p>
+		<p><input type="button" value="UMS_TransCard" name="btn_UMS_TransCard" id="btn_UMS_TransCard" onclick="javascript:UMS_TransCard()"/></p>
+		</div>
+		<div id="rightside">
+		<p>应答码:<input type="text" size=2 maxlength=2 value="" id="t2RespCode"/></p>
+		<p>应答码说明信息:<input type="text" size=10 maxlength=40 value="" id="t2RespInfo"/></p>
+		<p>交易卡号:<input type="text" size=20 maxlength=20 value="" id="t2CardNo"/></p>
+		<p>交易金额:<input type="text" size=12 maxlength=12 value="" id="t2Amount"/></p>
+		<p>交易凭证号:<input type="text" size=6 maxlength=6 value="" id="t2Trace"/></p>
+		<p>交易批次号:<input type="text" size=6 maxlength=6 value="" id="t2Batch"/></p>
+		<p>交易日期:<input type="text" size=4 maxlength=4 value="" id="t2TransDate"/></p>
+		<p>交易时间:<input type="text" size=6 maxlength=6 value="" id="t2TransTime"/></p>
+		<p>交易参考号:<input type="text" size=12 maxlength=12 value="" id="t2Ref"/></p>
+		<p>交易授权码:<input type="text" size=6 maxlength=6 value="" id="t2Auth"/></p>
+		<p>交易返回附加信息:<input type="text" size=12 maxlength=1024 value="" id="t2Memo"/></p>
+		<p>交易校验值:<input type="text" size=3 maxlength=3 value="" id="t2Lrc"/></p>
+		</div>
+    <div id="footer">银联商务有限公司技术开发中心</div> 
+    </div>
+	</form>	
+
+<OBJECT name="WYJ_pos" ID="pos" WIDTH="0" HEIGHT="0" CLASSID="clsid:B0D389A2-090E-4E00-B7BE-ACDF996E3F81" codebase="c:\umsips\InterfaceOCX.ocx"></OBJECT>
+ 
+</body>
+</html>

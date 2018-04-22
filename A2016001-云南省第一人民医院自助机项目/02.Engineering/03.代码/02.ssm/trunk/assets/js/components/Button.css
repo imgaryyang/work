@@ -1,0 +1,31 @@
+.button_container {
+	height: 6rem;
+	border-radius: .3rem;
+	font-size: 3.5rem;
+	line-height: 6.2rem;
+	text-align: center;
+	/*box-shadow: .button_2rem .button_2rem .button_1rem #888888;*/
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.button_normal {
+	background-color: #BC1E1E;
+	color: #ffffff;
+}
+
+.button_outline {
+	background-color: #ffffff;
+	border: 1px solid #BC1E1E;
+	color: #BC1E1E;
+}
+
+.button_disabled {
+	background-color: #999999;
+}
+
+.button_loadingSpinner {
+	/*width: 3rem;*/
+	height: 3rem;
+	vertical-align: middle;
+}

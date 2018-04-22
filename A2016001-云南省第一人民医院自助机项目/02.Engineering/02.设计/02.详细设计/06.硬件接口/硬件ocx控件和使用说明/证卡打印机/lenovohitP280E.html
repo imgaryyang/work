@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>证卡打印机ActiveX测试</title>
+
+<script type="text/javascript">
+	
+	function OcxInit(){
+		ocx = document.getElementById("P280EOCX");
+	}
+
+    function Button1_onclick(){
+		ocx.bFlag1=1;//1不显示错误信息    0为显示错误信息
+		ocx.bFlag2=1;//1打印完毕不排除卡片一直停留在出卡口不回收   0为打印完毕排除卡片
+		ocx.bFlag3=1;//1打印完毕移动到自定义位置 0为打印完毕不移动到自定义位置
+	
+		//动态姓名字体参数
+		ocx.NameFontSize = 75;//字体大小
+		ocx.NameFontWeight = 400;//粗细  400为正常  800为加粗
+		ocx.NameFontName = "黑体";
+   
+		ocx.Name="某某某";
+		ocx.Name_X=60;
+		ocx.Name_Y=380;
+	
+		//静态健康号字体参数
+		ocx.StaticCardNoFontSize = 45;//字体大小
+		ocx.StaticCardNoFontWeight = 400;//粗细  400为正常  800为加粗
+		ocx.StaticCardNoFontName = "黑体";
+   
+		ocx.StaticCardNo="健康号：";
+		ocx.StaticCardNo_X=60;
+		ocx.StaticCardNo_Y=560;
+
+		//动态健康号字体参数
+		ocx.CardNoFontSize = 45;//字体大小
+		ocx.CardNoFontWeight = 400;//粗细  400为正常  800为加粗
+		ocx.CardNoFontName = "黑体";
+ 
+		ocx.CardNo="0000 0000 0000 01";
+		ocx.CardNo_X=220;
+		ocx.CardNo_Y=560;
+   
+
+		var ret = ocx.PrintCard; 
+		if(ret==0){
+			alert("打印成功");
+		}
+		if(ret==1){
+			alert("打印机驱动不对"); 
+		}
+}
+
+function Button2_onclick() {
+ var dwRet = ocx.CheckPrinterStatus();
+ alert(dwRet);
+ if(dwRet==0){
+    alert("打印机准备就绪");
+   }
+ if(dwRet==-1){
+   alert("打印机脱机");
+  }
+ if(dwRet==-2){
+   alert("卡片用完");
+  }
+ if(dwRet==-3){
+ alert("色带用完");
+ }
+ if(dwRet==-4){ 
+  alert("打印机忙碌");
+ }
+ if(dwRet==-5){
+  alert("打印机正在打印");
+ }
+ if(dwRet==-6){
+  alert("卡卡");
+  }
+}
+
+function Button3_onclick() {
+ var dwRet = ocx.DoCommand(100);
+ if(dwRet==0){
+	 alert("打印机重启成功");
+ }
+ else{
+	 alert("重启失败");
+ }
+}
+
+function Button4_onclick() {
+ var dwRet = ocx.DoCommand(105);
+ if(dwRet==0){
+	 alert("清洁打印机成功");
+ }
+ else{
+	 alert("清洁打印机失败");
+ }
+}
+
+function Button5_onclick() {
+    ocx.Key = "ffffffffffff";//秘钥
+    ocx.ShanQu = 4;//扇区
+    ocx.Kuai = 16;//块
+    ocx.WriteStr="00000000000001";
+
+    var dwRet = ocx.WriteCard();
+	if(dwRet == 0){
+		alert("写卡成功");
+	}
+	else if(dwRet = -1){
+		alert("数据为空");
+	}
+	else if(dwRet == -2){
+		alert("超过16位");
+	}
+	else if(dwRet == -3){
+		alert("写入失败，检查秘钥");
+	}
+	else if(dwRet == -4){
+		alert("未找到卡片");
+	}
+	else if(dwRet == -5){
+		alert("打开端口失败");
+	}
+}
+function Button6_onclick() {
+	ocx.Key = "ffffffffffff";
+
+	ocx.ShanQu = 4;
+	ocx.Kuai = 16;
+
+	var dwRet = ocx.ReadCard();
+	if(dwRet == 0){
+		document.getElementById("Text1").value = ocx.ReadStr;
+		//Text1.value = ocx.ReadStr;
+		alert("读卡成功");
+	}
+	else if(dwRet == -1){
+		alert("打开端口失败");
+	}
+	else if(dwRet == -2){
+		alert("验证秘钥错误");
+    }
+	else if(dwRet == -3){
+	   alert("寻卡失败");
+	}
+ }
+
+
+function Button7_onclick() {
+	var dwRet = ocx.SetStandbyParameter(22,10);
+	if(dwRet == 0){
+		alert("设置成功");
+	}
+	else{
+		alert("设置失败");
+	}
+ }
+
+function Button8_onclick() {
+	var dwRet = ocx.movecard(3);
+	if(dwRet == 0){
+		alert("移动卡片至非接位置成功");
+	}
+	else{
+		alert("移动卡片至非接位置失败");
+	}
+ }
+
+function Button10_onclick() {
+	var dwRet = ocx.movecard(6);
+	if(dwRet == 0){
+		alert("移动卡片到翻转模块成功");
+	}
+	else{
+		alert("移动卡片到翻转模块失败");
+	}
+ }
+
+function Button11_onclick() {
+	var dwRet = ocx.movecard(7);
+	if(dwRet == 0){
+		alert("从翻转模块移动卡片到打印位置成功");
+	}
+	else{
+		alert("从翻转模块移动卡片到打印位置失败");
+	}
+ }
+
+function Button9_onclick() {
+	var dwRet = ocx.movecard(10);
+	if(dwRet == 0){
+		alert("移动卡片至出卡槽成功");
+	}
+	else{
+		alert("移动卡片至出卡槽成功");
+	}
+ 
+ }
+
+</script>
+
+</head>
+<body onload="OcxInit()" >
+
+      <object id="P280EOCX" classid="clsid:03F2C20B-67F6-44CF-A221-0F35B5769D17" height="0" width="0"></object>
+    <br />
+    <input id="Text1" type="text" Size="50"/><br />
+    <br />
+	发卡流程：
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button2" type="button" value="检测打印机状态" onclick="return Button2_onclick()" />
+    </p>
+	
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button8" type="button" value="移动卡片至非接位置" onclick="return Button8_onclick()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button5" type="button" value="写卡" onclick="return Button5_onclick()" />
+	&nbsp;&nbsp;&nbsp;
+    <input id="Button6" type="button" value="读卡" onclick="return Button6_onclick()" />
+    </p>
+	
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button10" type="button" value="移动卡片到翻转模块" onclick="return Button10_onclick()" />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button11" type="button" value="从翻转模块移动卡片到打印位置" onclick="return Button11_onclick()" />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button1" type="button" value="打印" onclick="return Button1_onclick()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button9" type="button" value="移动卡片至待取卡位置" onclick="return Button9_onclick()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button3" type="button" value="重启打印机" onclick="return Button3_onclick()" />
+    </p>
+    
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button4" type="button" value="清洁打印机" onclick="return Button4_onclick()" />
+    </p>
+	
+    <p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button7" type="button" value="设置停滞位置和时间" onclick="return Button7_onclick()" />
+    </p>
+</body>
+</html>

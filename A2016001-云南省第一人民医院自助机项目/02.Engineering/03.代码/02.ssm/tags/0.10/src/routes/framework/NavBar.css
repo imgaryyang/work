@@ -1,0 +1,41 @@
+
+.bar {
+	/*background-color: rgba(255, 0, 0, 0.5);*/
+	overflow: hidden;
+}
+
+.backbtn {
+	width: 100%;
+	border-radius: .6rem; 
+	background-color: #BC1E1E;
+	color: #ffffff;
+	font-weight: 500;
+	cursor: pointer;
+	text-align: center;
+}
+
+.homebtn {
+	width: 100%;
+	border-radius: .6rem; 
+	background-color: #ffffff;
+	color: #BC1E1E;
+	border: 1px solid #BC1E1E;
+	font-weight: 500;
+	cursor: pointer;
+	text-align: center;
+}
+
+.titlewrap {
+	border-radius: .6rem; 
+	background-color: #ffffff;
+	text-align: center;
+	color: #4E4E4E;
+	white-space: nowrap;
+	overflow: hidden;
+  text-overflow: ellipsis;
+	box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .1);
+}
+
+.title {
+	
+}

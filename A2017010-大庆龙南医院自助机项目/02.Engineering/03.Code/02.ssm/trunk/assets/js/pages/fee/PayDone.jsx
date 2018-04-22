@@ -1,0 +1,54 @@
+import React, { PropTypes } from 'react';
+import InfoComp from '../../components/Info.jsx';
+import baseUtil from '../../utils/baseUtil.jsx';
+import logUtil,{log} from '../../utils/logUtil.jsx';
+import printUtil from '../../utils/printUtil.jsx';
+import NavContainer from '../../components/NavContainer.jsx';
+import TimerPage from '../../TimerPage.jsx';
+class PaidDone extends TimerPage {
+
+  constructor(props) {
+    super(props);
+    this.onBack = this.bind(this.onBack,this);
+    this.onHome = this.bind(this.onHome,this);
+    this.print = this.bind(this.print,this);
+  }
+  componentWillMount () {
+	this.print();
+  }
+  print(){
+	var machine = baseUtil.getMachineInfo();
+	var patient = baseUtil.getCurrentPatient();
+	var  { order,fees ,clinicals } = this.props;
+	try{
+		//order = {amt:0,reduceAmt:0,paAmt:0,selfAmt:0,miAmt:0,}
+		printUtil.printConsumeReceipt(fees,order,patient,machine,clinicals);
+	}catch(e){
+		log('打印机异常',e);
+		baseUtil.error("打印机异常，打印扣款凭证失败"); 
+	} 
+  }
+  onBack(){
+	 baseUtil.goHome('feeDoneBack'); 
+  }
+  onHome(){
+	 baseUtil.goHome('feeDoneHome'); 
+  }
+  render() {
+    let info = '';
+    const { order } = this.props;
+    const baseInfo =  baseUtil.getCurrentPatient();
+    info = (
+        <font style = {{lineHeight: '4rem'}} >
+          成功缴费&nbsp;<font color = '#BC1E1E' >{order.selfAmt?order.selfAmt.formatMoney():'0'}</font>&nbsp;元<br/>
+          <span style = {{fontSize: '2.8rem', lineHeight: '2.8rem'}} >当前就诊卡账户余额&nbsp;<font color = '#BC1E1E' >{baseInfo.balance?baseInfo.balance.formatMoney():'0'}</font>&nbsp;元</span>
+        </font> 
+    );
+    return (
+    <NavContainer title='缴费成功' onBack={this.onBack} onHome={this.onHome} >
+      <InfoComp info = {info} autoBack = {true} />
+      </NavContainer >
+    );
+  }
+}
+module.exports = PaidDone;

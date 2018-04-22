@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="content-type" content="text/html; charset=gb2312">
+<title>串口网页测试ActiveX</title>
+<script type="text/javascript">
+  var ssmocx;
+  var hPort = 0;
+  function load(){
+	  ssmocx = document.getElementById("LHSSMDeviceActiveX");
+  }
+  function LH_GL_OpenPortBaud(){
+	  var json = ssmocx.LH_GL_OpenPortBaud("COM9",9600);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  hPort = dataObj.hPort;
+	  console.info(hPort);
+  }
+  function LH_GL_ClosePort(){
+	  var json = ssmocx.LH_GL_ClosePort(hPort);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+  //凭条出口
+  //SetLight(HANDLE hPort,int LightNo,int Flag)
+  //HANDLE hPort 端口句柄
+  //int LightNo:指示灯编号0~5
+  //int Flag:指示灯控制标识，0 常亮 1闪烁 2灭
+  function LH_GL_SetLight1_0(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight1_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight1_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+	
+  //表单出口
+  function LH_GL_SetLight2_0(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight2_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight2_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  
+  //就诊卡入口
+  function LH_GL_SetLight3_0(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight3_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight3_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  
+  //发卡口
+  function LH_GL_SetLight4_0(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,4,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight4_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,4,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight4_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,4,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  
+  //纸币入口
+  function LH_GL_SetLight5_0(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,5,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight5_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,5,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight5_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,5,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+</script>  
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT>
+	灯控板1(COM9串口)：
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="OpenCom" value="打开串口" type="button" onclick="LH_GL_OpenPortBaud()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData1_1" value="凭条出口灯常亮" type="button" onclick="LH_GL_SetLight1_0()" />&nbsp;&nbsp;
+	<input id="SendData1_2" value="凭条出口灯闪烁" type="button" onclick="LH_GL_SetLight1_1()" />&nbsp;&nbsp;
+	<input id="SendData1_3" value="凭条出口灯关闭" type="button" onclick="LH_GL_SetLight1_2()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData2_1" value="表单出口灯常亮" type="button" onclick="LH_GL_SetLight2_0()" />&nbsp;&nbsp;
+	<input id="SendData2_2" value="表单出口灯闪烁" type="button" onclick="LH_GL_SetLight2_1()" />&nbsp;&nbsp;
+	<input id="SendData2_3" value="表单出口灯关闭" type="button" onclick="LH_GL_SetLight2_2()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData3_1" value="就诊卡入口灯常亮" type="button" onclick="LH_GL_SetLight3_0()" />&nbsp;&nbsp;
+	<input id="SendData3_2" value="就诊卡入口灯闪烁" type="button" onclick="LH_GL_SetLight3_1()" />&nbsp;&nbsp;
+	<input id="SendData3_3" value="就诊卡入口灯关闭" type="button" onclick="LH_GL_SetLight3_2()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData4_1" value="发卡口灯常亮" type="button" onclick="LH_GL_SetLight4_0()" />&nbsp;&nbsp;
+	<input id="SendData4_2" value="发卡口灯闪烁" type="button" onclick="LH_GL_SetLight4_1()" />&nbsp;&nbsp;
+	<input id="SendData4_3" value="发卡口灯关闭" type="button" onclick="LH_GL_SetLight4_2()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData5_1" value="纸币入口灯常亮" type="button" onclick="LH_GL_SetLight5_0()" />&nbsp;&nbsp;
+	<input id="SendData5_2" value="纸币入口灯闪烁" type="button" onclick="LH_GL_SetLight5_1()" />&nbsp;&nbsp;
+	<input id="SendData5_3" value="纸币入口灯关闭" type="button" onclick="LH_GL_SetLight5_2()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="CloseCom" value="关闭串口" type="button" onclick="LH_GL_ClosePort()" />&nbsp;&nbsp;
+</body>
+</html>
+
+  

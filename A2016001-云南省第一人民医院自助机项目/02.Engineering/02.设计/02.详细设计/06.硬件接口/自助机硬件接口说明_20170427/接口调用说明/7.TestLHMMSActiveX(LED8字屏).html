@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页测试ActiveX</title>
+
+<script   language="JavaScript"   type="text/JavaScript"> 
+	var ID_stateCode = 0;
+
+	//打开串口
+	function LH_SS_Open_Com(){
+		var json = document.LHSSMDeviceActiveX.LH_SS_Open_Com(7,9600,5);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		ID_stateCode = dataObj.stateCode;
+		if(ID_stateCode == 0){
+			console.info("初始化串口成功！");
+		}
+		else{
+			console.info("初始化串口失败！");
+		}
+	}
+	
+	function LH_SS_Send_Time(){
+		var json = document.LHSSMDeviceActiveX.LH_SS_Send_Time(1);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		ID_stateCode = dataObj.stateCode;
+		if(ID_stateCode == 0){
+			console.info("控制卡时钟校正成功！");
+		}
+		else{
+			console.info("控制卡时钟校正失败！");
+		}
+	}
+
+	function LH_SS_Send_Reset(){
+		var json = document.LHSSMDeviceActiveX.LH_SS_Send_Reset(1);
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		ID_stateCode = dataObj.stateCode;
+		if(ID_stateCode == 0){
+			console.info("控制卡复位成功！");
+		}
+		else{
+			console.info("控制卡复位失败！");
+		}
+	}
+
+	//关闭串口
+	function LH_SS_Close(){
+		var json = document.LHSSMDeviceActiveX.LH_SS_Close();
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		ID_stateCode = dataObj.stateCode;
+		if(ID_stateCode == 0){
+			console.info("关闭串口成功！");
+		}
+		else{
+			console.info("关闭串口失败！");
+		}
+	}
+
+	//发送字符串数据
+	function LH_SS_Send_String(){
+		var json = document.LHSSMDeviceActiveX.LH_SS_Send_String(0x01,0x80,0x0F,0x01,0x00,0x05,0x00,"云南省昆明市昆华医院");
+		console.info(json)
+		var dataObj = eval("("+json+")");
+		ID_stateCode = dataObj.stateCode;
+		if(ID_stateCode == 0){
+			console.info("发送字符串数据成功！");
+		}
+		else{
+			console.info("发送字符串数据失败！");
+		}
+	}
+	
+</script>   
+</head>
+
+<body>
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT>
+	LED8字屏：<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SS_Open_Com" value="打开串口" type="button" onclick="LH_SS_Open_Com()"/>&nbsp;&nbsp;
+	<!--
+	<input id="SS_Send_Time" value="控制卡时钟校正" type="button" onclick="LH_SS_Send_Time()"/>&nbsp;&nbsp;
+	<input id="SS_Send_Reset" value="控制卡复位" type="button" onclick="LH_SS_Send_Reset()"/>&nbsp;&nbsp;
+	-->
+	<input id="SS_Send_String" value="发送字符串数据" type="button" onclick="LH_SS_Send_String()"/>&nbsp;&nbsp;
+	<input id="SS_Close" value="关闭串口" type="button" onclick="LH_SS_Close()"/>&nbsp;&nbsp;
+	<br><br>
+	
+</body>
+</html>
+
+  

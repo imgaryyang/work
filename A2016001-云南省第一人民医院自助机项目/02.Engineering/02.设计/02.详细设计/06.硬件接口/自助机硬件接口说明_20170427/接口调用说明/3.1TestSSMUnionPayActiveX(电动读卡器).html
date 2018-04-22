@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>银联ActiveX控件测试</title>
+
+<style type="text/css">
+div#container{width:1200px}
+div#header {background-color:#99bbbb;text-align:center;}
+div#leftside {background-color:#ffff99;height:500px;width:400px;float:left;text-align:left;}
+div#center {background-color:#EEEEEE;height:500px;width:400px;float:left;}
+div#rightside {background-color:#ffff99;height:500px;width:400px;float:left;text-align:left;}
+div#footer {background-color:#99bbbb;clear:both;text-align:center;}
+h1 {margin-bottom:0;}
+</style>
+
+<script   language="JavaScript"   type="text/JavaScript">
+	var ocx;
+	var PinCounter;
+	var test;
+
+	function OcxInit(){
+		ocx = document.getElementById("unpay");
+	}
+
+	//初始化
+	function UMSInit(){
+		var iret;
+		ocx.MySetApptype(1);
+		iret = ocx.UMSInit();
+		if(iret==0){
+			//alert("初始化成功！请调用UMSSetReq设置参数！");
+			console.info("初始化成功！请调用UMSSetReq设置参数！");
+		}
+		else{
+			alert("初始化失败！");
+		}
+	}
+	
+	//设置参数
+	function UMSSetReq(){
+		var cpInReq = document.getElementById("t1CounterIdField").value+
+				document.getElementById("t1OperId").value+
+				document.getElementById("t1TransType").value+
+				document.getElementById("t1Amount").value+
+				document.getElementById("t1OldTrace").value+
+				document.getElementById("t1OldDate").value+
+				document.getElementById("t1OldRef").value+
+				document.getElementById("t1OldAuth").value+
+				document.getElementById("t1OldBatch").value+
+				document.getElementById("t1Memo").value+
+				document.getElementById("t1LRC").value;
+		console.info(cpInReq);
+		var iret;
+		iret = ocx.UMSSetReq(cpInReq);
+		if(iret==0){
+			//alert("设置参数成功！请调用UMSEnterCard！");
+			console.info("设置参数成功！请调用UMSEnterCard！");
+		}
+		else{
+			alert("设置参数失败！");
+		}
+	}
+
+	//初始化读卡器
+	function UMSEnterCard(){
+		var iret;
+		iret = ocx.UMSEnterCard();
+		console.info(iret);
+		if(iret==0)
+		{
+			//alert("初始化读卡器成功，请调用UMSCheckCard！");
+			console.info("初始化读卡器成功，请插入银行卡，调用UMSCheckCard检测卡片！");
+		}
+		else{
+			alert("初始化读卡器失败!");
+		}
+			
+	}
+	
+	//检测卡位置
+	/**
+	0-读卡器内有卡
+	1-卡在卡口位置
+	2-未监测到卡
+	3-电子现金感应器上监测到非接卡
+	4-非接联机感应器上监测到非接卡
+	**/
+	function UMSCheckCard(){
+		var iret;
+		iret = ocx.UMSCheckCard();
+		console.info(iret);
+		if(iret<0){
+			//alert("检测卡位置失败!");
+			console.info("检测卡位置失败!");
+		}
+		else if(iret==0){
+			//alert("卡在读卡器内，请调用UmsReadCard!");
+			console.info("卡在读卡器内，请调用UmsReadCard!");
+		}
+		else if(iret==1){
+			//alert("卡在读卡器口!");
+			console.info("卡在读卡器口!");
+		}
+		else if(iret==2){
+			console.info("未监测到卡");
+		}
+		else if(iret==3){
+			console.info("电子现金感应器上监测到非接卡");
+		}
+		else if(iret==4){
+			console.info("非接联机感应器上监测到非接卡");
+		}
+		else{
+			alert("未检测到卡!");
+		}
+	}
+	
+	//读卡
+	function UMSReadCard(){
+		var json;
+		json = ocx.UMSReadCard();
+		console.info(json);
+		var dataObj = eval("("+json+")");
+		var stateCode = dataObj.stateCode;
+		var cardNo = dataObj.cardNo;
+		if(stateCode == 0){
+			//alert("磁条卡读取成功，卡号="+cardNo+"\n请调用UMSStartPin");
+			console.info("磁条卡读取成功，卡号="+cardNo+"\n请调用UMSStartPin");
+		}
+		if(stateCode == 1){
+			//alert("芯片卡读取成功，卡号="+cardNo+"\n请调用UMSStartPin");
+			console.info("芯片卡读取成功，卡号="+cardNo+"\n请调用UMSStartPin");
+		}
+		if(stateCode == 2){
+			//alert("非接卡读取成功，不免密，卡号="+cardNo+"\n请调用UMSStartPin");
+			console.info("非接卡读取成功，不免密，卡号="+cardNo+"\n请调用UMSStartPin");
+		}
+		if(stateCode == 3){
+			//alert("非接卡读取成功，免密"+cardNo+"\n请调用UMSTransCard");
+			console.info("非接卡读取成功，免密"+cardNo+"\n请调用UMSTransCard");
+		}
+		if(stateCode == 4){
+			//alert("POS通手机应用成功，免密!\n请调用UMSTransCard");
+			console.info("POS通手机应用成功，免密!\n请调用UMSTransCard");
+		}
+		/**
+		else{
+			alert("读卡失败");
+		} 
+		**/
+	}
+	
+	//弹卡
+	function UMSEjectCard(){
+		var iret
+		iret = ocx.UMSEjectCard();
+		if(iret==0){
+			//alert("弹卡成功");
+			console.info("弹卡成功");
+		}
+		else{
+			alert("弹卡失败");
+		}
+	}
+	
+	//吞卡
+	function UMSCardSwallow(){
+		var iret
+		iret = ocx.UMSCardSwallow();
+		if(iret==0){
+			alert("吞卡成功");
+		}
+		else{
+			alert("吞卡失败");
+		}
+	}
+
+	
+	//启动加密
+	function UMSStartPin(){
+		var iret
+		iret = ocx.UMSStartPin();
+		if(iret==0){
+			//alert("启动加密成功");
+			console.info("启动加密成功，请输入密码");
+		}
+		else{
+			alert("启动加密失败");
+		}
+	}
+
+	//获取键值
+	function UMSGetOnePass(){
+		var iret
+		//iret为输入的键值
+		iret = ocx.UMSGetOnePass();
+		console.info(iret);
+		
+	}
+
+	//获取密码密文
+	function UMSGetPin(){
+		var iret
+		iret = ocx.UMSGetPin();
+		if(iret==0){
+			//alert("获取密文成功");
+			console.info("获取密文成功，请点击UMSTransCard进行交易");
+		}
+		else{
+			alert("获取密码密文失败");
+		}
+	}
+
+	//交易
+	function UMSTransCard(){
+		var cpInReq = document.getElementById("t1CounterIdField").value+
+				document.getElementById("t1OperId").value+
+				document.getElementById("t1TransType").value+
+				document.getElementById("t1Amount").value+
+				document.getElementById("t1OldTrace").value+
+				document.getElementById("t1OldDate").value+
+				document.getElementById("t1OldRef").value+
+				document.getElementById("t1OldAuth").value+
+				document.getElementById("t1OldBatch").value+
+				document.getElementById("t1Memo").value+
+				document.getElementById("t1LRC").value;
+		console.info(cpInReq);
+		var json
+		json = ocx.UMSTransCard(cpInReq);
+		console.info(json);
+		var dataObj = eval("("+json+")");
+		var stateCode = dataObj.stateCode;
+		var responseText = dataObj.stateCode;
+		console.info(responseText);
+		if(stateCode == 0){
+			//alert("交易成功");
+			console.info("交易成功，请调用UMSCardClose关闭读卡器！");
+		}
+		else{
+			alert("交易失败");
+		}
+	}
+	
+
+	//关闭读卡器
+	function UMSCardClose(){
+		var iret
+		iret = ocx.UMSCardClose();
+		if(iret==0){
+			//alert("关闭读卡器成功");
+			console.info("关闭读卡器成功");
+		}
+		else{
+			alert("关闭读卡器失败");
+		}
+	}
+</script>   
+</head>
+
+<body onload="OcxInit()">
+<OBJECT id="unpay" width="0" height="0" classid="clsid:995B923A-52BF-4343-99BF-62D25B0ED2B7" codebase="C:\LHSSM\SSMUnionPayActiveX.ocx" ></OBJECT>
+		<div id="container">
+		<div id="header"><h1>－－－－自助终端标准版ocx测试页面－－－－</h1></div>
+		<div id="leftside">
+			<p><a id="left_tCounter">收银台号CounterId:</a><input type="text" size=8 maxlength=9 value="00000001" id="t1CounterIdField" /></p>
+			<p><a id="left_tOper">操作员号OperId:</a><input type="text" size=8 maxlength=9 value="00000002" id="t1OperId" /></p>
+			<p>交易类型TransType取值:00-消费 01-撤销 02-退货 03-查余 04-结算* 05-签到* 08-预授权 
+			09-预授权撤销 10-预授权完成 15-非接参数下载* 16-新增Bin表下载* 17-非接免密黑名单下载
+			</p>
+			<p>交易类型TransType:<input type="text" size=2 maxlength=3 value="00" id="t1TransType" /></p>
+			<p>交易金额Amount:<input type="text" size=12 maxlength=13 value="000000000001" id="t1Amount" /></p>
+			<p>原交易凭证号OldTrace:<input type="text" size=6 maxlength=7 value="666666" id="t1OldTrace" /></p>
+			<p>原交易日期OldDate:<input type="text" size=8 maxlength=9 value="20150805" id="t1OldDate" /></p>
+			<p>原交易参考号OldRef:<input type="text" size=12 maxlength=13 value="121212121212" id="t1OldRef" /></p>
+			<p>原交易授权码OldAuth:<input type="text" size=6 maxlength=7 value="777777" id="t1OldAuth" /></p>
+			<p>原交易批次号OldBatch:<input type="text" size=6 maxlength=7 value="888888" id="t1OldBatch" /></p>
+			<p>附加信息Memo:<input type="text" size=20 maxlength=2049 value="20202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020" id="t1Memo" /></p>
+			<p>交易校验值LRC:<input type="text" size=3 maxlength=4 value="999" id="t1LRC" /></p>
+		</div>
+		<div id="center">
+		<p>第一步，初始化。点击UMS_Init按钮。<br />
+		银联读卡器：
+		<p><input id="UMSInit" value="步骤1:UMSInit(初始化)" type="button" onclick="UMSInit()"/>
+		<input id="UMSSetReq" value="步骤2:UMSSetReq(设置入参)" type="button" onclick="UMSSetReq()"/></p>
+		<p><input id="UMSEnterCard" value="步骤3:UMSEnterCard(进卡)" type="button" onclick="UMSEnterCard()"/></p>
+		<p><input id="UMSCheckCard" value="步骤4:UMSCheckCard(检测卡)" type="button" onclick="UMSCheckCard()"/></p>
+		<p><input id="UMSReadCard" value="步骤5:UMSReadCard(读卡)" type="button" onclick="UMSReadCard()"/></p>
+		<p><input id="UMSEjectCard" value="步骤9:UMSEjectCard(弹出卡)" type="button" onclick="UMSEjectCard()"/></p>
+		<p><input id="UMSCardSwallow" value="UMSCardSwallow(吞卡)" type="button" onclick="UMSCardSwallow()"/></p>
+		<p><input id="UMSStartPin" value="步骤6:UMSStartPin(启动加密)" type="button" onclick="UMSStartPin()"/></p>
+		<p><input id="UMSGetOnePass" value="UMSGetOnePass(获得键值)" type="button" onclick="UMSGetOnePass()"/></p>
+		<p><input id="UMSGetPin" value="步骤7:UMSGetPin(获取pin密文)" type="button" onclick="UMSGetPin()"/></p>
+		<p><input id="UMSTransCard" value="步骤8:UMSTransCard(交易)" type="button" onclick="UMSTransCard()"/></p>
+		<p><input id="UMSCardClose" value="步骤10:UMSCardClose(关闭读卡器)" type="button" onclick="UMSCardClose()"/></p>
+		</div>
+</body>
+</html>
+
+  

@@ -1,0 +1,22 @@
+.m_t6_mg_container {
+	width:390px;
+	height:710px;
+	margin:10px;
+	background-color: rgba(255,255,255,1);
+}
+.m_t6_mg_card {
+	width:320px;
+	height:180px;
+	line-height:180px;
+	font-size: 32px;
+	text-align: center;
+	background-color:rgba(228,228,228,1);
+	margin: 91px auto 0px auto;
+}
+.m_t6_mg_label {
+	height:127px;
+	line-height:127px;
+	font-size: 36px;
+	margin:auto;
+	text-align: center;
+}

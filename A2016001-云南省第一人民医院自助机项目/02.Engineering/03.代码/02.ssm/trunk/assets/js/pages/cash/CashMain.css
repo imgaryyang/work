@@ -1,0 +1,26 @@
+
+.cash_opt_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.cash_opt_rows .row:last-child {
+	border-bottom: 0;
+}
+.cash_opt_toolBarItem {
+  text-align: center;
+  line-height: 6rem;
+  cursor: pointer;
+  font-size: 2.5rem;
+}
+
+/* .cash_opt_toolBarItem div {
+  padding-left: 3rem;
+} */
+
+.cash_opt_toolBarItem img {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  left: 1rem;
+  top: 1.5rem;
+}

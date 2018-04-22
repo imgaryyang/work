@@ -1,0 +1,28 @@
+.container {
+	padding: 1rem;
+	font-size: 3rem;
+	text-align: center;
+}
+
+.infoContainer {
+	position: relative;
+}
+
+.info {
+	margin-top: 2rem;
+	line-height: 6rem;
+	margin-bottom: 4rem;
+}
+
+.btnContainer {
+	margin-top: 2rem;
+}
+
+.btnContainer .btnCol {
+	padding-left: 1rem;
+}
+
+.btnContainer .btnCol:first-child {
+	padding-left: 0;
+}
+

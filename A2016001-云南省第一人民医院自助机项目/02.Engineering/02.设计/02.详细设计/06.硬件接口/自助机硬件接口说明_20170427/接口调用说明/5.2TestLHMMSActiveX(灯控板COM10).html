@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="content-type" content="text/html; charset=gb2312">
+<title>串口网页测试ActiveX</title>
+<script type="text/javascript">
+  var ssmocx;
+  var hPort = 0;
+  function load(){
+	  ssmocx = document.getElementById("LHSSMDeviceActiveX");
+  }
+  function LH_GL_OpenPortBaud(){
+	  var json = ssmocx.LH_GL_OpenPortBaud("COM10",9600);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  hPort = dataObj.hPort;
+	  console.info(hPort);
+  }
+  function LH_GL_ClosePort(){
+	  var json = ssmocx.LH_GL_ClosePort(hPort);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+  //银联卡入口
+  function LH_GL_SetLight1_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight1_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight1_3(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,1,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+	
+  //社保卡入口
+  function LH_GL_SetLight2_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight2_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight2_3(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,2,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  
+  //密码键盘
+  function LH_GL_SetLight3_1(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,0);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight3_2(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,1);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+  function LH_GL_SetLight3_3(){
+	  var json = ssmocx.LH_GL_SetLight(hPort,3,2);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+</script>  
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT>
+	灯控板2(COM10串口)：
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="OpenCom" value="打开串口" type="button" onclick="LH_GL_OpenPortBaud()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData1_1" value="银联卡入口灯常亮" type="button"
+		onclick="LH_GL_SetLight1_1()" />&nbsp;&nbsp;
+	<input id="SendData1_2" value="银联卡入口灯闪烁" type="button"
+		onclick="LH_GL_SetLight1_2()" />&nbsp;&nbsp;
+	<input id="SendData1_3" value="银联卡入口灯关闭" type="button"
+		onclick="LH_GL_SetLight1_3()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData2_1" value="社保卡入口灯常亮" type="button"
+		onclick="LH_GL_SetLight2_1()" />&nbsp;&nbsp;
+	<input id="SendData2_2" value="社保卡入口灯闪烁" type="button"
+		onclick="LH_GL_SetLight2_2()" />&nbsp;&nbsp;
+	<input id="SendData2_3" value="社保卡入口灯关闭" type="button"
+		onclick="LH_GL_SetLight2_3()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SendData3_1" value="密码键盘灯常亮" type="button"
+		onclick="LH_GL_SetLight3_1()" />&nbsp;&nbsp;
+	<input id="SendData3_2" value="密码键盘灯闪烁" type="button"
+		onclick="LH_GL_SetLight3_2()" />&nbsp;&nbsp;
+	<input id="SendData3_3" value="密码键盘灯关闭" type="button"
+		onclick="LH_GL_SetLight3_3()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="CloseCom" value="关闭串口" type="button" onclick="LH_GL_ClosePort()" />&nbsp;&nbsp;
+</body>
+</html>
+
+  

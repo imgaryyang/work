@@ -1,0 +1,27 @@
+
+
+.alipay_row {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.alipay_cardStyle {
+}
+
+.alipay_cardStyle div {
+	margin: auto;
+	border-radius: .6rem;
+	background-color: #E4E4E4;
+	width: 80%;
+	height: 40%;
+}
+
+.alipay_cardStyle font {
+	font-size: 2.6rem;
+	display: block;
+	margin: 2rem 0 4rem 0;
+}
+
+
+

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>证卡打印机ActiveX测试</title>
+<script type="text/javascript">
+	var ssmocx;
+	function load(){
+		ssmocx = document.getElementById("LenovoHitActiveX");
+	}
+	
+	//检查打印机状态
+	function CheckPrinterStatus() {
+		var dwRet = ssmocx.CheckPrinterStatus();
+		console.info(dwRet);
+		if(dwRet == 0){
+			//alert("打印机准备就绪 ！");
+			console.info("打印机准备就绪！");
+		}
+		if(dwRet == -1){
+		   //alert("打印机脱机 ！");
+		   console.info("打印机脱机！");
+		}
+		if(dwRet == -2){
+		   //alert("卡片用完 ！");
+		   console.info("卡片用完！");
+		}
+		if(dwRet == -3){
+			//alert("色带用完 ！");
+			console.info("色带用完！");
+		}
+		if(dwRet == -4){ 
+			//alert("打印机忙碌 ！");
+			console.info("打印机忙碌！");
+		}
+		if(dwRet == -5){
+			//alert("打印机正在打印 ！");
+			console.info("打印机正在打印！");
+		}
+		if(dwRet == -6){
+			//alert("卡卡 ！");
+			console.info("卡卡！");
+		}
+	}
+	
+	
+	//移动卡片至非接位置
+	function movecard1() {
+		var dwRet = ssmocx.movecard(3);
+		if(dwRet  == 0){
+			//alert("移动卡片至非接位置成功 ！");
+			console.info("移动卡片至非接位置成功！");
+		}
+		else{
+			//alert("移动卡片至非接位置失败 ！");
+			console.info("移动卡片至非接位置成功！");
+		}
+	 }
+
+	//发送指定命令：重启打印机
+	function DoCommand1() {
+		var dwRet = ssmocx.DoCommand(100);
+		if(dwRet == 0){
+			//alert("打印机重启成功 ！");
+			console.info("打印机重启成功！");
+		}
+		else{
+			//alert("重启失败 ！");
+			console.info("重启失败！");
+		}
+	}
+	
+	//发送指定命令：清洁打印机
+	function DoCommand2() {
+		var dwRet = ssmocx.DoCommand(105);
+		if(dwRet == 0){
+			//alert("清洁打印机成功 ！");
+			console.info("清洁打印机成功！");
+		}
+		else{
+			//alert("清洁打印机失败 ！");
+			console.info("清洁打印机失败！");
+		}
+	}
+	
+	function WriteCard() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 4;//扇区
+		ssmocx.Kuai = 16;//块
+		ssmocx.WriteStr = "00000000000001";//卡号
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+	
+	//卡编号:53011210100000000110(5301 12 101 010000001 1 0)
+	function WriteCard1() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 1;//扇区
+		ssmocx.Kuai = 4;//块
+		ssmocx.WriteStr = "5301";//省市编码：第1扇区第1块(块编码为4)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+	
+	function WriteCard2() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 1;//扇区
+		ssmocx.Kuai = 5;//块
+		ssmocx.WriteStr = "12";//区县编码：第1扇区第2块(块编码为5)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+
+	function WriteCard3() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 1;//扇区
+		ssmocx.Kuai = 6;//块
+		ssmocx.WriteStr = "101";//医疗机构类别：第1扇区第3块(块编码为6)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+
+	function WriteCard4() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 2;//扇区
+		ssmocx.Kuai = 8;//块
+		ssmocx.WriteStr = "010000016";//顺序号：第2扇区第1块(块编码为8)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+
+	function WriteCard5() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 2;//扇区
+		ssmocx.Kuai = 9;//块
+		ssmocx.WriteStr = "1";//校验码：第2扇区第2块(块编码为9)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+
+	function WriteCard6() {
+		ssmocx.Key = "ffffffffffff";//秘钥
+		ssmocx.ShanQu = 2;//扇区
+		ssmocx.Kuai = 10;//块
+		ssmocx.WriteStr = "0";//重复建卡标识：第2扇区第3块(块编码为10)
+
+		var dwRet = ssmocx.WriteCard();
+		if(dwRet  == 0){
+			//alert("写卡成功！");
+			console.info("写卡成功！");
+		}
+		else if(dwRet  = -1){
+			//alert("数据为空！");
+			console.info("数据为空！");
+		}
+		else if(dwRet  == -2){
+			//alert("超过16位！");
+			console.info("卡号长度超过16位！");
+		}
+		else if(dwRet  == -3){
+			//alert("写入失败，检查秘钥！");
+			console.info("写入失败，请检查秘钥！");
+		}
+		else if(dwRet  == -4){
+			//alert("未找到卡片！");
+			console.info("未找到卡片！");
+		}
+		else if(dwRet  == -5){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+	}
+
+	function ReadCard() {
+
+		ssmocx.Key = "ffffffffffff";
+
+		ssmocx.ShanQu = 4;
+		ssmocx.Kuai = 16;
+
+		var dwRet = ssmocx.ReadCard();
+		if(dwRet  == 0){
+			document.getElementById("Text1").value = ssmocx.ReadStr;
+			//Text1.value = ssmocx.ReadStr;
+			//alert("读卡成功！");
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			//alert("打开端口失败！");
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			//alert("验证秘钥错误！");
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   //alert("寻卡失败！");
+		   console.info("寻卡失败！");
+		}
+	 }
+	
+	/**
+	读上线后真实的就诊卡
+	省市编码：第1扇区第1块(块编码为4)
+	区县编码：第1扇区第2块(块编码为5)
+	医疗机构类别：第1扇区第3块(块编码为6)
+	顺序号：第2扇区第1块(块编码为7)
+	校验码：第2扇区第2块(块编码为8)
+	重复建卡标识：第2扇区第3块(块编码为9)
+	**/
+	function ReadCard1() {//省市编码：第1扇区第1块(块编码为4)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 1;
+		ssmocx.Kuai = 4;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo1;
+		if(dwRet  == 0){
+			cardNo1 = ssmocx.ReadStr;
+			console.info("cardNo1="+cardNo1);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+	 function ReadCard2() {//区县编码：第1扇区第2块(块编码为5)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 1;
+		ssmocx.Kuai = 5;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo2;
+		if(dwRet  == 0){
+			cardNo2 = ssmocx.ReadStr;
+			console.info("cardNo2="+cardNo2);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+	 function ReadCard3() {//医疗机构类别：第1扇区第3块(块编码为6)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 1;
+		ssmocx.Kuai = 6;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo3;
+		if(dwRet  == 0){
+			cardNo3 = ssmocx.ReadStr;
+			console.info("cardNo3="+cardNo3);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+	 function ReadCard4() {//顺序号：第2扇区第1块(块编码为8)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 2;
+		ssmocx.Kuai = 8;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo4;
+		if(dwRet  == 0){
+			cardNo4 = ssmocx.ReadStr;
+			console.info("cardNo4="+cardNo4);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+	function ReadCard5() {//校验码：第2扇区第2块(块编码为9)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 2;
+		ssmocx.Kuai = 9;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo5;
+		if(dwRet  == 0){
+			cardNo5 = ssmocx.ReadStr;
+			console.info("cardNo5="+cardNo5);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+	 function ReadCard6() {//重复建卡标识：第2扇区第3块(块编码为10)
+		ssmocx.Key = "ffffffffffff";
+		ssmocx.ShanQu = 2;
+		ssmocx.Kuai = 10;
+		var dwRet = ssmocx.ReadCard();
+		var cardNo6;
+		if(dwRet  == 0){
+			cardNo6 = ssmocx.ReadStr;
+			console.info("cardNo6="+cardNo6);
+			console.info("读卡成功！");
+		}
+		else if(dwRet  == -1){
+			console.info("打开端口失败！");
+		}
+		else if(dwRet  == -2){
+			console.info("验证秘钥错误！");
+		}
+		else if(dwRet  == -3){
+		   console.info("寻卡失败！");
+		}
+	 }
+
+
+
+	//移动卡片到翻转模块
+	function movecard2() {
+		var dwRet = ssmocx.movecard(6);
+		if(dwRet  == 0){
+			//alert("移动卡片到翻转模块成功 ！");
+			console.info("移动卡片到翻转模块成功！");
+		}
+		else{
+			//alert("移动卡片到翻转模块失败 ！");
+			console.info("移动卡片到翻转模块失败！");
+		}
+	 }
+
+	//从翻转模块移动卡片到打印位置
+	function movecard3() {
+		var dwRet = ssmocx.movecard(7);
+		if(dwRet  == 0){
+			//alert("从翻转模块移动卡片到打印位置成功 ！");
+			console.info("从翻转模块移动卡片到打印位置成功！");
+		}
+		else{
+			//alert("从翻转模块移动卡片到打印位置失败 ！");
+			console.info("从翻转模块移动卡片到打印位置失败！");
+		}
+	 }
+	
+	//打印就诊卡
+    function PrintCard(){
+		ssmocx.bFlag1 = 1;//1不显示错误信息    0为显示错误信息
+		ssmocx.bFlag2 = 1;//1打印完毕不排除卡片一直停留在出卡口不回收   0为打印完毕排除卡片
+		ssmocx.bFlag3 = 0;//1打印完毕移动到自定义位置 0为打印完毕不移动到自定义位置
+	
+		//动态姓名字体参数
+		ssmocx.NameFontSize = 75;//字体大小
+		ssmocx.NameFontWeight = 400;//粗细  400为正常  800为加粗
+		ssmocx.NameFontName = "黑体";
+   
+		ssmocx.Name="某某某";
+		ssmocx.Name_X = 60;
+		ssmocx.Name_Y = 380;
+	
+		//静态健康号字体参数
+		ssmocx.StaticCardNoFontSize = 45;//字体大小
+		ssmocx.StaticCardNoFontWeight = 400;//粗细  400为正常  800为加粗
+		ssmocx.StaticCardNoFontName = "黑体";
+   
+		ssmocx.StaticCardNo = "健康号：";
+		ssmocx.StaticCardNo_X = 60;
+		ssmocx.StaticCardNo_Y = 560;
+
+		//动态健康号字体参数
+		ssmocx.CardNoFontSize = 45;//字体大小
+		ssmocx.CardNoFontWeight = 400;//粗细  400为正常  800为加粗
+		ssmocx.CardNoFontName = "黑体";
+ 
+		ssmocx.CardNo = "0000 0000 0000 01";//打印的就诊卡号
+		ssmocx.CardNo_X = 220;
+		ssmocx.CardNo_Y = 560;
+   
+		var ret = ssmocx.PrintCard; 
+		if(ret == 0){
+			//alert("打印成功！");
+			console.info("打印成功！");
+		}
+		if(ret==1){
+			//alert("打印机驱动不对！"); 
+			console.info("打印机驱动不正确，打印失败！");
+		}
+	}
+	
+	//移动卡片至待取卡位置
+	function movecard4() {
+		var dwRet = ssmocx.movecard(10);
+		if(dwRet  == 0){
+			//alert("移动卡片至待取卡位置成功！");
+			console.info("移动卡片至待取卡位置成功！");
+		}
+		else{
+			//alert("移动卡片至待取卡位置失败！");
+			console.info("移动卡片至待取卡位置失败！");
+		}
+	 
+	 }
+
+	function SetStandbyParameter() {
+		var dwRet = ssmocx.SetStandbyParameter(22,10);
+		if(dwRet  == 0){
+			//alert("设置成功 ！");
+			console.info("设置成功！");
+		}
+		else{
+			//alert("设置失败 ！");
+			console.info("设置失败！");
+		}
+	}
+
+	
+
+	
+
+</script>
+
+</head>
+<body onload="load()" >
+<object id="LenovoHitActiveX" classid="clsid:03F2C20B-67F6-44CF-A221-0F35B5769D17" height="0" width="0"></object>
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就诊卡号：<input id="Text1" type="text" Size="50"/><br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	发卡流程：
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="checkPrinterStatusId" type="button" value="步骤1检测打印机状态" onclick="return CheckPrinterStatus()" />
+    </p>
+	
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="movecard1Id" type="button" value="步骤2移动卡片至非接位置" onclick="return movecard1()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="writeCardId" type="button" value="步骤3写卡" onclick="return WriteCard()" />
+
+	<input id="writeCardId1" type="button" value="1.写省市编码" onclick="return WriteCard1()" />
+	<input id="writeCardId2" type="button" value="2.写区县编码" onclick="return WriteCard2()" />
+	<input id="writeCardId3" type="button" value="3.写医疗机构类别" onclick="return WriteCard3()" />
+	<input id="writeCardId4" type="button" value="4.写顺序号" onclick="return WriteCard4()" />
+	<input id="writeCardId5" type="button" value="5.写校验码" onclick="return WriteCard5()" />
+	<input id="writeCardId6" type="button" value="6.写重复建卡标识" onclick="return WriteCard6()" />
+	</p>
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="readCardId1" type="button" value="1.读省市编码" onclick="return ReadCard1()" />
+	<input id="readCardId2" type="button" value="2.读区县编码" onclick="return ReadCard2()" />
+	<input id="readCardId3" type="button" value="3.读医疗机构类别" onclick="return ReadCard3()" />
+	<input id="readCardId4" type="button" value="4.读顺序号" onclick="return ReadCard4()" />
+	<input id="readCardId5" type="button" value="5.读校验码" onclick="return ReadCard5()" />
+	<input id="readCardId6" type="button" value="6.读重复建卡标识" onclick="return ReadCard6()" />
+    <input id="readCardId" type="button" value="步骤4读卡" onclick="return ReadCard()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="setStandbyParameterId" type="button" value="步骤5设置停滞位置和时间" onclick="return SetStandbyParameter()" />
+    </p>
+
+	<p>
+	<!--
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button10" type="button" value="移动卡片到翻转模块" onclick="return movecard2()" />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Button11" type="button" value="从翻转模块移动卡片到打印位置" onclick="return movecard3()" />
+	-->
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="printCardId" type="button" value="步骤6打印" onclick="return PrintCard()" />
+    </p>
+	
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="movecard4Id" type="button" value="步骤7移动卡片至待取卡位置" onclick="return movecard4()" />
+    </p>
+
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="doCommand1Id" type="button" value="重启打印机" onclick="return DoCommand1()" />
+    </p>
+    
+	<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="doCommand2Id" type="button" value="清洁打印机" onclick="return DoCommand2()" />
+    </p>
+</body>
+</html>

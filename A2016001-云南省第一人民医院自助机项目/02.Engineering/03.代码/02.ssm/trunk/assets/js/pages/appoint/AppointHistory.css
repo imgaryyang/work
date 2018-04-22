@@ -1,0 +1,8 @@
+
+.appoint_his_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.appoint_his_rows .row:last-child {
+	border-bottom: 0;
+}

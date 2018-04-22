@@ -1,0 +1,18 @@
+.input_container {
+	background-color: #ffffff;
+	height: 6rem;
+	border-radius: .3rem;
+	/*box-shadow: .2rem .2rem .1rem #BC1E1E;*/
+	padding-left: 1rem;
+	padding-right: 1rem;
+	font-size: 3.5rem;
+	line-height: 6rem;
+	cursor: pointer;
+	overflow: hidden;
+	border: 1px solid #E4E4E4;
+}
+
+.input_focusStyle {
+	border: 1px solid #BC1E1E;
+	box-shadow: 0 0 .5rem #BC1E1E;
+}

@@ -1,0 +1,26 @@
+
+.re_amt_balance {
+  display: block;
+  line-height: 5.5rem;
+}
+
+.re_amt_balance font {
+  color: #BC1E1E;
+}
+
+.re_amt_tip {
+  display: block;
+  font-size: 2.6rem;
+  line-height: 3rem;
+}
+.re_amt_label {
+	text-align: right;
+	font-weight: 400;
+	/* color: #999999; */
+	line-height: 7rem;
+}
+
+.re_amt_text {
+	padding-left: 1rem;
+	line-height: 7rem;
+}

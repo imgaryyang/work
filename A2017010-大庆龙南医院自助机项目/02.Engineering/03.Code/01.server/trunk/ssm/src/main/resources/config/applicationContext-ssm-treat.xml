@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	
+	<!-- **************** 账户 START **************** -->
+	<!-- <bean id="hisAccountManager" class="com.lenovohit.ssm.treat.manager.impl.HisAccountManagerImpl">
+	</bean> -->
+	<!-- **************** 账户  END **************** -->
+	
+	<!-- **************** 就医指南 START **************** -->
+	<bean id="hisGuideManager" class="com.lenovohit.ssm.treat.manager.impl.HisGuideManagerImpl">
+	</bean>
+	<!-- **************** 就医指南  END **************** -->
+	
+	<!-- **************** 预约 START **************** -->
+	<bean id="hisAppointmentManager" class="com.lenovohit.ssm.treat.manager.impl.HisAppointmentManagerImpl">
+	</bean>
+	<!-- **************** 预约  END **************** -->
+	
+	<!-- **************** 门诊START **************** -->
+	<bean id="hisOutpatientManager" class="com.lenovohit.ssm.treat.manager.impl.HisOutpatientManagerImpl">
+	</bean>
+	<!-- **************** 门诊  END **************** -->
+	
+	<!-- **************** 化验 START **************** -->
+	  
+	<bean id="hisAssayManager" class="com.lenovohit.ssm.treat.manager.impl.HisAssayManagerImpl">
+		<property name="imagePath" value="${lis.api.imagePath}" />
+	</bean> 
+	
+	<!-- **************** 化验  END **************** -->
+	
+	<!-- **************** PACS START **************** -->
+	  
+	<bean id="hisPacsManager" class="com.lenovohit.ssm.treat.manager.impl.HisPacsManagerImpl">
+		<property name="imagePath" value="${pacs.api.imagePath}" />
+	</bean> 
+	
+	<!-- **************** PACS  END **************** -->
+	
+	<!-- **************** 缴费 START **************** -->
+	<bean id="hisFeeManager" class="com.lenovohit.ssm.treat.manager.impl.HisFeeManagerImpl">
+	</bean>
+	<!-- **************** 缴费  END **************** -->
+	
+	<!-- **************** 门诊预存START **************** -->
+	<bean id="hisDepositManager" class="com.lenovohit.ssm.treat.manager.impl.HisDepositManagerImpl">
+	</bean>
+	<!-- **************** 门诊预存  END **************** -->
+	
+	<!-- **************** 住院预缴START **************** -->
+	<bean id="hisForegiftManager" class="com.lenovohit.ssm.treat.manager.impl.HisForegiftManagerImpl">
+	</bean>
+	<!-- **************** 住院预缴  END **************** -->
+	
+	<!-- **************** 住院 START **************** -->
+	<bean id="hisInpatientManager" class="com.lenovohit.ssm.treat.manager.impl.HisInpatientManagerImpl">
+	</bean>
+	<!-- **************** 住院  END **************** -->
+
+	<!-- **************** 患者 START **************** -->
+	<bean id="hisPatientManager" class="com.lenovohit.ssm.treat.manager.impl.HisPatientManagerImpl">
+	</bean>
+	<!-- **************** 患者  END **************** -->
+	
+	<!-- **************** 收费明细 fee START **************** -->
+	<bean id="feeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.treat.model.Fee" />
+	</bean>
+	<bean id="feeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="feeDao" />
+	</bean> 
+	<!-- **************** 收费明细 fee END **************** -->
+	<!-- **************** TMS 血液科检验 START **************** -->
+	<!--  
+	<bean id="xxjdOrderInforDao" class="com.lenovohit.ssm.treat.dao.impl.TmsDaoJapImpl">
+		<constructor-arg value="com.lenovohit.ssm.treat.hisModel.XXJDOrderInfor" />
+	</bean>
+	<bean id="xxjdOrderInforManager" class="com.lenovohit.ssm.treat.manager.impl.TmsManangerImpl">
+		<constructor-arg ref="xxjdOrderInforDao" />
+	</bean>
+	<bean id="xxjdOrderResultDao" class="com.lenovohit.ssm.treat.dao.impl.TmsDaoJapImpl">
+		<constructor-arg value="com.lenovohit.ssm.treat.hisModel.XXJDOrderResult" />
+	</bean>
+	<bean id="xxjdOrderResultManager" class="com.lenovohit.ssm.treat.manager.impl.TmsManangerImpl">
+		<constructor-arg ref="xxjdOrderResultDao" />
+	</bean>
+	-->
+	<!-- **************** TMS 血液科检验 end **************** -->
+	
+	<!-- **************** PACS START **************** -->
+	<bean id="pacsPrintStatuDao" class="com.lenovohit.ssm.treat.dao.impl.PacsDaoJapImpl">
+		<constructor-arg value="com.lenovohit.ssm.treat.hisModel.PACSSSMReport" />
+	</bean>
+	<bean id="pacsPrintStatuManager" class="com.lenovohit.ssm.treat.manager.impl.PacsManangerImpl">
+		<constructor-arg ref="pacsPrintStatuDao" />
+	</bean>
+	<!-- **************** PACS end **************** -->
+	
+	<!-- **************** PACS START **************** -->
+	<bean id="shxDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.base.model.SHXWH" />
+	</bean>
+	<bean id="shxManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="shxDao" />
+	</bean>
+	<!-- **************** PACS end **************** -->
+	
+	<!-- **************** 处方单打印 START **************** -->
+	<bean id="hisPrescriptionManager" class="com.lenovohit.ssm.treat.manager.impl.HisPrescriptionManagerImpl">
+	</bean>
+	<!-- **************** 处方单打印 END **************** -->
+	
+	<!-- **************** Mule Front START **************** -->
+	<bean id="frontendRestDao" class="com.lenovohit.ssm.treat.dao.impl.FrontendRestDaoImpl">
+		<property name="ip" value="${frontend.ip}" />
+		<property name="port" value="${frontend.port}" />
+		<property name="path" value="${frontend.path}" />
+	</bean>
+	<!-- **************** Mule Front END **************** -->
+	
+	<bean id="hisRestDao" class="com.lenovohit.ssm.treat.dao.impl.HisRestDaoImpl">
+		<property name="location" value="${his.api.location}" />
+		<property name="postUrl" value="${his.api.postUrl}" />
+	</bean>
+	<bean id="lisWebserviceDao" class="com.lenovohit.ssm.treat.dao.impl.LisWebserviceDaoImpl">
+		<property name="location" value="${lis.api.location}" />
+	</bean>
+	<bean id="pacsWebserviceDao" class="com.lenovohit.ssm.treat.dao.impl.PacsWebserviceDaoImpl">
+		<property name="location" value="${pacs.api.location}" />
+	</bean>
+	<!--方式二、使用httpclient的实现resttemplate，带连接池-->
+    <bean id="pollingConnectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager">
+        <!--整个连接池的并发-->
+        <property name="maxTotal" value="1000" />
+        <!--每个主机的并发-->
+        <property name="defaultMaxPerRoute" value="1000" />
+    </bean>
+    
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder" factory-method="create">
+        <property name="connectionManager" ref="pollingConnectionManager" />
+        <!--开启重试-->
+        <property name="retryHandler">
+            <bean class="org.apache.http.impl.client.DefaultHttpRequestRetryHandler">
+                <constructor-arg value="2"/>
+                <constructor-arg value="true"/>
+            </bean>
+        </property>
+        <property name="defaultHeaders">
+            <list>
+                <bean class="org.apache.http.message.BasicHeader">
+                    <constructor-arg value="User-Agent"/>
+                    <constructor-arg value="Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36"/>
+                </bean>
+                <bean class="org.apache.http.message.BasicHeader">
+                    <constructor-arg value="Accept-Encoding"/>
+                    <constructor-arg value="gzip,deflate"/>
+                </bean>
+                <bean class="org.apache.http.message.BasicHeader">
+                    <constructor-arg value="Accept-Language"/>
+                    <constructor-arg value="zh-CN"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="httpClient" factory-bean="httpClientBuilder" factory-method="build" />
+
+    <bean id="clientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+        <constructor-arg ref="httpClient"/>
+        <!--连接超时时间，毫秒-->
+        <property name="connectTimeout" value="5000"/>
+        <!--读写超时时间，毫秒-->
+        <property name="readTimeout" value="10000"/>
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="clientHttpRequestFactory"/>
+        <property name="errorHandler">
+            <bean class="org.springframework.web.client.DefaultResponseErrorHandler"/>
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="pacsEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="pacs" />
+		<property name="dataSource" ref="pacsDataSource" />
+		<property name="packagesToScan" value="com.lenovohit.ssm.treat.hisModel" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="database">${pacs.jpa.database}</prop>
+				<prop key="open-in-view">${spring.jpa.open-in-view}</prop>
+				<prop key="hibernate.show_sql">${spring.jpa.show-sql}</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- <prop key="hibernate.dialect">${spring.jpa.hibernate.dialect}</prop> -->
+				<prop key="hibernate.ejb.naming_strategy">${spring.jpa.hibernate.naming-strategy}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${spring.jpa.hibernate.ddl-auto}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<prop key="properties.transactional.percommit">${spring.jpa.properties.transactional.percommit}</prop>
+			</props>
+		</property>
+	</bean>
+    
+    <!-- 
+ 	<bean id="tmsEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="tms" />
+		<property name="dataSource" ref="tmsDataSource" />
+		<property name="packagesToScan" value="com.lenovohit.ssm.treat.hisModel" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+			 -->
+				<!-- <property name="database" value="HSQL"/> -->
+			<!--  
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="database">${tms.jpa.database}</prop>
+				<prop key="open-in-view">${spring.jpa.open-in-view}</prop>
+				<prop key="hibernate.show_sql">${spring.jpa.show-sql}</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				-->
+				<!-- <prop key="hibernate.dialect">${spring.jpa.hibernate.dialect}</prop> -->
+				<!--
+				<prop key="hibernate.ejb.naming_strategy">${spring.jpa.hibernate.naming-strategy}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${spring.jpa.hibernate.ddl-auto}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<prop key="properties.transactional.percommit">${spring.jpa.properties.transactional.percommit}</prop>
+			</props>
+		</property>
+	</bean>
+	-->
+</beans>

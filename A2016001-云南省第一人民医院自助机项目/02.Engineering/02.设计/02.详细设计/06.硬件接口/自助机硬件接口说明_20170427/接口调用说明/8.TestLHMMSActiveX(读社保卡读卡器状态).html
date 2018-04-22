@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="content-type" content="text/html; charset=gb2312">
+<title>读社保卡读卡器状态ActiveX</title>
+<script type="text/javascript">
+  var ssmocx;
+  var icdev = 0;
+
+  function load(){
+	  ssmocx = document.getElementById("LHSSMDeviceActiveX");
+  }
+
+  function LH_IC_InitComm(){
+	  var json = ssmocx.LH_IC_InitComm(100);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  icdev = dataObj.icdev;
+	  console.info(icdev);
+  }
+
+  function LH_IC_DevBeep(){
+	  var json = ssmocx.LH_IC_DevBeep(icdev, 10);
+	  console.info(json);
+  }
+
+  function LH_IC_InitType(){
+	  var json = ssmocx.LH_IC_InitType(icdev,14);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+  function LH_IC_Status(){
+	  var json = ssmocx.LH_IC_Status(icdev);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+
+  function LH_IC_ExitComm(){
+	  var json = ssmocx.LH_IC_ExitComm(icdev);
+	  console.info(json);
+	  var dataObj = eval("("+json+")");
+	  var stateCode = dataObj.stateCode;
+	  console.info(stateCode);
+  }
+   
+  function getIC_Status(){
+	  var json;
+	  var stateCode;
+	  var dataObj;
+	  json = ssmocx.LH_IC_InitComm(100);
+	  console.info(json);
+	  dataObj = eval("("+json+")");
+	  icdev = dataObj.icdev;
+	  if(icdev > 0){
+		json = ssmocx.LH_IC_DevBeep(icdev, 10);
+		console.info(json);
+		dataObj = eval("("+json+")");
+		stateCode = dataObj.stateCode;
+		if(stateCode == 0){
+			//13 (0x0d)       SAM卡(附卡座上)
+			json = ssmocx.LH_IC_InitType(icdev,14);
+			console.info(json);
+			dataObj = eval("("+json+")");
+			stateCode = dataObj.stateCode;
+			if(stateCode == 0){
+				json = ssmocx.LH_IC_Status(icdev);
+				console.info(json);
+				dataObj = eval("("+json+")");
+				stateCode = dataObj.stateCode;
+				if(stateCode == 0){
+					ssmocx.LH_IC_ExitComm(icdev);
+					alert("有卡");
+				}
+				if(stateCode == 1){
+					ssmocx.LH_IC_ExitComm(icdev);
+					alert("无卡");
+				}	
+			}
+			else{
+				alert("卡型设置错误!");
+			}
+		}
+		else{
+			alert("蜂鸣失败!");
+		}
+	  }
+	  else if(icdev <= 0){
+		  alert("错误，没有初始化成功!");
+	  }
+  }
+
+</script>  
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:99DFF733-1EC8-447C-B5FB-5F88B987421C" > 
+</OBJECT>
+	社保卡读卡器状态：
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IC_InitComm" value="打开串口" type="button" onclick="LH_IC_InitComm()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IC_DevBeep" value="蜂鸣" type="button" onclick="LH_IC_DevBeep()" />&nbsp;&nbsp;
+	<input id="IC_InitType" value="SAM卡设置" type="button" onclick="LH_IC_InitType()" />&nbsp;&nbsp;
+	<input id="IC_Status" value="读卡器状态" type="button" onclick="LH_IC_Status()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IC_ExitComm" value="关闭串口" type="button" onclick="LH_IC_ExitComm()" />&nbsp;&nbsp;
+	<br>
+	<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="IC_Status1" value="读卡器状态" type="button" onclick="getIC_Status()" />&nbsp;&nbsp;
+</body>
+</html>
+
+  

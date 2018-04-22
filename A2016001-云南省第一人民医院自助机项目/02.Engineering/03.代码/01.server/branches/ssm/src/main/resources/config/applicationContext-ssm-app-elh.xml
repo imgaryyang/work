@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="false">
+	<!-- **************** Hospital START **************** -->
+	<bean id="hospitalDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.Hospital" />
+	</bean>
+	<bean id="hospitalManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="hospitalDao" />
+	</bean>
+	<!-- **************** Hospital   END **************** -->
+	
+	<!-- **************** AppPatient START **************** -->
+	<bean id="appPatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.AppPatient" />
+	</bean>
+	<bean id="appPatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appPatientDao" />
+	</bean>
+	<!-- **************** AppPatient   END **************** -->
+	
+	<!-- ****************  Dep  START **************** -->
+	<bean id="depDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.Dep" />
+	</bean>
+	<bean id="depManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="depDao" />
+	</bean>
+	<!-- ****************  Dep  END **************** -->
+	
+	<!-- ****************  AppDepartment  START **************** -->
+	<bean id="appDepartmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.AppDepartment" />
+	</bean>
+	<bean id="appDepartmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appDepartmentDao" />
+	</bean>
+	<!-- ****************  AppDepartment  END **************** -->
+	
+	<!-- ****************  DesignatedHos  START **************** -->
+	<bean id="designatedHosDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.DesignatedHos" />
+	</bean>
+	<bean id="designatedHosManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="designatedHosDao" />
+	</bean>
+	<!-- ****************  DesignatedHos  END **************** -->
+	
+	<!-- ****************  Doctor  START **************** -->
+	<bean id="doctorDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.Doctor" />
+	</bean>
+	<bean id="doctorManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="doctorDao" />
+	</bean>
+	<!-- ****************  Doctor  END **************** -->
+	
+	<!-- ****************  DoctorDuty  START **************** -->
+	<bean id="doctorDutyDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.DoctorDuty" />
+	</bean>
+	<bean id="doctorDutyManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="doctorDutyDao" />
+	</bean>
+	<!-- ****************  DoctorDuty  END **************** -->
+	
+	<!-- ****************  ElhOrg  START **************** -->
+	<bean id="elhOrgDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.ElhOrg" />
+	</bean>
+	<bean id="elhOrgManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="elhOrgDao" />
+	</bean>
+	<!-- ****************  ElhOrg  END **************** -->
+	
+	<!-- ****************  MedicalCard  START **************** -->
+	<bean id="medicalCardDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.MedicalCard" />
+	</bean>
+	<bean id="medicalCardManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="medicalCardDao" />
+	</bean>
+	<!-- ****************  MedicalCard  END **************** -->
+	
+	<!-- ****************  Person  START **************** -->
+	<bean id="personDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.Person" />
+	</bean>
+	<bean id="personManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="personDao" />
+	</bean>
+	<!-- **************** Person   END **************** -->
+	
+	<!-- ****************  PersonInOrg  START **************** -->
+	<bean id="personInOrgDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.PersonInOrg" />
+	</bean>
+	<bean id="personInOrgManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="personInOrgDao" />
+	</bean>
+	<!-- ****************  PersonInOrg  END **************** -->
+	
+	
+	<!-- ****************  Post  START **************** -->
+	<bean id="postDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.Post" />
+	</bean>
+	<bean id="postManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="postDao" />
+	</bean>
+	<!-- ****************  Post  END **************** -->
+	
+	<!-- ****************  SupportCard  START **************** -->
+	<bean id="supportCardDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.SupportCard" />
+	</bean>
+	<bean id="supportCardManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="supportCardDao" />
+	</bean>
+	<!-- ****************  SupportCard  END **************** -->
+	
+	<!-- ****************  UserPatient  START **************** -->
+	<bean id="userPatientDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.UserPatient" />
+	</bean>
+	<bean id="userPatientManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="userPatientDao" />
+	</bean>
+	<!-- ****************  UserPatient  END **************** -->
+	
+	<!-- ****************  Advice  START **************** -->
+	<bean id="adviceDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Advice" />
+	</bean>
+	<bean id="adviceManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="adviceDao" />
+	</bean>
+	<!-- ****************  Advice  END **************** -->
+	
+	<!-- ****************  CheckDetail  START **************** -->
+	<bean id="checkDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.CheckDetail" />
+	</bean>
+	<bean id="checkDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="checkDetailDao" />
+	</bean>
+	<!-- ****************  CheckDetail  END **************** -->
+	
+	<!-- ****************  Cure  START **************** -->
+	<bean id="cureDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Cure" />
+	</bean>
+	<bean id="cureManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="cureDao" />
+	</bean>
+	<!-- ****************  Cure  END **************** -->
+	
+	<!-- ****************  Diagnosis  START **************** -->
+	<bean id="diagnosisDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Diagnosis" />
+	</bean>
+	<bean id="diagnosisManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="diagnosisDao" />
+	</bean>
+	<!-- ****************  Diagnosis  END **************** -->
+	
+	<!-- ****************  DrugDetail  START **************** -->
+	<bean id="drugDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.DrugDetail" />
+	</bean>
+	<bean id="drugDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="drugDetailDao" />
+	</bean>
+	<!-- ****************  DrugDetail  END **************** -->
+	
+	<!-- ****************  DrugOrder  START **************** -->
+	<bean id="drugOrderDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.DrugOrder" />
+	</bean>
+	<bean id="drugOrderManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="drugOrderDao" />
+	</bean>
+	<!-- ****************  DrugOrder  END **************** -->
+	
+	<!-- ****************  DrugRemind  START **************** -->
+	<bean id="drugRemindDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.DrugRemind" />
+	</bean>
+	<bean id="drugRemindManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="drugRemindDao" />
+	</bean>
+	<!-- ****************  DrugRemind  END **************** -->
+	
+	<!-- ****************  MedicalCheck  START **************** -->
+	<bean id="medicalCheckDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.MedicalCheck" />
+	</bean>
+	<bean id="medicalCheckManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="medicalCheckDao" />
+	</bean>
+	<!-- ****************    END **************** -->
+	
+	<!-- ****************  Register  START **************** -->
+	<bean id="registerDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Register" />
+	</bean>
+	<bean id="registerManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="registerDao" />
+	</bean>
+	<!-- ****************  Register  END **************** -->
+	
+	<!-- ****************    START **************** -->
+	<bean id="treatDetailDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.TreatDetail" />
+	</bean>
+	<bean id="treatDetailManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="treatDetailDao" />
+	</bean>
+	<!-- ****************    END **************** -->
+	
+	<!-- ****************  Treatment  START **************** -->
+	<bean id="treatmentDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Treatment" />
+	</bean>
+	<bean id="treatmentManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="treatmentDao" />
+	</bean>
+	<!-- ****************  Treatment  END **************** -->
+	
+	<!-- ****************  Charge  START **************** -->
+	<bean id="chargeDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.Charge" />
+	</bean>
+	<bean id="chargeManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="chargeDao" />
+	</bean>
+	<!-- ****************  Charge  END **************** -->
+	
+	<!-- ****************  AppOrder  START **************** -->
+	<bean id="appOrderDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.AppOrder" />
+	</bean>
+	<bean id="appOrderManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appOrderDao" />
+	</bean>
+	<!-- ****************  AppOrder  END **************** -->
+	
+	<!-- ****************  AppRole  START **************** -->
+	<bean id="appRoleDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.base.model.AppRole" />
+	</bean>
+	<bean id="appRoleManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="appRoleDao" />
+	</bean>
+	<!-- ****************  AppRole  END **************** -->
+	
+	<!-- ****************  TreatDetailLog  START **************** -->
+	<bean id="treatDetailLogDao" class="com.lenovohit.core.dao.impl.GenericDaoJpaImpl">
+		<constructor-arg value="com.lenovohit.ssm.app.elh.treat.model.TreatDetailLog" />
+	</bean>
+	<bean id="treatDetailLogManager" class="com.lenovohit.core.manager.impl.GenericManagerImpl">
+		<constructor-arg ref="treatDetailLogDao" />
+	</bean>
+	<!-- ****************  TreatDetailLog  END **************** -->
+	
+	
+	
+</beans>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页测试ActiveX</title>
+
+<script   language="JavaScript"   type="text/JavaScript">
+	var ssmocx;	
+	function load(){
+		ssmocx = document.getElementById("LHSSMDeviceActiveX");
+		//alert(ssmocx);
+	}
+	
+	//设置设备串口:0成功、 1失败
+	function SetPrintport(){
+		var resultCode = ssmocx.SetPrintport("COM5",38400);
+		//打印机初始化(SetInit):0成功、 1失败
+		/**
+		注意调用此方法前需调用SetDevname/SetPrintport指定设备参数， 如果未调用， 则会从配置文件
+		Config.ini中读取(OCX没有此配置文件)。在此使用SetPrintport设置串口
+		**/
+		if(resultCode == 0){
+			var resultCode1 = ssmocx.SetInit();
+			if(resultCode1 == 0){
+				//alert("初始化成功！");
+				document.getElementById("statuValues").value = "初始化成功！";
+			}
+			else if(resultCode1 == 1){
+				//alert("初始化失败！");
+				document.getElementById("statuValues").value = "初始化失败！";
+			}
+		}
+		else if(resultCode == 1){
+			//alert("设置串口失败！");
+			document.getElementById("statuValues").value = "设置串口失败！";
+		}
+		//alert("SetPrintport="+resultCode);
+		//alert("SetInit="+resultCode1);
+	}
+	
+	/**
+	获取打印机状态(GetStatus):0 打印机正常
+	1 打印机未连接或未上电
+	2 打印机和调用库不匹配
+	3 打印头打开
+	4 切刀未复位
+	5 打印头过热
+	6 黑标错误
+	7 纸尽
+	8 纸将尽
+	**/
+	function GetStatus(){
+		var json = ssmocx.GetStatus();
+		//alert("GetStatus="+json);
+		if(json == 0){
+			document.getElementById("statuValues").value = "打印机正常，请点击打印预约凭条按钮，等预约凭条打印后，再点击打印预约签到凭条按钮";
+		}
+		if(json == 1){
+			document.getElementById("statuValues").value = "打印机未连接或未上电";
+		}
+		if(json == 2){
+			document.getElementById("statuValues").value = "打印机和调用库不匹配";
+		}
+		if(json == 3){
+			document.getElementById("statuValues").value = "打印头打开";
+		}
+		if(json == 4){
+			document.getElementById("statuValues").value = "切刀未复位";
+		}
+		if(json == 5){
+			document.getElementById("statuValues").value = "打印头过热";
+		}
+		if(json == 6){
+			document.getElementById("statuValues").value = "黑标错误";
+		}
+		if(json == 7){
+			document.getElementById("statuValues").value = "纸尽";
+		}
+		if(json == 8){
+			document.getElementById("statuValues").value = "纸将尽";
+		}
+	}
+	
+	//打印自检页(PrintSelfcheck)
+	function PrintSelfcheck(){
+		var json = ssmocx.PrintSelfcheck();
+		//alert("PrintSelfcheck="+json);
+	}
+	
+	//功能测试
+	function TestCall(){
+		ssmocx.SetClean();
+		ssmocx.PrintString("123456789abcdefgABCDE深圳市美松科技有限公司");
+		//加粗
+		ssmocx.SetBold(1);
+		ssmocx.PrintString("123456789abcdefgABCDE深圳市美松科技有限公司");
+		ssmocx.SetBold(0);
+
+		//倍高倍宽
+		ssmocx.SetSizetext(2, 2);
+		ssmocx.PrintString("123456789abcdefgABCDE");
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.SetSizetext(1, 1);
+		//反白
+		ssmocx.SetWhitemodel(1);
+		ssmocx.PrintString("123456789abcdefgABCDE");
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.SetWhitemodel(0);
+		//旋转90°
+		ssmocx.SetRotate(1);
+		ssmocx.PrintString("123456789abcdefgABCDE深圳市美松科技有限公司");
+		ssmocx.SetRotate(0);
+		ssmocx.Print1Dbar(3, 60, 0, 2, 3, "12345670");
+		ssmocx.PrintQrcode("http://www.masung.com.cn",20,3,1);
+		ssmocx.PrintFeedline(2);	
+		//setTimeout(function () { }, 1000); //1000 毫秒  该方法执行一次
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.PrintString("电话：86-0755-28895103/1497/5355");
+		ssmocx.PrintString("传真：86-0755-28896765");
+		ssmocx.PrintString("地址：深圳市龙华新区工业东路利金城商务中心507");		
+		ssmocx.PrintFeedline(6);
+		ssmocx.PrintCutpaper(0);	
+		ssmocx.SetClean();
+		alert("2");
+	}
+	//设置文本放大(SetSizetext)
+	/**
+	int iHeight： 放大高度， 取值(1-8)
+	int iWidth： 放大宽度， 取值(1-8)
+	**/
+	function SetSizetext(){
+		ssmocx.SetClean();
+		ssmocx.SetSizetext(2, 1);
+		ssmocx.PrintString("1234567890ABCDEFGHIJ");
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.SetSizetext(1, 2);
+		ssmocx.PrintString("1234567890ABCDEFGHIJ");
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.SetSizetext(2, 2);
+		ssmocx.PrintString("1234567890ABCDEFGHIJ");
+		ssmocx.PrintString("深圳市美松科技有限公司");
+		ssmocx.PrintFeedline(20);
+		ssmocx.PrintCutpaper(0);
+		ssmocx.SetClean();
+	}
+	
+	//设置斜体(SetItalic)
+	function SetItalic(){
+		ssmocx.SetItalic(1);
+		ssmocx.PrintString("123456789abcdefgABCDE深圳市美松科技有限公司");
+		ssmocx.SetItalic(0);
+		ssmocx.PrintFeedline(20);
+		ssmocx.PrintCutpaper(0);
+		ssmocx.SetClean();
+	}
+	
+	//设置字体加粗(SetBold)
+	//int iBold： 0 不加粗、 1 加粗
+	function SetBold(){
+		ssmocx.SetClean();
+		ssmocx.SetBold(1);
+		ssmocx.PrintString("123456789abcdefgABCDE深圳市美松科技有限公司");
+		ssmocx.PrintFeedline(20);
+		ssmocx.PrintCutpaper(0);
+		ssmocx.SetClean();
+	}
+	
+	//设置反白(SetWhitemodel)
+	//int iWhite： 0 取消反白； 1 设置反白
+	function SetWhitemodel(){
+		ssmocx.SetClean();
+		ssmocx.SetWhitemodel(1);                
+		ssmocx.PrintString("1234567890abcdefgABCDEFG深圳市美松科技有限公司");
+		ssmocx.PrintFeedline(20);
+		ssmocx.PrintCutpaper(0);
+		ssmocx.SetClean();
+	}
+	
+	//设置字体旋转(SetRotate)
+	//int iRotate： 0 解除旋转、 1 顺时针度旋转90°
+	function SetRotate(){
+		ssmocx.SetClean();
+		ssmocx.SetRotate(1);
+		ssmocx.PrintString("1234567890abcdefgABCDEFG深圳市美松科技有限公司");
+		ssmocx.PrintFeedline(20);
+		ssmocx.PrintCutpaper(0);
+		ssmocx.SetClean();
+	}
+	
+	//打印走纸(PrintFeedline)
+	function PrintFeedline(){
+		ssmocx.PrintFeedline(10);
+	}
+	
+	//打印一维条码(Print1Dbar)
+	function Print1Dbar(){
+		ssmocx.Print1Dbar(2, 60, 0, 2, 3, "12345670");
+		ssmocx.PrintFeedline(15);
+		ssmocx.PrintCutpaper(0);
+	}
+	
+	//打印二维码
+	function PrintQrcode(){
+		ssmocx.PrintQrcode("北京",15,3,0);
+		ssmocx.PrintRemainQR();
+		ssmocx.PrintFeedline(5);
+		ssmocx.PrintCutpaper(0);
+	}
+
+	function PrintMarkpositioncut(){
+		var resultCode = ssmocx.PrintMarkpositioncut();
+	}
+
+	function PrintCutpaper0(){
+		var resultCode = ssmocx.PrintCutpaper(0);
+		if(resultCode == 0){
+			alert("串口关闭成功！");
+		}
+		if(resultCode == 0){
+			alert("串口关闭失败！");
+		}
+	}
+
+	function PrintCutpaper1(){
+		var resultCode = ssmocx.PrintCutpaper(1);
+		if(resultCode == 0){
+			alert("串口关闭成功！");
+		}
+		if(resultCode == 0){
+			alert("串口关闭失败！");
+		}
+	}
+
+	function printAppoint(){
+		var setPrintport = ssmocx.SetPrintport("COM5",38400);//设置串口
+		var setInit = ssmocx.SetInit();//打印机初始化
+		var getStatus = ssmocx.GetStatus();
+		/**
+		获取打印机状态(GetStatus):0 打印机正常
+		1 打印机未连接或未上电
+		2 打印机和调用库不匹配
+		3 打印头打开
+		4 切刀未复位
+		5 打印头过热
+		6 黑标错误
+		7 纸尽
+		8 纸将尽
+		**/
+		if(getStatus == 0){
+			var setClean = ssmocx.SetClean();//清理缓存
+			var hospitalArea = "新院区";
+			//char* strData： 打印的字符串内容,int iImme; 是否加换行指令0x0a： 0 加换行指令 1 不加换行指令
+			ssmocx.SetSizetext(1, 2);
+			ssmocx.PrintString("门诊预约签到单（"+hospitalArea+"）");
+			var department = "呼吸内科";
+			var floorNo = "3";
+			var layerNo= "2";
+			ssmocx.PrintString(department+"    "+floorNo+"号楼"+layerNo+"层");
+			var name = "徐晓梅";
+			ssmocx.PrintString("坐诊医师"+name);
+			var underline = "------------------------------------------------";
+			ssmocx.SetSizetext(1, 1);
+			ssmocx.PrintString(underline);
+			var areaCode = "A";
+			var roomNo = "19";
+			var appointNo = "1";
+			var patientName = "陈永仁";
+			ssmocx.SetSizetext(1, 2);
+			ssmocx.PrintString(areaCode+"区"+roomNo+"号诊室  "+appointNo+" 号 "+patientName);
+			var date = "2017-04-08 08:20"
+			ssmocx.PrintString("请您于  "+date);
+			ssmocx.PrintString("到候诊室等候呼叫");
+			var underline1 = "------------------------------------------------";
+			ssmocx.SetSizetext(1, 1);
+			ssmocx.PrintString(underline1);
+			var text1 = "预约单当日有效，预约当日该医师";
+			var text2 = "有可能遇急事不能坐诊，请谅解！";
+			var text3 = "请于当日预约时间前到分诊护士台";
+			var text4 = "报到，否则预约失效！";
+			ssmocx.PrintString(text1);
+			ssmocx.PrintString(text2);
+			ssmocx.PrintString(text3);
+			ssmocx.PrintString(text4);
+			var printDate = "2017-04-07 09:10:10";
+			ssmocx.PrintString("打印时间"+printDate);
+			var printFeedline = ssmocx.PrintFeedline(26);
+			var printCutpaper = ssmocx.PrintCutpaper(0);//int iMode： 0 全切、 1 半切
+			var setClean = ssmocx.SetClean();//清理缓存
+			var resultCode = ssmocx.SetClose();
+			document.getElementById("statuValues").value = "打印成功";
+		}
+		else if(getStatus == 1){
+			alert("打印机未连接或未上电");
+		}
+	}
+
+	function printSignIn(){
+		var setPrintport = ssmocx.SetPrintport("COM5",38400);//设置串口
+		var setInit = ssmocx.SetInit();//打印机初始化
+		var getStatus = ssmocx.GetStatus();
+		/**
+		获取打印机状态(GetStatus):0 打印机正常
+		1 打印机未连接或未上电
+		2 打印机和调用库不匹配
+		3 打印头打开
+		4 切刀未复位
+		5 打印头过热
+		6 黑标错误
+		7 纸尽
+		8 纸将尽
+		**/
+		if(getStatus == 0){
+			var setClean = ssmocx.SetClean();//清理缓存
+			var hospitalArea = "新院区";
+			//char* strData： 打印的字符串内容,int iImme; 是否加换行指令0x0a： 0 加换行指令 1 不加换行指令
+			ssmocx.SetSizetext(1, 2);
+			ssmocx.PrintString("门诊预约签到单（"+hospitalArea+"）");
+			var department = "呼吸内科";
+			var floorNo = "3";
+			var layerNo= "2";
+			ssmocx.PrintString(department+"    "+floorNo+"号楼"+layerNo+"层");
+			var name = "徐晓梅";
+			ssmocx.PrintString("坐诊医师"+name);
+			var underline = "------------------------------------------------";
+			ssmocx.SetSizetext(1, 1);
+			ssmocx.PrintString(underline);
+			var areaCode = "A";
+			var roomNo = "19";
+			var appointNo = "1";
+			var patientName = "陈永仁";
+			ssmocx.SetSizetext(1, 2);
+			ssmocx.PrintString(areaCode+"区"+roomNo+"号诊室  "+appointNo+" 号 "+patientName);
+			var date = "2017-04-08 08:20"
+			ssmocx.PrintString("请您于  "+date);
+			ssmocx.PrintString("到候诊室等候呼叫");
+			var underline1 = "------------------------------------------------";
+			ssmocx.SetSizetext(1, 1);
+			ssmocx.PrintString(underline1);
+			var text1 = "预约单当日有效，预约当日该医师";
+			var text2 = "有可能遇急事不能坐诊，请谅解！";
+			var text3 = "请于当日预约时间前到分诊护士台";
+			var text4 = "报到，否则预约失效！";
+			ssmocx.PrintString(text1);
+			ssmocx.PrintString(text2);
+			ssmocx.PrintString(text3);
+			ssmocx.PrintString(text4);
+			var printDate = "2017-04-08 08:00:10";
+			ssmocx.PrintString("打印时间"+printDate);
+			var printFeedline = ssmocx.PrintFeedline(26);
+			var printCutpaper = ssmocx.PrintCutpaper(0);//int iMode： 0 全切、 1 半切
+			var setClean = ssmocx.SetClean();//清理缓存
+			var resultCode = ssmocx.SetClose();
+			document.getElementById("statuValues").value = "打印成功";
+		}
+		else if(getStatus == 1){
+			alert("打印机未连接或未上电");
+		}
+	}
+	
+	//打印机关闭(SetClose)
+	function SetClose(){  
+		var resultCode = ssmocx.SetClose();
+		if(resultCode == 0){
+			alert("串口关闭成功！");
+		}
+		if(resultCode == 0){
+			alert("串口关闭失败！");
+		}
+	}
+	
+	window.onunload = onunload_handler;
+	function onunload_handler(){
+		if(event.clientX>document.body.clientWidth&&event.clientY<0||event.altKey){
+			alert("关闭端口");
+		}
+
+	}
+
+</script>   
+</head>
+
+<body onload="load()">
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:044F0BF3-9131-4692-A8FF-DF374BA183F7" > 
+</OBJECT>
+	<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：<input id="statuValues" type="text" size="120"/><br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+热敏打印机：<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="initDevice" value="步骤1:打开串口" type="button" onclick="SetPrintport()"/>&nbsp;&nbsp;
+	<input id="GetStatus" value="步骤2:查询状态" type="button" onclick="GetStatus()"/>&nbsp;&nbsp;
+	<!--
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="PrintSelfcheck" value="自检测试" type="button" onclick="PrintSelfcheck()"/>&nbsp;&nbsp;
+	<input id="TestCall" value="功能测试" type="button" onclick="TestCall()"/>&nbsp;&nbsp;
+	<input id="SetSizetext" value="倍高倍宽打印" type="button" onclick="SetSizetext()"/>&nbsp;&nbsp;
+	<input id="SetItalic" value="斜体打印" type="button" onclick="SetItalic()"/>&nbsp;&nbsp;
+	<input id="SetBold" value="加粗打印" type="button" onclick="SetBold()"/>&nbsp;&nbsp;
+	<input id="SetWhitemodel" value="反白打印" type="button" onclick="SetWhitemodel()"/>&nbsp;&nbsp;
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SetRotate" value="旋转打印" type="button" onclick="SetRotate()"/>&nbsp;&nbsp;
+	<input id="PrintFeedline" value="走纸30mm" type="button" onclick="PrintFeedline()"/>&nbsp;&nbsp;
+	<input id="Print1Dbar" value="1D条码打印" type="button" onclick="Print1Dbar()"/>&nbsp;&nbsp;
+	<input id="PrintQrcode" value="QR码打印" type="button" onclick="PrintQrcode()"/>&nbsp;&nbsp;
+	<input id="PrintMarkpositioncut" value="黑标检测" type="button" onclick="PrintMarkpositioncut()"/>&nbsp;&nbsp;
+	<input id="PrintCutpaper0" value="全切" type="button" onclick="PrintCutpaper0()"/>&nbsp;&nbsp;
+	<input id="PrintCutpaper1" value="半切" type="button" onclick="PrintCutpaper1()"/>&nbsp;&nbsp;
+	-->
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="printAppoint" value="步骤3:打印预约凭条" type="button" onclick="printAppoint()"/>&nbsp;&nbsp;
+	<input id="printSignIn" value="步骤4:预约签到凭条" type="button" onclick="printSignIn()"/>&nbsp;&nbsp;
+	<br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input id="SetClose" value="步骤5:关闭串口" type="button" onclick="SetClose()"/>&nbsp;&nbsp;
+</body>
+</html>
+
+  

@@ -1,0 +1,37 @@
+.idb_toolBarItems{
+	padding-left:-1.5rem;
+	padding-right:-1.5rem;
+}
+.idb_toolBarItem {
+	font-size: 3rem;
+	line-height: 6rem;
+	text-align: center;
+	color: #4E4E4E;
+	cursor: pointer;
+}
+
+.idb_date {
+	color: #BC1E1E;
+	font-size: 2.8rem;
+	line-height: 5.6rem;
+}
+
+.idb_date div {
+	padding-left: 3rem;
+	padding-top: .4rem;
+}
+
+.idb_date div img {
+	float: left;
+	width: 3rem;
+	height: 3rem;
+	margin-top: 1.3rem;
+}
+
+.idb_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.idb_rows .row:last-child {
+	border-bottom: 0;
+}

@@ -1,0 +1,183 @@
+#%RAML 0.8
+title: patient_REST_API
+version: 1.0
+baseUri: http://server/api/{version}
+/profile/create:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":"1",
+              "name":"内科"
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+             "name": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":"1",
+                  "name":"内科"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+/info:
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id": "00000001", 
+                "name": "王五四", 
+                "idCardNo": "110100198609111894",
+                "miCardNo": "110100198609111894",
+                "medicalCardNo": "20167890", 
+                "gender": "1", 
+                "birthday": "1986-09-11", 
+                "age": "31", 
+                "mobile": "13657869099", 
+                "medium": "1", 
+                "accountNo": "622665002398",
+                "actStatus": "0"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+/{id}:
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "userId": "00000001", 
+                "name": "王五四", 
+                "iDCardNo": "110100198609111894", 
+                "gender": "1", 
+                "birthday": "1986-09-11", 
+                "age": "31", 
+                "mobile": "13657869099", 
+                "medium": "1", 
+                "medicalCardNo": "20167890", 
+                "sICardNo": "110100198609111894", 
+                "mICardNo": "58976632", 
+                "prepaidOpened": false
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+/openDeposit:
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+/card/issue:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":"1",
+              "name":"内科"
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+             "name": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":"1",
+                  "name":"内科"
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }

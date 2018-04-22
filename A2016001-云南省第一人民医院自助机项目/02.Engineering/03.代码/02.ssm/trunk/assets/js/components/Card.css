@@ -1,0 +1,13 @@
+.card_container {
+	position: relative;
+	background-color: rgba(255, 255, 255, .5);
+	/*border: 1px solid #CCCCCC;*/
+}
+
+.card_title {
+	height: 4.5rem;
+	text-align: center;
+	font-size: 3rem;
+	line-height: 4.5rem;
+	border-bottom: 1px solid #E4E4E4;
+}

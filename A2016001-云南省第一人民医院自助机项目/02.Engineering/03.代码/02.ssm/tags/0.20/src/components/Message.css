@@ -1,0 +1,61 @@
+
+.container {
+  position: absolute;
+  left: 30px;
+  background-color: rgba(255, 255, 255, .95);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+  overflow: hidden;
+  border-bottom-left-radius: .6rem;
+	border-bottom-right-radius: .6rem;
+}
+
+.iconContainer {
+	position: absolute;
+	top: 1.5rem;
+	left: 2rem;
+}
+
+.iconContainer i {
+	font-size: 3rem;
+	color: #BC1E1E;
+}
+
+.msgContainer {
+	position: relative;
+	overflow: hidden;
+	font-size: 3rem;
+	text-align: center;
+}
+
+.msg {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	height: 3rem;
+	line-height: 5rem;
+	font-size: 3rem;
+}
+
+.timer {
+	font-size: 1.8rem;
+	line-height: 4rem;
+	color: #BC1E1E;
+}
+
+.btn {
+	float: right;
+	font-size: 2.2rem;
+	line-height: 4rem;
+	width: 15rem;
+	text-align: center;
+	border: 1px solid #BC1E1E;
+	color: #BC1E1E;
+	border-radius: .5rem;
+	cursor: pointer;
+}
+
+

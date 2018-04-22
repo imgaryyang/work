@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html style="font-size:12px;">
+<head>
+    <title>联想智慧医疗自助机系统</title>
+</head>
+<body >
+<img id='imgdom' height='100%' width='100%' src="" />
+<script src="./js/lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+var images =[];
+function refresh(callback){
+	$.ajax({
+		url: '/api/ssm/base/notice/assets',
+		dataType: 'json',
+		method: 'GET',
+		success: function(data) {
+			images = data.result||[];
+			//console.info(data);
+			if(callback)callback();
+		},
+		error: function(xhr) {
+		}
+	})
+}
+var totalTime = 5*60*10000;
+var timeout = totalTime;
+var interval = 10*1000;
+var index=0;
+
+function exchange(){
+	timeout = timeout -interval;
+	if(timeout <=0){
+		timeout = totalTime;
+		refresh();
+	}
+	if(index >= images.length){
+		index = 0;
+	}else{
+		//console.info(index,images[index].url);
+		$("#imgdom").attr("src",'/api'+images[index].url);
+		index++;
+	}
+	setTimeout(exchange,interval);
+}
+$(document).ready(function(){
+	refresh(exchange);
+	//exchange();
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+/* top */
+.container {
+	height: 100%;
+	font-size: 3rem;
+}
+
+.workspace {
+	position: relative;
+	/*display: block;*/
+	margin: 0 auto;
+	/*background: rgba(255, 255, 255, .1);*/
+	overflow: hidden;
+}

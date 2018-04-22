@@ -1,0 +1,18 @@
+
+.toolBarItem {
+	font-size: 3rem;
+	line-height: 6rem;
+	text-align: center;
+	color: #4E4E4E;
+	cursor: pointer;
+	padding-left: .5rem;
+	padding-right: .5rem;
+}
+
+.row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.rows .row:last-child {
+	border-bottom: 0;
+}

@@ -1,0 +1,40 @@
+
+
+.brief div {
+	font-size: 1.6rem;
+}
+
+.total div {
+	font-size: 1.6rem;
+}
+
+.rows {
+	margin-top: .8rem;
+}
+
+.rows .rowTitle {
+	font-size: 2rem;
+	border-bottom: 1px solid #E4E4E4;
+	padding: .5rem;
+}
+
+.subRows, .subRowsTitle {
+	padding-right: 1rem;
+}
+
+.subRowsTitle div {
+	font-size: 1.5rem;
+}
+
+.subRows div {
+	font-size: 1.6rem;
+}
+
+.subRows div, .subRowsTitle div {
+	padding: .5rem;
+}
+
+
+
+
+

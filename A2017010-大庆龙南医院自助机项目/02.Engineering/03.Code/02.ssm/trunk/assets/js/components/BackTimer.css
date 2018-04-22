@@ -1,0 +1,39 @@
+.btimer_container {
+	/*width: 42rem;*/
+	margin: 0 auto;
+	/*display: block;*/
+	font-size: 3rem;
+	color: #BC1E1E;
+	text-align: center;
+}
+
+/*.time {
+	float: left;
+	background-color: #FF6600;
+	border: 1px solid #a7a7aa;
+	width: 6rem;
+	height: 6rem;
+	border-radius: 3rem;
+	text-align: center;
+	font-family: "Arial Black";
+	font-size: 3rem;
+	line-height: 6rem;
+}
+
+.text {
+	font-size: 3rem;
+	margin-left: 6rem;
+	line-height: 6rem;
+	height: 6rem;
+	width: 36rem;
+	padding-left: 2rem;
+	white-space: nowrap;
+}*/
+
+.btimer_time {
+	font-family: "Arial Black";
+}
+
+.btimer_text {
+
+}

@@ -1,0 +1,43 @@
+@import "../../utils/common";
+
+.title {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid @IOS_SEP_LINE;
+  border-radius: 5px;
+  .textCenter;
+  .font13;
+  .ellipsisText;
+}
+
+.item {
+  margin: 0 0 10px 10px;
+  border: 1px solid @LINE;
+  border-radius: 5px;
+  background-color: white;
+  height: 55px;
+  .left {
+    flex: 2;
+    background-color: @IOS_BLUE;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    .font15;
+    .textCenter;
+    height: 100%;
+    color: white;
+  }
+  .right {
+    flex: 3;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    .font13;
+    .textCenter;
+    .fontGray;
+    height: 100%;
+  }
+}
+
+.noData {
+  margin: 0 auto;
+}
+

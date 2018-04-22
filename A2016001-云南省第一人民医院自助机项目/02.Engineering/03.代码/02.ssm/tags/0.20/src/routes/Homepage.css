@@ -1,0 +1,83 @@
+.header {
+	overflow: hidden;
+}
+
+.headerLogo {
+
+}
+
+.headerTitle {
+	font-weight: 500;
+}
+
+.headerBtn div {
+	font-size: 3rem;
+	color: #ffffff;
+	font-weight: 500;
+	cursor: pointer;
+	background-color: #BC1E1E;
+	border-radius: .6rem;
+	text-align: center;
+}
+
+
+.container {
+	margin: auto;
+	display: table;
+}
+
+.container .center {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.row {
+	padding: 0 1rem 1rem 1rem;
+}
+
+.col {
+	padding: 1rem;
+}
+
+.footer {
+	text-align: center;
+	position: relative;
+}
+
+.bottomLogo {
+	margin: 0 auto;
+	width: 6rem;
+	height: 3rem;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 6rem auto;
+}
+
+.bottomText {
+	font-size: 1.5rem;
+	line-height: 3rem;
+	white-space: nowrap;
+}
+
+.bottomLine {
+	position: relative;
+}
+
+.bottomLine span {
+	position: absolute;
+	display: block;
+	width: 90%;
+	height: 1px;
+	background-color: #E4E4E4;
+	top: 1.5rem;
+}
+
+.bottomLineLeft {
+	left: 0;
+}
+
+.bottomLineRight {
+	right: 0;
+}
+
+

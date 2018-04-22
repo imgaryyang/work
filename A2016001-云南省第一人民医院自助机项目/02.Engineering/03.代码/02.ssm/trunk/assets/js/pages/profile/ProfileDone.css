@@ -1,0 +1,17 @@
+
+.card_done_guidePic {
+	margin: 2.5rem auto;
+	display: block;
+	height: 25rem;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.card_done_guideTextContainer {
+	margin: 2rem auto;
+	text-align: center;
+}
+
+.card_done_guideText {
+	font-size: 4rem;
+}

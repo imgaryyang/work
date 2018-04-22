@@ -1,0 +1,65 @@
+
+.mitype_container {
+	overflow: hidden;
+}
+
+.mitype_innerContainer {
+}
+
+.mitype_career {
+	position: relative;
+	font-size: 5rem;
+	/* background-color: #bc1e1e; */
+	font-weight: 500;
+	line-height: 15rem;
+	text-align: center;
+	cursor: pointer;
+	/* color: white; */
+	border: 1px solid #E4E4E4;
+	border-radius: .6rem;
+}
+
+.mitype_day span {
+	display: block;
+	padding-top: 1rem;
+}
+
+.mitype_d_weekend {
+	/*color: #828282;*/
+}
+
+.mitype_d_sun {
+	width: 50%;
+}
+
+.mitype_selectedDay {
+	/*display: block;
+	width: 100%;
+	height: 100%;*/
+	background-color: #BC1E1E;
+	color: #ffffff;
+	border-radius: .6rem;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.mitype_firstOrLastMonthDay {
+	position: absolute;
+	width: 100%;
+	font-size: 1.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	border-top-left-radius: .6rem;
+	border-top-right-radius: .6rem;
+	color: #ffffff;
+}
+
+.mitype_firstDayOfMonth {
+	background-color: #BC1E1E;
+}
+
+.mitype_lastDayOfMonth {
+	background-color: #979797;
+}
+
+
+

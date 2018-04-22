@@ -1,0 +1,17 @@
+.info_container {
+}
+
+.info_msg {
+	font-size: 4rem;
+	line-height: 6rem;
+	text-align: center;
+}
+
+.info_doneImg {
+	margin: 0 auto;
+	display: block;
+	width: 20rem;
+	height: 20rem;
+	margin-top: 4rem;
+}
+

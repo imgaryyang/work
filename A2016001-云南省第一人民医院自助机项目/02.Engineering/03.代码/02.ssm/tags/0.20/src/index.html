@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>联想智慧医疗自助服务系统</title>
+  <link rel="stylesheet" href="index.css" />
+  <style type="text/css">
+  	html, body {
+			padding: 0;
+	    margin: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    font-size: 12px;
+	    font-family: "MicrosoftYaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu;
+			color: #4E4E4E;
+			background-color: #f5f5f5;
+
+	    -webkit-touch-callout: none;
+				-webkit-user-select: none;
+				 -khtml-user-select: none;
+					 -moz-user-select: none;
+						-ms-user-select: none;
+								user-select: none;
+		}
+	  #root {
+	  	position: fixed;
+	    width: 100%;
+	    left: 0;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    z-index: 10;
+	  }
+	  * {
+	    -webkit-user-select: none;
+	     -khtml-user-select: none;
+	       -moz-user-select: -moz-none;
+	         -o-user-select: none;
+	            user-select: none;
+		}
+  </style>
+</head>
+<body id="$APP_ROOT_BODY" >
+<div id="root"></div>
+<OBJECT id="unpay" width="0" height="0" classid="clsid:995B923A-52BF-4343-99BF-62D25B0ED2B7" ></OBJECT>
+<OBJECT id="all_device" width="0" height="0" classid="clsid:E3E639C7-5751-474E-996E-EC1CDABA648A" ></OBJECT>
+<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> 
+	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0 pluginspage="install_lodop32.exe" />
+</object>
+<script type="text/javascript">
+
+	var _windowWidth = window.screen.width;
+	var _windowHeight = window.screen.height;
+
+	var _screenWidth = document.body.clientWidth;
+	var _screenHeight = document.body.clientHeight;
+</script>
+<script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/* top */
+.container {
+	height: 100%;
+	background-color: #f5f5f5;
+	font-size: 3rem;
+}
+
+.workspace {
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+}

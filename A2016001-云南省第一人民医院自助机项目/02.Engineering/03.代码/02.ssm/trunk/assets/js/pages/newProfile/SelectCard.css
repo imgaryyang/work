@@ -1,0 +1,12 @@
+
+
+.profile_scard_block {
+	margin: 2.5rem auto;
+	display: block;
+	height: 25rem;
+	line-height: 25rem;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	background-color: white;
+}

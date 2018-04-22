@@ -1,0 +1,26 @@
+
+.comsume_row {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+.comsume_rows .row:last-child {
+	border-bottom: 0;
+}
+.comsume_toolBarItem {
+  text-align: center;
+  line-height: 6rem;
+  cursor: pointer;
+  font-size: 2.5rem;
+}
+
+/* .toolBarItem div {
+  padding-left: 3rem;
+} */
+
+.comsume_toolBarItem img {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  left: 1rem;
+  top: 1.5rem;
+}

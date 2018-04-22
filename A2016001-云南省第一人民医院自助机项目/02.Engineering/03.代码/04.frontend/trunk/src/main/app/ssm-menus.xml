@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-menu-config" raml="ssm-menu.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-menu-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/menu/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-menu-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    <flow name="get:/list:rest-menu-config">
+        <set-payload value="{&quot;success&quot;:true,&quot;result&quot;:[{
+	  &quot;name&quot;:&quot;&#23548;&#33322;1&quot;,
+	  &quot;code&quot;:&quot;m1&quot;,
+	  &quot;icon&quot;:&quot;appstore&quot;
+  },{
+	  &quot;name&quot;:&quot;&#38376;&#35786;&#21307;&#29983;&#31449;&quot;,
+	  &quot;code&quot;:&quot;clinic&quot;,
+	  &quot;icon&quot;:&quot;appstore&quot;,
+	  &quot;children&quot;:[{
+		  &quot;name&quot;:&quot;&#33756;&#21333;a&quot;,
+		  &quot;code&quot;:&quot;ma&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;,
+		  &quot;children&quot;:[{
+			  &quot;name&quot;:&quot;&#33756;&#21333;b&quot;,
+			  &quot;code&quot;:&quot;mb&quot;,
+			  &quot;icon&quot;:&quot;setting&quot;
+		  },{
+			  &quot;name&quot;:&quot;&#33756;&#21333;c&quot;,
+			  &quot;code&quot;:&quot;mc&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  },{
+			  &quot;name&quot;:&quot;&#33756;&#21333;d&quot;,
+			  &quot;code&quot;:&quot;md&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  }]
+	},{
+		  &quot;name&quot;:&quot;&#33756;&#21333;e&quot;,
+		  &quot;code&quot;:&quot;me&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;,
+		  &quot;children&quot;:[{
+			  &quot;name&quot;:&quot;&#33756;&#21333;e&quot;,
+			  &quot;code&quot;:&quot;me&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  }]
+	},{
+		  &quot;name&quot;:&quot;&#33756;&#21333;f&quot;,
+		  &quot;code&quot;:&quot;mf&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;
+	}]
+  },{
+	  &quot;name&quot;:&quot;&#23548;&#33322;3&quot;,
+	  &quot;code&quot;:&quot;m3&quot;,
+	  &quot;icon&quot;:&quot;setting&quot;,
+	  &quot;children&quot;:[{
+		  &quot;name&quot;:&quot;&#33756;&#21333;1&quot;,
+		  &quot;code&quot;:&quot;m1&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;,
+		  &quot;children&quot;:[{
+			  &quot;name&quot;:&quot;&#33756;&#21333;2&quot;,
+			  &quot;code&quot;:&quot;m2&quot;,
+			  &quot;icon&quot;:&quot;setting&quot;
+		  },{
+			  &quot;name&quot;:&quot;&#33756;&#21333;3&quot;,
+			  &quot;code&quot;:&quot;m3&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  },{
+			  &quot;name&quot;:&quot;&#33756;&#21333;4&quot;,
+			  &quot;code&quot;:&quot;m4&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  }]
+	},{
+		  &quot;name&quot;:&quot;&#33756;&#21333;5&quot;,
+		  &quot;code&quot;:&quot;m5&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;,
+		  &quot;children&quot;:[{
+			  &quot;name&quot;:&quot;&#33756;&#21333;6&quot;,
+			  &quot;code&quot;:&quot;m6&quot;,
+			  &quot;icon&quot;:&quot;appstore&quot;
+		  }]
+	},{
+		  &quot;name&quot;:&quot;&#33756;&#21333;7&quot;,
+		  &quot;code&quot;:&quot;m7&quot;,
+		  &quot;icon&quot;:&quot;appstore&quot;
+	}]
+  },{
+	  &quot;name&quot;:&quot;&#23548;&#33322;4&quot;,
+	  &quot;code&quot;:&quot;m4&quot;,
+	  &quot;icon&quot;:&quot;appstore&quot;
+  },{
+	  &quot;name&quot;:&quot;&#23548;&#33322;5&quot;,
+	  &quot;code&quot;:&quot;m5&quot;,
+	  &quot;icon&quot;:&quot;appstore&quot;
+  },{
+	  &quot;name&quot;:&quot;&#23548;&#33322;6&quot;,
+	  &quot;code&quot;:&quot;m6&quot;,
+	  &quot;icon&quot;:&quot;alipay&quot;
+  },{
+	  &quot;name&quot;:&quot;&#23548;&#33322;7&quot;,
+	  &quot;code&quot;:&quot;m7&quot;,
+	  &quot;icon&quot;:&quot;appstore&quot;
+  }
+  ]}" doc:name="Set Payload" encoding="UTF-8" mimeType="application/json;charset=utf-8"/>
+    </flow>
+    <flow name="get:/{deptId}:rest-menu-config">
+        <set-payload value="{&#xA;    &quot;id&quot;:&quot;1&quot;,&#xA;    &quot;name&quot;:&quot;内科&quot;&#xA;}" doc:name="Set Payload"/>
+    </flow>
+</mule>

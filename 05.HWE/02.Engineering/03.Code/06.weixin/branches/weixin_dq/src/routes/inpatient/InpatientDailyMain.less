@@ -1,0 +1,72 @@
+@import "../../utils/common";
+
+.container {
+  flex: 1;
+  background-color: @IOS_GRAY_BG;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolBar {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+}
+
+.topBar {
+  border-bottom: 1px solid @LINE;
+  justify-content: center;
+}
+
+.selectDate {
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  padding-right: 8px;
+}
+
+.bottomBar {
+  height: 50px;
+  border-top: 1px solid @LINE;
+  justify-content: flex-end;
+  padding-right: 15px;
+  font-size: 14px;
+  color: @IOS_BLUE;
+}
+
+.listContainer {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.name {
+  flex: 1;
+  font-size: 12px;
+  color: @FONT_GRAY;
+}
+
+.price {
+  width: 70px;
+  font-size: 12px;
+  color: @FONT_GRAY;
+  text-align: right;
+}
+
+.itemTotal {
+  width: 60px;
+  font-size: 12px;
+  color: black;
+  text-align: right;
+}

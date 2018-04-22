@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <apikit:config name="ssm-patient-config" raml="ssm-patient.raml" consoleEnabled="false" doc:name="Router"/>
+    <flow name="ssm-patient-main">
+        <http:listener config-ref="ssm-main-httpListenerConfig" path="/frontend/ssm/patient/*" doc:name="HTTP"/>
+        <apikit:router config-ref="ssm-patient-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="ssm-main-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    <flow name="post:/profile/create:ssm-patient-config">
+        <set-payload value="{&quot;success&quot;: true,   &quot;id&quot;: &quot;00000001&quot;,    &quot;name&quot;: &quot;&#29579;&#20116;&#22235;&quot;,    &quot;idCardNo&quot;: &quot;110100198609111894&quot;,    &quot;gender&quot;: &quot;1&quot;,    &quot;birthday&quot;: &quot;1986-09-11&quot;,    &quot;age&quot;: &quot;31&quot;,    &quot;mobile&quot;: &quot;13657869099&quot;,    &quot;medicalCardNo&quot;: &quot;20167890&quot;,    &quot;medicalCardState&quot;: &quot;0&quot; }" doc:name="Set Payload"/>
+    </flow>
+    <flow name="get:/info:ssm-patient-config">
+        <set-payload value="{
+                &quot;id&quot;: &quot;00000001&quot;, 
+                &quot;name&quot;: &quot;&#29579;&#20116;&#22235;&quot;, 
+                &quot;idCardNo&quot;: &quot;110100198609111894&quot;,
+                &quot;miCardNo&quot;: &quot;110100198609111894&quot;,
+                &quot;medicalCardNo&quot;: &quot;20167890&quot;, 
+                &quot;gender&quot;: &quot;1&quot;, 
+                &quot;birthday&quot;: &quot;1986-09-11&quot;, 
+                &quot;age&quot;: &quot;31&quot;, 
+                &quot;mobile&quot;: &quot;13657869099&quot;, 
+                &quot;medium&quot;: &quot;1&quot;, 
+                &quot;accountNo&quot;: &quot;622665002398&quot;,
+                &quot;actStatus&quot;: &quot;0&quot;
+              }" doc:name="Set Payload"/>
+    </flow>
+    <flow name="get:/{id}:ssm-patient-config">
+        <set-payload value="{
+                &quot;id&quot;: &quot;00000001&quot;, 
+                &quot;name&quot;: &quot;&#29579;&#20116;&#22235;&quot;, 
+                &quot;idCardNo&quot;: &quot;110100198609111894&quot;,
+                &quot;miCardNo&quot;: &quot;110100198609111894&quot;,
+                &quot;medicalCardNo&quot;: &quot;20167890&quot;, 
+                &quot;gender&quot;: &quot;1&quot;, 
+                &quot;birthday&quot;: &quot;1986-09-11&quot;, 
+                &quot;age&quot;: &quot;31&quot;, 
+                &quot;mobile&quot;: &quot;13657869099&quot;, 
+                &quot;medium&quot;: &quot;1&quot;, 
+                &quot;accountNo&quot;: &quot;622665002398&quot;,
+                &quot;actStatus&quot;: &quot;0&quot;
+              }" doc:name="Set Payload"/>
+    </flow>
+    <flow name="get:/openDeposit:ssm-patient-config">
+        <set-payload value="{ 
+&quot;miCardNo&quot;:&quot;&quot;,
+&quot;medicalCardNo&quot;:&quot;&quot;,
+&quot;idNo&quot;:&quot;&quot;,
+&quot;id&quot;:&quot;&quot;,
+&quot;name&quot;:&quot;&quot;,
+&quot;gender&quot;:&quot;&quot;,
+&quot;actStatus&quot;:&quot;1&quot;,
+&quot;accountNo&quot;:&quot;&quot;,
+&quot;birthday&quot;:&quot;&quot;,
+&quot;age&quot;:&quot;&quot;,
+&quot;mobile&quot;:&quot;&quot;,
+&quot;medium&quot;:&quot;&quot;,
+&quot;nation&quot;:&quot;&quot;,
+&quot;address&quot;:&quot;&quot;,
+&quot;idIssuer&quot;:&quot;&quot;,
+&quot;idEffectiveDate&quot;:&quot;&quot;
+}" doc:name="Set Payload"/>
+    </flow>
+    <flow name="post:/card/issue:ssm-patient-config">
+        <set-payload value="{   &quot;id&quot;: &quot;00000001&quot;,    &quot;name&quot;: &quot;&#29579;&#20116;&#22235;&quot;,    &quot;idCardNo&quot;: &quot;110100198609111894&quot;,    &quot;gender&quot;: &quot;1&quot;,    &quot;birthday&quot;: &quot;1986-09-11&quot;,    &quot;age&quot;: &quot;31&quot;,    &quot;mobile&quot;: &quot;13657869099&quot;,    &quot;medicalCardNo&quot;: &quot;20167890&quot;,    &quot;medicalCardState&quot;: &quot;1&quot; }" doc:name="Set Payload"/>
+    </flow>
+</mule>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html style="font-size:12px;">
+<head>
+    <title>联想智慧医疗自助机系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="./styles/antd.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/base.css" />
+    <style type="text/css">
+  	html, body {
+			padding: 0;
+	    margin: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    font-size: 12px;
+	    font-family: "MicrosoftYaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu;
+			color: #4E4E4E;
+			background-color: #f5f5f5;
+
+	    -webkit-touch-callout: none;
+				-webkit-user-select: none;
+				 -khtml-user-select: none;
+					 -moz-user-select: none;
+						-ms-user-select: none;
+								user-select: none;
+		}
+	  #root {
+	  	position: fixed;
+	    width: 100%;
+	    left: 0;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    z-index: 10;
+	  }
+	  * {
+	    -webkit-user-select: none;
+	     -khtml-user-select: none;
+	       -moz-user-select: -moz-none;
+	         -o-user-select: none;
+	            user-select: none;
+		}
+  </style>
+</head>
+<body id="$APP_ROOT_BODY" >
+<div style="display:none;">
+<input id="idCardUserName" name="idCardUserName" type="hidden" />
+<input id="idCardAddress" name="idCardAddress" type="hidden" />
+<OBJECT id="LHSSMDeviceActiveX" width="0" height="0" classid="clsid:D371CF92-BBA4-4F18-9295-E58DAD074FD9" ></OBJECT>
+<!-- 证卡打印机 -->
+<OBJECT id="P280EActiveX"       width="0" height="0" classid="clsid:03F2C20B-67F6-44CF-A221-0F35B5769D17" ></OBJECT>
+<object id="hitiActiveX" classid="clsid:EB37F615-6BEC-46A2-880D-2C89EB9AE739" height="0" width="0"></object>
+<!-- 热敏打印机 -->
+<OBJECT id="MSPrintActiveX"     width="0" height="0" classid="clsid:044F0BF3-9131-4692-A8FF-DF374BA183F7" ></OBJECT>
+<!-- 银联 -->
+<!-- <OBJECT id="unpay"              width="0" height="0" classid="clsid:995B923A-52BF-4343-99BF-62D25B0ED2B7" ></OBJECT> -->
+
+<!-- 新利 -->
+<OBJECT id="SingleePayActiveX" width="0" height="0" classid="clsid:E847204A-A76B-4531-B754-93C32712121E" ></OBJECT> 
+
+<!-- 身份证读卡器 -->
+<!--  
+<OBJECT id="IdCardActiveX"      width="0" height="0" classid="clsid:F1317711-6BDE-4658-ABAA-39E31D3704D3" ></OBJECT>
+-->
+<!-- 日志 -->
+<OBJECT id="LHSSMLogActiveX"      width="0" height="0" classid="clsid:159CB74C-29A6-4D8F-821F-76AA84DEA71E" ></OBJECT>
+
+<!-- Lodop打印控件 -->
+<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0" > 
+	<embed id="LODOP_EM" type="application/x-print-lodop" width="0" height="0"  pluginspage="install_lodop32.exe" />
+</object>
+</div>
+<!--  
+<script for=IdCardActiveX event="Readed()">
+      var idCard = document.getElementById('IdCardActiveX');
+      var info = {
+    		  NameS : idCard.NameS,
+    		  NameL : idCard.NameL,
+    		  Sex : idCard.Sex,
+    		  SexL : idCard.SexL,
+    		  Nation : idCard.Nation,
+    		  NationL : idCard.NationL,
+    		  Born : idCard.Born,
+    		  BornL : idCard.BornL,
+    		  CardNo : idCard.CardNo,
+    		  Address : idCard.Address,
+    		  newAddress : idCard.newAddress,
+    		  Police  : idCard.Police,
+    		  Activity : idCard.Activity  ,
+    		  ActivityL : idCard.ActivityL  ,
+    		  JPGfile : idCard.JPGfile  ,
+    		  BMPfile : idCard.BMPfile  ,
+    		  JPGBuffer : idCard.JPGBuffer  ,
+    		  BMPBuffer : idCard.BMPBuffer  ,
+    		  FGchar1 : idCard.FGchar1,
+    		  FGchar2 : idCard.FGchar2,
+    		  FGchar2 : idCard.FGchar2,
+    		};
+      console.info('html onIdCardReaded',info);
+      function callback (){
+    	  console.info('html onIdCardReaded callback');
+    	  window.onIdCardReaded(info);
+      }
+      if(window.onIdCardReaded){
+    	  setTimeout(callback,50);
+      }
+</script>
+-->
+<script type="text/javascript">
+
+	var _windowWidth = window.screen.width;
+	var _windowHeight = window.screen.height;
+
+	var _screenWidth = document.body.clientWidth;
+	var _screenHeight = document.body.clientHeight;
+</script>
+<div id="body">
+    加载中...
+</div>
+<script src="./js/lib/tools.js"></script>
+<script src="./js/lib/LodopFuncs.js"></script>
+<script src="./js/lib/react.js"></script>
+<script src="./js/lib/react-dom.js"></script>
+<script src="./js/lib/ReactRouter.js"></script>
+<script src="./js/lib/antd.min.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
+

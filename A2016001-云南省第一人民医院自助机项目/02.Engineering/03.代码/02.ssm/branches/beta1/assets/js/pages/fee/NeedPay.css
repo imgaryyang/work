@@ -1,0 +1,102 @@
+
+.needpay_listContainer {
+	overflow: auto;
+}
+
+.needpay_titleRow {
+	cursor: pointer;
+}
+
+.needpay_titleCol, .detailTitleCol {
+	line-height: 3.5rem !important;
+	white-space: nowrap;
+}
+
+.needpay_titleCol {
+	padding: 1rem 1rem .5rem 1rem;
+}
+
+.needpay_titleCol font, .detailTitleCol font {
+	color: #999999;
+}
+
+.needpay_titleCol p, .titleCol i {
+	/*font-size: 2rem;*/
+	font-weight: normal;
+	color: #BC1E1E;
+	line-height: 3rem !important;
+}
+
+.needpay_titleRow .titleCol:first-child {
+	padding-top: 1.5rem;
+}
+
+.needpay_titleRow .titleCol:last-child {
+	cursor: pointer;
+	border-left: 1px solid #BC1E1E;
+	padding-top: 1.5rem;
+}
+
+.needpay_titleCol b, .detailCol b {
+	font-weight: bolder !important;
+	font-size: 2rem;
+}
+
+
+
+.needpay_detailContainer {
+	padding: 0 3rem 1rem 3rem;
+	border-top: 1px solid #E4E4E4;
+}
+
+.needpay_detailTitleCol {
+	font-size: 2rem;
+}
+
+.needpay_detailCol {
+	padding: .3rem 1rem;
+}
+
+.needpay_footer div {
+}
+.needpay_tip {
+	font-size: 2rem;
+	line-height: 3rem;
+	color: #BC1E1E;
+	padding-left: 3rem;
+	padding-top: 1.5rem;
+	font-size: 2rem;
+}
+.needpay_totalamt {
+	font-size: 2rem;
+	line-height: 3rem;
+	color: #BC1E1E;
+	padding-left: 3rem;
+	padding-top: 1.5rem;
+	font-size: 2rem;
+}
+
+
+.needpay_buttonContainer {
+	padding-right: 3rem;
+	padding-left: 3rem;
+}
+.needpay_guidePic {
+	margin: 2.5rem auto;
+	display: block;
+	height: 25rem;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.needpay_guideTextContainer {
+	margin: 0 auto;
+	text-align: center;
+	background-color:'#f5f5f5';
+}
+
+.needpay_guideText {
+	font-size: 4rem;
+	background-color:'#f5f5f5';
+}
+

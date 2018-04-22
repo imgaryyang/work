@@ -1,0 +1,16 @@
+
+.porder_balance {
+  display: block;
+  line-height: 5.5rem;
+  font-size: 2.6rem;
+}
+
+.porder_balance font {
+  color: #BC1E1E;
+}
+
+.porder_tip {
+  display: block;
+  font-size: 2.6rem;
+  line-height: 3rem;
+}

@@ -1,0 +1,81 @@
+
+.week_container {
+	overflow: hidden;
+}
+
+.week_innerContainer {
+}
+
+.week_weekdaysRow {
+	width: 100%;
+	/*border-bottom: 1px solid #a7a7aa;*/
+}
+
+.week_weekday {
+	display: block;
+	height: 6rem;
+	font-size: 2.8rem;
+	line-height: 6rem;
+	text-align: center;
+}
+
+.week_w_weekend {
+	color: #828282;
+}
+
+.week_w_sun {
+	width: 50%;
+}
+
+.week_day {
+	position: relative;
+	font-size: 4rem;
+	font-weight: 500;
+	line-height: 8rem;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #E4E4E4;
+	border-radius: .6rem;
+}
+
+.week_day span {
+	display: block;
+	padding-top: 1rem;
+}
+
+.week_d_weekend {
+	/*color: #828282;*/
+}
+
+.week_d_sun {
+	width: 50%;
+}
+
+.week_selectedDay {
+	/*display: block;
+	width: 100%;
+	height: 100%;*/
+	background-color: #BC1E1E;
+	color: #ffffff;
+	border-radius: .6rem;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.week_firstOrLastMonthDay {
+	position: absolute;
+	width: 100%;
+	font-size: 1.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	border-top-left-radius: .6rem;
+	border-top-right-radius: .6rem;
+	color: #ffffff;
+}
+
+.week_firstDayOfMonth {
+	background-color: #BC1E1E;
+}
+
+.week_lastDayOfMonth {
+	background-color: #979797;
+}

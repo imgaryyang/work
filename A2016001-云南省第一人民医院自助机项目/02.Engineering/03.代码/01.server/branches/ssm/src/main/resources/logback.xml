@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_DIR" value="C:/SSM/Logs/" />  
+	<property name="MaxHistory" value="60"/> 
+	<!-- <property name="LOG_FILE" value="C:/SSM/Logs/spring.log"/> -->
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<appender name="DAYFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<!-- <file>${LOG_FILE}</file> -->
+		<!-- <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
+		</rollingPolicy>
+		-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">  
+            <!-- 按天回滚 daily -->  
+            <fileNamePattern>${LOG_DIR}/log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+            <!-- 日志最大的历史 60天 -->  
+            <maxHistory>${MaxHistory}</maxHistory>  
+            <maxFileSize>100MB</maxFileSize>   
+        </rollingPolicy>  
+        <!-- <triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>  -->
+	</appender>
+	
+	<appender name="HISFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">  
+            <!-- 按天回滚 daily -->  
+            <fileNamePattern>${LOG_DIR}/hisLog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+            <!-- 日志最大的历史 60天 -->  
+            <maxHistory>${MaxHistory}</maxHistory>
+            <maxFileSize>100MB</maxFileSize>   
+        </rollingPolicy>  
+	</appender>
+	<!-- 输出日志到数据库 ： 不需要dataSource项 -->
+	<!-- <appender name="DB" class="ch.qos.logback.classic.db.DBAppender"> 
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <dataSource class="com.alibaba.druid.pool.DruidDataSource">  
+            	<sqlDialect class="ch.qos.logback.core.db.dialect.OracleDialect" />
+            	oracle配置
+                <driverClass>oracle.jdbc.driver.OracleDriver</driverClass>  
+                <url>jdbc:oracle:thin:@10.20.170.212:1521:wyyy</url>  
+                <user>ssm_test</user>  
+                <password>ssm_test</password>
+            </dataSource>
+            mysql配置
+                <driverClass>com.mysql.jdbc.Driver</driverClass>  
+                <url>jdbc:mysql://localhost:3306/wang</url>  
+                <user>root</user>  
+                <password>root</password> 
+         </connectionSource>  
+    </appender>  -->
+    <!-- 定义需要输出日志的包 -->
+	<logger name="com.lenovohit.ssm.treat.dao.impl.HisRestDaoImpl" level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="HISFILE" /> 
+	</logger>
+	<logger name="com.lenovohit.ssm" level="INFO" additivity="true">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="DAYFILE" />
+	</logger>
+	<!-- <logger name="com.lenovohit" level="ERROR" additivity="false">
+		<appender-ref ref="DB" />
+	</logger> -->
+
+	<!-- logger name="org.springside.samples.quickservice" level="DEBUG"/ -->
+	<!-- 该配置会写入所以日志信息 -->
+	<!-- <root level="INFO">		
+		<appender-ref ref="DB" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="DAYFILE" />	
+	</root> -->
+</configuration>

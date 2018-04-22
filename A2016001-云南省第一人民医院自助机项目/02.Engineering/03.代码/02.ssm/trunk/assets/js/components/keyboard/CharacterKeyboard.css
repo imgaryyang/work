@@ -1,0 +1,27 @@
+
+.ckeyboard_container {
+	/*background-color: #ff3000;*/
+	padding-top: .9rem;
+	overflow: hidden;
+}
+
+.ckeyboard_keyRow {
+	position: relative;
+}
+
+.ckeyboard_keyCol {
+	display: block;
+}
+
+.ckeyboard_key {
+	display: block;
+	font-size: 4rem;
+	font-weight: 500;
+	background-color: #FFFFFF;
+	border-radius: .3rem;
+	text-align: center;
+	cursor: pointer;
+	box-shadow: 0 0 .5rem rgba(0, 0, 0, .3);
+	overflow: hidden;
+	margin: .5rem auto;
+}

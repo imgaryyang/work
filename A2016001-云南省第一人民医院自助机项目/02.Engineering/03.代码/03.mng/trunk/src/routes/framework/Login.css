@@ -1,0 +1,42 @@
+.container {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.card {
+	height : 300px;
+	width : 300px;
+	display: flex;
+	align-items: center; /*定义body的元素垂直居中*/
+	justify-content: center; /*定义body的里的元素水平居中*/
+	margin:auto;
+}
+.card>div{
+	height : 100%;
+	width : 100%;
+	display: flex;
+	align-items: center; /*定义body的元素垂直居中*/
+	justify-content: center; /*定义body的里的元素水平居中*/
+	margin:auto 0;
+}
+.wrapper{
+	 height: 100%;
+	 display: flex;
+	 align-items: center; /*定义body的元素垂直居中*/
+	 justify-content: center; /*定义body的里的元素水平居中*/
+	 margin:auto;
+}
+.form {
+	height : 80%;
+	width:100%;
+	margin:auto 0;
+}
+.form>div {
+	margin-bottom:30px;
+}
+.input{
+	height : 40px;
+}
+.button{
+	width: 100%;
+}

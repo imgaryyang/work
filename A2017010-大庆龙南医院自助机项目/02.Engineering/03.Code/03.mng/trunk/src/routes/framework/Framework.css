@@ -1,0 +1,53 @@
+/* top */
+.frame {
+	height: 100%;
+}
+
+.frame .header {
+	background: #404040;
+	height: 64px;
+}
+
+.frame .logo {
+	width: 240px;
+	height: 46px;
+	/*margin-top: 5px;*/
+	background-image: url(../../assets/logo.png);
+	background-repeat: no-repeat;
+	background-position: 20px center;
+	background-size: auto 60%;
+	float: left;
+}
+
+.frame .wrapper .topmenu {
+	margin: 0 auto;
+	width: 600px; /*зЂвт*/
+}
+
+.frame .wrapper {
+	padding: 0px;
+}
+
+.frame .container {
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+}
+
+/* .frame .container {
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+}
+ */
+.frame .container {
+	background: #fff;
+	position: relative;
+	overflow-x: hidden;
+  	overflow-y: auto;
+	width: 100%;
+	position: absolute;
+	top: 50px;
+	bottom: 0px;
+	left: 0px;
+}

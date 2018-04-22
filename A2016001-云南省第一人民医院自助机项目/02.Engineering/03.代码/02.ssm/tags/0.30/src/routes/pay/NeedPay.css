@@ -1,0 +1,76 @@
+
+.listContainer {
+	overflow: auto;
+}
+
+.titleRow {
+	cursor: pointer;
+}
+
+.titleCol, .detailTitleCol {
+	line-height: 3.5rem !important;
+	white-space: nowrap;
+}
+
+.titleCol {
+	padding: 1rem 1rem .5rem 1rem;
+}
+
+.titleCol font, .detailTitleCol font {
+	color: #999999;
+}
+
+.titleCol p, .titleCol i {
+	/*font-size: 2rem;*/
+	font-weight: normal;
+	color: #BC1E1E;
+	line-height: 3rem !important;
+}
+
+.titleRow .titleCol:first-child {
+	padding-top: 1.5rem;
+}
+
+.titleRow .titleCol:last-child {
+	cursor: pointer;
+	border-left: 1px solid #BC1E1E;
+	padding-top: 1.5rem;
+}
+
+.titleCol b, .detailCol b {
+	font-weight: bolder !important;
+	font-size: 2rem;
+}
+
+
+
+.detailContainer {
+	padding: 0 3rem 1rem 3rem;
+	border-top: 1px solid #E4E4E4;
+}
+
+.detailTitleCol {
+	font-size: 2rem;
+}
+
+.detailCol {
+	padding: .3rem 1rem;
+}
+
+.footer div {
+	padding: 2rem 1rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	color: #BC1E1E;
+}
+
+.footer div:first-child {
+	padding-left: 3rem;
+	font-size: 2rem;
+}
+
+
+.buttonContainer {
+	padding: 2rem;
+}
+

@@ -1,0 +1,18 @@
+
+
+.guidePic {
+	margin: 2.5rem auto;
+	display: block;
+	height: 25rem;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.guideTextContainer {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.guideText {
+	font-size: 4rem;
+}

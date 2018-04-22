@@ -1,0 +1,91 @@
+.homepage_header {
+	overflow: hidden;
+	height: 10rem;
+	padding: 1.5rem;
+	width: 100%;
+}
+
+.homepage_headerLogo {
+	width: 7rem;
+	height: 7rem;
+}
+
+.homepage_headerTitle {
+	font-weight: 500;
+	line-height: 7rem;
+	font-size: 3rem;
+}
+
+.homepage_headerBtn {
+	line-height: 7rem;
+}
+
+.homepage_headerBtn div {
+	font-size: 3rem;
+	color: #ffffff;
+	font-weight: 500;
+	cursor: pointer;
+	background-color: #BC1E1E;
+	border-radius: .6rem;
+	text-align: center;
+}
+
+.homepage_container {
+	margin: auto;
+	display: table;
+	width: 100%;
+}
+
+.homepage_container .homepage_center {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.homepage_row {
+	padding: 0 1rem 1rem 1rem;
+}
+
+.homepage_col {
+	padding: 1rem;
+}
+
+.homepage_footer {
+	text-align: center;
+	position: relative;
+}
+
+.homepage_bottomLogo {
+	margin: 0 auto;
+	width: 6rem;
+	height: 3rem;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 6rem auto;
+}
+
+.homepage_bottomText {
+	font-size: 1.5rem;
+	line-height: 3rem;
+	white-space: nowrap;
+}
+
+.homepage_bottomLine {
+	position: relative;
+}
+
+.homepage_bottomLine span {
+	position: absolute;
+	display: block;
+	width: 90%;
+	height: 1px;
+	background-color: #E4E4E4;
+	top: 1.5rem;
+}
+
+.homepage_bottomLineLeft {
+	left: 0;
+}
+
+.homepage_bottomLineRight {
+	right: 0;
+}

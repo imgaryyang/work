@@ -1,0 +1,98 @@
+var menus=[{
+	  name:'菜单a',
+	  key:'ma',
+	  icon:'appstore',
+	  children:[{
+		  name:'菜单b',
+		  key:'mb',
+		  icon:'setting'
+	  },{
+		  name:'菜单c',
+		  key:'mc',
+		  icon:'appstore'
+	  },{
+		  name:'菜单d',
+		  key:'md',
+		  icon:'appstore'
+	  }]
+},{
+	  name:'菜单e',
+	  key:'me',
+	  icon:'appstore',
+	  children:[{
+		  name:'菜单e',
+		  key:'me',
+		  icon:'appstore'
+	  }]
+},{
+	  name:'菜单f',
+	  key:'mf',
+	  icon:'appstore'
+}];
+var menus2=[{
+	  name:'菜单1',
+	  key:'m1',
+	  icon:'appstore',
+	  children:[{
+		  name:'菜单2',
+		  key:'m2',
+		  icon:'setting'
+	  },{
+		  name:'菜单3',
+		  key:'m3',
+		  icon:'appstore'
+	  },{
+		  name:'菜单4',
+		  key:'m4',
+		  icon:'appstore'
+	  }]
+},{
+	  name:'菜单5',
+	  key:'m5',
+	  icon:'appstore',
+	  children:[{
+		  name:'菜单6',
+		  key:'m6',
+		  icon:'appstore'
+	  }]
+},{
+	  name:'菜单7',
+	  key:'m7',
+	  icon:'appstore'
+}];
+
+
+var modules=[{
+	  name:'导航1',
+	  key:'m1',
+	  icon:'appstore'
+  },{
+	  name:'门诊医生站',
+	  key:'clinic',
+	  icon:'appstore',
+	  children:menus
+  },{
+	  name:'导航3',
+	  key:'m3',
+	  icon:'setting',
+	  children:menus2
+  },{
+	  name:'导航4',
+	  key:'m4',
+	  icon:'appstore'
+  },{
+	  name:'导航5',
+	  key:'m5',
+	  icon:'appstore'
+  },{
+	  name:'导航6',
+	  key:'m6',
+	  icon:'alipay'
+  },{
+	  name:'导航7',
+	  key:'m7',
+	  icon:'appstore'
+  }
+  ];
+
+export default modules;

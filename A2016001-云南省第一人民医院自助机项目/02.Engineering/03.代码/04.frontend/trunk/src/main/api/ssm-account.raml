@@ -1,0 +1,187 @@
+#%RAML 0.8
+title: account_REST_API
+version: 1.0
+baseUri: http://server/api/{version}
+/{accountNo}:
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id": ""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+   
+/open:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":""
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+
+/prepaid/book:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":""
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+
+/{accountNo}/bill/list:
+  uriParameters:
+    accountNo:
+      "type": "string"
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id": ""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+              
+/{accountNo}/bill/list/items:
+  get:                  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id": ""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                 "name": {
+                    "type": "string"
+                  }
+                }
+              }
+
+/pay:
+  post:
+    body:
+      application/json:
+        example: |
+          {
+              "id":""
+          }
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          }  
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "id":""
+              }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+           
