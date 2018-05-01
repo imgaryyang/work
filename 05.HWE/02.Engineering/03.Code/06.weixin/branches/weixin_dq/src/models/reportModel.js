@@ -5,7 +5,7 @@ import { getReport, getPacs, getReportDetail, getPacsDetail } from '../services/
 export default {
   namespace: 'report',
   state: {
-    data: {},
+    data: [],
     lisData: {},
     pacsResult: {},
     isLoading: false,
@@ -53,23 +53,20 @@ export default {
 
     *loadReport({ payload }, { call, put }) {
       yield put({ type: 'setState', payload: { isLoading: true } });
-      const lisData = yield call(getReport, payload);
-      // console.log('lisData===', lisData);
-      const sections = {};
+      const sections = [];
       let temp;
       let arryData = [];
       let array2;
       let lisResult = [];
       let pacsResult = [];
+      const lisData = yield call(getReport, payload);
+      // console.log('lisData===', lisData);
       if (lisData.data && lisData.data.success) {
         lisResult = lisData.data.result;
-        // console.log('lisResult', lisResult);
-        // lisResult = [];
-        // 循环lis数据
         // 将结果封装成sectionList的制定形式存储
         for (let i = 0; i < lisResult.length; i++) {
-          const index = lisResult[i].reportTime.indexOf(' ');
-          const date = lisResult[i].reportTime.substring(0, index);
+          // const index = lisResult[i].reportTime.indexOf(' ');
+          const date = lisResult[i].reportTime.substring(0, 10);
           lisResult[i].testType = '0001';
           lisResult[i].pkgName = '化验';
           if (i === 0) {
@@ -90,7 +87,7 @@ export default {
         // todo 应该显示接口返回的错误信息
         yield put({ type: 'setState', payload: { isLoading: false } });
         // Toast.info(lisData.data.msg);
-        Toast.fail(`化验数据请求出错：${lisData.data.msg}`, 1);
+        Toast.fail(lisData.data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { isLoading: false } });
       }
@@ -99,13 +96,12 @@ export default {
       // console.log('pacsData===', pacsData.data.success);
       if (pacsData.data && pacsData.data.success) {
         pacsResult = pacsData.data.result;
-        // console.log('pacsResult', pacsResult);
-        // pacsResult = [];
         // pacs数据
         arryData.splice(0, arryData.length);
         for (let i = 0; i < pacsResult.length; i++) {
-          const index = pacsResult[i].reportTime.indexOf(' ');
-          const date = pacsResult[i].reportTime.substring(0, index);
+          console.log('pacs', pacsResult[i]);
+          // const index = pacsResult[i].reportTime.indexOf(' ');
+          const date = pacsResult[i].reportTime ? pacsResult[i].reportTime.substring(0, 10) : '暂无日期信息';
           pacsResult[i].testType = '0002';
           pacsResult[i].pkgName = '特检';
           // todo
@@ -126,7 +122,7 @@ export default {
         yield put({ type: 'setState', payload: { data: sections, isLoading: false, refreshing: false, } });
       } else if (pacsData.data && pacsData.data.msg) {
         yield put({ type: 'setState', payload: { isLoading: false } });
-        Toast.fail(`特检数据请求出错：${pacsData.data.msg}`, 1);
+        Toast.fail(pacsData.data.msg, 1);
         // Toast.info('获取特检列表出错');
       } else {
         yield put({ type: 'setState', payload: { isLoading: false } });
@@ -146,7 +142,7 @@ export default {
       } else if (data && data.msg) {
         yield put({ type: 'setState', payload: { isLoading: false } });
         // Toast.info('请求出错');
-        Toast.fail(`请求数据出错：${data.msg}`, 1);
+        Toast.fail(data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { isLoading: false } });
       }
@@ -162,7 +158,7 @@ export default {
       } else if (data && data.msg) {
         yield put({ type: 'setState', payload: { isLoading: false } });
         // Toast.info('请求出错');
-        Toast.fail(`请求数据出错：${data.msg}`, 1);
+        Toast.fail(data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { isLoading: false } });
       }

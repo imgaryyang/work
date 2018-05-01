@@ -5,7 +5,8 @@ import classnames from 'classnames';
 
 import styles from './Doctor.less';
 import { image } from '../../services/baseService';
-import ActivityIndicatorView from '../../components/ActivityIndicatorView';
+// import ActivityIndicatorView from '../../components/ActivityIndicatorView';
+import baseStyles from '../../utils/base.less';
 
 class Doctor extends React.Component {
   constructor(props) {
@@ -29,36 +30,41 @@ class Doctor extends React.Component {
   }
 
   loadDoctorDescs() {
-    const { dispatch, hospital } = this.props;
-    dispatch({
-      type: 'hospital/getDoctorDescs',
-      payload: { id: hospital.doctor.id },
-    });
+    // const { dispatch, hospital } = this.props;
+    // dispatch({
+    //   type: 'hospital/getDoctorDescs',
+    //   payload: { id: hospital.doctor.id },
+    // });
   }
 
   render() {
-    const { doctor, doctorDescs, loading } = this.props.hospital;
+    const { doctor, filterDept } = this.props.hospital;
+    // console.log(doctor);
     const portrait = doctor.photo ? { backgroundImage: `url(${image(doctor.photo)})` } : {};
 
-    const doctorDescsView = loading ? <ActivityIndicatorView /> : (
-      doctorDescs.length === 0 ? (
-        <div className={styles.emptyView}>暂无医生详细介绍</div>
-      ) : (
-        <Card full style={{ marginTop: 15 }}>
-          <Card.Body>
-            {doctorDescs.map((item, idx) => {
-              return (
-                <div key={`desc_${idx + 1}`} >
-                  <div className={styles.descTitleContainer} >
-                    <span className={styles.descTitle} >{item.caption}</span>
-                  </div>
-                  <div className={styles.descContent} >{item.body}</div>
+    const doctorDescsView = !doctor.speciality ? (
+      <div className={baseStyles.emptyView}>暂无医生详细介绍</div>
+    ) : (
+      <Card full style={{ marginTop: 15 }}>
+        <Card.Body>
+          {/* doctorDescs.map((item, idx) => {
+            return (
+              <div key={`desc_${idx + 1}`} >
+                <div className={styles.descTitleContainer} >
+                  <span className={styles.descTitle} >{item.caption}</span>
                 </div>
-              );
-            })}
-          </Card.Body>
-        </Card>
-      )
+                <div className={styles.descContent} >{item.body}</div>
+              </div>
+            );
+          })*/}
+          <div>
+            <div className={styles.descTitleContainer} >
+              <span className={styles.descTitle} >医生介绍</span>
+            </div>
+            <div className={styles.descContent} >{doctor.speciality}</div>
+          </div>
+        </Card.Body>
+      </Card>
     );
     return (
       <div className={styles.container}>
@@ -69,22 +75,22 @@ class Doctor extends React.Component {
           <Card.Body>
             <div className={styles.mainContainer}>
               <div
-                className={classnames(styles.portrait, !doctor.photo ? styles.userPortrait : null)}
+                className={classnames(styles.portrait, !doctor.photo ? baseStyles.userPortrait : null)}
                 style={portrait}
               />
               <div style={{ flex: 1 }}>
                 <div className={styles.nameContainer}>
                   <div className={styles.name}>{doctor.name}</div>
-                  <div className={styles.docDept}><b>科室：</b>{doctor.depName}</div>
+                  <div className={styles.docDept}><b>科室：</b>{filterDept && filterDept.name ? filterDept.name : '未知'}</div>
                 </div>
                 <span className={styles.appendText}><b>职称：</b>{doctor.jobTitle}</span>
-                <span className={styles.appendText}><b>专长：</b>{doctor.speciality}</span>
+                <span className={styles.appendText}><b>简介：</b>{doctor.description}</span>
               </div>
             </div>
-            <div className={styles.clinicDescContainer}>
+            {/* <div className={styles.clinicDescContainer}>
               <span className={styles.clinicDescTitle}>常规出诊时间：</span>
               <span className={styles.clinicDesc}>{doctor.clinicDesc || '暂无记录'}</span>
-            </div>
+            </div>*/}
           </Card.Body>
         </Card>
         {doctorDescsView}

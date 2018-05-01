@@ -48,13 +48,13 @@ class OutpatientRefundDetail extends React.Component {
     this.setState({ refundAmt: amt});
   }
   gotoSuccess() {
-    this.props.dispatch(routerRedux.push({
+    this.props.dispatch(routerRedux.replace({
       pathname: 'completeRefundSuccess',
     }));
   }
 
   gotoFailure() {
-    this.props.dispatch(routerRedux.push({
+    this.props.dispatch(routerRedux.replace({
       pathname: 'completeRefundFailure',
     }));
   }
@@ -66,7 +66,7 @@ class OutpatientRefundDetail extends React.Component {
       });
     }
   }
-  refund(item) {
+  async refund(item) {
     const { dispatch } = this.props;
     const bill = {
       // oriTradeNo: item.tradeNo,
@@ -81,17 +81,18 @@ class OutpatientRefundDetail extends React.Component {
       tradeNo: item.tradeNo,
       oriNo: item.oriNo,
       account: item.account,
+      no: item.no,
       // comment
     };
-    Toast.loading('正在处理...');
-    dispatch({
+    Toast.loading('正在处理...', 20);
+    await dispatch({
       type: 'deposit/refund',
       payload: { bill },
       callback: () => {
         this.refundCallback();
-        Toast.hide();
       },
     });
+    Toast.hide();
   }
   refundCallback() {
     console.log('OutpatientRefundDetail:refundCallback');
@@ -99,8 +100,12 @@ class OutpatientRefundDetail extends React.Component {
     console.info(refundResult);
     if (!refundResult.success) {
       this.gotoFailure();
+      // Toast.info('退款失败', 3);
+      // this.props.dispatch(routerRedux.go(-2));
     } else {
       this.gotoSuccess();
+      // Toast.info('退款成功', 3);
+      // this.props.dispatch(routerRedux.go(-2));
     }
   }
   // 检查充值金额的合法性
@@ -126,8 +131,8 @@ class OutpatientRefundDetail extends React.Component {
     const { data } = this.props.deposit;
     const balance = data.balance ? data.balance : 0;
     const amt = refundDetailData.amt ? refundDetailData.amt : 0;
-    const refundedAmt = refundDetailData.refundedAmt ? refundDetailData.refundedAmt : 0;
-    const maxReturnableAmt = (balance < (amt - refundedAmt)) ? balance : (amt - refundedAmt);
+    const refunded = refundDetailData.refunded ? refundDetailData.refunded : 0;
+    const maxReturnableAmt = (balance < (amt - refunded)) ? balance : (amt - refunded);
     if (refundAmt > maxReturnableAmt) {
       Toast.info(`退款金额不得大于${filterMoney(maxReturnableAmt)}元`);
       return false;
@@ -140,8 +145,8 @@ class OutpatientRefundDetail extends React.Component {
     const { data } = this.props.deposit;
     const balance = data.balance ? data.balance : 0;
     const amt = refundDetailData.amt ? refundDetailData.amt : 0;
-    const refundedAmt = refundDetailData.refundedAmt ? refundDetailData.refundedAmt : 0;
-    const maxReturnableAmt = (balance < (amt - refundedAmt)) ? balance : (amt - refundedAmt);
+    const refunded = refundDetailData.refunded ? refundDetailData.refunded : 0;
+    const maxReturnableAmt = (balance < (amt - refunded)) ? balance : (amt - refunded);
     return (
       <div className={styles.container}>
         <WhiteSpace size="md" />
@@ -154,7 +159,7 @@ class OutpatientRefundDetail extends React.Component {
         </WingBlank>
         <WhiteSpace size="lg" />
         <WingBlank size="lg" className={styles.content}>
-          已退金额：{ refundedAmt.formatMoney() }元
+          已退金额：{ refunded.formatMoney() }元
         </WingBlank>
         <WhiteSpace size="lg" />
         <WingBlank size="lg" className={styles.content}>

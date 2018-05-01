@@ -62,7 +62,7 @@ class Suggest extends Component {
   // 保存反馈意见
   async doSave() {
     if (this.state.feedback === null || this.state.feedback === '') {
-      Toast.show('您还没有输入哦');
+      Toast.show('您还没有输入哦！');
       return;
     }
     const data = {
@@ -74,13 +74,12 @@ class Suggest extends Component {
     try {
       this.props.screenProps.showLoading();
       const responseData = await submit(data);
-      // 隐藏遮罩
-      this.props.screenProps.hideLoading();
-      if (responseData.success === false) {
+      if (responseData.success) {
         this.props.screenProps.hideLoading();
-      } else {
-        Toast.show('保存成功！');
+        Toast.show('提交成功！');
         this.goPop();
+      } else {
+        this.props.screenProps.hideLoading();
       }
     } catch (e) {
       // 隐藏遮罩
@@ -118,9 +117,9 @@ class Suggest extends Component {
               <TextInput
                 style={[styles.rowInput]}
                 multiline
-                maxLength={500}
+                maxLength={50}
                 onChangeText={(value) => { this.changeFeedBack(value); }}
-                placeholder="您好，请你描述你遇到的问题，或提出你宝贵的意见，我们将有专人及时与你联系！"
+                placeholder="您好，请你描述你遇到的问题，或提出你宝贵的意见，非常感谢！（50字以内）"
                 underlineColorAndroid="transparent"
               />
             </View>

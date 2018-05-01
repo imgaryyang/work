@@ -3,6 +3,7 @@
  */
 
 import NavigatorWrappingScreen from './TabNavigation';
+import AppSubFuncs from '../components/hospital/AppSubFuncs';
 
 // components of me
 import ContactUs from '../components/me/ContactUs';
@@ -63,6 +64,7 @@ import AppointSuccess from '../components/outpatient/appointment/AppointSuccess'
 import Reports from '../components/reports/Reports';
 import LisDetail from '../components/reports/LisDetail';
 import PacsDetail from '../components/reports/PacsDetail';
+import PacsWebView from '../components/reports/PacsWebView';
 
 // components of records 报告单
 import Records from '../components/records/Records';
@@ -80,15 +82,13 @@ import EditReply from '../components/community/consult/EditReply';
 import ConsultDetail from '../components/community/consult/ConsultDetail';
 
 // components of payment 支付
-import PaymentMain from '../components/pay/PaymentMain';
 import CompletePaySuccess from '../components/pay/CompletePaySuccess';
-import OnlineRecharge from '../components/pay/OnlineRecharge';
 import CompletePayFailure from '../components/pay/CompletePayFailure';
 import PaymentChargeDetail from '../components/payment/advicePaymentBySelf/PaymentChargeDetail';
 import PreSettlementBySelf from '../components/payment/advicePaymentBySelf/PreSettlementBySelf';
 import PayCounter from '../components/PayCounter/PayCounter';
-
-
+import OutpatientOnlineRecharge from '../components/outpatient/pay/OutpatientOnlineRecharge';
+import InpatientOnlineRecharge from '../components/inpatient/pay/InpatientOnlineRecharge';
 import PaymentList from '../components/payment/payment/PaymentList';
 import PreSettlement from '../components/payment/payment/PreSettlement';
 
@@ -98,8 +98,8 @@ import OutpatientRefundDetail from '../components/refund/OutpatientRefundDetail'
 import CompleteRefundSuccess from '../components/refund/CompleteRefundSuccess';
 import CompleteRefundFailure from '../components/refund/CompleteRefundFailure';
 // components of records 消费记录
-import ConsumeMain from '../components/consume/ConsumeMain';
 import ConsumeRecords from '../components/consume/ConsumeRecords';
+import PreRecords from '../components/consume/PreRecords';
 
 // components of common 公共组件
 import CameraRollView from '../components/common/CameraRollView';
@@ -168,6 +168,7 @@ const initOptions = { headerTruncatedBackTitle: '返回' };
 
 export default {
   Root: { screen: NavigatorWrappingScreen },
+  AppSubFuncs: { screen: AppSubFuncs },
   // components of me
   ContactUs: { screen: ContactUs }, // 联系我们
   AboutUs: { screen: AboutUs }, // 关于我们
@@ -231,21 +232,22 @@ export default {
   SignReceipt: { screen: SignReceipt, navigationOptions: initOptions }, // 签到小票
 
   // components of payment
-  Payments: { screen: PaymentMain }, // 充值缴费
   CompletePayFailure: { screen: CompletePayFailure }, // 充值缴费
   CompletePaySuccess: { screen: CompletePaySuccess }, // 充值缴费
-  OnlineRecharge: { screen: OnlineRecharge }, // 充值缴费
   PaymentList: { screen: PaymentList }, // 缴费项
   PreSettlement: { screen: PreSettlement }, // 预结算
   PaymentChargeDetail: { screen: PaymentChargeDetail }, // 预结算
   PreSettlementBySelf: { screen: PreSettlementBySelf }, // 预结算
   PayCounter: { screen: PayCounter }, // 收银台
-  CompleteRefundFailure: { screen: CompleteRefundFailure }, // 充值缴费
-  CompleteRefundSuccess: { screen: CompleteRefundSuccess }, // 充值缴费
+  CompleteRefundFailure: { screen: CompleteRefundFailure }, // 充值缴费失败
+  CompleteRefundSuccess: { screen: CompleteRefundSuccess }, // 充值缴费成功
+  OutpatientOnlineRecharge: { screen: OutpatientOnlineRecharge }, // 门诊预存
+  InpatientOnlineRecharge: { screen: InpatientOnlineRecharge }, // 门诊缴费
+
 
   // components of records 消费记录
-  ConsumeMain: { screen: ConsumeMain }, // 消费记录
   ConsumeRecords: { screen: ConsumeRecords }, // 缴费记录
+  PreRecords: { screen: PreRecords }, // 预存记录
 
   // component of refunds 退费
   OutpatientRefund: { screen: OutpatientRefund }, // 门诊退费
@@ -255,6 +257,7 @@ export default {
   Reports: { screen: Reports }, // 报告查询
   LisDetail: { screen: LisDetail },
   PacsDetail: { screen: PacsDetail },
+  PacsWebView: { screen: PacsWebView },
 
   // components of records
   Records: { screen: Records }, // 诊疗记录

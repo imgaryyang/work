@@ -22,7 +22,7 @@ class HospitalDepts extends React.Component {
               type: 'hospital/setState',
               payload: { dept: item },
             });
-            dispatch(routerRedux.push('/stack/dept'));
+            // dispatch(routerRedux.push('/stack/dept'));
           }}
           onSearch={(value) => {
             this.props.dispatch({

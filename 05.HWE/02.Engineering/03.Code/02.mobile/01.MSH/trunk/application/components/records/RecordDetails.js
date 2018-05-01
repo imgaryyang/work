@@ -308,6 +308,7 @@ class RecordDetails extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
+    const record = this.state.value;
     return (
       <Item
         data={item}
@@ -337,7 +338,21 @@ class RecordDetails extends Component {
               <Sep width={30} />
               <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>生</Text>
               <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.docName}</Text>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{record && record.docName ? record.docName : ''}</Text>
+            </View>
+            <Sep height={5} />
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>科</Text>
+              <Sep width={30} />
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>室</Text>
+              <Sep width={10} />
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{record && record.depName ? record.depName : ''}</Text>
+            </View>
+            <Sep height={5} />
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>主要诊断</Text>
+              <Sep width={10} />
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.isCurrent === '1' ? '是' : '否'}</Text>
             </View>
             <Sep height={5} />
             <View style={{ flexDirection: 'row' }}>
@@ -346,20 +361,6 @@ class RecordDetails extends Component {
               <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>史</Text>
               <Sep width={10} />
               <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.diseaseType ? '无' : '无'}</Text>
-            </View>
-            <Sep height={5} />
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>科</Text>
-              <Sep width={30} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>室</Text>
-              <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.depName}</Text>
-            </View>
-            <Sep height={5} />
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>主要诊断</Text>
-              <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.isCurrent === '1' ? '是' : '否'}</Text>
             </View>
           </View>
         </View>

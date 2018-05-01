@@ -43,7 +43,6 @@ class SignReceipt extends Component {
       portrait,
       address,
       num,
-      totalFee,
       proNo,
       proName,
       idNo,
@@ -78,10 +77,6 @@ class SignReceipt extends Component {
           <View style={styles.row}>
             <Text style={styles.labelText}>排号</Text>
             <Text style={styles.contentText}>{num}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.labelText}>费用</Text>
-            <Text style={styles.contentText}>{totalFee}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.labelText}>姓名</Text>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Toast, Icon } from 'antd-mobile';
+import { Icon } from 'antd-mobile';
 import classnames from 'classnames';
 
 import { colors } from '../../utils/common';
@@ -10,7 +10,7 @@ import Global from '../../Global';
 import Tags from '../../components/Tags';
 
 import styles from './Patients.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class Patients extends React.Component {
   constructor(props) {
@@ -34,14 +34,14 @@ class Patients extends React.Component {
               onClick={() => {
                 dispatch({
                   type: 'base/reloadUserInfo',
-                  callback: msg => Toast.info(msg, 2, null, false),
-                  reloadDown: () => { Toast.info('刷新就诊人列表信息成功！', 2, null, false); },
+                  // callback: msg => Toast.info(msg, 2, null, false),
+                  // reloadDown: () => { Toast.info('刷新就诊人列表信息成功！', 2, null, false); },
                 });
               }}
-              className={commonStyles.navBtnContainer}
+              className={baseStyles.navBtnContainer}
             >
-              <FAIcon type="refresh" className={commonStyles.navBtnIcon} />
-              <div className={commonStyles.navBtnText}>刷新</div>
+              <FAIcon type="refresh" className={baseStyles.navBtnIcon} />
+              <div className={baseStyles.navBtnText}>刷新</div>
             </div>
             <div
               onClick={() => {
@@ -51,10 +51,10 @@ class Patients extends React.Component {
                   state: {},
                 }));
               }}
-              className={commonStyles.navBtnContainer}
+              className={baseStyles.navBtnContainer}
             >
-              <FAIcon type="user-plus" className={commonStyles.navBtnIcon} />
-              <div className={commonStyles.navBtnText}>添加</div>
+              <FAIcon type="user-plus" className={baseStyles.navBtnIcon} />
+              <div className={baseStyles.navBtnText}>添加</div>
             </div>
           </div>
         ),
@@ -102,20 +102,20 @@ class Patients extends React.Component {
       <div key={`patient_${item.id}_${index + 1}`} onClick={() => this.viewPatientInfo(item)}>
         <div className={styles.rowContainer}>
           <div style={{ flex: 1 }}>
-            <div className={classnames(commonStyles.flexRow, styles.nameContainer)}>
+            <div className={classnames(baseStyles.flexRow, styles.nameContainer)}>
               <span className={styles.name}>{item.name}</span>
               <span className={styles.gender}>{`（ ${item.gender === '1' ? '男' : '女'} ）`}</span>
               <Tags tags={tags} containerStyle={{ flex: 1 }} />
             </div>
-            <div className={classnames(commonStyles.flexRow, styles.itemContainer)} style={{ marginTop: 0 }}>
+            <div className={classnames(baseStyles.flexRow, styles.itemContainer)} style={{ marginTop: 0 }}>
               <span className={styles.label}>身份证：</span>
               <span className={styles.text}>{item.idNo}</span>
             </div>
-            <div className={classnames(commonStyles.flexRow, styles.itemContainer)}>
+            <div className={classnames(baseStyles.flexRow, styles.itemContainer)}>
               <span className={styles.label}>手机号：</span>
               <span className={styles.text}>{item.mobile}</span>
             </div>
-            <div className={classnames(commonStyles.flexRow, styles.itemContainer)}>
+            <div className={classnames(baseStyles.flexRow, styles.itemContainer)}>
               <span className={styles.label}>已绑定：</span>
               <span className={styles.text}>
                 <span
@@ -126,7 +126,7 @@ class Patients extends React.Component {
               </span>
             </div>
           </div>
-          <Icon type="right" className={classnames(commonStyles.defaultIcon, commonStyles.chevronIcon)} />
+          <Icon type="right" className={classnames(baseStyles.defaultIcon, baseStyles.chevronIcon)} />
         </div>
       </div>
     );
@@ -139,7 +139,7 @@ class Patients extends React.Component {
     if (!map || !map.userPatients || map.userPatients.length === 0) {
       return (
         <div className={styles.container}>
-          <div className={commonStyles.emptyView}>您还未添加任何就诊人！</div>
+          <div className={baseStyles.emptyView}>您还未添加任何就诊人！</div>
         </div>
       );
     }

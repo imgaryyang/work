@@ -6,7 +6,7 @@ import style from './InpatientOnlineRecharge.less';
 import config from '../../Config';
 import { testAmt } from '../../utils/validation';
 import { filterMoney } from '../../utils/Filters';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class InpatientOnlineRecharge extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class InpatientOnlineRecharge extends React.Component {
     dispatch({
       type: 'base/save',
       payload: {
-        title: '微信/支付宝住院预缴',
+        title: '住院预缴',
         hideNavBarBottomLine: false,
         showCurrHospitalAndPatient: true,
         headerRight: null,
@@ -36,7 +36,12 @@ class InpatientOnlineRecharge extends React.Component {
     this.setBizType('04');
   }
   componentDidMount() {
-    this.refreshBalance();
+    const { currProfile } = this.props.base;
+    const arr = Object.keys(currProfile);
+    // 已经选择了就诊人
+    if (arr.length !== 0) {
+      this.refreshBalance();
+    }
   }
   onChange = (amt) => {
     this.setAmt(amt);
@@ -124,7 +129,7 @@ class InpatientOnlineRecharge extends React.Component {
     // if (!balance) {
     //   return (
     //     <div className={style.container}>
-    //       <div className={commonStyles.emptyView}>
+    //       <div className={baseStyles.emptyView}>
     //         未查询到当前就诊人在院信息
     //       </div>
     //     </div>
@@ -134,7 +139,7 @@ class InpatientOnlineRecharge extends React.Component {
     if (!currProfile.id) {
       return (
         <div className={style.container}>
-          <div className={commonStyles.emptyView}>请先选择就诊人
+          <div className={baseStyles.emptyView}>请先选择就诊人
             <Button
               type="ghost"
               inline
@@ -153,7 +158,7 @@ class InpatientOnlineRecharge extends React.Component {
           <div className={style.item}>
             <div className={style.label}>当前余额</div>
             <div className={style.value}>
-              {balance ? filterMoney(balance) : ''}
+              {balance ? filterMoney(balance) : '0.00'}
             </div>
           </div>
           <WhiteSpace size="lg" />

@@ -9,7 +9,7 @@ import Tags from '../../components/Tags';
 import ProfileList from './ProfileList';
 
 import styles from './BindProfile.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class BindProfile extends React.Component {
   constructor(props) {
@@ -93,16 +93,16 @@ class BindProfile extends React.Component {
 
     return (
       <div className={styles.patientInfoContainer}>
-        <div className={classnames(commonStyles.flexRow, styles.nameContainer)}>
+        <div className={classnames(baseStyles.flexRow, styles.nameContainer)}>
           <span className={styles.name}>{patientInfo.name}</span>
           <span className={styles.gender}>{`（ ${patientInfo.gender === '1' ? '男' : '女'} ）`}</span>
           <Tags tags={tags} containerStyle={{ flex: 1 }} />
         </div>
         {infos.map(({ label, text }, idx) => {
           return (
-            <div key={`info_item_${idx + 1}`} className={classnames(commonStyles.flexRow, styles.infoItem)}>
+            <div key={`info_item_${idx + 1}`} className={classnames(baseStyles.flexRow, styles.infoItem)}>
               <span className={styles.label}>{label}</span>
-              <span className={classnames(styles.text, commonStyles.ellipsisText)}>{text}</span>
+              <span className={classnames(styles.text, baseStyles.ellipsisText)}>{text}</span>
             </div>
           );
         })}
@@ -116,12 +116,12 @@ class BindProfile extends React.Component {
     let content = null;
     if (loadingHisProfiles) {
       content = (
-        <div className={classnames(commonStyles.emptyView, commonStyles.transparentEmptyView)}>
+        <div className={classnames(baseStyles.emptyView, baseStyles.transparentEmptyView)}>
           <ActivityIndicator text="正在查询档案信息..." />
         </div>
       );
     } else if (hisProfiles.length === 0) {
-      content = (<div className={classnames(commonStyles.emptyView, commonStyles.transparentEmptyView)}>患者在该医院暂无档案！</div>);
+      content = (<div className={classnames(baseStyles.emptyView, baseStyles.transparentEmptyView)}>患者在该医院暂无档案！</div>);
     } else {
       content = (
         <ProfileList

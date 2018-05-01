@@ -14,13 +14,13 @@ import {
 import Button from 'rn-easy-button';
 import Icon from 'rn-easy-icon';
 import { connect } from 'react-redux';
-import Toast from 'react-native-root-toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Global from '../../Global';
-import { listBrief } from '../../services/hospital/DeptService';
+// import { listBrief } from '../../services/hospital/DeptService';
+import { forDeptTree/* , forDocList*/ } from '../../services/outpatient/AppointService';
 import ctrlState from '../../modules/ListState';
-import SearchInput from '../../modules/SearchInput';
+// import SearchInput from '../../modules/SearchInput';
 // import { forDeptList } from '../../services/outpatient/AppointService';
 
 const dismissKeyboard = require('dismissKeyboard');
@@ -59,12 +59,12 @@ class HospitalDepts extends Component {
   state = {
     ctrlState,
     dataSource: new ListView.DataSource({
-      getRowData: (dataBlob, sectionId, rowId) => { return dataBlob[rowId]; },
-      getSectionHeaderData: (dataBlob, sectionId) => { return dataBlob[sectionId]; },
+      // getRowData: (dataBlob, sectionId, rowId) => { return dataBlob[rowId]; },
+      // getSectionHeaderData: (dataBlob, sectionId) => { return dataBlob[sectionId]; },
       rowHasChanged: (row1, row2) => row1 !== row2,
-      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+      // sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     }),
-    name: '',
+    // name: '',
     deptList: [], // 全部科室
 
   };
@@ -76,44 +76,26 @@ class HospitalDepts extends Component {
   /**
    * 查看科室详情
    */
-  onPressDetail(dept) {
-    this.props.navigation.navigate('Department', { hosp: this.props.hosp, dept, title: '科室信息' });
+  onPressDetail(/* dept*/) {
+    // this.props.navigation.navigate('Department', { hosp: this.props.hosp, dept, title: '科室信息' });
   }
 
   /**
    * 导向到预约挂号
    */
-  async onPressRegister() {
-    Toast.show('功能尚未开通');
-    // const { hosp, screenProps, navigation, nav } = this.props;
-    // const { showLoading, hideLoading } = screenProps;
-    // showLoading();
-    // try {
-    //   const responseData = await forDeptList({ hosId: hosp.id, hosNo: hosp.no, name: dept.name });
-    //   const { success, result, msg } = responseData;
-    //   if (success) {
-    //     if (result.length > 1) {
-    //       Toast.show('错误：返回多个科室！');
-    //     }
-    //     navigation.navigate('Schedule', {
-    //       backIndex: nav.index,
-    //       title: result[0].name,
-    //       depNo: result[0].no,
-    //       hosNo: result[0].hosNo,
-    //       showCurrHospitalAndPatient: true,
-    //       allowSwitchHospital: false,
-    //       allowSwitchPatient: true,
-    //       afterChooseHospital: null,
-    //       afterChoosePatient: null,
-    //       hideNavBarBottomLine: false,
-    //     });
-    //   } else {
-    //     this.handleRequestException({ msg });
-    //   }
-    // } catch (e) {
-    //   this.handleRequestException(e);
-    // }
-    // hideLoading();
+  onPressRegister(item) {
+    this.props.navigation.navigate('Schedule', {
+      title: item.name,
+      depNo: item.no,
+      hosNo: item.hosNo,
+      showCurrHospitalAndPatient: true,
+      allowSwitchHospital: false,
+      allowSwitchPatient: true,
+      afterChooseHospital: null,
+      afterChoosePatient: null,
+      hideNavBarBottomLine: false,
+      backIndex: this.props.nav.index,
+    });
   }
 
   isEndOfSection(sectionId, rowId) {
@@ -123,6 +105,7 @@ class HospitalDepts extends Component {
     return rowIdx === this.rowIds[sectionIdx].length - 1;
   }
 
+  data = [];
   sectionData = {};
   sectionIds = [];
   rowIds = [];
@@ -152,23 +135,34 @@ class HospitalDepts extends Component {
   // 查询数据
   async fetchData() {
     // console.log('.......ctrlState in fetchData:', this.state.ctrlState);
-    const name = this.state.name;
+    // const name = this.state.name;
 
     try {
       let responseData = [];
-      if (name !== '') {
-        responseData = await listBrief({ hosId: this.props.hosp.id, name });
-      } else {
-        responseData = await listBrief({ hosId: this.props.hosp.id });
-      }
+      // if (name !== '') {
+      //   responseData = await listBrief({ hosId: this.props.hosp.id, name });
+      // } else {
+      //   responseData = await listBrief({ hosId: this.props.hosp.id });
+      // }
+      responseData = await forDeptTree();
 
-      console.log('responseData in HospitalDepts.fetchData():', responseData);
+      // console.log('responseData in HospitalDepts.fetchData():', responseData);
       if (responseData.success) {
         this.state.deptList = responseData.result;
         this.sectionIds = [];
         this.rowIds = [];
         this.sectionData = [];
-        this.appendSectionData(responseData.result);
+        const newCtrlState = {
+          ...this.state.ctrlState,
+          refreshing: false,
+        };
+        this.data = responseData.result;
+        this.setState({
+          // data: responseData.result,
+          dataSource: this.state.dataSource.cloneWithRows(responseData.result),
+          ctrlState: newCtrlState,
+        });
+        // this.appendSectionData(responseData.result);
       } else {
         this.setState({
           ctrlState: {
@@ -193,7 +187,6 @@ class HospitalDepts extends Component {
     }
     if (typeof this.props.onChildCompLoaded === 'function') this.props.onChildCompLoaded();
   }
-
 
   appendSectionData(data) {
     // console.log(data);
@@ -226,19 +219,41 @@ class HospitalDepts extends Component {
     });
   }
 
-
   /**
    * 渲染行数据
    */
-  renderRow(item, sectionId, rowId) {
+  // renderRow(item, sectionId, rowId) {
+  //   return (
+  //     <TouchableOpacity key={rowId} style={[Global.styles.CENTER, styles.item]} onPress={() => this.onPressDetail(item)} >
+  //       <Text style={{ flex: 1 }} >{item.name}</Text>
+  //       <Button theme={Button.THEME.ORANGE} outline stretch={false} style={{ width: 50, height: 25, marginRight: 15 }} onPress={() => this.onPressRegister(item)} >
+  //         <Text style={{ fontSize: 12, color: Global.colors.ORANGE }} >去挂号</Text>
+  //       </Button>
+  //       <Icon name="ios-arrow-forward-outline" size={20} width={40} height={20} color={Global.colors.FONT_LIGHT_GRAY1} />
+  //     </TouchableOpacity>
+  //   );
+  // }
+  renderRow(item) {
+    const content = item.children.map(({ no, name }, idx) => {
+      return (
+        <TouchableOpacity key={`${no}${name}${idx + 1}`} style={[Global.styles.CENTER, styles.item]} onPress={() => this.onPressDetail(item)} >
+          <Text style={{ flex: 1 }} >{name}</Text>
+          <Button theme={Button.THEME.ORANGE} outline stretch={false} style={{ width: 50, height: 25, marginRight: 15 }} onPress={() => this.onPressRegister({ no, name })} >
+            <Text style={{ fontSize: 12, color: Global.colors.ORANGE }} >去挂号</Text>
+          </Button>
+          <Icon name="ios-arrow-forward-outline" size={20} width={40} height={20} color={Global.colors.FONT_LIGHT_GRAY1} />
+        </TouchableOpacity>
+      );
+    });
     return (
-      <TouchableOpacity key={rowId} style={[Global.styles.CENTER, styles.item]} onPress={() => this.onPressDetail(item)} >
-        <Text style={{ flex: 1 }} >{item.name}</Text>
-        <Button theme={Button.THEME.ORANGE} outline stretch={false} style={{ width: 50, height: 25, marginRight: 15 }} onPress={() => this.onPressRegister(item)} >
-          <Text style={{ fontSize: 12, color: Global.colors.ORANGE }} >去挂号</Text>
-        </Button>
-        <Icon name="ios-arrow-forward-outline" size={20} width={40} height={20} color={Global.colors.FONT_LIGHT_GRAY1} />
-      </TouchableOpacity>
+      <View key={`${item.no}${item.name}`} style={styles.sectionContainer}>
+        <View style={[styles.section]}>
+          <Text style={styles.sectionText}>
+            {item.name}
+          </Text>
+        </View>
+        {content}
+      </View>
     );
   }
 
@@ -257,25 +272,26 @@ class HospitalDepts extends Component {
    * 渲染顶端工具栏
    */
   renderToolBar() {
-    return (
-      <View style={[Global.styles.TOOL_BAR.FIXED_BAR]} >
-        <SearchInput
-          value={this.state.name}
-          onChangeText={(value) => {
-            this.setState({ name: value });
-          }}
-          onSearch={() => {
-            this.fetchData();
-          }}
-          onClear={() => {
-            this.setState({ name: '' }, () => {
-              this.fetchData();
-            });
-          }}
-          placeholder="请输入科室名称"
-        />
-      </View>
-    );
+    return null;
+    // return (
+    //   <View style={[Global.styles.TOOL_BAR.FIXED_BAR]} >
+    //     <SearchInput
+    //       value={this.state.name}
+    //       onChangeText={(value) => {
+    //         this.setState({ name: value });
+    //       }}
+    //       onSearch={() => {
+    //         this.fetchData();
+    //       }}
+    //       onClear={() => {
+    //         this.setState({ name: '' }, () => {
+    //           this.fetchData();
+    //         });
+    //       }}
+    //       placeholder="请输入科室名称"
+    //     />
+    //   </View>
+    // );
   }
 
   render() {
@@ -284,7 +300,7 @@ class HospitalDepts extends Component {
       reloadMsg: '点击刷新按钮重新查询',
       reloadCallback: this.pullToRefresh,
       ctrlState: this.state.ctrlState,
-      data: this.sectionIds,
+      data: this.data,
       showActivityIndicator: true,
       style: { marginTop: 15 },
     });
@@ -298,8 +314,8 @@ class HospitalDepts extends Component {
               automaticallyAdjustContentInsets={false} // 此参数保证在IOS的Tabbar中顶端不出现与statusBar等高的空隙
               dataSource={this.state.dataSource}
               renderRow={this.renderRow}
-              renderSectionHeader={HospitalDepts.renderSectionHeader}
-              renderSeparator={this.renderSeparator}
+              // renderSectionHeader={HospitalDepts.renderSectionHeader}
+              // renderSeparator={this.renderSeparator}
               initialListSize={10}
               pageSize={10}
               style={[styles.list]}
@@ -330,11 +346,15 @@ const styles = StyleSheet.create({
     // borderRightWidth: 1 / Global.pixelRatio,
     // borderRightColor: Global.colors.IOS_SEP_LINE,
   },
+  sectionContainer: {
+    borderBottomWidth: 1 / Global.pixelRatio,
+    borderBottomColor: Global.colors.LINE,
+  },
   section: {
     marginTop: 15,
     backgroundColor: 'white',
     borderWidth: 1 / Global.pixelRatio,
-    borderColor: Global.colors.IOS_SEP_LINE,
+    borderColor: Global.colors.LINE,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',

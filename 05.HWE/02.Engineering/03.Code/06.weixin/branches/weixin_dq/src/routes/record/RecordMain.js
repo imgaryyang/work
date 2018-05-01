@@ -8,7 +8,7 @@ import Icon from '../../components/FAIcon';
 import style from './RecordMain.less';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import { colors } from '../../utils/common';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import Global from '../../Global';
 import Tags from '../../components/Tags';
 
@@ -49,7 +49,12 @@ class RecordMain extends React.Component {
   //     this.loadCheckList(props.base.currProfile);
   //   }
   // }
-
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'record/setState',
+      payload: { data: [] },
+    });
+  }
   loadCheckList(currProfile) {
     const query = currProfile;
     const endDate = moment().format('YYYY-MM-DD');
@@ -78,12 +83,13 @@ class RecordMain extends React.Component {
     });
     this.props.dispatch(routerRedux.push({
       pathname: 'recordDetail',
-      state: data,
     }));
   }
   refresh() {
     const { currProfile } = this.props.base;
-    const query = currProfile;
+    const endDate = moment().format('YYYY-MM-DD');
+    const startDate = moment().subtract(365, 'days').format('YYYY-MM-DD');
+    const query = { ...currProfile, startDate, endDate, proNo: currProfile.no };
     this.props.dispatch({
       type: 'record/loadRecordList',
       payload: query,
@@ -98,8 +104,8 @@ class RecordMain extends React.Component {
     if (isLoading) { return <ActivityIndicatorView />; }
     if (!currProfile.id) {
       return (
-        <div className={commonStyles.emptyViewContainer}>
-          <div className={commonStyles.emptyView}>请先选择就诊人！
+        <div className={baseStyles.emptyViewContainer}>
+          <div className={baseStyles.emptyView}>请先选择就诊人！
             <Button
               type="ghost"
               inline
@@ -114,8 +120,8 @@ class RecordMain extends React.Component {
 
     if (data.length === 0) {
       return (
-        <div className={commonStyles.emptyViewContainer}>
-          <div className={commonStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的检查信息！`}</div>
+        <div className={baseStyles.emptyViewContainer}>
+          <div className={baseStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的检查信息！`}</div>
         </div>
       );
     }
@@ -145,12 +151,10 @@ class RecordMain extends React.Component {
               <div className={style['diagnosis']}>{`诊断：${rowData.diagnosis || '暂无诊断信息'}`}</div>
             </Flex>
           </Flex>
-          <Flex direction="column" align="end" className={style['rowRight']} >
-            <Flex direction="row" align="center" className={style['test']}>
-              <div className={style['depName']}>{rowData.depName}</div>
-              <Icon type="angle-right" color={colors.IOS_ARROW} className={style['logo']} />
-            </Flex>
-          </Flex>
+          <div className={style['depName']}>{rowData.depName}</div>
+          <div className={baseStyles.chevronContainer}>
+            <Icon type="angle-right" color={colors.IOS_ARROW} className={baseStyles.chevron} />
+          </div>
         </div>
       );
     };

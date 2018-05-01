@@ -5,6 +5,7 @@ import TabNavLayout from './layouts/TabNavLayout';
 import BasicLayout from './layouts/BasicLayout';
 import LoginBySMS from './routes/LoginBySMS';
 import Login from './routes/Login';
+import DownloadApp from './DownloadApp';
 
 function RouterConfig({ history }) {
   return (
@@ -15,6 +16,7 @@ function RouterConfig({ history }) {
         <Route path="/loginBySMS" exact component={LoginBySMS} />
         <Route path="/home" component={TabNavLayout} />
         <Route path="/stack" component={BasicLayout} />
+        <Route path="/downloadApp" component={DownloadApp} />
       </Switch>
     </Router>
   );

@@ -25,7 +25,7 @@ class Item extends PureComponent {
     return (
       <View style={[Global.styles.CENTER, { flexDirection: 'row', paddingTop: 15, paddingBottom: 15 }]}>
         <TouchableOpacity onPress={() => { this.props.onDelete(); }} style={{ justifyContent: 'center', flexDirection: 'row', paddingRight: 10, alignItems: 'flex-start', width: 80 }}>
-          <Icon name="cross" iconLib='et' />
+          {/* <Icon name="cross" iconLib='et' /> */}
           <Text style={{ fontSize: 15, color: Global.colors.IOS_BLUE }}>删除</Text>
         </TouchableOpacity>
         <Text style={{ flex: 1, marginLeft: 15 }}>{symptom.symptomName}</Text>

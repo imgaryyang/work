@@ -2,43 +2,57 @@
  * 联系我们
  */
 import React from 'react';
-import { Route } from 'dva/router';
 import { connect } from 'dva';
-import style from './AboutUs.less';
-// import imgNews from '../../assets/images/logo-l.png';
-import commonStyles from '../../utils/common.less';
+
+import styles from './AboutUs.less';
+import baseStyles from '../../utils/base.less';
+import Global from '../../Global';
 
 class AboutUs extends React.Component {
   static displayName = 'ContactUs';
-  static description = '联系我们';
+  static description = '关于我们';
 
 
   componentWillMount() {
-    this.props.dispatch({
-      type: 'base/getInfo',
-      payload: '2c90a85c614a07ce01614a38f8d40004',
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/save',
+      payload: {
+        title: '关于我们',
+        hideNavBarBottomLine: false,
+        showCurrHospitalAndPatient: false,
+        headerRight: null,
+      },
+    });
+    dispatch({
+      type: 'base/loadAppInfo',
+      payload: Global.Config.appUUID,
     });
   }
 
 
   render() {
-    const { screen } = this.props.base;
+    const { screen, app } = this.props.base;
     return (
-      <div>
-        <div className={style['logoHolder']}>
+      <div className={styles.container}>
+        <div className={styles['logoHolder']}>
           <div
             style={{
               width: screen.width / 2,
-              height: screen.height / 10,
+              height: screen.height / 6,
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               backgroundSize: 'auto 100%',
             }}
-            className={commonStyles.logo}
+            className={baseStyles.logo}
           />
+          <div className={styles['title']}>{Global.Config.hospital.name}</div>
         </div>
-        <div className={style['title']}>联想智慧医院</div>
-        <div className={style['text1']}>{this.props.base.info.aboutUs }</div>
+        <div className={styles.holder}>
+          <div className={styles.row}>
+            <div>{app ? app.aboutUs || '暂无介绍信息' : '暂无介绍信息'}</div>
+          </div>
+        </div>
       </div>
 
     );

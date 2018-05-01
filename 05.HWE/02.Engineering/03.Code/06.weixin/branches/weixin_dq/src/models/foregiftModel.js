@@ -43,14 +43,14 @@ export default {
         accountType: '9', // 其他
         // tradeChannel: 在生成业务单的时候，尚未选择支付宝或者是微信
         // tradeChannelCode
-        // terminalCode
+        terminalCode: profile.mobile,
         // batchNo
         adFlag: query.adFlag,
         // comment:
-        hisUser: profile.hisUser || user.id,
+        hisUser: Global.hisUser,
         appType: config.appType,
         appCode: config.appCode,
-        terminalUser: profile.hisUser || user.id,
+        terminalUser: profile.no,
         appChannel: query.appCode,
         operator: user.id,
         inNo: foregiftData.no,
@@ -95,10 +95,10 @@ export default {
       if (info.proNo === null || info.proNo === '' || info.proNo === undefined) {
         return;
       }
+      yield put(save({ data: {} }));
       const { data } = yield call(getPreSPay, info);
-      console.info('getPrePay:', data);
       if (data && data.success) {
-        const { result } = data || {};
+        const result = data.result || {};
         yield put(save({ data: result }));
         if (callback) callback(result);
       } else {

@@ -9,12 +9,12 @@ export default {
     data: [],
     refundDetailData: {},
     isLoading: false,
+    height: document.documentElement.clientHeight,
   },
 
   subscriptions: {
     setup({ history, dispatch }) {
       return history.listen(({ pathname }) => {
-        // console.info('pathname ', pathname);
         if (pathname === '/outpatientReturn/outpatientRefundList') {
           dispatch({ type: 'findChargeList', payload: {} });
         }

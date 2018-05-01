@@ -9,6 +9,7 @@ import { action, initPage, colors, clientHeight } from '../../utils/common';
 import ModalSelect from '../../components/ModalSelect';
 import Icon from '../../components/FAIcon';
 import { initAreaData, initJobTitleData, initDateData, initShiftData } from '../../models/appointModel';
+import baseStyles from '../../utils/base.less';
 
 class Schedule extends React.Component {
   constructor(props) {
@@ -107,7 +108,7 @@ class Schedule extends React.Component {
     return (
       <Flex key={rowId} direction="row" justify="around" className={less.row} onClick={() => this.onSelectRow(item)}>
         <Flex direction="column" justify="between" align="start" className={less.col1}>
-          <div className={less.fontOrange}>{item.docName}</div>
+          <div className={baseStyles.fontOrange}>{item.docName}</div>
           <div className={less.bottom}>{item.docJobTitle}</div>
         </Flex>
         <Flex direction="column" justify="between" align="start" className={less.col2}>
@@ -146,7 +147,7 @@ class Schedule extends React.Component {
     const { dateModal, jobTitleModal, shiftModal, areaModal, dataSource } = this.state;
 
     return (
-      <div className={less.flexCol}>
+      <div className={baseStyles.flexCol}>
         <Flex direction="row" justify="around" className={less.topBar}>
           <Flex className={classnames(less.item, less.flex5)} justify="center" align="center" onClick={e => this.showModal(e, 'dateModal')}>
             {selectedDate.label}

@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import styles from './HospitalDoctors.less';
 import { image } from '../../services/baseService';
 import DeptList from './DeptList';
+import baseStyles from '../../utils/base.less';
 
 class HospitalDoctors extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class HospitalDoctors extends React.Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
+    // console.log(rowData);
+    const { filterDept } = this.props.hospital;
     const portrait = rowData.photo ? { backgroundImage: `url(${image(rowData.photo)})` } : {};
     return (
       <Card
@@ -36,22 +39,22 @@ class HospitalDoctors extends React.Component {
         <Card.Body>
           <div className={styles.mainContainer}>
             <div
-              className={classnames(styles.portrait, !rowData.photo ? styles.userPortrait : null)}
+              className={classnames(styles.portrait, !rowData.photo ? baseStyles.userPortrait : null)}
               style={portrait}
             />
             <div style={{ flex: 1 }}>
               <div className={styles.nameContainer}>
                 <div className={styles.name}>{rowData.name}</div>
-                <div className={styles.docDept}><b>科室：</b>{rowData.depName}</div>
+                <div className={styles.docDept}><b>科室：</b>{filterDept && filterDept.name ? filterDept.name : '未知'}</div>
               </div>
               <span className={styles.appendText}><b>职称：</b>{rowData.jobTitle}</span>
-              <span className={styles.appendText}><b>专长：</b>{rowData.speciality}</span>
+              <span className={styles.appendText}><b>简介：</b>{rowData.description}</span>
             </div>
           </div>
-          <div className={styles.clinicDescContainer}>
+          {/* <div className={styles.clinicDescContainer}>
             <span className={styles.clinicDescTitle}>常规出诊时间：</span>
             <span className={styles.clinicDesc}>{rowData.clinicDesc || '暂无记录'}</span>
-          </div>
+          </div>*/}
         </Card.Body>
       </Card>
     );
@@ -76,8 +79,8 @@ class HospitalDoctors extends React.Component {
             });
           }}
         >
-          <span className={styles.filterDeptName}>{filterDept.id ? filterDept.name : '全部科室'}</span>
-          <Icon type="down" className={styles.switchIcon} />
+          <span className={styles.filterDeptName}>{filterDept && filterDept.no ? filterDept.name : '未选择科室'}</span>
+          <Icon type="down" className={baseStyles.switchIcon} />
         </div>
         <div style={{ flex: 1 }}>
           <ListView
@@ -89,7 +92,7 @@ class HospitalDoctors extends React.Component {
             // 渲染行
             renderRow={this.renderRow}
             // 渲染行间隔
-            // renderSeparator={() => <div className={commonStyles.sep15} />}
+            // renderSeparator={() => <div className={baseStyles.sep15} />}
             // 下拉刷新
             pullToRefresh={<PullToRefresh
               refreshing={refreshing}
@@ -101,7 +104,7 @@ class HospitalDoctors extends React.Component {
                 borderBottomWidth: 0,
               }}
             />}
-            // 无限加载
+            无限加载
             onEndReached={() => {
               if (!noMoreData) {
                 this.props.dispatch({
@@ -112,8 +115,8 @@ class HospitalDoctors extends React.Component {
             }}
             onEndReachedThreshold={10}
             renderFooter={() => (
-              <div className={styles.listFooterContainer} >
-                {loading ? '载入更多数据...' : (doctors.length === 0 ? '未查询到任何符合条件的医生信息' : (noMoreData ? '所有数据载入完成' : ''))}
+              <div className={baseStyles.listFooterContainer} >
+                {loading || refreshing ? '载入更多数据...' : (doctors.length === 0 ? '未查询到任何符合条件的医生信息' : (noMoreData ? '所有数据载入完成' : ''))}
               </div>
             )}
           />
@@ -126,7 +129,7 @@ class HospitalDoctors extends React.Component {
           className={styles.modal}
         >
           <div className={styles.modalContainer} style={{ maxHeight: modalHeight }}>
-            <div
+            {/* <div
               className={styles.allDepts}
               onClick={() => {
                 this.props.dispatch({
@@ -138,18 +141,20 @@ class HospitalDoctors extends React.Component {
                 });
               }}
             >全部科室
-            </div>
+            </div>*/}
             <DeptList
               depts={depts}
               allowReg={false}
               onRowClick={(dept) => {
-                this.props.dispatch({
-                  type: 'hospital/search',
-                  payload: {
-                    filterDept: dept,
-                    chooseDeptVisible: false,
-                  },
-                });
+                if (filterDept && filterDept.no) {
+                  this.props.dispatch({
+                    type: 'hospital/search',
+                    payload: {
+                      filterDept: dept,
+                      chooseDeptVisible: false,
+                    },
+                  });
+                }
               }}
               onSearch={(value) => {
                 this.props.dispatch({

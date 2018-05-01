@@ -322,7 +322,7 @@ class LoginBySMS extends Component {
                   dataType="number"
                   maxLength={6}
                   minLength={6}
-                  textAlign="center"
+                  // textAlign="center"
                   required
                   icon="ios-chatbubbles"
                   buttonText={`点击免费${'\n'}获取验证码`}

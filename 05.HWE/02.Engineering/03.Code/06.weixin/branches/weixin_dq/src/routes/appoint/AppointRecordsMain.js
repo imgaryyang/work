@@ -1,4 +1,5 @@
 import { Tabs, Badge, Toast } from 'antd-mobile';
+import fastclick from 'fastclick';
 import { connect } from 'dva';
 import React from 'react';
 import AppointHasCardRecords from './AppointHasCardRecords';
@@ -19,6 +20,8 @@ class AppointRecordsMain extends React.Component {
   }
 
   componentDidMount() {
+    // 引入fastclick为避免iOS下Modal.alert的onPress事件无效的问题
+    fastclick.attach(document.body, {});
     this.props.dispatch(action('base/save', {
       title: '我的预约',
       allowSwitchPatient: true,
@@ -70,7 +73,7 @@ class AppointRecordsMain extends React.Component {
 
   render() {
     return (
-      <Tabs tabs={tabs}>
+      <Tabs tabs={tabs} swipeable={false}>
         <AppointHasCardRecords cancelAppoint={this.cancelAppoint} />
         <AppointNoCardRecords cancelAppoint={this.cancelAppoint} />
       </Tabs>

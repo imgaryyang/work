@@ -5,13 +5,14 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Card } from 'antd-mobile';
+import classnames from 'classnames';
 import Icon from '../../components/FAIcon';
 
 import Ads from './Ads';
 import AppFuncs from './AppFuncs';
 
 import styles from './HospitalFuncCenter.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class HospitalFuncCenter extends Component {
   static displayName = 'HospitalFuncCenter';
@@ -37,9 +38,16 @@ class HospitalFuncCenter extends Component {
     return (
       <div className={styles.container} >
         <Ads />
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
         <AppFuncs />
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
+        <div className={styles.androidDownloadContainer} onClick={() => this.props.dispatch(routerRedux.push('/downloadApp'))}>
+          <div className={classnames(baseStyles.appDownloadBg, styles.androidDownloadText)}>APP下载安装</div>
+          <div className={baseStyles.chevronContainer} >
+            <Icon type="angle-right" className={baseStyles.chevron} />
+          </div>
+        </div>
+        <div className={baseStyles.sep15} />
         <Card full>
           <Card.Header
             title={(
@@ -47,11 +55,11 @@ class HospitalFuncCenter extends Component {
                 <div className={styles.cardTitle}>医院简介</div>
                 <span className={styles.hrefText} onClick={this.goToHospital}>查看详情</span>
                 <div
-                  className={styles.chevronContainer}
+                  className={baseStyles.chevronContainer}
                   onClick={this.goToHospital}
                   style={{ width: 20, height: 14, paddingLeft: 10 }}
                 >
-                  <Icon type="angle-right" className={styles.chevron} />
+                  <Icon type="angle-right" className={baseStyles.chevron} />
                 </div>
               </div>
             )}
@@ -60,7 +68,7 @@ class HospitalFuncCenter extends Component {
             <div className={styles.brief} >{currHospital.brief}</div>
           </Card.Body>
         </Card>
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
       </div>
     );
   }

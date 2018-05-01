@@ -83,8 +83,8 @@ class PayCounter extends Component {
     const payInfo = {
       ...param,
       // will modify 改成实际值
-      // amt: param.amt,
-      amt: 0.01,
+      amt: param.amt,
+      // amt: 0.01,
     };
     this.setState({
       payInfo,
@@ -149,9 +149,6 @@ class PayCounter extends Component {
           payTypeId: this.state.aliPay.payTypeId,
         };
       }
-      console.log('payCreateSettle');
-      console.info(this.state.payInfo);
-      console.log('payCreateSettle');
       // 生成结算单，并且调用第三方接口
       const responseData = await createSettlement(subParams);
       if (responseData.success) {
@@ -163,8 +160,9 @@ class PayCounter extends Component {
             this.props.navigation.navigate('CompletePaySuccess');
           });
         } else if (paytype === 'aliPay') {
+          XPay.setAlipayScheme('2088521412583397');
           XPay.alipay(req, (res) => {
-            if (res && res.resultStatus === '9000') {
+          if (res && res.resultStatus === '9000') {
               this.props.navigation.navigate('CompletePaySuccess');
             } else if (res && res.resultStatus === '6001') {
               return false;
@@ -204,7 +202,7 @@ class PayCounter extends Component {
           <Card>
             <Text style={{ color: 'black', marginLeft: 10 }}>支付编号：<Text style={{ fontSize: 12 }}>{this.state.payInfo.bizNo}</Text></Text>
             <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }}>订单类型：{orderMap[this.state.payInfo.bizType]}</Text>
-            <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }} >需要支付金额：<Text style={{ color: 'red' }}>{this.state.payInfo.amt}元</Text><Text style={{ fontSize: 10 }} > ( 演示版将支付金额固定为 0.01 )</Text></Text>
+            <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }} >需要支付金额：<Text style={{ color: 'red' }}>{this.state.payInfo.amt}元</Text></Text>
           </Card>
           <Card style={{ marginTop: 15 }} >
             <Text style={{ color: 'black', marginLeft: 10, fontSize: 15, fontWeight: '600' }}>选择支付方式</Text>

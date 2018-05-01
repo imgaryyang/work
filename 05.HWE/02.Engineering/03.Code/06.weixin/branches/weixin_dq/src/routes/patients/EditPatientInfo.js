@@ -12,6 +12,7 @@ import Global from '../../Global';
 import { testMobile, testCnIdNo } from '../../utils/validation';
 
 import styles from './EditPatientInfo.less';
+import baseStyles from '../../utils/base.less';
 
 const { Item } = List;
 
@@ -55,7 +56,7 @@ class EditPatientInfo extends React.Component {
     form.validateFields((error, values) => {
       if (!error) {
         const { patientInfo } = patient;
-        const newValues = { ...patientInfo, ...values };
+        const newValues = { ...patientInfo, ...values, idNo: values.idNo.toUpperCase() };
         // console.log('EditPatientInfo...newValues', newValues);
         if (!newValues.relation) {
           Toast.info('请选择患者与本人关系！', 2, null, false);
@@ -120,7 +121,7 @@ class EditPatientInfo extends React.Component {
     // console.log(patientInfo);
 
     const genders = [
-      { label: '女', value: '0' },
+      { label: '女', value: '2' },
       { label: '男', value: '1' },
     ];
     const relations = [];
@@ -166,8 +167,8 @@ class EditPatientInfo extends React.Component {
             {...getFieldProps('name', { initialValue: name })}
             placeholder="请输入患者的真实姓名"
             clear
-            maxLength={50}
-            disabled={patientInfo.profiles && patientInfo.profiles.length > 0}
+            maxLength={30}
+            // disabled={patientInfo.profiles && patientInfo.profiles.length > 0}
           >姓名
           </InputItem>
           <Item>
@@ -211,14 +212,14 @@ class EditPatientInfo extends React.Component {
             {...getFieldProps('address', { initialValue: address })}
             placeholder="请输入联系地址"
             clear
-            maxLength={200}
+            maxLength={80}
           >联系地址
           </InputItem>
         </List>
         {patientInfo.id ? (
-          <div className={classnames(styles.flexRow, styles.noticeContainer)}>
+          <div className={classnames(baseStyles.flexRow, styles.noticeContainer)}>
             <span className={styles.noticeTitle}>注意：</span>
-            <span className={styles.noticeContent}>就诊人已经绑定就诊卡时，姓名及身份证号不允许修改！</span>
+            <span className={styles.noticeContent}>就诊人已经绑定就诊卡时，身份证号不允许修改！</span>
           </div>
         ) : null}
         <Button

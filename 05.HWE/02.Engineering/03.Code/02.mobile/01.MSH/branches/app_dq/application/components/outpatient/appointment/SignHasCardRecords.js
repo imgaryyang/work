@@ -206,7 +206,7 @@ class SignHasCardRecords extends Component {
   }
 
   render() {
-    const { currProfile: { name: proName } } = this.props;
+    const { currProfile = {} } = this.props;
     const { doRenderScene, data, ctrlState } = this.state;
 
     if (!doRenderScene) return <PlaceholderView />; // 场景过渡动画未完成前，先渲染过渡场景
@@ -217,7 +217,7 @@ class SignHasCardRecords extends Component {
         style={{ marginTop: 10 }}
         initialNumToRender={10}
         keyExtractor={(item, index) => `${item}${index + 1}`}
-        renderItem={({ item }) => <SignRecord data={{ ...item, proName }} onPress={this.onPressItem} signIn={this.submit} />}
+        renderItem={({ item }) => <SignRecord data={{ ...item, proName: currProfile.name }} onPress={this.onPressItem} signIn={this.submit} />}
         ItemSeparatorComponent={() => (<Sep height={Global.lineWidth} bgColor={Global.colors.LINE} />)}
         refreshing={ctrlState.refreshing} // 控制下拉刷新
         onRefresh={this.onRefresh}

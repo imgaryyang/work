@@ -12,7 +12,7 @@ import { colors } from '../../utils/common';
 import Icon from '../../components/FAIcon';
 
 import styles from './ChoosePatient.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class ChoosePatient extends Component {
   static displayName = 'ChoosePatient';
@@ -153,11 +153,11 @@ class ChoosePatient extends Component {
     const currHospital = this.state.hospital;
     // 如果多医院版本，且当前医院不存在，则不渲染患者列表
     if (edition === Global.EDITION_MULTI && !currHospital) {
-      return (<div className={commonStyles.emptyView}>请先选择医院</div>);
+      return (<div className={baseStyles.emptyView}>请先选择医院</div>);
     }
     // 如果当前用户无就诊人
     if (!user.map || !user.map.userPatients || user.map.userPatients.length === 0) {
-      return (<div className={commonStyles.emptyView}>您还未添加任何就诊人！</div>);
+      return (<div className={baseStyles.emptyView}>您还未添加任何就诊人！</div>);
     }
 
     // console.log('patients:', data);

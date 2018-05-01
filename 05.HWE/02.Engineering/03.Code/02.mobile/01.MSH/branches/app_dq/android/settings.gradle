@@ -1,6 +1,14 @@
 rootProject.name = 'MSH'
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
+include ':jcore-react-native'
+project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+
+include ':jpush-react-native'
+project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-amap3d'
 project(':react-native-amap3d').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-amap3d/lib/android')
 include ':react-native-puti-pay'

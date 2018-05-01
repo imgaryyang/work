@@ -7,6 +7,7 @@ import { Button, Icon, Flex } from 'antd-mobile';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from './CompletePaySuccess.less';
+import baseStyles from '../../utils/base.less';
 
 class CompletePayFailure extends Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class CompletePayFailure extends Component {
       <Flex align="center" direction="column" className={styles.container} >
         <Icon type="cross-circle" className={openid ? styles.icon_wxpay : styles.icon_alipay} />
         <div className={styles.title}>支付失败</div>
-        <Button className={openid ? styles.button_wxpay : styles.button_alipay} onClick={this.goBack}><span className={styles.font15}>返回</span></Button>
+        <Button className={openid ? styles.button_wxpay : styles.button_alipay} onClick={this.goBack}><span className={baseStyles.font15}>返回</span></Button>
       </Flex>
     );
   }

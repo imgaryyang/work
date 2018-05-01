@@ -46,7 +46,7 @@ class InpatientDailyBill extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      title: '住院日清单',
+      title: '住院日清单查询',
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,

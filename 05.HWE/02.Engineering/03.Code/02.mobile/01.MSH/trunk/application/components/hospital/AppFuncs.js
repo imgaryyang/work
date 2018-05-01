@@ -18,10 +18,20 @@ export default class AppFuncs extends Component {
     this.chooseHospitalForNext = this.chooseHospitalForNext.bind(this);
   }
 
-  onPressMenuItem(component, title, passProps) {
+  onPressMenuItem(component, title, passProps, children) {
     if (component) {
-      // 判断当前档案，如果没选择档案，则需要先选择
-      if (_.indexOf(Global.Config.needProfileComp, component) !== -1 && !this.props.base.currProfile) {
+      if (component === 'AppSubFuncs') {
+        this.props.navigate({
+          component,
+          params: {
+            title,
+            ...passProps,
+            children,
+            onPressMenuItem: this.onPressMenuItem,
+          },
+        });
+      } else if (_.indexOf(Global.Config.needProfileComp, component) !== -1 && !this.props.base.currProfile) {
+        // 判断当前档案，如果没选择档案，则需要先选择
         Toast.show('请先选择就诊人');
         this.props.navigate({
           component: 'ChoosePatient',
@@ -83,7 +93,7 @@ export default class AppFuncs extends Component {
     const { services, imgIcons } = Global.Config;
     const mainServices = _.dropRight(services.hfc, services.hfc.length - 3);
     return mainServices.map(({
-      id, name, imgIcon, route, borderColor, passProps,
+      id, name, imgIcon, route, borderColor, passProps, children,
     }, idx) => {
       // const bgColor = idx >= 6 ? this.bgColors[idx % 6] : this.bgColors[idx];
       const content = idx < 3 ? (
@@ -106,7 +116,7 @@ export default class AppFuncs extends Component {
           key={id}
           style={idx < 3 ? styles.primaryItemContainer : styles.itemContainer}
           onPress={() => {
-            this.onPressMenuItem(route, name, passProps);
+            this.onPressMenuItem(route, name, passProps, children);
           }}
         >
           {content}
@@ -121,14 +131,14 @@ export default class AppFuncs extends Component {
     const chunkServices = _.chunk(otherServices, 4);
     return chunkServices.map((menus, idx) => {
       const content = menus.map(({
-        id, name, imgIcon, route, /* borderColor, */passProps,
+        id, name, imgIcon, route, /* borderColor, */passProps, children,
       }) => {
         return (
           <TouchableOpacity
             key={id}
             style={styles.itemContainer}
             onPress={() => {
-              this.onPressMenuItem(route, name, passProps);
+              this.onPressMenuItem(route, name, passProps, children);
             }}
           >
             <View style={styles.item} >

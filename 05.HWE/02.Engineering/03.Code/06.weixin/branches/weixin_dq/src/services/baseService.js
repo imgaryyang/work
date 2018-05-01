@@ -34,6 +34,10 @@ export function image(imgName) {
   return `/api/images/${imgName}`;
 }
 
+export function files(fileName) {
+  return `/api/files/${fileName}`;
+}
+
 /**
  * 发送验证码
  * @param data
@@ -94,4 +98,8 @@ export function getContacts(start, limit, query) {
 
 export function ads() {
   return ajax.GET('/api/hwe/app/ad/list');
+}
+
+export function appInfo(appId) {
+  return ajax.GET(`/api/hwe/app/base/${appId}`);
 }

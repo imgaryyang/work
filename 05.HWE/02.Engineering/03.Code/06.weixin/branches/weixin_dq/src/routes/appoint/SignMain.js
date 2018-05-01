@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import React from 'react';
 import SignHasCardRecords from './SignHasCardRecords';
 import { action } from '../../utils/common';
-import less from './SignRecord.less';
+// import less from './SignRecord.less';
+import baseStyles from '../../utils/base.less';
 
 class SignMain extends React.Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class SignMain extends React.Component {
 
   render() {
     return (
-      <div className={less.scrolly}>
+      <div className={baseStyles.scrolly}>
         <SignHasCardRecords sign={this.sign} />
       </div>
     );

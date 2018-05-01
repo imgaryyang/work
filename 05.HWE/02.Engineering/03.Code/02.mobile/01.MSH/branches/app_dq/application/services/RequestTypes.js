@@ -162,6 +162,8 @@ export const appoint = () => ({
   deptTree: `${Global.getHost()}treat/appoint/deptTree`,
   // 3.4.2 可预约科室列表查询
   deptList: `${Global.getHost()}treat/his/appoint/deptList`,
+  // 3.4.3 可预约医生列表查询
+  docList: `${Global.getHost()}treat/his/appoint/docList`,
   // 3.4.5 患者预约
   reserve: `${Global.getHost()}treat/his/appoint/reserve`,
   // 3.4.7 患者签到

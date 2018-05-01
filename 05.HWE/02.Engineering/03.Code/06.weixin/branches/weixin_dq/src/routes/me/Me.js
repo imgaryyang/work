@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import Icon from '../../components/FAIcon';
 import styles from './Me.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import { image } from '../../services/baseService';
 
 import Global from '../../Global';
@@ -38,7 +38,7 @@ class Me extends React.Component {
   renderMenu() {
     const menus = Global.Config.services.me;
     return menus.map(({ id, name, route, icon, passProps, separator }, idx) => {
-      const sep = separator === true ? <div className={classnames(commonStyles.sep15, styles.topLine, styles.bottomLine)} /> : null;
+      const sep = separator === true ? <div className={classnames(baseStyles.sep15, styles.topLine, styles.bottomLine)} /> : null;
       const topLine = idx === 0 ? styles.topLine : '';
       const bottomLine = idx === menus.length - 1 ? styles.bottomLine : '';
       const sepLine = separator === true || idx === menus.length - 1 ? '' : styles.bottomLine;
@@ -53,8 +53,8 @@ class Me extends React.Component {
             <div className={styles.iconContainer} ><Icon type={icon} className={styles.itemIcon} /></div>
             <div className={classnames(styles.nameContainer, sepLine)} >
               <div className={styles.itemName} >{name}</div>
-              <div className={styles.chevronContainer} >
-                <Icon type="angle-right" className={styles.chevron} />
+              <div className={baseStyles.chevronContainer} >
+                <Icon type="angle-right" className={baseStyles.chevron} />
               </div>
             </div>
           </div>
@@ -72,22 +72,22 @@ class Me extends React.Component {
     return (
       <div className={styles.container}>
         <div
-          className={classnames(commonStyles.userBg, styles.bgContainer)}
+          className={classnames(baseStyles.userBg, styles.bgContainer)}
           style={{ height: screen.width * (1 - 0.618) }}
         >
           <div className={styles.portraitContainer} >
             <div
-              className={classnames(styles.portrait, !user || !user.portrait ? commonStyles.userPortrait : null)}
+              className={classnames(styles.portrait, !user || !user.portrait ? baseStyles.userPortrait : null)}
               style={portrait}
             />
           </div>
           <div className={styles.name} >{user.name || user.mobile}</div>
         </div>
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
         <div>
           {this.renderMenu()}
         </div>
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
       </div>
     );
   }

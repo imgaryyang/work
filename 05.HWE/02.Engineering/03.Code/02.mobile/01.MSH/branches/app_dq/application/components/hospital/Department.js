@@ -14,7 +14,6 @@ import Card from 'rn-easy-card';
 import Button from 'rn-easy-button';
 import Sep from 'rn-easy-separator';
 import { connect } from 'react-redux';
-import Toast from 'react-native-root-toast';
 import Global from '../../Global';
 import { sectionDescs } from '../../services/base/BaseService';
 import ctrlState from '../../modules/ListState';
@@ -54,47 +53,19 @@ class Department extends Component {
   /**
    * 导向到预约挂号
    */
-  async onPressRegister() {
-    Toast.show('功能尚未开通');
-    // const { hosp, screenProps, navigation, nav } = this.props;
-    // const { showLoading, hideLoading } = screenProps;
-    // showLoading();
-    // try {
-    //   const responseData = await forDeptList({ hosId: hosp.id, hosNo: hosp.no, name: dept.name });
-    //   const { success, result, msg } = responseData;
-    //   if (success) {
-    //     if (result.length > 1) {
-    //       Toast.show('错误：返回多个科室！');
-    //     }
-    //     hideLoading();
-    //     navigation.navigate('Schedule', {
-    //       backIndex: nav.index,
-    //       title: result[0].name,
-    //       depNo: result[0].no,
-    //       hosNo: result[0].hosNo,
-    //       showCurrHospitalAndPatient: true,
-    //       allowSwitchHospital: false,
-    //       allowSwitchPatient: true,
-    //       afterChooseHospital: null,
-    //       afterChoosePatient: null,
-    //       hideNavBarBottomLine: false,
-    //     });
-    //   } else {
-    //     this.handleRequestException({ msg });
-    //   }
-    // } catch (e) {
-    //   this.handleRequestException(e);
-    // }
-    // hideLoading();
-
-    // this.props.navigator.push({
-    //   title: '挂号',
-    //   component: RegisterResource,
-    //   hideNavBar: true,
-    //   passProps: {
-    //     hospitalId: dept.hospitalId,
-    //     departmentId: dept.id,
-    //   }
+  onPressRegister() {
+    // 该组件没用到
+    // this.props.navigation.navigate('Schedule', {
+    //   title: item.name,
+    //   depNo: item.no,
+    //   hosNo: item.hosNo,
+    //   showCurrHospitalAndPatient: true,
+    //   allowSwitchHospital: false,
+    //   allowSwitchPatient: true,
+    //   afterChooseHospital: null,
+    //   afterChoosePatient: null,
+    //   hideNavBarBottomLine: false,
+    //   backIndex: this.props.nav.index,
     // });
   }
 

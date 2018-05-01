@@ -1,3 +1,8 @@
+@import "../../utils/common";
+
+.container {
+  background-color: @IOS_GRAY_BG;
+}
 
 .text {
   padding-left: 20px;
@@ -28,5 +33,37 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
   margin-bottom: 50px;
+}
+
+.hospitalName {
+  font-Size: 20px;
+  font-Weight: 900;
+  color: black;
+  padding-Top: 10px;
+}
+
+.holder {
+  border-top: 1px solid @LINE;
+  border-bottom: 1px solid @LINE;
+  background-color: white;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 15px;
+}
+.borderTop {
+}
+.type {
+  width: 90px;
+  font-size: 14px;
+  color: black;
+}
+.content {
+  flex: 1;
+  font-size: 14px;
+  color: @FONT_GRAY;
 }

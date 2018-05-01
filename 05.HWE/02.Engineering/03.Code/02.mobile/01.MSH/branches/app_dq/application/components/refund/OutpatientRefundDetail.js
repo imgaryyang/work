@@ -10,6 +10,9 @@ import {
   Text,
   TouchableWithoutFeedback,
   StyleSheet, Alert,
+  KeyboardAvoidingView,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from 'rn-easy-button';
@@ -65,6 +68,7 @@ class OutpatientRefundDetail extends Component {
 
   onRefundButtonClick() {
     const { data } = this.props.navigation.state.params;
+    console.info('onRefundButtonClick:', data);
     const result = this.validRefund();
     if (!result.success) {
       Alert.alert(
@@ -78,6 +82,7 @@ class OutpatientRefundDetail extends Component {
       );
       return;
     }
+    Keyboard.dismiss();
     const { currProfile } = this.props.base;
     const { user } = this.props.auth;
     const bill = {
@@ -95,21 +100,20 @@ class OutpatientRefundDetail extends Component {
       tradeNo: data.tradeNo, // 原交易流水
       // tradeTime
       userId: user.id,
-      acccount: currProfile.acctNo,
+      account: data.account,
       accountName: currProfile.name,
       accountType: '9',
       tradeChannel: data.tradeChannel,
       tradeChannelCode: data.tradeChannelCode,
       // accountBankCode:
-      // terminalCode
+      terminalCode: currProfile.mobile,
       // batchNo
       adFlag: data.adFlag,
       // comment
       hisUser: currProfile.hisUser || user.id,
       appType: config.appType, // 审计字段
       appCode: config.appCode, // 审计字段
-      terminalUser: currProfile.hisUser || user.id,
-      // terminalCode:
+      terminalUser: currProfile.no,
       appChannel: 'APP',
       // oriTradeNo: data.tradeNo,
       // oriAmt: data.amt,
@@ -179,44 +183,49 @@ class OutpatientRefundDetail extends Component {
     const amt = data.amt ? data.amt : 0;
     const refunded = data.refunded ? data.refunded : 0;
     const maxReturnableAmt = (balance < (amt - refunded)) ? balance : (amt - refunded);
+    const content = (
+      <ScrollView keyboardShouldPersistTaps="always">
+        <View style={{ paddingLeft: 15, paddingRight: 15 }} >
+          <Form
+            ref={(c) => { this.form = c; }}
+            config={FormConfig}
+            showLabel={false}
+            labelWidth={100}
+            onChange={this.onChange}
+            value={this.state.patient}
+          >
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >当前余额：{ filterMoney(balance) } 元</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >充值金额：{ filterMoney(amt) } 元</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >已退金额：{ filterMoney(refunded) } 元</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >最大可退金额：{ filterMoney(maxReturnableAmt) } 元</Text>
+            <Form.TextInput
+              style={{ height: 76 }}
+              name="amt"
+              label="充值金额:"
+              placeholder="请输入退款金额"
+              dataType="bankAcct"
+              required
+              minLength={6}
+              maxLength={20}
+            />
+          </Form>
+        </View>
+        <Button
+          style={styles.button}
+          text="退款"
+          onPress={() => {
+            this.onRefundButtonClick();
+          }}
+        />
+      </ScrollView>
+    );
     return (
       <View style={[Global.styles.CONTAINER, {}]}>
-        <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
-          <KeyboardAwareScrollView style={styles.scrollView} keyboardShouldPersistTaps="always" >
-            <View style={{ paddingLeft: 15, paddingRight: 15 }} >
-              <Form
-                ref={(c) => { this.form = c; }}
-                config={FormConfig}
-                showLabel={false}
-                labelWidth={100}
-                onChange={this.onChange}
-                value={this.state.patient}
-              >
-                <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >当前余额：{ filterMoney(balance) } 元</Text>
-                <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >充值金额：{ filterMoney(amt) } 元</Text>
-                <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >已退金额：{ filterMoney(refunded) } 元</Text>
-                <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >最大可退金额：{ filterMoney(maxReturnableAmt) } 元</Text>
-                <Form.TextInput
-                  style={{ height: 76 }}
-                  name="amt"
-                  label="充值金额:"
-                  placeholder="请输入退款金额"
-                  dataType="bankAcct"
-                  required
-                  minLength={6}
-                  maxLength={20}
-                />
-              </Form>
-            </View>
-            <Button
-              style={styles.button}
-              text="退款"
-              onPress={() => {
-                this.onRefundButtonClick();
-              }}
-            />
-          </KeyboardAwareScrollView>
-        </TouchableWithoutFeedback>
+        {Global.os === 'ios' ? (
+          <KeyboardAvoidingView behavior="padding">
+            {content}
+          </KeyboardAvoidingView>
+        ) : content}
       </View>
     );
   }

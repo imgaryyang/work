@@ -44,7 +44,6 @@ export default class SignRecord extends PureComponent {
     const { selected } = this.state;
     const {
       clinicDate,
-      clinicTime,
       shiftName,
       clinicTypeName,
       docName,
@@ -53,13 +52,13 @@ export default class SignRecord extends PureComponent {
       portrait,
       address,
       num,
-      totalFee,
       status,
       proNo,
       proName,
       idNo,
       mobile,
     } = data;
+    const clinicTime = (data.clinicTime || '').slice(11, 16);
     const statusName = getStatusName(status);
     const weekday = `周${'日一二三四五六'.charAt(moment(clinicDate, 'YYYY-MM-DD').day())}`;
     const imageSource = portrait ? { uri: base().img + portrait } : Global.Config.defaultImgs.docPortrait;
@@ -119,10 +118,6 @@ export default class SignRecord extends PureComponent {
               <View style={styles.row}>
                 <Text style={styles.labelText}>序号</Text>
                 <Text style={styles.contentText}>{num}</Text>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.labelText}>费用</Text>
-                <Text style={styles.contentText}>{totalFee}</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.labelText}>姓名</Text>

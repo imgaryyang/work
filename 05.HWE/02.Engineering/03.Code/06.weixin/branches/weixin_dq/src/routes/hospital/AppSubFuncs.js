@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import Icon from '../../components/FAIcon';
 
 import styles from './AppSubFuncs.less';
+import baseStyles from '../../utils/base.less';
 
 class AppSubFuncs extends Component {
   constructor(props) {
@@ -28,8 +29,8 @@ class AppSubFuncs extends Component {
     });
   }
 
-  onPressMenuItem(route, title, passProps) {
-    if (route) {
+  onPressMenuItem(route, title, passProps, state) {
+    if (route && state === '1') {
       const { dispatch } = this.props;
       dispatch({
         type: 'base/save',
@@ -40,7 +41,7 @@ class AppSubFuncs extends Component {
       });
       dispatch(routerRedux.push(`/stack/${route}`));
     } else {
-      Toast.info(`${title}即将开通`);
+      Toast.info(`${title}即将开通，敬请期待`);
     }
   }
 
@@ -55,7 +56,7 @@ class AppSubFuncs extends Component {
     }
     // console.log(params);
     return base.subFuncs.map(({
-      id, name, /* iconLib,*/ icon, route, passProps, group,
+      id, name, /* iconLib,*/ icon, route, passProps, group, state,
     }, idx) => {
       if (group === true) {
         return (
@@ -71,17 +72,17 @@ class AppSubFuncs extends Component {
         <div
           key={id}
           onClick={() => {
-            this.onPressMenuItem(route, name, passProps);
+            this.onPressMenuItem(route, name, passProps, state);
           }}
         >
           {marginTop}
           <div className={classnames(styles.itemContainer, idx === 0 ? styles.borderTop : null)}>
-            <div className={styles.imgContainer}>
-              <Icon type={icon} className={styles.navBtnIcon} style={{ color: 'white' }} />
+            <div className={classnames(styles.imgContainer, !route || state !== '1' ? styles.imgContainerForbidden : null)}>
+              <Icon type={icon} className={baseStyles.navBtnIcon} style={{ color: 'white' }} />
             </div>
-            <span className={classnames(styles.itemText, styles.ellipsisText)}>{name}</span>
-            <div className={styles.chevronContainer} >
-              <Icon type="angle-right" className={styles.chevron} />
+            <span className={classnames(styles.itemText, baseStyles.ellipsisText, !route || state !== '1' ? styles.itemTextForbidden : null)}>{name}</span>
+            <div className={baseStyles.chevronContainer} >
+              <Icon type="angle-right" className={baseStyles.chevron} />
             </div>
           </div>
         </div>

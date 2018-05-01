@@ -10,6 +10,7 @@ import HospitalDoctors from './HospitalDoctors';
 import styles from './Hospital.less';
 // import Global from '../../Global';
 import { image } from '../../services/baseService';
+import baseStyles from '../../utils/base.less';
 
 const tabs = [
   { title: <Badge>首页</Badge> },
@@ -60,7 +61,9 @@ class Hospital extends React.Component {
         },
       });
       const initQuery = { hosId: hospital.hospital.id };
-      if (hospital.doctors.length === 0) {
+      const { filterDept } = hospital;
+      // console.log('filterDept:', filterDept);
+      if (hospital.doctors.length === 0 && filterDept && filterDept.no) {
         dispatch({
           type: 'hospital/refresh',
           payload: { ...initQuery },
@@ -82,7 +85,7 @@ class Hospital extends React.Component {
     return (
       <div className={styles.container}>
         <div
-          className={classnames(styles.bgContainer, styles.hospBg)}
+          className={classnames(styles.bgContainer, baseStyles.hospBg)}
           style={{
             height: picHeight,
             // backgroundImage: `url(${image(hospital.hospital.logo)})`,
@@ -90,7 +93,7 @@ class Hospital extends React.Component {
         >
           <div className={styles.portraitContainer} >
             <div
-              className={classnames(!hospital.hospital.logo ? styles.hospLogo : styles.portrait)}
+              className={classnames(!hospital.hospital.logo ? baseStyles.hospLogo : styles.portrait)}
               style={portrait}
             />
           </div>
@@ -103,6 +106,7 @@ class Hospital extends React.Component {
             this.onTabClick(tab, index);
           }}
           style={{ flex: 1 }}
+          swipeable={false}
         >
           <HospitalIntro />
           <HospitalDepts />

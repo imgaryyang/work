@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, WingBlank, Card, Icon, Flex, Modal } from 'antd-mobile';
+import { Button, WingBlank, Card, Icon, Flex, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import wximag from '../../assets/images/pay/wxpay.png';
 import zfbimag from '../../assets/images/pay/alipay.png';
@@ -18,9 +18,10 @@ class CashierDesk extends React.Component {
     super(props);
     this.gotoSuccess = this.gotoSuccess.bind(this);
     this.gotoFailure = this.gotoFailure.bind(this);
+    this.onAlipayJSBridgeReady = this.onAlipayJSBridgeReady.bind(this);
+    this.onWeixinJSBridgeReady = this.onWeixinJSBridgeReady.bind(this);
   }
   componentWillMount() {
-
     const { dispatch } = this.props;
     dispatch({
       type: 'base/save',
@@ -49,26 +50,14 @@ class CashierDesk extends React.Component {
       settlement.variables.packageData,
       (res) => {
         if (res.err_msg === 'get_brand_wcpay_request:ok') {
-          // // 支付完成// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-          // alert('支付成功!!');
-          // Modal.alert('提示', '支付成功', [
-          //   { text: '确定', onPress: () => this.props.dispatch(routerRedux.goBack()) },
-          // ]);
-          this.props.dispatch(routerRedux.push({
-            pathname: 'completePaySuccess',
-          }));
+          // // // 支付完成// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+          this.gotoSuccess();
         } else if (res.err_msg === 'get_brand_wcpay_request:fail') { // 交易失败
-          this.props.dispatch(routerRedux.push({
-            pathname: 'completePayFailure',
-          }));
+          this.gotoFailure();
         } else if (res.err_msg === 'get_brand_wcpay_request:cancel') { // 交易关闭
-          this.props.dispatch(routerRedux.push({
-            pathname: 'completePayFailure',
-          }));
+          this.gotoFailure();
         } else { // 未知状态先按照失败来处理
-          this.props.dispatch(routerRedux.push({
-            pathname: 'completePayFailure',
-          }));
+          this.gotoFailure();
         }
       },
     );
@@ -103,26 +92,18 @@ class CashierDesk extends React.Component {
     }, (result) => {
       console.info('支付宝支付返回', result);
       if (result.resultCode === '9000') { // 支付成功
-        this.props.dispatch(routerRedux.push({
-          pathname: 'completePaySuccess',
-        }));
+        this.gotoSuccess();
       } else if (result.resultCode === '8000' || // 交易结果未知
         result.resultCode === '6004') {
-        this.props.dispatch(routerRedux.push({
-          pathname: 'completePayFailure',
-        }));
+        this.gotoFailure();
       } else if (result.resultCode === '7001' || // 支付失败
         result.resultCode === '6002' ||
         result.resultCode === '6001' ||
         result.resultCode === '4000' ||
         result.resultCode === '99') {
-        this.props.dispatch(routerRedux.push({
-          pathname: 'completePayFailure',
-        }));
+        this.gotoFailure();
       } else {
-        this.props.dispatch(routerRedux.push({
-          pathname: 'completePayFailure',
-        }));
+        this.gotoFailure();
       }
     });
   }
@@ -157,13 +138,13 @@ class CashierDesk extends React.Component {
   }
 
   gotoSuccess() {
-    this.props.dispatch(routerRedux.push({
+    this.props.dispatch(routerRedux.replace({
       pathname: 'completePaySuccess',
     }));
   }
 
   gotoFailure() {
-    this.props.dispatch(routerRedux.push({
+    this.props.dispatch(routerRedux.replace({
       pathname: 'completePayFailure',
     }));
   }

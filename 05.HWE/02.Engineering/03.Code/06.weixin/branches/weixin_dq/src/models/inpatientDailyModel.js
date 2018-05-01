@@ -26,11 +26,11 @@ export default {
           endDate: moment(selectDate).format('YYYY-MM-DD'),
         },
       );
-      const { result } = data || {};
+      const { result } = data || [];
       yield put({
         type: 'setState',
         payload: {
-          data: result || {},
+          data: result || [],
           isLoading: false,
         },
       });

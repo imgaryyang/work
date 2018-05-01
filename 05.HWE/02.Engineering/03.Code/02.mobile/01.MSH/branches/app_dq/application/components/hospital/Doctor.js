@@ -13,13 +13,11 @@ import {
   Image,
 } from 'react-native';
 import Card from 'rn-easy-card';
-// import Button from 'rn-easy-button';
 import Sep from 'rn-easy-separator';
 import Portrait from 'rn-easy-portrait';
 import { B, S } from 'rn-easy-text';
 
 import Global from '../../Global';
-// import { base } from '../../services/RequestTypes';
 import { sectionDescs } from '../../services/base/BaseService';
 import ctrlState from '../../modules/ListState';
 
@@ -53,7 +51,7 @@ class Doctor extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
-      }, () => this.refresh());
+      });
     });
     // const { params } = this.props.navigation.state;
     this.props.navigation.setParams({
@@ -64,7 +62,7 @@ class Doctor extends Component {
   /**
    * 导向到预约挂号
    */
-  onPressRegister(doc) {
+  onPressRegister(/* doc*/) {
     // this.props.navigator.push({
     //   title: '挂号',
     //   component: RegisterResource,
@@ -139,8 +137,8 @@ class Doctor extends Component {
           resizeMode="cover"
           style={{ width: Global.getScreen().width, height: picBgHeight }}
         />
-        <Sep height={15} />
-        <Card fullWidth style={{ height: (((Global.getScreen().width - 36) / 8) * 3) + 16 }} />
+        {/* <Sep height={15} />*/}
+        {/* <Card fullWidth style={{ height: (((Global.getScreen().width - 36) / 8) * 3) + 16 }} />*/}
         {this.renderSpeciality()}
       </View>
     );
@@ -259,9 +257,9 @@ class Doctor extends Component {
         <Sep height={15} />
         <Card >
           <View style={Global.styles.CARD_TITLE} >
-            <Text style={Global.styles.CARD_TITLE_TEXT} >专长</Text>
+            <Text style={Global.styles.CARD_TITLE_TEXT} >简介</Text>
           </View>
-          <Text style={Global.styles.CARD_CONTENT_TEXT} >{doctor.speciality}</Text>
+          <Text style={Global.styles.CARD_CONTENT_TEXT} >{doctor.description/* speciality*/}</Text>
         </Card>
         <Sep height={15} />
       </View>
@@ -296,14 +294,14 @@ class Doctor extends Component {
     // console.log('this.props.navigation in ConsultRecords.render():', this.props.navigation);
     const { doctor } = this.props.navigation.state.params;
 
-    const emptyView = this.renderEmptyView({
-      msg: '暂无更多医生介绍',
-      reloadMsg: '点击刷新按钮重新查询',
-      reloadCallback: this.refresh,
-      ctrlState: this.state.ctrlState,
-      data: this.state.descs,
-      showActivityIndicator: true,
-    });
+    // const emptyView = this.renderEmptyView({
+    //   msg: '暂无更多医生介绍',
+    //   reloadMsg: '点击刷新按钮重新查询',
+    //   reloadCallback: this.refresh,
+    //   ctrlState: this.state.ctrlState,
+    //   data: this.state.descs,
+    //   showActivityIndicator: true,
+    // });
 
     // const portraitSource = doctor.portrait ?
     //   { uri: base().img + doctor.portrait } :
@@ -340,8 +338,16 @@ class Doctor extends Component {
             {this.renderCalendar()}
           </Card>*/}
           {this.renderSpeciality()}
-          {emptyView}
-          {this.renderDescs()}
+          {/* emptyView*/}
+          {/* this.renderDescs()*/}
+          <Card >
+            <View>
+              <View style={Global.styles.CARD_TITLE} >
+                <Text style={Global.styles.CARD_TITLE_TEXT} >医生介绍</Text>
+              </View>
+              <Text style={Global.styles.CARD_CONTENT_TEXT} >{doctor.speciality}</Text>
+            </View>
+          </Card>
           <Sep height={40} />
         </ScrollView>
       </View>

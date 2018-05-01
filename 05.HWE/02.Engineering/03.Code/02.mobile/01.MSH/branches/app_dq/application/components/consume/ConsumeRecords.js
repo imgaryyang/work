@@ -26,7 +26,7 @@ import { getConsumeRecords } from '../../services/consume/ConsumeRecordsService'
 
 class ConsumeRecords extends Component {
   static displayName = 'ConsumeRecords';
-  static description = '就诊卡缴费记录查询';
+  static description = '就诊卡扣款记录查询';
 
   constructor(props) {
     super(props);
@@ -141,7 +141,10 @@ class ConsumeRecords extends Component {
           refreshing: true,
         },
       });
-      const consumeRecordsData = await getConsumeRecords({ proNo: profile.no, hosNo: profile.hosNo });
+      const endDate = moment().format('YYYY-MM-DD');
+      const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
+      const query = { proNo: profile.no, hosNo: profile.hosNo, startDate, endDate };
+      const consumeRecordsData = await getConsumeRecords(query);
       // const responseData = await getPreStore({
       //   no: this.state.profile.no,
       //   hosNo: this.state.profile.hosNo,
@@ -179,18 +182,18 @@ class ConsumeRecords extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    let type = '';
-    if (item.type === '1') {
-      type = '挂号';
-    } else if (item.type === '2') {
-      type = '门诊收费';
-    } else if (item.type === '3') {
-      type = '体检收费';
-    } else if (item.type === '4') {
-      type = '医院授权透支冲账';
-    } else {
-      type = '其他';
-    }
+    // let type = '';
+    // if (item.type === '1') {
+    //   type = '挂号';
+    // } else if (item.type === '2') {
+    //   type = '门诊收费';
+    // } else if (item.type === '3') {
+    //   type = '体检收费';
+    // } else if (item.type === '4') {
+    //   type = '医院授权透支冲账';
+    // } else {
+    //   type = '其他';
+    // }
     return (
       <Item
         data={item}
@@ -202,10 +205,10 @@ class ConsumeRecords extends Component {
           <View style={{ flex: 3 }} >
             <Text style={{ fontSize: 13, color: Global.colors.FONT_LIGHT_GRAY1 }}>{item.chargeTime ? moment(item.chargeTime).format('YYYY-MM-DD HH:mm') : '暂无日期' }</Text>
             <Sep height={6} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>{`${type}_`}{item.name}</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>{item.name}</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, textAlign: 'right' }}>{filterMoney(item.cost)}</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, textAlign: 'right' }}>{filterMoney(item.realAmount)}</Text>
           </View>
         </View>
       </Item>

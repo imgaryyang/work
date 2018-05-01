@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 
 import baseUtil from '../utils/baseUtil.js';
 
@@ -40,6 +41,7 @@ class IndexPage extends React.Component {
     const route = this.getRoute();
     const funcIdx = this.getFuncIdx();
     // route = 'appoint/departments';
+    // console.log('window.location.href:', window.location.href);
     console.log('route&funcIdx:', route, funcIdx);
     if (openid) {
       // alert(`openid：${openid}`);
@@ -55,6 +57,11 @@ class IndexPage extends React.Component {
         type: 'base/loginByUserId',
         payload: { userId, route: route || '', funcIdx: funcIdx === null ? -1 : funcIdx },
       });
+    } else if (window.location.href.indexOf('downloadApp') !== -1) {
+      const { dispatch } = this.props;
+      dispatch(routerRedux.goForward({
+        pathname: '/downloadApp',
+      }));
     } else {
       alert(`非法请求${window.location}`);
     }

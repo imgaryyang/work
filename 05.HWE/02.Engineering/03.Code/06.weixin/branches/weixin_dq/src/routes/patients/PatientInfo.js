@@ -10,7 +10,7 @@ import Tags from '../../components/Tags';
 import ProfileList from './ProfileList';
 
 import styles from './PatientInfo.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class PatientInfo extends React.Component {
   constructor(props) {
@@ -44,10 +44,10 @@ class PatientInfo extends React.Component {
                   pathname: '/stack/editPatientInfo',
                 }));
               }}
-              className={commonStyles.navBtnContainer}
+              className={baseStyles.navBtnContainer}
             >
-              <Icon type="pencil-square" className={commonStyles.navBtnIcon} />
-              <div className={commonStyles.navBtnText}>修改就诊人信息</div>
+              <Icon type="pencil-square" className={baseStyles.navBtnIcon} />
+              <div className={baseStyles.navBtnText}>修改就诊人信息</div>
             </div>
           </div>
         ),
@@ -107,16 +107,16 @@ class PatientInfo extends React.Component {
 
     return (
       <div className={styles.patientInfoContainer}>
-        <div className={classnames(commonStyles.flexRow, styles.nameContainer)}>
+        <div className={classnames(baseStyles.flexRow, styles.nameContainer)}>
           <span className={styles.name}>{patientInfo.name}</span>
           <span className={styles.gender}>{`（ ${patientInfo.gender === '1' ? '男' : '女'} ）`}</span>
           <Tags tags={tags} containerStyle={{ flex: 1 }} />
         </div>
         {infos.map(({ label, text }, idx) => {
           return (
-            <div key={`info_item_${idx + 1}`} className={classnames(commonStyles.flexRow, styles.infoItem)}>
+            <div key={`info_item_${idx + 1}`} className={classnames(baseStyles.flexRow, styles.infoItem)}>
               <span className={styles.label}>{label}</span>
-              <span className={classnames(styles.text, commonStyles.ellipsisText)}>{text}</span>
+              <span className={classnames(styles.text, baseStyles.ellipsisText)}>{text}</span>
             </div>
           );
         })}
@@ -126,9 +126,9 @@ class PatientInfo extends React.Component {
 
   renderCardsHeader() {
     return (
-      <div className={classnames(commonStyles.flexRow, styles.cardsHeader)}>
+      <div className={classnames(baseStyles.flexRow, styles.cardsHeader)}>
         <span className={styles.textLeft}>已绑定的卡</span>
-        <div className={classnames(commonStyles.flexRow, styles.headerToch)} onClick={this.bindProfile}>
+        <div className={classnames(baseStyles.flexRow, styles.headerToch)} onClick={this.bindProfile}>
           <Icon type="address-card" className={styles.bindIcon} />
           <span className={styles.textRight}>去绑定</span>
         </div>
@@ -140,7 +140,7 @@ class PatientInfo extends React.Component {
     const profiles = this.getProfiles();
     console.log('profiles', profiles);
     const emptyView = !profiles || profiles.length === 0 ? (
-      <div className={commonStyles.emptyView} style={{ marginTop: 10 }}>还未绑定任何卡！</div>
+      <div className={baseStyles.emptyView} style={{ marginTop: 10 }}>还未绑定任何卡！</div>
     ) : null;
 
     return (

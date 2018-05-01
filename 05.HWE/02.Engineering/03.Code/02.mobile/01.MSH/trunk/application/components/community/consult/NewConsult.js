@@ -48,8 +48,8 @@ class Item extends PureComponent {
       height={30}
       radius={15}
       bgColor={Global.colors.FONT_LIGHT_GRAY1}
-      imageSource={item.doctor.photo === null ?
-        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+      imageSource={item.doctor && item.doctor.photo && item.doctor.photo === null ?
+        Global.Config.defaultImgs.docPortrait : ({ uri: `${Global.getImageHost()}${item.doctor && item.doctor.photo && item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     let type = '';
@@ -71,7 +71,7 @@ class Item extends PureComponent {
             {portrait}
             <View style={{ flexDirection: 'column' }}>
               <View style={{ marginLeft: 10 }}>
-                <Text style={{ fontSize: 15, width: 80, color: '#2C3742' }}>{item.doctor.name}</Text>
+                <Text style={{ fontSize: 15, width: 80, color: '#2C3742' }}>{item.doctor && item.doctor.name && item.doctor.name}</Text>
               </View>
               <View style={{ marginLeft: 10, flexDirection: 'row' }}>
                 <Text style={{ fontSize: 10, width: 20, color: '#999999' }}>{item.doctor.gender === '1' ? '男' : '女'}</Text>

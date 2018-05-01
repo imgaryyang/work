@@ -1,4 +1,5 @@
 import { createBill, prePay, refund } from '../services/paymentService';
+import {Toast} from "antd-mobile/lib/index";
 
 export default {
 
@@ -31,6 +32,7 @@ export default {
     },
     *prePay({ payload, callback }, { call, put }) {
       console.log('paymentModel:prePay');
+      Toast.loading('正在处理...');
       const { settlement } = payload;
       const { data } = yield call(prePay, settlement);
       if (data && data.success) {
@@ -41,6 +43,9 @@ export default {
             settlement: result || [],
           },
         });
+        Toast.hide();
+      } else {
+        Toast.hide();
       }
       if (callback) callback();
     },

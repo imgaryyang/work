@@ -8,7 +8,7 @@ import Global from './Global';
  */
 const appId = 'com.lenovohit.lnhospital';
 const appUUID = '2c90a85c614a07ce01614a38f8d40004';
-console.log('Global:', Global);
+// console.log('Global:', Global);
 const config = Object.freeze({
   appId,
   appUUID,
@@ -33,7 +33,7 @@ const config = Object.freeze({
     latitude: 46.624362,
     org: null,
     profiles: null,
-    brief: '大庆龙南医院地处石油、石化企业中心区域，始建于1997年，是一所集医疗、教学、科研、预防保健于一体的综合性国家三级甲等医院。建筑面积10.8万平方米，开放床位823张，共设34个病区，38个临床科室，年门诊量100万余人次。',
+    brief: '大庆龙南医院地处石油、石化企业中心区域，始建于1997年，是一所集医疗、教学、科研、预防保健于一体的综合性国家三级甲等医院，现有4个成员医院（乘风医院、东海医院、让北医院、五官医院）组成。建筑面积12.5万平方米，开放床位900余张，共设34个病区，46个临床科室，年门诊量110万余人次。历经21年的建设，大庆龙南医院用深圳速度，诠释了一个快速发展的奇迹。',
   },
   host: 'http://123.206.123.247/api/hwe',
   hostTimeout: 5000,
@@ -115,7 +115,7 @@ const config = Object.freeze({
         ],
       },
       {
-        id: 'hf03', state: '1', route: 'payDoctorAdvice', name: '自费缴费', iconLib: '', icon: '',
+        id: 'hf03', state: '0', route: 'payDoctorAdvice', name: '自费缴费', iconLib: '', icon: '',
         imgIcon: 'outpatientPayment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
         passProps: {
           showCurrHospitalAndPatient: true,
@@ -139,7 +139,7 @@ const config = Object.freeze({
         children: [
           { id: 'hf05G1', group: true, name: '住院预缴' },
           {
-            id: 'hf0501', state: '1', route: '', name: '就诊卡预存转住院预缴', iconLib: 'fa', icon: 'mail-forward',
+            id: 'hf0501', state: '0', route: '', name: '就诊卡预存转住院预缴', iconLib: 'fa', icon: 'mail-forward',
             imgIcon: 'outpatientPayment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
             passProps: {
               showCurrHospitalAndPatient: true,
@@ -149,7 +149,7 @@ const config = Object.freeze({
             },
           },
           {
-            id: 'hf0502', state: '1', route: 'InpatientOnlineRecharge', name: '微信/支付宝住院预缴', iconLib: 'fa', icon: 'sign-in',
+            id: 'hf0502', state: '0', route: 'InpatientOnlineRecharge', name: '住院预缴', iconLib: 'fa', icon: 'sign-in',
             imgIcon: 'outpatientPayment', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
             passProps: {
               showCurrHospitalAndPatient: true,
@@ -204,7 +204,7 @@ const config = Object.freeze({
             },
           },
           {
-            id: 'hf0602', state: '1', route: 'ConsumeRecordList', name: '就诊卡缴费记录查询', iconLib: 'fa', icon: 'random',
+            id: 'hf0602', state: '1', route: 'ConsumeRecordList', name: '就诊卡扣款记录查询', iconLib: 'fa', icon: 'random',
             imgIcon: 'outpatientPaymentRecords', iconSize: 50, iconSmallSize: 26, color: '#5D5D5D', bgColor: '', borderColor: '',
             passProps: {
               showCurrHospitalAndPatient: true,

@@ -7,7 +7,7 @@ import Config from '../Config';
 import SMSVerify from './common/SMSVerify';
 
 import styles from './LoginBySMS.less';
-import commonStyles from '../utils/common.less';
+import baseStyles from '../utils/base.less';
 
 const screenWidth = document.documentElement.clientWidth;
 const screenHeight = document.documentElement.clientHeight;
@@ -63,12 +63,12 @@ class Login extends React.Component {
           <div
             style={{
               width: screenWidth / 2,
-              height: screenHeight / 10,
+              height: screenHeight / 6,
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               backgroundSize: 'auto 100%',
             }}
-            className={commonStyles.logo}
+            className={baseStyles.logo}
           />
         </div>
         <div className={styles.formContainer}>

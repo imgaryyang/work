@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { ListView, Flex } from 'antd-mobile';
+import { ListView, Flex, Toast } from 'antd-mobile';
 
 import style from './RecordDetail.less';
 import { colors } from '../../utils/common';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import FAIcon from '../../components/FAIcon';
+import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
 class RecordDetail extends React.Component {
   constructor(props) {
@@ -27,10 +28,10 @@ class RecordDetail extends React.Component {
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <div
               onClick={this.refresh}
-              className={commonStyles.navBtnContainer}
+              className={baseStyles.navBtnContainer}
             >
-              <FAIcon type="refresh" className={commonStyles.navBtnIcon} />
-              <div className={commonStyles.navBtnText}>刷新</div>
+              <FAIcon type="refresh" className={baseStyles.navBtnIcon} />
+              <div className={baseStyles.navBtnText}>刷新</div>
             </div>
           </div>
         ),
@@ -68,6 +69,11 @@ class RecordDetail extends React.Component {
         pathname: 'reportDetail',
       }));
     } else if (data.testType === '0002') {
+      // console.log('pac', data);
+      if (data.detailUrl.indexOf('http') === -1) {
+        Toast.info('未找到对应的已报告检查信息', 1);
+        return;
+      }
       this.props.dispatch({
         type: 'report/setState',
         payload: { rowData: data },
@@ -79,12 +85,12 @@ class RecordDetail extends React.Component {
     }
   }
   render() {
-    const data = this.props.location.state;
-    const { diagnoseDataSource, diagnoses, drugDataSource, drugs, testDataSource, tests } = this.props.record;
+    const { diagnoseDataSource, diagnoses, drugDataSource, drugs, testDataSource, tests, isLoading, rowData } = this.props.record;
+    if (isLoading) { return <ActivityIndicatorView />; }
     const diagnoses_length = diagnoses && diagnoses.length ? diagnoses.length : 1;
     const drugs_length = drugs && drugs.length ? drugs.length : 1;
     const tests_length = tests && tests.length ? tests.length : 1;
-    const diagnosesLength = diagnoses_length * 131;
+    const diagnosesLength = diagnoses_length * 110;
     const drugLength = drugs_length * 71;
     const testLength = tests_length * 57;
     // console.log('diagnoseRowData', diagnoses);
@@ -105,20 +111,20 @@ class RecordDetail extends React.Component {
             </Flex>
             <Flex direction="row" align="start" className={style['diagRow']}>
               <div className={style['diagRowTitle']} >医&thinsp;&thinsp;&thinsp;&thinsp;生:</div>
-              <div className={style['diagRowContent']}> {data.docName}</div>
+              <div className={style['diagRowContent']}> {rowData.docName ? rowData.docName : ''}</div>
             </Flex>
             <Flex direction="row" align="start" className={style['diagRow']}>
               <div className={style['diagRowTitle']} >科&thinsp;&thinsp;&thinsp;&thinsp;室:</div>
-              <div className={style['diagRowContent']}> {data.depName}</div>
+              <div className={style['diagRowContent']}> {rowData.depName ? rowData.depName : ''}</div>
             </Flex>
-            <Flex direction="row" align="start" className={style['diagRow']}>
+            {/* <Flex direction="row" align="start" className={style['diagRow']}>
               <div className={style['diagRowTitle']} >主要诊断:</div>
               <div className={style['diagRowContent']}> {diagnoseRowData.diseaseName}</div>
-            </Flex>
-            <Flex direction="row" align="start" className={style['diagRow']}>
+            </Flex>*/}
+            {/* <Flex direction="row" align="start" className={style['diagRow']}>
               <div className={style['diagRowTitle']} >病&thinsp;&thinsp;&thinsp;&thinsp;史:</div>
               <div className={style['diagRowContent']}> {diagnoseRowData.diseaseType ? '无' : '无'}</div>
-            </Flex>
+            </Flex>*/}
           </Flex>
           <div className={style['separator5']} />
         </div>
@@ -133,12 +139,12 @@ class RecordDetail extends React.Component {
           <div className={style['separator5']} />
           <Flex direction="column" align="start" className={style['drugRowContainer']}>
             <Flex direction="row" align="start" className={style['diagRow']}>
-              <div className={style['drugName']} > {drugRowData.name}{drugRowData.form ? ` ( ${drugRowData.form} )` : null}</div>
+              <div className={style['drugName']} > {drugRowData.name}</div>
               <div className={style['drugBarcode']} > {drugRowData.barcode}</div>
             </Flex>
             <Flex direction="row" align="start" className={style['diagRow']}>
-              <div className={style['drugTitle']} >用量：</div>
-              <div className={style['drugDesc']} >{drugRowData.oneSize}</div>
+              {/* <div className={style['drugTitle']} >剂量：</div>*/}
+              {/* <div className={style['drugDesc']} >{drugRowData.dose}</div>*/}
               <div className={style['drugTitle']}> 频率：</div>
               <div className={style['drugDesc']}> {drugRowData.frequency}</div>
               <div className={style['drugTitle']}> 用法：</div>
@@ -146,7 +152,7 @@ class RecordDetail extends React.Component {
             </Flex>
             <Flex direction="row" align="start" className={style['diagRow']}>
               <div className={style['drugTitle']} >备注:</div>
-              <div className={style['drugDesc']}> {drugRowData.specialWay}</div>
+              <div className={style['drugDesc']}> {drugRowData.specialWay ? drugRowData.specialWay : '暂无'}</div>
             </Flex>
           </Flex>
           <div className={style['separator5']} />
@@ -195,7 +201,7 @@ class RecordDetail extends React.Component {
             overflow: 'auto',
           }}
           pageSize={10}
-          onScroll={() => { console.log('scroll'); }}
+          // onScroll={() => { console.log('scroll'); }}
           scrollRenderAheadDistance={10}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
@@ -212,7 +218,7 @@ class RecordDetail extends React.Component {
             overflow: 'auto',
           }}
           pageSize={4}
-          onScroll={() => { console.log('scroll'); }}
+          // onScroll={() => { console.log('scroll'); }}
           scrollRenderAheadDistance={10}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
@@ -230,7 +236,7 @@ class RecordDetail extends React.Component {
             overflow: 'auto',
           }}
           pageSize={4}
-          onScroll={() => { console.log('scroll'); }}
+          // onScroll={() => { console.log('scroll'); }}
           scrollRenderAheadDistance={10}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}

@@ -4,8 +4,9 @@
 
 import { Toast, ListView } from 'antd-mobile';
 
-import { getHospById, getDeptsBrief, getDoctors } from '../services/hospitalService';
+import { getHospById/* , getDeptsBrief, getDoctors*/ } from '../services/hospitalService';
 import { getSectionDescs, getContacts } from '../services/baseService';
+import { forDeptTree, forDocList } from '../services/appointService';
 
 import Global from '../Global';
 
@@ -131,13 +132,15 @@ export default {
       }
 
       // 查询医院科室列表
-      const depts = yield call(getDeptsBrief, { hosId: id });
+      const depts = yield call(forDeptTree, { hosId: id });
       if (depts.data && depts.data.success === true) {
         const { result } = depts.data;
+        // console.log('depts:', result);
         yield put({
           type: 'setState',
           payload: {
             depts: result,
+            filterDept: result && result.length > 0 ? result[0].children[0] : null,
           },
         });
       } else if (depts.data && depts.data.msg) {
@@ -149,9 +152,10 @@ export default {
 
     *getDeptsBrief({ payload }, { call, put }) {
       // 查询医院科室列表
-      const depts = yield call(getDeptsBrief, payload);
+      const depts = yield call(forDeptTree, payload);
       if (depts.data && depts.data.success === true) {
         const { result } = depts.data;
+        // console.log('depts:', result);
         yield put({
           type: 'setState',
           payload: {
@@ -291,15 +295,15 @@ export default {
     },
     // 从后台载入医生列表
     *loadDoctors(param, { call, put, select }) {
-      const { page, query, doctors } = yield select(model => model.hospital);
-      const { data } = yield call(getDoctors, page.start, page.pageSize, query);
+      const { doctors, filterDept } = yield select(model => model.hospital);
+      const { data } = yield call(forDocList, { depNo: filterDept.no });
       if (data && data.success) {
         const { result } = data;
         yield put({
           type: 'setState',
           payload: {
             doctors: doctors.concat(result),
-            noMoreData: data.start + data.pageSize >= data.total,
+            noMoreData: true, // data.start + data.pageSize >= data.total,
             refreshing: false,
             loading: false,
           },

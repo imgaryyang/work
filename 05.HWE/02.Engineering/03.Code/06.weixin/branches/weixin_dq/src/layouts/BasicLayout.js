@@ -47,8 +47,8 @@ import ReportPacsLink from '../routes/report/ReportPacsLink';
 import RecordMain from '../routes/record/RecordMain';
 import RecordDetail from '../routes/record/RecordDetail';
 
-import News from '../routes/news/NewsList';
-import NewsContent from '../routes/news/NewsContent';
+// import News from '../routes/news/NewsList';
+// import NewsContent from '../routes/news/NewsContent';
 
 // components of patients
 import Patients from '../routes/patients/Patients';
@@ -97,12 +97,12 @@ class BasicLayout extends React.Component {
     });
 
     // TODO: 重载用户信息，测试用，正式环境需要删除
-    if (!this.props.base.user.id) {
-      dispatch({
-        type: 'base/reloadUserInfo',
-        callback: msg => (msg.id ? Toast.info('重新载入用户信息成功！', 2, null, false) : Toast.info(msg, 2, null, false)),
-      });
-    }
+    // if (!this.props.base.user.id) {
+    //   dispatch({
+    //     type: 'base/reloadUserInfo',
+    //     callback: msg => (msg.id ? Toast.info('重新载入用户信息成功！', 2, null, false) : Toast.info(msg, 2, null, false)),
+    //   });
+    // }
   }
 
   componentDidMount() {
@@ -163,8 +163,8 @@ class BasicLayout extends React.Component {
           <Route path={`${match.url}/completeRefundFailure`} component={CompleteRefundFailure} />
           <Route path={`${match.url}/payDoctorAdvice`} component={PayDoctorAdvice} />
 
-          <Route path={`${match.url}/news`} component={News} />
-          <Route path={`${match.url}/newsDetail`} component={NewsContent} />
+          {/* <Route path={`${match.url}/news`} component={News} />
+          <Route path={`${match.url}/newsDetail`} component={NewsContent} />*/}
 
           <Route path={`${match.url}/inpatientPrepaidRecords`} component={InpatientPrepaidRecords} />
           <Route path={`${match.url}/inpatientBillQuery`} component={InpatientInfo} />

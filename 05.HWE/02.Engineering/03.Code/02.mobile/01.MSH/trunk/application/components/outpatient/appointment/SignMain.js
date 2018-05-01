@@ -21,7 +21,7 @@ class SignMain extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      title: '来院签到',
+      title: '预约签到',
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,

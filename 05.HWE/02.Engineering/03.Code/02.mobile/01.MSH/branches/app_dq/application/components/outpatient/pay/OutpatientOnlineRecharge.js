@@ -8,6 +8,9 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
+  KeyboardAvoidingView,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -96,6 +99,10 @@ class OutpatientOnlineRecharge extends Component {
   }
   async fetchData(profile) {
     try {
+      this.setState({
+        balance: 0,
+        isPermitPay: false,
+      });
       const currProfile = profile || this.props.base.currProfile;
       const preStore = await getPreStore({ no: currProfile.no, hosNo: currProfile.hosNo });
       console.info('fetchData:preStore', preStore);
@@ -152,6 +159,7 @@ class OutpatientOnlineRecharge extends Component {
     if (!this.checkAmtValid()) {
       return;
     }
+    Keyboard.dismiss();
     // 2.生成预存单
     const params = {
       hosId: currProfile.hosId,
@@ -173,15 +181,14 @@ class OutpatientOnlineRecharge extends Component {
       // accountBankCode: '',
       // tradeChannel: 进入收银台才会确定
       // tradeChannelCode:
-      // terminalCode
+      terminalCode: currProfile.mobile,
       // batchNo
       adFlag: '0',
       // comment
       hisUser: currProfile.hisUser || user.id,
       appType: config.appType, // 审计字段
       appCode: config.appCode, // 审计字段
-      terminalUser: currProfile.hisUser || user.id,
-      // terminalCode: '';
+      terminalUser: currProfile.no,
       status: 'A', // 初始状态
     };
     this.createDeposit(params);
@@ -218,16 +225,16 @@ class OutpatientOnlineRecharge extends Component {
   }
 
   render() {
+    console.info('Global.os:', Global.os);
+
     if (!this.state.doRenderScene) {
       return OutpatientOnlineRecharge.renderPlaceholderView();
     }
     const { currProfile } = this.props.base;
-    // 场景过渡动画未完成前，先渲染过渡场景
-    return (
-      <View style={[Global.styles.CONTAINER, {}]}>
+    const content = (
+      <ScrollView keyboardShouldPersistTaps="always">
         <View style={{ height: 5 }} />
-        <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
-          <KeyboardAwareScrollView style={styles.scrollView} keyboardShouldPersistTaps="always" >
+
             <View style={{ backgroundColor: 'white', paddingLeft: 20, paddingTop: 15, flexDirection: 'row', alignItems: 'center', height: 30 }} >
               <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>当前余额</Text>
               <Text style={{ fontSize: 15, fontWeight: '600', color: Global.colors.IOS_RED, paddingLeft: 15 }}>{this.state.balance ? filterMoney(this.state.balance) : '0.00'}</Text>
@@ -260,8 +267,16 @@ class OutpatientOnlineRecharge extends Component {
               disabled={!this.state.isPermitPay || !currProfile}
               onPress={this.toPay}
             />
-          </KeyboardAwareScrollView>
-        </TouchableWithoutFeedback>
+
+      </ScrollView>
+    );
+    return (
+      <View style={[Global.styles.CONTAINER, {}]}>
+        {Global.os === 'ios' ? (
+          <KeyboardAvoidingView behavior="padding">
+            {content}
+          </KeyboardAvoidingView>
+        ) : content}
       </View>
     );
   }

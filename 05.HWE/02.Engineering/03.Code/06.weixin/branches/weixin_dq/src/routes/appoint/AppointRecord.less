@@ -1,12 +1,15 @@
 @import "../../utils/common";
 
 .container {
-  .flexCol;
+  display: flex;
+  flex-direction: column;
   flex: 0;
   padding: 15px 0 15px 10px;
   background-color: white;
   .header {
-    .flexRow;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     height: 30px;
     margin-bottom: 10px;
     .thumb {
@@ -18,18 +21,19 @@
     }
     .main {
       margin-left: 10px;
-      .font14;
+      font-size: 14px;
     }
     .extra {
       margin-left: 10px;
-      .font11;
+      font-size: 11px;
     }
     .status {
-      .flex1;
+      display: flex;
+      flex: 1;
       justify-content: flex-end;
       padding-right: 10px;
       .button {
-        .flex;
+        display: flex;
         width: 70px;
         height: 25px;
         background-color: transparent;
@@ -38,20 +42,20 @@
         justify-content: center;
         align-items: center;
         .text {
-          .font11;
+          font-size: 11px;
           color: @IOS_BLUE;
         }
       }
       .view {
-        .flex;
+        display: flex;
         width: 70px;
         height: 25px;
         background-color: transparent;
         justify-content: center;
         align-items: center;
         .text {
-          .font11;
-          .fontGray;
+          font-size: 11px;
+          color: @FONT_GRAY;
         }
       }
     }
@@ -60,11 +64,13 @@
     }
   }
   .row {
-    .flexRow;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-top: 5px;
     .label {
-      .font13;
-      .fontGray;
+      font-size: 13px;
+      color: @FONT_GRAY;
       width: 65px;
     }
     .content{
@@ -75,7 +81,7 @@
 
 .alert {
   padding: 25px 5px 10px;
-  .font14;
+  font-size: 14px;
 }
 
 

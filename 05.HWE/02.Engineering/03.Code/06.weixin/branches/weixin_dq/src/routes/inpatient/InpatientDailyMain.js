@@ -6,9 +6,10 @@ import moment from 'moment';
 import classnames from 'classnames';
 
 import { filterMoney, filterTextBreak } from '../../utils/Filters';
-
+import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import styles from './InpatientDailyMain.less';
-import commonStyles from '../../utils/common.less';
+// import baseStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class InpatientDailyMain extends React.Component {
   constructor(props) {
@@ -38,7 +39,12 @@ class InpatientDailyMain extends React.Component {
   }
 
   componentDidMount() {
-    this.loadInpatientDaily();
+    const { currProfile } = this.props.base;
+    const arr = Object.keys(currProfile);
+    // 已经选择了就诊人
+    if (arr.length !== 0) {
+      this.loadInpatientDaily();
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -99,7 +105,7 @@ class InpatientDailyMain extends React.Component {
         <span className={styles.selectDate}>
           {moment(this.props.inpatientDaily.selectDate).format('YYYY-MM-DD')}
         </span>
-        <Icon type="down" className={styles.switchIcon} />
+        <Icon type="down" className={baseStyles.switchIcon} />
       </div>
     );
   }
@@ -113,9 +119,9 @@ class InpatientDailyMain extends React.Component {
   }
 
   render() {
-    const { data, selectDate } = this.props.inpatientDaily;
+    const { data, selectDate, isLoading } = this.props.inpatientDaily;
     const { currProfile } = this.props.base;
-
+    if (isLoading) { return <ActivityIndicatorView />; }
     const itemList = [];
     const tmpData = data;
     let totalAmount = 0;
@@ -129,9 +135,9 @@ class InpatientDailyMain extends React.Component {
         const realAmount = filterMoney(d.price * d.num);
         itemList.push((
           <div key={i} className={styles.itemContainer} style={{ ...firstPadding, ...lastPadding }}>
-            <div className={classnames(commonStyles.ellipsisText, styles.name)}>{d.name}</div>
-            <div className={classnames(commonStyles.ellipsisText, styles.price)}>{filterMoney(d.price)} × {d.num}</div>
-            <div className={classnames(commonStyles.ellipsisText, styles.itemTotal)}>{filterMoney(realAmount)}</div>
+            <div className={classnames(baseStyles.ellipsisText, styles.name)}>{d.name}</div>
+            <div className={classnames(baseStyles.ellipsisText, styles.price)}>{filterMoney(d.price)} × {d.num}</div>
+            <div className={classnames(baseStyles.ellipsisText, styles.itemTotal)}>{filterMoney(realAmount)}</div>
           </div>
         ));
         tmpTotalAmount += parseFloat(realAmount);
@@ -149,7 +155,7 @@ class InpatientDailyMain extends React.Component {
     const emptyText = `暂无${currProfile.name}（卡号：${currProfile.no}）\n在 ${moment(selectDate).format('YYYY-MM-DD')} 的住院日清单信息！`;
     const content = !currProfile.id ?
       (
-        <div className={commonStyles.emptyView}>请先选择就诊人！
+        <div className={baseStyles.emptyView}>请先选择就诊人！
           <Button
             type="ghost"
             inline
@@ -161,7 +167,7 @@ class InpatientDailyMain extends React.Component {
       ) :
       (
         data.length === 0 ? (
-          <div className={commonStyles.emptyView}>{filterTextBreak(emptyText)}</div>
+          <div className={baseStyles.emptyView}>{filterTextBreak(emptyText)}</div>
         ) : list
       );
 

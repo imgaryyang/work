@@ -11,6 +11,11 @@ export async function forDeptList(cond) {
   return get(`${appoint().deptList}`, cond);
 }
 
+// 3.4.3 可预约医生列表查询
+export async function forDocList(cond) {
+  return get(`${appoint().docList}`, cond);
+}
+
 // 3.4.5 患者预约
 export async function forReserve(cond) {
   return post(`${appoint().reserve}`, cond);

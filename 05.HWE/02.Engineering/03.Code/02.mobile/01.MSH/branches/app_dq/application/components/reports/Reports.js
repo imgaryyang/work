@@ -166,7 +166,7 @@ class Reports extends Component {
       const startDate = moment().subtract(365, 'days').format('YYYY-MM-DD');
       const query = { proNo: currProfile.no, hosNo: currHospital.no, startDate, endDate };
       const lisResponseData = await hisTestList(query);
-      console.log('lisResponseData==', lisResponseData);
+      // console.log('lisResponseData==', lisResponseData);
       if (lisResponseData.success) {
         sections = await this.conventLisData([], lisResponseData.result);
         // console.log('lisResponseData==sections==', sections);
@@ -175,9 +175,9 @@ class Reports extends Component {
       }
 
       // pacs 数据
-      const query2 = { inpatientNo: currProfile.no };
+      const query2 = { proNo: currProfile.no, startDate, endDate };
       const pacsResponseData = await hisPacsList(query2);
-      console.log('pacsResponseData==', pacsResponseData);
+      // console.log('pacsResponseData==', pacsResponseData);
       if (pacsResponseData.success) {
         sections = await this.conventPacsData(sections, pacsResponseData.result);
       } else {

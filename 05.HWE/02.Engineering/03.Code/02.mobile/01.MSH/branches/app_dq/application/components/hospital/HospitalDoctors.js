@@ -10,8 +10,8 @@ import {
   ListView,
   TouchableOpacity,
 } from 'react-native';
-import Card from 'rn-easy-card';
 import Toast from 'react-native-root-toast';
+import Card from 'rn-easy-card';
 import Portrait from 'rn-easy-portrait';
 import Picker from 'rn-easy-picker';
 import Icon from 'rn-easy-icon';
@@ -19,11 +19,12 @@ import Sep from 'rn-easy-separator';
 import { B } from 'rn-easy-text';
 
 import Global from '../../Global';
-import { listByHospital } from '../../services/hospital/DoctorService';
+// import { listByHospital } from '../../services/hospital/DoctorService';
+import { forDeptTree, forDocList } from '../../services/outpatient/AppointService';
 import ctrlState from '../../modules/ListState';
-import { listBrief } from '../../services/hospital/DeptService';
+// import { listBrief } from '../../services/hospital/DeptService';
 
-const initPage = { start: 0, limit: 1000 };
+// const initPage = { start: 0, limit: 1000 };
 class HospitalDoctors extends Component {
   static displayName = 'HospitalDoctors';
   static description = '医院医生';
@@ -37,6 +38,7 @@ class HospitalDoctors extends Component {
 
   constructor(props) {
     super(props);
+    this.loadDepts = this.loadDepts.bind(this);
     this.refresh = this.refresh.bind(this);
     this.pullToRefresh = this.pullToRefresh.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -47,16 +49,18 @@ class HospitalDoctors extends Component {
   }
 
   state = {
-    page: initPage,
+    // page: initPage,
     ctrlState,
-    deptId: '',
-    deptName: null,
-    dept: [],
+    // deptId: '',
+    // deptName: null,
+    depts: [],
+    filterDept: {},
     dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
   };
 
   componentDidMount() {
-    this.refresh();
+    this.loadDepts();
+    // this.refresh();
   }
 
   /**
@@ -73,6 +77,23 @@ class HospitalDoctors extends Component {
   }
 
   data = [];
+
+  async loadDepts() {
+    try {
+      const dept = await forDeptTree({ hosId: this.props.hosp.id });
+      if (dept.success) {
+        this.setState({
+          depts: dept.result,
+          filterDept: dept.result[0].children[0],
+        }, () => { this.refresh(); });
+      } else {
+        Toast.show('未查询到任何科室');
+        this.handleRequestException({ msg: dept.msg });
+      }
+    } catch (e) {
+      this.handleRequestException(e);
+    }
+  }
 
   refresh() {
     this.setState({
@@ -98,26 +119,29 @@ class HospitalDoctors extends Component {
 
   // 查询数据
   async fetchData() {
-    const deptId = this.state.deptId;
-    // console.log('.......ctrlState in fetchData:', this.state.ctrlState);
     try {
+      this.data = [];
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows([]),
+      });
       let responseData = [];
-      if (deptId === '') {
-        responseData = await listByHospital(
-          this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
-          this.state.page.limit,
-          { hosId: this.props.hosp.id },
-        );
-      } else {
-        responseData = await listByHospital(
-          this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
-          this.state.page.limit,
-          { hosId: this.props.hosp.id, depId: this.state.deptId },
-        );
-      }
+      // if (deptId === '') {
+      //   responseData = await listByHospital(
+      //     this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
+      //     this.state.page.limit,
+      //     { hosId: this.props.hosp.id },
+      //   );
+      // } else {
+      //   responseData = await listByHospital(
+      //     this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
+      //     this.state.page.limit,
+      //     { hosId: this.props.hosp.id, depId: this.state.deptId },
+      //   );
+      // }
+      responseData = await forDocList({ depNo: this.state.filterDept.no });
 
       // 获取科室
-      const dept = await listBrief({ hosId: this.props.hosp.id });
+      // const dept = await listBrief({ hosId: this.props.hosp.id });
 
       // console.log('responseData in HospitalDepts.fetchData():', responseData);
       if (responseData.success) {
@@ -129,7 +153,7 @@ class HospitalDoctors extends Component {
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(this.data),
           ctrlState: newCtrlState,
-          dept: dept.result,
+          // dept: dept.result,
         });
       } else {
         this.setState({
@@ -159,25 +183,25 @@ class HospitalDoctors extends Component {
   /**
    * 渲染行数据
    */
-  renderRow(item, sectionId, rowId) {
+  renderRow(item) {
     const portraitSource = item.photo ?
       { uri: `${Global.getImageHost()}${item.photo}?timestamp=${new Date().getTime()}` } :
       Global.Config.defaultImgs.docPortrait;
     return (
-      <TouchableOpacity key={`doc_row_${rowId}`} onPress={() => this.onPressDetail(item)} >
+      <TouchableOpacity key={`doc_row_${item.name}`} onPress={() => this.onPressDetail(item)} >
         <Card radius={6} style={{ margin: 8, marginTop: 16, marginBottom: 0 }} >
           <View style={[{ flexDirection: 'row' }]} >
             <Portrait imageSource={portraitSource} bgColor={Global.colors.IOS_GRAY_BG} width={50} height={50} radius={25} />
             <View style={{ flex: 1, paddingLeft: 10 }} >
               <View style={{ flexDirection: 'row' }} >
                 <Text style={{ flex: 1 }} ><B>{item.name}</B></Text>
-                <Text style={{ flex: 1, textAlign: 'right', marginRight: 8 }}><B>科室 : </B>{item.depName}</Text>
+                <Text style={{ flex: 1, textAlign: 'right', marginRight: 8 }}><B>科室 : </B>{this.state.filterDept.name}</Text>
               </View>
               <Text style={[Global.styles.GRAY_FONT, { marginTop: 12 }]} ><B>职称 : </B>{item.jobTitle}</Text>
-              <Text style={[Global.styles.GRAY_FONT, { marginTop: 5, lineHeight: 17 }]} ><B>专长 : </B>{item.speciality}</Text>
+              <Text style={[Global.styles.GRAY_FONT, { marginTop: 5, lineHeight: 17 }]} ><B>简介 : </B>{item.description}</Text>
             </View>
           </View>
-          <View
+          {/* <View
             style={{
               borderTopWidth: 1 / Global.pixelRatio,
               borderTopColor: Global.colors.IOS_SEP_LINE,
@@ -188,7 +212,7 @@ class HospitalDoctors extends Component {
           >
             <Text><B>常规出诊时间 : </B></Text>
             <Text style={[Global.styles.GRAY_FONT, { marginTop: 5 }]} >{item.clinicDesc || '暂无记录'}</Text>
-          </View>
+          </View>*/}
         </Card>
       </TouchableOpacity>
     );
@@ -198,18 +222,21 @@ class HospitalDoctors extends Component {
    * 渲染顶端工具栏
    */
   renderToolBar() {
-    const dept = this.state.dept;
+    const { depts } = this.state;
     const selectDept = [];
-    if (dept && dept.length > 0) {
-      const all = {};
-      all.value = '';
-      all.label = '全部科室';
-      selectDept.push(all);
-      dept.forEach((item) => {
-        const d = {};
-        d.value = item['id'];
-        d.label = item['name'];
-        selectDept.push(d);
+    if (depts && depts.length > 0) {
+      // const all = {};
+      // all.value = '';
+      // all.label = '全部科室';
+      // selectDept.push(all);
+      depts.forEach((item) => {
+        item.children.forEach((dept) => {
+          const d = {};
+          d.value = dept['no'];
+          d.label = dept['name'];
+          d.item = dept;
+          selectDept.push(d);
+        });
       });
     } else {
       // Toast.show('该医院还没有科室！');
@@ -221,17 +248,19 @@ class HospitalDoctors extends Component {
           style={styles.dateBtn}
           onPress={() => this.easyPicker2.toggle()}
         >
-          <Text style={styles.picker} >{this.state.deptName ? this.state.deptName : '全部科室'}</Text>
-          <Icon name="ios-arrow-down" size={12} width={12} height={12} color={Global.colors.FONT_LIGHT_GRAY1} style={styles.switchIcon} />
+          <Text style={styles.picker} >{this.state.filterDept ? this.state.filterDept.name : '未选择科室'}</Text>
+          <Icon name="ios-arrow-down" size={12} width={20} height={15} color={Global.colors.FONT_LIGHT_GRAY1} style={styles.switchIcon} />
         </TouchableOpacity>
         <Picker
           ref={(c) => { this.easyPicker2 = c; }}
           dataSource={selectDept}
-          selected={this.state.deptId}
+          selected={this.state.filterDept.no}
           onChange={(selected) => {
-            this.state.deptId = selected.value;
-            this.state.deptName = selected.label;
-            this.fetchData();
+            // this.state.deptId = selected.value;
+            // this.state.deptName = selected.label;
+            this.setState({ filterDept: selected.item }, () => {
+              this.refresh();
+            });
           }}
           center
         />

@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
 import styles from './InpatientInfo.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class InpatientInfo extends React.Component {
   constructor(props) {
@@ -30,7 +30,12 @@ class InpatientInfo extends React.Component {
   }
 
   componentDidMount() {
-    this.loadInpatientBill();
+    const { currProfile } = this.props.base;
+    const arr = Object.keys(currProfile);
+    // 已经选择了就诊人
+    if (arr.length !== 0) {
+      this.loadInpatientBill();
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -65,14 +70,14 @@ class InpatientInfo extends React.Component {
     // console.log(this.props.base);
     const { data, isLoading } = this.props.inpatientBill;
     const { currProfile } = this.props.base;
-    const genderText = { 1: '男', 2: '女', 3: '不详' };
+    // const genderText = { 1: '男', 2: '女', 3: '不详' };
     const status = { 0: '普通', 1: '挂账', 2: '呆账', 5: '特殊回归', 7: '普通回归', 9: '病区出院' };
     if (isLoading) { return <ActivityIndicatorView />; }
 
     if (!currProfile.id) {
       return (
         <div className={styles.container}>
-          <div className={commonStyles.emptyView}>请先选择就诊人
+          <div className={baseStyles.emptyView}>请先选择就诊人
             <Button
               type="ghost"
               inline
@@ -85,10 +90,10 @@ class InpatientInfo extends React.Component {
       );
     }
 
-    if (!data.proName) {
+    if (!data || !data.proName) {
       return (
         <div className={styles.container}>
-          <div className={commonStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的住院信息！`}</div>
+          <div className={baseStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的住院信息！`}</div>
         </div>
       );
     }
@@ -98,31 +103,31 @@ class InpatientInfo extends React.Component {
         <div className={styles.contentContainer}>
           <div className={styles.itemContainer}>
             <span className={styles.label}>姓名：</span>
-            <span className={styles.value}>{data.proName}</span>
+            <span className={styles.value}>{data.proName ? data.proName : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>床位号：</span>
-            <span className={styles.value}>{data.bedNo }</span>
+            <span className={styles.value}>{data.bedNo ? data.bedNo : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>病区名称：</span>
-            <span className={styles.value}>{data.areaName }</span>
+            <span className={styles.value}>{data.areaName ? data.areaName : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>专科名称：</span>
-            <span className={styles.value}>{data.depName }</span>
+            <span className={styles.value}>{data.depName ? data.depName : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>入院时间：</span>
-            <span className={styles.value}>{data.inTime}</span>
+            <span className={styles.value}>{data.inTime ? data.inTime : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>入院诊断：</span>
-            <span className={styles.value}>{data.inDiagnose}</span>
+            <span className={styles.value}>{data.inDiagnose ? data.inDiagnose : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>医生名称：</span>
-            <span className={styles.value}>{data.docName }</span>
+            <span className={styles.value}>{data.docName ? data.docName : '暂无'}</span>
           </div>
           <div className={styles.itemContainer}>
             <span className={styles.label}>当前状态：</span>

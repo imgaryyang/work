@@ -89,6 +89,7 @@ class partList extends Component {
               },
             ],
           );
+          this.props.screenProps.hideLoading();
         }
       } catch (e) {
         // 隐藏遮罩
@@ -115,7 +116,8 @@ class partList extends Component {
                         dealSelSymps: this.props.dealSelSymps,
                         getSympInfo: this.props.getSympInfo,
                         getProfile: this.props.getProfile,
-                    });
+                        title: '病症',
+          });
                 }}
         />
       );

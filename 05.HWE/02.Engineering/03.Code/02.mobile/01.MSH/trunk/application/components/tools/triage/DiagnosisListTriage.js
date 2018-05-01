@@ -69,6 +69,7 @@ class DiagnoseList extends Component {
 
   async loadDiseaseList() {
     try {
+      console.info('loadDiseaseList:', this.getSelSymptoIds());
       const responseData = await listDiseasesBySymptomIds(this.getSelSymptoIds());
       if (responseData.success === true) {
         this.setState({ data: responseData.result });

@@ -260,10 +260,10 @@ class EasyDatePickerField extends Component {
                     value = day.format('YYYY-MM-DD');
                     break;
                 case 'time':
-                    value = day.format('hh:mm');
+                    value = day.format('HH:mm');
                     break;
                 case 'datetime':
-                    value = day.format('YYYY-MM-DD hh:mm');
+                    value = day.format('YYYY-MM-DD HH:mm');
                     break;
                 default:
                     break;

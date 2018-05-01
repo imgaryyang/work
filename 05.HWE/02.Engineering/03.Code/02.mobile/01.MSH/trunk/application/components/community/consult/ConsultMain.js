@@ -422,8 +422,8 @@ class ConsultMain extends Component {
       width={80}
       height={80}
       radius={40}
-      imageSource={item.doctor.photo === null ?
-        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${base().img + item.doctor.photo}?timestamp=${new Date().getTime()}` })}
+      imageSource={item.doctor && item.doctor.photo && item.doctor.photo === null ?
+        require('../../../assets/images/me-portrait-dft.png') : ({ uri: `${base().img + item.doctor && item.doctor.photo && item.doctor.photo}?timestamp=${new Date().getTime()}` })}
     />);
 
     // 设置按钮颜色和显示
@@ -453,7 +453,7 @@ class ConsultMain extends Component {
         <View style={{ height: 100, flexDirection: 'row' }}>
           {portrait}
           <View style={{ marginLeft: 5, width: 170, flexDirection: 'column' }} >
-            <Text><Text style={{ fontSize: 20 }} >{item.doctor.name}</Text>     {item.doctor.gender === '1' ? '男' : '女'}     {item.doctor.jobTitle}</Text>
+            <Text><Text style={{ fontSize: 20 }} >{item.doctor && item.doctor.name && item.doctor.name}</Text>     {item.doctor.gender === '1' ? '男' : '女'}     {item.doctor.jobTitle}</Text>
             <Text>{item.doctor.depName}</Text>
             <View style={{ height: 24, flexDirection: 'column' }}>
               <Text style={{ width: 140 }}>{item.doctor.hosName}</Text>

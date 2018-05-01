@@ -198,10 +198,10 @@ class Schedule extends Component {
     const newSelectedArea = (cond && cond.selectedArea) || selectedArea;
 
     return data.filter(item =>
-      (newSelectedDate === initDateData[0] || newSelectedDate.label === item.clinicDate) &&
-      (newSelectedJobTitle === initJobTitleData[0] || newSelectedJobTitle.label === item.docJobTitle) &&
-      (newSelectedShift === initShiftData[0] || newSelectedShift.label === item.shiftName) &&
-      (newSelectedArea === initAreaData[0] || newSelectedArea.label === item.area));
+      (newSelectedDate.label === initDateData[0].label || newSelectedDate.label === item.clinicDate) &&
+      (newSelectedJobTitle.label === initJobTitleData[0].label || newSelectedJobTitle.label === item.docJobTitle) &&
+      (newSelectedShift.label === initShiftData[0].label || item.shiftName === initShiftData[0].label || newSelectedShift.label === item.shiftName) &&
+      (newSelectedArea.label === initAreaData[0].label || newSelectedArea.label === item.area));
   }
 
   async fetchData() {
@@ -215,7 +215,7 @@ class Schedule extends Component {
         if (success) {
           const newFilterData = this.filterData(result);
           const total = newFilterData.length;
-          const newDateData = initDateData.concat(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
+          const newDateData = initDateData.concat(_.sortBy(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }), ['label']));
           const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
           this.setState({
             dateData: newDateData,

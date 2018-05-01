@@ -166,7 +166,9 @@ class Portrait extends Component {
         this.updatePortrait(responseData.result.fileName);
 
         this.props.screenProps.hideLoading();
-        updateUser(this.state.userInfo);
+        // 重载登录用户信息
+        await this.props.screenProps.reloadUserInfo();
+        // updateUser(this.state.userInfo);
         // 回调列表更新数据
         const { callback } = this.props.navigation.state.params;
         if (typeof callback === 'function') callback(this.state.userInfo);

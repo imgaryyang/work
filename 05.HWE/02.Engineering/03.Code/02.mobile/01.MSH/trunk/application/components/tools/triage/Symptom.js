@@ -53,7 +53,7 @@ class symptomList extends Component {
       this.componentDidMount = this.componentDidMount.bind(this);
       this.getTriageScreenKey = this.getTriageScreenKey.bind(this);
       this.props.navigation.setParams({
-        title: this.props.navigation.state.params.partName,
+        title: '病症',
         hideNavBarBottomLine: false,
       });
     }
@@ -79,13 +79,13 @@ class symptomList extends Component {
     async loadSymptom() {
       try {
         // 显示遮罩
-        this.props.screenProps.showLoading();
+        // this.props.screenProps.showLoading();
         const key = this.props.navigation.state.params.partId;
         const profile = this.props.navigation.state.params.getProfile();
         const responseData = await listBigSymptomsByPartId({ partId: key, gender: profile.gender, minAge: profile.age, maxAge: profile.age });
         if (responseData.success === true) {
           // 隐藏遮罩
-          this.props.screenProps.hideLoading();
+          // this.props.screenProps.hideLoading();
           await this.props.navigation.state.params.dealNewLoadSymps(responseData.result);
           await this.setState({ data: responseData.result });
         } else {
@@ -103,7 +103,7 @@ class symptomList extends Component {
         }
       } catch (e) {
         // 隐藏遮罩
-        this.props.screenProps.hideLoading();
+        // this.props.screenProps.hideLoading();
         this.handleRequestException(e);
       }
     }
@@ -124,6 +124,7 @@ class symptomList extends Component {
                         getSympInfo: this.props.navigation.state.params.getSympInfo,
                         getProfile: this.props.navigation.state.params.getProfile,
                         getTriageScreenKey: this.getTriageScreenKey,
+                        title: '勾选存在的症状',
                       });
                     } else {
                       this.props.navigation.navigate('SelSymptomsList', {
@@ -131,6 +132,7 @@ class symptomList extends Component {
                         delSelSymp: this.props.navigation.state.params.delSelSymp,
                         getSympInfo: this.props.navigation.state.params.getSympInfo,
                         getTriageScreenKey: this.getTriageScreenKey,
+                        title: '已选择病症',
                       });
                     }
                 }}

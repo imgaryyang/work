@@ -129,7 +129,11 @@ class InpatientPrepaidRecords extends Component {
       });
       const profileNo = profile.no;
       /* const query = { proNo: '900000000021', hosNo, startDate, endDate };*/
-      const query = { proNo: profileNo, hosNo};
+      const now = new Date();
+      const query = { proNo: profileNo,
+        hosNo,
+        startDate: moment(new Date(now - (24 * 60 * 60 * 1000 * 365))).format('YYYY-MM-DD'),
+        endDate: moment(now).format('YYYY-MM-DD') };
       // console.log('query=', query);
       const responseData = await loadHisInpatientPrepaidRecords(query);
       if (responseData.success) {
@@ -182,7 +186,7 @@ class InpatientPrepaidRecords extends Component {
         <View style={{ flex: 1 }}>
           <Text style={styles.date}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss') : ''}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 8 }}>
-            <Text style={styles.tradeChannel}>{map[item.tradeChannel] || '未知渠道'}</Text>
+            <Text style={styles.tradeChannel}>{item.tradeChannel || '未知渠道'}</Text>
             <Text style={styles.amt}>{filterMoney(item.amt, 2)}&nbsp;元</Text>
           </View>
         </View>

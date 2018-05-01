@@ -1,12 +1,12 @@
 import { Toast } from 'antd-mobile';
 import React from 'react';
 import _ from 'lodash';
-import { routerRedux } from 'dva/router';
 import moment from 'moment';
-import { forDeptTree, forScheduleList, forReserve, forReservedList, forReservedNoCardList, forCancel, forSign } from '../services/appointService';
+import { forDeptTree, forDocList, forScheduleList, forReserve, forReservedList, forReservedNoCardList, forCancel, forSign } from '../services/appointService';
 import { isValidArray, save, action, initPage, scheduleDateRange, reservedListDateRange } from '../utils/common';
 import Global from '../Global';
-import less from '../utils/common.less';
+// import less from '../utils/common.less';
+import baseStyles from '../utils/base.less';
 
 export const initDateData = [{ value: 0, label: '所有日期' }];
 export const initJobTitleData = [
@@ -30,6 +30,9 @@ export default {
   state: {
     // Departments
     deptTreeData: [],
+
+    // docList
+    docListData: [],
 
     // Schedule
     cond: {},
@@ -71,11 +74,23 @@ export default {
 
           for (let j = 0; j < children.length; j++) {
             const dept = children[j];
-            result[i].children[j] = { ...dept, label: <span className={less.font14}>{dept.name}</span>, value: dept.no };
+            result[i].children[j] = { ...dept, label: <span className={baseStyles.font14}>{dept.name}</span>, value: dept.no };
           }
-          result[i] = { ...deptType, label: <span className={less.font14}>{deptType.name}</span>, value: deptType.type };
+          result[i] = { ...deptType, label: <span className={baseStyles.font14}>{deptType.name}</span>, value: deptType.type };
         }
         yield put(save({ deptTreeData: result || [] }));
+        Toast.hide();
+      } else if (data && !data.success) {
+        Toast.fail(data.msg || '未知错误', 3);
+      }
+    },
+
+    *forDocList({ payload: { depNo } }, { select, call, put }) {
+      Toast.loading('正在加载', 0);
+      const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
+      const { data } = yield call(forDocList, { depNo, hosId, hosNo });
+      if (data && data.success) {
+        yield put(save({ docListData: data.result || [] }));
         Toast.hide();
       } else if (data && !data.success) {
         Toast.fail(data.msg || '未知错误', 3);
@@ -99,7 +114,7 @@ export default {
         const { data } = yield call(forScheduleList, { ...newCond });
         if (data && data.success) {
           const { result = [] } = data;
-          const newDateData = initDateData.concat(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }));
+          const newDateData = initDateData.concat(_.sortBy(_.uniqBy(result, 'clinicDate').map((item, index) => { return { value: index + 1, label: item.clinicDate }; }), ['label']));
           const newSelectedDate = newDateData.find(item => item.label === selectedDate.label) || initDateData[0];
           yield put(save({ dateData: newDateData, cond: newCond }));
           yield put(action('filterData', { allData: result, selectedDate: newSelectedDate }));
@@ -142,10 +157,10 @@ export default {
       const newSelectedArea = payload && payload.selectedArea || selectedArea;
 
       const newFilterData = newAllData.filter(item =>
-        (newSelectedDate === initDateData[0] || newSelectedDate.label === item.clinicDate) &&
-        (newSelectedJobTitle === initJobTitleData[0] || newSelectedJobTitle.label === item.docJobTitle) &&
-        (newSelectedShift === initShiftData[0] || newSelectedShift.label === item.shiftName) &&
-        (newSelectedArea === initAreaData[0] || newSelectedArea.label === item.area));
+        (newSelectedDate.label === initDateData[0].label || newSelectedDate.label === item.clinicDate) &&
+        (newSelectedJobTitle.label === initJobTitleData[0].label || newSelectedJobTitle.label === item.docJobTitle) &&
+        (newSelectedShift.label === initShiftData[0].label || item.shiftName === initShiftData[0].label || newSelectedShift.label === item.shiftName) &&
+        (newSelectedArea.label === initAreaData[0].label || newSelectedArea.label === item.area));
 
       const { start, limit } = initPage;
       const total = newFilterData.length;
@@ -178,15 +193,16 @@ export default {
       yield put(save({ isLoading: false }));
     },
 
-    *forReserve({ payload }, { select, call, put }) {
+    *forReserve({ payload }, { select, call }) {
       Toast.loading('正在预约', 0);
       const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
       const { data } = yield call(forReserve, { ...payload, hosId, hosNo, hisUser: Global.hisUser });
       if (data && data.success) {
-        yield put(routerRedux.push({ pathname: 'success', payload }));
-        Toast.hide();
+        return true;
       } else if (data && !data.success) {
-        Toast.fail(data.msg || '未知错误', 3);
+        return Promise.reject(data.msg || '未知错误');
+      } else {
+        return false;
       }
     },
 
@@ -216,7 +232,8 @@ export default {
     *forReservedList({ payload }, { select, call, put }) {
       Toast.loading('正在加载', 0);
       const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-      const { data } = yield call(forReservedList, { ...payload, hosId, hosNo });
+      const startDate = moment().subtract(reservedListDateRange, 'days').format('YYYY-MM-DD');
+      const { data } = yield call(forReservedList, { ...payload, hosId, hosNo, startDate });
 
       if (data && data.success) {
         yield put(save({ hasCardRecords: data.result }));
@@ -229,7 +246,8 @@ export default {
     *forReservedNoCardList({ payload }, { select, call, put }) {
       Toast.loading('正在加载', 0);
       const { currHospital: { id: hosId, no: hosNo } } = yield select(model => model.base);
-      const { data } = yield call(forReservedNoCardList, { ...payload, hosId, hosNo });
+      const startDate = moment().subtract(reservedListDateRange, 'days').format('YYYY-MM-DD');
+      const { data } = yield call(forReservedNoCardList, { ...payload, hosId, hosNo, startDate });
 
       if (data && data.success) {
         yield put(save({ noCardRecords: data.result }));

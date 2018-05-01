@@ -22,7 +22,7 @@ export default class AppSubFuncs extends Component {
     const { params } = this.props.navigation.state;
     // console.log(params);
     return params.children.map(({
-      id, name, iconLib, icon, route, passProps, group,
+      id, name, iconLib, icon, route, passProps, group, state,
     }, idx) => {
       if (group === true) {
         return (
@@ -34,16 +34,19 @@ export default class AppSubFuncs extends Component {
       const marginTop = idx === 0 && group !== true ? (
         <View style={{ height: 15 }} />
       ) : null;
+
+      const forbiddenItemIconContainerStyle = !route || state !== '1' ? { backgroundColor: Global.colors.FONT_LIGHT_GRAY1 } : {};
+      const forbiddenItemTextStyle = !route || state !== '1' ? { color: Global.colors.FONT_LIGHT_GRAY1 } : {};
       return (
         <TouchableOpacity
           key={id}
           onPress={() => {
-            params.onPressMenuItem(route, name, passProps);
+            params.onPressMenuItem(route, name, passProps, null, state);
           }}
         >
           {marginTop}
           <View style={[styles.itemContainer, idx === 0 ? styles.borderTop : null]}>
-            <View style={styles.imgContainer}>
+            <View style={[styles.imgContainer, forbiddenItemIconContainerStyle]}>
               {/* <Image source={Global.Config.imgIcons[imgIcon]} resizeMode="contain" style={styles.icon} />*/}
               <Icon
                 iconLib={iconLib}
@@ -54,7 +57,7 @@ export default class AppSubFuncs extends Component {
                 color="white"
               />
             </View>
-            <Text style={styles.itemText} numberOfLines={1}>{name}</Text>
+            <Text style={[styles.itemText, forbiddenItemTextStyle]} numberOfLines={1}>{name}</Text>
             <Icon
               iconLib="fa"
               name="angle-right"

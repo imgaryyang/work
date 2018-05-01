@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import less from './AppointSuccess.less';
 import { action } from '../../utils/common';
+import baseStyles from '../../utils/base.less';
 
 class AppointSuccess extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class AppointSuccess extends React.Component {
           }
           可到 <span onClick={this.gotoRecords}>我的预约</span> 中查看您的预约信息！
         </div>
-        <Button className={less.button} onClick={this.goBack}><span className={less.font15}>确定返回</span></Button>
+        <Button className={less.button} onClick={this.goBack}><span className={baseStyles.font15}>确定返回</span></Button>
       </Flex>
     );
   }

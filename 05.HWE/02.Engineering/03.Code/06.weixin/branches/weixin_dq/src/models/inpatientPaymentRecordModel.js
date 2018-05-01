@@ -26,19 +26,13 @@ export default {
         payload: { isLoading: true },
       });
       const { query } = payload;
-      console.log('1');
-      console.info(payload);
       let pro = {};
       if (query) {
-        console.log('2');
         pro = query;
       } else {
-        console.log('3');
         const { currProfile: profile } = yield select(state => state.base);
         pro = profile;
       }
-      console.log('4');
-      console.info(pro);
       if (JSON.stringify(pro) !== '{}') {
         const { data } = yield call(findInpatientPaymentRecord, pro);
         const { result } = data || {};

@@ -105,13 +105,11 @@ class relatedSymptomList extends Component {
     async loadRelatedSymptom() {
       try {
         // 显示遮罩
-        this.props.screenProps.showLoading();
         const key = this.props.navigation.state.params.parentSymptomId;
         const profile = this.props.navigation.state.params.getProfile;
         const responseData = await listSmallSymptomsByBigSymptomId({ parentSymptomId: key, gender: profile.gender, minAge: profile.minAge, maxAge: profile.maxAge });
         if (responseData.success === true) {
           // 隐藏遮罩
-          this.props.screenProps.hideLoading();
           await this.setState({ data: responseData.result });
         } else {
           Alert.alert(
@@ -129,7 +127,6 @@ class relatedSymptomList extends Component {
         }
       } catch (e) {
         // 隐藏遮罩
-        this.props.screenProps.hideLoading();
         this.handleRequestException(e);
       }
     }
@@ -174,6 +171,7 @@ class relatedSymptomList extends Component {
                 delSelSymp: this.props.navigation.state.params.delSelSymp,
                 getSympInfo: this.props.navigation.state.params.getSympInfo,
                 getTriageScreenKey: this.props.navigation.state.params.getTriageScreenKey,
+                title: '已选择病症',
             });
           }}
           />

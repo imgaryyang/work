@@ -6,6 +6,7 @@ import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 import { filterContactWay } from '../../utils/Filters';
 
 import styles from './HospitalIntro.less';
+import baseStyles from '../../utils/base.less';
 
 class HospitalIntro extends React.Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class HospitalIntro extends React.Component {
 
     const sectionDescsView = loading ? <ActivityIndicatorView /> : (
       sectionDescs.length === 0 ? (
-        <div className={styles.emptyView}>暂无医院详细介绍</div>
+        <div className={baseStyles.emptyView}>暂无医院详细介绍</div>
       ) : (
         <Card full style={{ marginTop: 15 }}>
           <Card.Body>

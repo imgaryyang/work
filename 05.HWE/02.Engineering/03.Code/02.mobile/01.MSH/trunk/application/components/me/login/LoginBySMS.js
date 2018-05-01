@@ -229,7 +229,7 @@ class LoginBySMS extends Component {
             mobile: value.mobile,
             token: responseData.result.token,
           });
-          // console.log('loginResponse:', loginResponse);
+          console.log('loginResponse:', loginResponse);
           if (loginResponse.success) {
             const { result } = loginResponse;
             // 设置当前登录用户及登录状态

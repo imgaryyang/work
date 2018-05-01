@@ -3,7 +3,7 @@ import { Toast } from 'antd-mobile';
 import {
   loginByOpenId, loginByUserId, registerByOpenId, registerByUserId, getInfo,
   doSave, updateProfiles, sendSecurityCode, verifySecurityCode,
-  reloadUserInfo, loginAfterVerifySecurityCode, ads,
+  reloadUserInfo, loginAfterVerifySecurityCode, ads, appInfo,
 } from '../services/baseService';
 import Global from '../Global';
 
@@ -66,6 +66,7 @@ export default {
     slidefuncIdx: 0,
 
     ads: [],
+    app: {},
   },
 
   subscriptions: {
@@ -500,6 +501,21 @@ export default {
           type: 'setState',
           payload: {
             ads: result,
+          },
+        });
+      } else {
+        if (data && data.msg) Toast.info(data.msg);
+      }
+    },
+
+    *loadAppInfo({ payload }, { call, put }) {
+      const { data } = yield call(appInfo, payload);
+      if (data && data.success) {
+        const { result } = data;
+        yield put({
+          type: 'setState',
+          payload: {
+            app: result,
           },
         });
       } else {

@@ -8,6 +8,7 @@ import { colors } from '../../utils/common';
 import Icon from '../../components/FAIcon';
 import less from './SignRecord.less';
 import { getStatusName } from './AppointRecord';
+import baseStyles from '../../utils/base.less';
 
 export default class SignRecord extends PureComponent {
   constructor(props) {
@@ -36,7 +37,6 @@ export default class SignRecord extends PureComponent {
       depName,
       address,
       num,
-      totalFee,
       status,
       proNo,
       proName,
@@ -91,7 +91,7 @@ export default class SignRecord extends PureComponent {
         </div>
         <div className={less.row}>
           <div className={less.label}>时间</div>
-          <div className={classnames(less.content, less.fontOrange)}>{clinicDate}  {weekday}  {shiftName}  {clinicTime}</div>
+          <div className={classnames(less.content, baseStyles.fontOrange)}>{clinicDate}  {weekday}  {shiftName}  {clinicTime}</div>
         </div>
         <div className={less.row}>
           <div className={less.label}>类型</div>
@@ -108,10 +108,6 @@ export default class SignRecord extends PureComponent {
                 <div className={less.row}>
                   <div className={less.label}>序号</div>
                   <div className={less.content}>{num}</div>
-                </div>
-                <div className={less.row}>
-                  <div className={less.label}>费用</div>
-                  <div className={less.content}>{totalFee}</div>
                 </div>
                 <div className={less.row}>
                   <div className={less.label}>姓名</div>

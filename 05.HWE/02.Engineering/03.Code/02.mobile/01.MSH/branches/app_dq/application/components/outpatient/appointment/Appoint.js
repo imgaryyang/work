@@ -20,7 +20,7 @@ import ViewText from '../../../modules/ViewText';
 import Radios from '../../../modules/Radios';
 import { forReserve } from '../../../services/outpatient/AppointService';
 import Form from '../../../modules/form/EasyForm';
-import { testMobile, testCnIdNo } from '../../../modules/form/Validation';
+import { testMobile } from '../../../modules/form/Validation';
 import dftConfig from '../../../modules/form/config/DefaultConfig';
 
 const formRowHeight = 33;
@@ -90,7 +90,7 @@ class Appoint extends Component {
 
   validate() {
     try {
-      const { name, mobile, idNo } = this.props.currProfile || {};
+      const { name, mobile } = this.props.currProfile || {};
 
       if (!name) throw new Error('姓名不能为空！');
       if (!mobile) {
@@ -98,11 +98,12 @@ class Appoint extends Component {
       } else if (!testMobile(mobile)) {
         throw new Error('手机号格式不符合要求！');
       }
-      if (!idNo) {
-        throw new Error('身份证号不能为空！');
-      } else if (!testCnIdNo(idNo)) {
-        throw new Error('身份证号格式不符合要求！');
-      }
+      // 有卡预约去掉身份证号校验
+      // if (!idNo) {
+      //   throw new Error('身份证号不能为空！');
+      // } else if (!testCnIdNo(idNo)) {
+      //   throw new Error('身份证号格式不符合要求！');
+      // }
       return true;
     } catch (e) {
       Toast.show(String(e));

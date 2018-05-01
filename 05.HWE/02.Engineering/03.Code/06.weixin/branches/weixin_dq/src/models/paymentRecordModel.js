@@ -1,6 +1,7 @@
 import { ListView, Toast } from 'antd-mobile/lib/index';
 import { findPaymentRecord, findUnpaidsRecord, prePay, pay, getConsumeRecords, getPreRecords, getPreStore } from '../services/paymentRecordService';
 import config from '../Config';
+import Global from "../Global";
 
 export default {
   namespace: 'paymentRecord',
@@ -40,14 +41,20 @@ export default {
         pro = profile;
       }
       if (JSON.stringify(pro) !== '{}') {
+        yield put({ type: 'setState', payload: { isLoading: true } });
         const { data } = yield call(findPaymentRecord, pro);
-        const { result } = data || {};
-        yield put({
-          type: 'save',
-          payload: {
-            data: result || [],
-          },
-        });
+        if (data && data.success) {
+          const { result } = data || {};
+          yield put({
+            type: 'save',
+            payload: {
+              data: result || [],
+            },
+          });
+        } else {
+          Toast.info('请求数据失败');
+          yield put({ type: 'setState', payload: { isLoading: false, data: [] } });
+        }
       }
     },
     *findUnpaidChargeList({ payload }, { call, put, select }) {
@@ -66,7 +73,7 @@ export default {
         return;
       }
       if (JSON.stringify(pro) !== '{}') {
-        yield put({ type: 'setState', payload: { isLoading: true, data: [] } });
+        yield put({ type: 'setState', payload: { isLoading: true } });
         const { data } = yield call(findUnpaidsRecord, pro);
         if (data && data.success) {
           const { result } = data || {};
@@ -78,11 +85,11 @@ export default {
             },
           });
         } else if (data && data.msg) {
-          yield put({ type: 'setState', payload: { isLoading: false } });
+          yield put({ type: 'setState', payload: { isLoading: false, data: [] } });
           Toast.fail(`请求数据出错：${data.msg}`, 1);
         } else {
           Toast.info('请求缴费记录出错');
-          yield put({ type: 'setState', payload: { isLoading: false } });
+          yield put({ type: 'setState', payload: { isLoading: false, data: [] } });
         }
       }
     },
@@ -108,28 +115,33 @@ export default {
       pro.tradeChannel = 'F'; // 预缴
       pro.tradeChannelCode = ''; // 文档中没有相关编码
       pro.comment = '';
-      pro.hisUser = profile.hisUser || user.id; // 2018/04/05 当前hisUser为空，拿userId代替
+      pro.hisUser = Global.hisUser;
       pro.appType = config.appType;
       pro.appCode = config.appCode;
-      pro.terminalUser = profile.terminalUser || user.id; // 2018/04/05 当前terminalUser，拿userId代替
-      // terminalCode	终端号 varchar(50)
-      console.log('prePay:profile');
-      console.info(profile);
+      pro.terminalUser = profile.no;
       pro.items = [];
       for (let idx = 0; idx < data.length; idx += 1) {
         if (groupNos.indexOf(data[idx].groupNo) > -1) {
           pro.items.push(data[idx]);
         }
       }
-      const { data: resData } = yield call(prePay, pro);
-      const { result } = resData || {};
-      yield put({
-        type: 'save',
-        payload: {
-          prePayData: result || [],
-          prePayGroupNos: groupNos || [],
-        },
-      });
+      if (JSON.stringify(pro) !== '{}') {
+        yield put({ type: 'setState', payload: { isLoading: true } });
+        const { data: resData } = yield call(prePay, pro);
+        if (data && data.success) {
+          const { result } = resData || {};
+          yield put({
+            type: 'save',
+            payload: {
+              prePayData: result || [],
+              prePayRecipeNos: groupNos || [],
+            },
+          });
+        } else {
+          Toast.info('请求数据出错');
+          yield put({ type: 'setState', payload: { isLoading: false, prePayData: [] } });
+        }
+      }
     },
     // 缴费
     *pay({ callback }, { call, put, select }) {
@@ -155,24 +167,32 @@ export default {
       pro.tradeChannel = 'F'; // 预缴
       pro.tradeChannelCode = ''; // 文档中没有相关编码
       pro.comment = '';
-      pro.hisUser = profile.hisUser || user.id; // 2018/04/05 当前hisUser为空，拿userId代替
+      pro.hisUser = Global.hisUser;
       pro.appType = config.appType;
       pro.appCode = config.appCode;
-      pro.terminalUser = profile.hisUser || user.id; // 2018/04/05 当前hisUser为空，拿userId代替
-      // pro.terminalCode =
+      pro.terminalUser = profile.no;
+      pro.terminalCode = profile.mobile;
       pro.items = [];
       for (let idx = 0; idx < data.length; idx += 1) {
         if (groupNos.indexOf(data[idx].groupNo) > -1) {
           pro.items.push(data[idx]);
         }
       }
-      const { data: resData } = yield call(pay, pro);
-      yield put({
-        type: 'save',
-        payload: {
-          payData: resData || {},
-        },
-      });
+      if (JSON.stringify(pro) !== '{}') {
+        yield put({ type: 'setState', payload: { isLoading: true } });
+        const { data: resData } = yield call(pay, pro);
+        if (data && data.success) {
+          yield put({
+            type: 'save',
+            payload: {
+              payData: resData || {},
+            },
+          });
+        } else {
+          Toast.info('请求数据出错');
+          yield put({ type: 'setState', payload: { isLoading: false, payData: [] } });
+        }
+      }
 
       if (callback) callback();
     },
@@ -195,7 +215,6 @@ export default {
       }
       yield put({ type: 'setState', payload: { isLoading: true } });
       const { data } = yield call(getConsumeRecords, payload);
-      console.log('consumeRecordsData_data====', data);
       if (data && data.success) {
         const { result } = data;
         yield put({ type: 'setState', payload: { consumeRecordsData: result, isLoading: false } });
@@ -213,7 +232,6 @@ export default {
       }
       yield put({ type: 'setState', payload: { isLoading: true } });
       const { data } = yield call(getPreRecords, payload);
-      console.log('preRecordsData_data====', data);
 
       if (data && data.success) {
         const { result } = data;

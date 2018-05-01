@@ -5,6 +5,7 @@ import { Card } from 'antd-mobile';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
 import styles from './Dept.less';
+import baseStyles from '../../utils/base.less';
 
 class Dept extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class Dept extends React.Component {
 
     const deptDescsView = loading ? <ActivityIndicatorView /> : (
       deptDescs.length === 0 ? (
-        <div className={styles.emptyView}>暂无科室详细介绍</div>
+        <div className={baseStyles.emptyView}>暂无科室详细介绍</div>
       ) : (
         <Card full style={{ marginTop: 15 }}>
           <Card.Body>

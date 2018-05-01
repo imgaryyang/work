@@ -212,7 +212,7 @@ export function testAmt (amt) {
   if(!amt)
     return true;
 
-  var pattern=/^-?\d+\.{0,}\d{0,}$/;
+  var pattern=/^-?\d+\.{0,}\d{0,2}$/;
   var rst = pattern.test(amt);
   return rst;
 }

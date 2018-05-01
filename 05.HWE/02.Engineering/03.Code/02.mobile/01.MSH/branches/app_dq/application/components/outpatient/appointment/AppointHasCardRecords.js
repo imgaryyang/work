@@ -151,7 +151,7 @@ class AppointHasCardRecords extends Component {
 
   render() {
     const { doRenderScene, data, ctrlState } = this.state;
-    const { onPressButton, currProfile: { name: proName } } = this.props;
+    const { onPressButton, currProfile = {} } = this.props;
 
     if (!doRenderScene) return <PlaceholderView />; // 场景过渡动画未完成前，先渲染过渡场景
 
@@ -163,7 +163,7 @@ class AppointHasCardRecords extends Component {
         keyExtractor={(item, index) => `${item}${index + 1}`}
         renderItem={({ item }) => (
           <AppointRecord
-            data={{ ...item, proName }}
+            data={{ ...item, proName: currProfile.name }}
             onPress={() => { if (typeof onPressButton === 'function') onPressButton(item); }}
           />
           )}

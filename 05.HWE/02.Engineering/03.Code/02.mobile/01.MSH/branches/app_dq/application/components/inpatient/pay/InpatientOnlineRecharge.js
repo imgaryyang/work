@@ -8,6 +8,9 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -97,7 +100,11 @@ class InpatientOnlineRecharge extends Component {
   async fetchData(profile) {
     try {
       const currProfile = profile || this.props.base.currProfile;
-      const prePay = await getPrePay({proNo: currProfile.no, hosNo: currProfile.hosNo});
+      this.setState({
+        balance: 0,
+        isPermitPay: false,
+      });
+      const prePay = await getPrePay({ proNo: currProfile.no, hosNo: currProfile.hosNo });
       if (prePay.success) {
         if (prePay.result.balance) {
           this.setState({
@@ -150,6 +157,7 @@ class InpatientOnlineRecharge extends Component {
     if (!this.checkAmtValid()) {
       return;
     }
+    Keyboard.dismiss();
     // 2.生成预存单
     const params = {
       hosId: currProfile.hosId,
@@ -171,15 +179,14 @@ class InpatientOnlineRecharge extends Component {
       accountType: '9',
       // tradeChannel:
       // tradeChannelCode:
-      terminalCode: '',
+      terminalCode: currProfile.mobile,
       batchNo: '',
       adFlag: '0',
       comment: '',
       hisUser: currProfile.hisUser || user.id,
       appType: config.appType, // 审计字段
       appCode: config.appCode, // 审计字段
-      terminalUser: currProfile.hisUser || user.id,
-      // terminalCode:
+      terminalUser: currProfile.no,
       status: 'A', // 初始状态
     };
     this.createForegift(params);
@@ -220,47 +227,51 @@ class InpatientOnlineRecharge extends Component {
       return InpatientOnlineRecharge.renderPlaceholderView();
     }
     const { currProfile } = this.props.base;
-
+    const content = (
+      <ScrollView keyboardShouldPersistTaps="always">
+        <View style={{ height: 5 }} />
+          <View style={{ backgroundColor: 'white', paddingLeft: 20, paddingTop: 15, flexDirection: 'row', alignItems: 'center', height: 30 }} >
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>当前余额</Text>
+            <Text style={{ fontSize: 15, fontWeight: '600', color: Global.colors.IOS_RED, paddingLeft: 15 }}>{filterMoney(this.state.balance)}</Text>
+          </View>
+          <View style={{ paddingLeft: 15, paddingRight: 15 }} >
+            <Form
+              ref={(c) => { this.form = c; }}
+              config={FormConfig}
+              showLabel={false}
+              labelWidth={100}
+              onChange={this.onChange}
+              value={this.state.patient}
+            >
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >充值金额</Text>
+              <Form.TextInput
+                style={{ height: 76 }}
+                name="amt"
+                label="充值金额:"
+                placeholder="请输入充值金额"
+                dataType="bankAcct"
+                required
+                minLength={6}
+                maxLength={20}
+              />
+            </Form>
+          </View>
+          <Button
+            style={styles.button}
+            text="马上充值"
+            disabled={!this.state.isPermitPay || !currProfile}
+            onPress={this.toPay}
+          />
+      </ScrollView>
+    );
     // 场景过渡动画未完成前，先渲染过渡场景
     return (
       <View style={[Global.styles.CONTAINER, {}]}>
-        <View style={{ height: 5 }} />
-        <TouchableWithoutFeedback onPress={() => dismissKeyboard()} accessible={false} >
-          <KeyboardAwareScrollView style={styles.scrollView} keyboardShouldPersistTaps="always" >
-            <View style={{ backgroundColor: 'white', paddingLeft: 20, paddingTop: 15, flexDirection: 'row', alignItems: 'center', height: 30 }} >
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>当前余额</Text>
-              <Text style={{ fontSize: 15, fontWeight: '600', color: Global.colors.IOS_RED, paddingLeft: 15 }}>{filterMoney(this.state.balance)}</Text>
-            </View>
-            <View style={{ paddingLeft: 15, paddingRight: 15 }} >
-              <Form
-                ref={(c) => { this.form = c; }}
-                config={FormConfig}
-                showLabel={false}
-                labelWidth={100}
-                onChange={this.onChange}
-                value={this.state.patient}
-              >
-                <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, paddingTop: 15, paddingLeft: 5 }} >充值金额</Text>
-                <Form.TextInput
-                  style={{ height: 76 }}
-                  name="amt"
-                  label="充值金额:"
-                  placeholder="请输入充值金额"
-                  dataType="bankAcct"
-                  required
-                  minLength={6}
-                  maxLength={20}
-                />
-              </Form>
-            </View>
-            <Button
-              style={styles.button}
-              text="马上充值"
-              disabled={!this.state.isPermitPay || !currProfile}
-              onPress={this.toPay}
-            />
-          </KeyboardAwareScrollView>
-        </TouchableWithoutFeedback>
+        {Global.os === 'ios' ? (
+          <KeyboardAvoidingView behavior="padding">
+            {content}
+          </KeyboardAvoidingView>
+        ) : content}
       </View>
     );
   }

@@ -13,6 +13,7 @@
 
 #import <React/RCTRootView.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import <React/RCTLinkingManager.h>
 
 #import <RCTJPushModule.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
@@ -154,6 +155,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   
   NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
   
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 //#pragma mark 获取自定义消息内容

@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { colors } from '../../utils/common';
 import Icon from '../../components/FAIcon';
 import less from './AppointRecord.less';
+import baseStyles from '../../utils/base.less';
 
 export function getStatusName(status) {
   switch (status) {
@@ -56,7 +57,6 @@ export default class AppointRecord extends PureComponent {
       depName,
       address,
       num,
-      totalFee,
       status,
       proNo,
       proName,
@@ -112,7 +112,7 @@ export default class AppointRecord extends PureComponent {
         </div>
         <div className={less.row}>
           <div className={less.label}>时间</div>
-          <div className={classnames(less.content, less.fontOrange)}>{clinicDate}  {weekday}  {clinicTime}</div>
+          <div className={classnames(less.content, baseStyles.fontOrange)}>{clinicDate}  {weekday}  {clinicTime}</div>
         </div>
         <div className={less.row}>
           <div className={less.label}>类型</div>
@@ -129,10 +129,6 @@ export default class AppointRecord extends PureComponent {
                 <div className={less.row}>
                   <div className={less.label}>序号</div>
                   <div className={less.content}>{num}</div>
-                </div>
-                <div className={less.row}>
-                  <div className={less.label}>费用</div>
-                  <div className={less.content}>{totalFee}</div>
                 </div>
                 <div className={less.row}>
                   <div className={less.label}>姓名</div>

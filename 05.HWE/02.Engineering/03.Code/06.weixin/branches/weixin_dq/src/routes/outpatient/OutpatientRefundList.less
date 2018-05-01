@@ -5,6 +5,10 @@
   background-color: @IOS_GRAY_BG;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .toolBar {
@@ -109,18 +113,34 @@
   font-size: 13px;
   padding-left: 10px;
   padding-right: 10px;
-  color: @IOS_GRAY_FONT,
+  color: @FONT_GRAY  ;
 }
 .content {
-  color: @IOS_GRAY_FONT;
+  //color: @IOS_GRAY_FONT;
   font-size: 13px;
+  color: @FONT_GRAY;
 }
 
 .header {
-  font-size: 13px;
+  font-size: 14px;
   padding: 10px;
   padding-left: 25px;
   border-bottom: 1px solid @LINE;
   background-color: white;
+  height: 15px;
+  color: @FONT_GRAY;
 }
 
+.rowContainer {
+  //height:60px;  /*设置div的大小*/
+  align-items: center;
+  display: flex;/*边框*/
+  width: 100%;
+}
+.separator{
+  height:10px;  /*设置div的大小*/
+}
+.listView {
+  height:100%;
+  overflow: auto;
+}

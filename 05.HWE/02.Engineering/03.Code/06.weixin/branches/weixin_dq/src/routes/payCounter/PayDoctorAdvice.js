@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import Icon from '../../components/FAIcon';
 import styles from './PayDoctorAdvice.less';
 import { filterMoney, filterTextBreak } from '../../utils/Filters';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
 
@@ -118,7 +118,7 @@ class PayDoctorAdvice extends React.Component {
     const { currProfile } = this.props.base;
     let content = {};
     if (currProfile.type !== '1') {
-      content = (<div className={commonStyles.emptyView}><Text>暂未开通非自费用户在线缴费服务</Text></div>);
+      content = (<div className={baseStyles.emptyView}><Text>暂未开通非自费用户在线缴费服务</Text></div>);
     } else {
       if (isLoading) { return <ActivityIndicatorView />; }
       if (data.length > 0) {
@@ -199,7 +199,7 @@ class PayDoctorAdvice extends React.Component {
         );
       } else {
         const emptyText = `暂无${currProfile.name}（卡号：${currProfile.no}）\n的待缴费信息！`;
-        content = (<div className={commonStyles.emptyView}>{filterTextBreak(emptyText)}</div>);
+        content = (<div className={baseStyles.emptyView}>{filterTextBreak(emptyText)}</div>);
       }
     }
     return (

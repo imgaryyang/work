@@ -66,7 +66,6 @@ export default class AppointRecord extends PureComponent {
       portrait,
       address,
       num,
-      totalFee,
       status,
       proNo,
       proName,
@@ -131,10 +130,6 @@ export default class AppointRecord extends PureComponent {
               <View style={styles.row}>
                 <Text style={styles.labelText}>序号</Text>
                 <Text style={styles.contentText}>{num}</Text>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.labelText}>费用</Text>
-                <Text style={styles.contentText}>{totalFee}</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.labelText}>姓名</Text>

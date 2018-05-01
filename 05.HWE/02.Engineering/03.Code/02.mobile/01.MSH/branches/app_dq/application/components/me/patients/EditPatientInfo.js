@@ -87,7 +87,7 @@ class EditPatientInfo extends Component {
         // 显示遮罩
         this.props.screenProps.showLoading();
         // 调用后台保存
-        const responseData = await save(this.state.value);
+        const responseData = await save({ ...this.state.value, idNo: this.state.value.idNo.toUpperCase() });
         if (responseData.success) {
           this.setState({
             value: responseData.result,
@@ -132,13 +132,13 @@ class EditPatientInfo extends Component {
 
   clear() {
     Keyboard.dismiss();
-    this.setState({ value: {} });
+    this.setState({ value: this.props.navigation.state.params.data ? Object.assign({}, this.props.navigation.state.params.data) : {} });
   }
 
   render() {
     if (!this.state.doRenderScene) { return EditPatientInfo.renderPlaceholderView(); }
     const genders = [
-      { label: '女', value: '0' },
+      { label: '女', value: '2' },
       { label: '男', value: '1' },
     ];
     const relations = [];
@@ -158,11 +158,11 @@ class EditPatientInfo extends Component {
           labelPosition={this.state.labelPosition}
         >
           <Form.Checkbox name="relation" label="关系" dataSource={relations} display="row" required />
-          <Form.TextInput name="name" label="姓名" placeholder="请输入您的真实姓名" required editable={!(params && params.data && params.data.id && params.data.profiles.length > 0)} />
+          <Form.TextInput name="name" label="姓名" placeholder="请输入患者真实姓名" required editable={!(params && params.data && params.data.id && params.data.profiles.length > 0)} />
           <Form.Checkbox name="gender" label="性别" dataSource={genders} required />
           <Form.TextInput name="idNo" label="身份证号" placeholder="请输入身份证号码" dataType="cnIdNo" required editable={!(params && params.data && params.data.id && params.data.profiles.length > 0)} />
           <Form.TextInput name="mobile" label="手机号码" placeholder="请输入手机号码" dataType="mobile" required />
-          <Form.TextInput name="address" label="联系地址" placeholder="请输入联系地址" address />
+          <Form.TextInput name="address" label="联系地址" placeholder="请输入联系地址" address maxLength={80} />
         </Form>
         {params && params.data && params.data.id ? (
           <View style={styles.noticeContainer}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, List, InputItem, Button, Toast } from 'antd-mobile';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { createForm } from 'rc-form';
 import _ from 'lodash';
 import ModalSelect from '../../components/ModalSelect';
@@ -9,6 +10,7 @@ import Radios from '../../components/Radios';
 import { action } from '../../utils/common';
 import less from './Appoint.less';
 import { testCnIdNo, testMobile } from '../../utils/validation';
+import baseStyles from '../../utils/base.less';
 
 const initTypeData = [
   { value: '0', label: '有卡预约' },
@@ -83,6 +85,10 @@ class Appoint extends React.Component {
             Toast.info('身份证号不符合格式');
             return;
           }
+          if (!terminalUser) {
+            Toast.info('无用户信息，不可无卡预约');
+            return;
+          }
         } else {
           Toast.fail('表单校验失败');
           return;
@@ -96,7 +102,9 @@ class Appoint extends React.Component {
           appCode: Global.Config.appCode,
           appType: Global.Config.appType,
           type: selectedType.value,
-        }));
+        })).then((success) => {
+          if (success) Toast.success('预约成功', 1, () => dispatch(routerRedux.go(-3)));
+        }).catch(e => Toast.fail(String(e), 3));
       });
     } else {
       const { id: proId, no: proNo, cardNo, cardType, name: proName, mobile, idNo, gender } = currProfile;
@@ -112,13 +120,14 @@ class Appoint extends React.Component {
         Toast.fail('手机号格式不符合要求', 3);
         return;
       }
-      if (!idNo || !idNo.length) {
-        Toast.fail('身份证号不能为空', 3);
-        return;
-      } else if (!testCnIdNo(idNo)) {
-        Toast.fail('身份证号格式不符合要求', 3);
-        return;
-      }
+      // 有卡预约去掉身份证号校验
+      // if (!idNo || !idNo.length) {
+      //   Toast.fail('身份证号不能为空', 3);
+      //   return;
+      // } else if (!testCnIdNo(idNo)) {
+      //   Toast.fail('身份证号格式不符合要求', 3);
+      //   return;
+      // }
       dispatch(action('appoint/forReserve', {
         ...selectAppointSource,
         mobile,
@@ -133,7 +142,9 @@ class Appoint extends React.Component {
         appCode: Global.Config.appCode,
         appType: Global.Config.appType,
         type: selectedType.value,
-      }));
+      })).then((success) => {
+        if (success) Toast.success('预约成功', 1, () => dispatch(routerRedux.go(-3)));
+      }).catch(e => Toast.fail(String(e), 3));
     }
   }
 
@@ -155,7 +166,7 @@ class Appoint extends React.Component {
     const { selectedType, typeData, modalVisible } = this.state;
 
     return (
-      <div className={less.scrolly}>
+      <div className={baseStyles.scrolly}>
         <Card>
           <Card.Header
             className={less.cardHeader}
@@ -197,7 +208,7 @@ class Appoint extends React.Component {
         <form>
           <List>
             <List.Item>
-              <div className={less.flexRow}>
+              <div className={baseStyles.flexRow}>
                 <span className={less.formLabel}>预约方式</span>
                 <Radios data={typeData} value={selectedType.value} onSelect={obj => this.setState({ selectedType: obj })} />
               </div>

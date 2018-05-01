@@ -18,7 +18,6 @@ import AppointHasCardRecords from './AppointHasCardRecords';
 import AppointNoCardRecords from './AppointNoCardRecords';
 import PintrestTabBar from '../../../modules/PintrestTabBar';
 import ViewText from '../../../modules/ViewText';
-import { CompHeight } from '../../common/CurrHospitalAndPatient';
 import Global from '../../../Global';
 import { forCancel } from '../../../services/outpatient/AppointService';
 
@@ -141,7 +140,7 @@ class AppointRecordsMain extends Component {
           dismissOnHardwareBackPress
           width={0.9}
           height={200}
-          containerStyle={{ height: Global.getScreen().height - Global.navBarHeight - CompHeight }}
+          containerStyle={{ height: Global.getScreen().height - Global.navBarHeight }}
           onDismissed={() => setParams({ allowSwitchHospital: true, allowSwitchPatient: true })}
           onShown={() => setParams({ allowSwitchHospital: false, allowSwitchPatient: false })}
           actions={[

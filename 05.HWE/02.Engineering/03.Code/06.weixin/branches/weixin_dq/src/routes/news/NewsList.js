@@ -7,7 +7,7 @@ import SearchInput from '../../components/SearchInput';
 import { image } from '../../services/baseService';
 
 import styles from './NewsList.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 const initQuery = { fkId: '2c90a85c614a07ce01614a38f8d40004', fkType: 'H4' };
 
@@ -55,7 +55,7 @@ class NewsList extends React.PureComponent {
     // console.log(rowID);
     return (
       <div key={rowID} >
-        <div className={commonStyles.sep15} />
+        <div className={baseStyles.sep15} />
         <div className={styles.itemContainer} onClick={() => this.showDetail(rowID)} >
           <div
             className={styles.image}
@@ -96,7 +96,7 @@ class NewsList extends React.PureComponent {
           // 渲染行
           renderRow={this.renderRow}
           // 渲染行间隔
-          // renderSeparator={() => <div className={commonStyles.sep15} />}
+          // renderSeparator={() => <div className={baseStyles.sep15} />}
           // 下拉刷新
           pullToRefresh={<PullToRefresh
             refreshing={refreshing}
@@ -121,7 +121,7 @@ class NewsList extends React.PureComponent {
           }}
           onEndReachedThreshold={10}
           renderFooter={() => (
-            <div className={commonStyles.listFooterContainer} >
+            <div className={baseStyles.listFooterContainer} >
               {isLoading ? '载入更多数据...' : (noMoreData ? '所有数据载入完成' : '')}
             </div>
           )}

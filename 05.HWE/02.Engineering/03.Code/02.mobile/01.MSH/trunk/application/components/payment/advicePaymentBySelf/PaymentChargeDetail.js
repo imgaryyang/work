@@ -13,17 +13,14 @@ import _ from 'lodash';
 import Button from 'rn-easy-button';
 import { connect } from 'react-redux';
 import Toast from 'react-native-root-toast';
-// import { NavigationActions } from 'react-navigation';
 import ctrlState from '../../../modules/ListState';
 import Global from '../../../Global';
 import Checkbox from '../../../modules/Checkbox';
-// import Item from '../../../modules/PureListItem';
-// import {getPatientPayment, getPreStore} from '../../../services/payment/AliPayService';
 import { filterMoney } from '../../../utils/Filters';
-// import { get } from "../../../utils/Request";
-// import {patientPayment} from "../../../services/RequestTypes";
-// import {getPreRecords} from "../../../services/consume/ConsumeRecordsService";
 import { prepay } from '../../../services/payment/ChargeService';
+import { getPatientPayment } from '../../../services/payment/AliPayService';
+// import { getCurrProfile } from "../../../utils/Storage";
+import config from '../../../../Config';
 
 class PaymentChargeDetail extends Component {
   static displayName = 'PaymentChargeDetail';
@@ -76,16 +73,15 @@ class PaymentChargeDetail extends Component {
     this.onSearch = this.onSearch.bind(this);
     this.renderSectionComp = this.renderSectionComp.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    // this.preSettlement = this.preSettlement.bind(this);
-    // this.preSettlementByMi = this.preSettlementByMi.bind(this);
     this.renderPromptView = this.renderPromptView.bind(this);
     this.prePay = this.prePay.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
   state = {
     doRenderScene: false,
-    // data: [],
     ctrlState,
     selectRecordIds: [],
+    chargeDetail: [],
   };
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
@@ -95,20 +91,30 @@ class PaymentChargeDetail extends Component {
           ...this.state.ctrlState,
           refreshing: false,
         },
+      }, () => {
+        const { currProfile } = this.props.base;
+        if (!currProfile) {
+          Toast.show('请选择就诊人');
+          return;
+        }
+        this.fetchData();
       });
-      const { currProfile } = this.props.base;
-      console.log('componentDidMount');
-      console.info(currProfile);
-      if (currProfile.type === '0') {
-        Toast.show('医保用户暂未开通在线缴费服务');
-      } else if (currProfile.type === '2') {
-        Toast.show('非实名用户暂未开通在线缴费服务');
-      } else if (currProfile.type === '3') {
-        Toast.show('目前仅开通自费用户在线缴费服务');
-      }
+    });
+    this.props.navigation.setParams({
+      title: '自费缴费',
+      showCurrHospitalAndPatient: true, // !!user,
+      allowSwitchHospital: true,
+      allowSwitchPatient: true,
+      afterChooseHospital: this.afterChooseHospital,
+      afterChoosePatient: this.afterChoosePatient,
+      hideNavBarBottomLine: false,
     });
   }
-
+  componentWillReceiveProps(props) {
+    if (props.base.currProfile !== this.props.base.currProfile) {
+      this.fetchData(props.base.currProfile);
+    }
+  }
   onSearch() {
     const { callback } = this.props;
     if (typeof callback === 'function') {
@@ -130,144 +136,75 @@ class PaymentChargeDetail extends Component {
       return { selectRecordIds: ids };
     });
   }
-
-  // preSettlement() {
-  //   const selectIds = this.state.selectRecordIds;
-  //   const dataList = this.props.dataProps.chargeDetail;
-  //   const selectCharge = [];
-  //   if (selectIds && selectIds.length > 0) {
-  //     for (const d of dataList) {
-  //       const no = d.recordNo;
-  //       if (selectIds.indexOf(no) >= 0) {
-  //         selectCharge.push(d);
-  //       }
-  //     }
-  //     return (this.props.navigates('PreSettlementBySelf', { title: '门诊缴费预结算', data: selectCharge }));
-  //   } else {
-  //     Toast.show('请选择待缴费项目');
-  //   }
-  // }
-
+  async fetchData(profile) {
+    try {
+      let profileData = {};
+      profileData = profile || this.props.base.currProfile;
+      this.setState({
+        ctrlState: {
+          ...this.state.ctrlState,
+          refreshing: true,
+        },
+      });
+      const patientPayment = await getPatientPayment({proNo: profileData.no, hosNo: profileData.hosNo});
+      if (patientPayment.success) {
+        this.setState({
+          chargeDetail: patientPayment.result ? patientPayment.result : [],
+          ctrlState: {
+            ...this.state.ctrlState,
+            refreshing: false,
+          },
+        });
+      } else {
+        this.handleRequestException({ msg: '获取待缴费项目出错！' });
+      }
+    } catch (e) {
+      this.handleRequestException({ msg: '获取待缴费项目出错！' });
+    }
+  }
   async prePay() {
-    console.log('prepay begin11');
     const { selectRecordIds } = this.state;
-    console.info(selectRecordIds);
     // 如果没有有效的处方号信息
     if (!selectRecordIds || !selectRecordIds.length || selectRecordIds.length < 1) {
       return;
     }
     const { currProfile } = this.props.base;
+    const { user } = this.props.auth;
     const param = {};
     param.hosNo = currProfile.hosNo;
     param.hosName = currProfile.hosName;
     param.proNo = currProfile.no;
     param.proName = currProfile.name;
-    param.cardNo = currProfile.cardNo
-    param.cardType = currProfile.cardType
-    param.miType = '1'; // 自费，目前只允许自费缴费
+    param.cardNo = currProfile.cardNo;
+    param.cardType = currProfile.cardType;
+    // param.actNo =
+    param.miType = currProfile.type; // 自费，目前只允许自费缴费
+    param.chargeUser = user.id;
     param.tradeChannel = 'F'; // 预缴
     param.tradeChannelCode = ''; // 预缴，没有对应值
     param.comment = '';
-    param.appChannel = 'APP';
+    param.hisUser = currProfile.hisUser || user.id;
+    param.appType = config.appType;
+    param.appCode = config.appCode;
+    param.terminalUser = currProfile.terminalCode || user.id;
+    param.terminalCode = '';
     param.items = [];
-    const data = this.props.dataProps.chargeDetail
+    const data = this.state.chargeDetail
     for (let idx = 0; idx < data.length; idx += 1) {
       if (selectRecordIds.indexOf(data[idx].recordNo) > -1) {
         param.items.push(data[idx]);
       }
     }
-    console.log('prePay begin');
-    console.info(param);
-    console.log('prePay end');
-    const preRecordsData = await prepay(param);
-    console.log('preRecordsData1');
-    console.info(preRecordsData);
-    console.log('preRecordsData2');
-    this.props.navigates('PreSettlementBySelf', { title: '门诊缴费预结算', data: { ...preRecordsData.result, items: param.items } });
+    try {
+      const preRecordsData = await prepay(param);
+      if (preRecordsData.success) {
+        this.props.navigation.navigate('PreSettlementBySelf', { title: '门诊缴费预结算', data: { ...preRecordsData.result, items: param.items } });
+      }
+    } catch (e) {
+      this.handleRequestException(e);
+    }
   }
-
-  //
-  // async fetchData(hospital, patient, profile) {
-  //   console.log('fetchData11:');
-  //   if (!profile) {
-  //     this.setState({
-  //       ctrlState: {
-  //         ...this.state.ctrlState,
-  //         refreshing: false,
-  //         requestErr: false,
-  //         requestErrMsg: null,
-  //       },
-  //       data: [],
-  //     });
-  //     return;
-  //   }
-  //   try {
-  //     this.setState({
-  //       ctrlState: {
-  //         ...this.state.ctrlState,
-  //         refreshing: true,
-  //       },
-  //     });
-  //     // const consumeRecordsData = await getConsumeRecords({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
-  //     const preRecordsData = await getPreRecords({
-  //       proNo: profile.no,
-  //       hosNo: profile.hosNo,
-  //       tradeChannel: "'Z','W'",
-  //       type: '0',
-  //       bizType: '00', // 门诊充值
-  //     });
-  //     const responseData = await getPreStore({ no: profile.no, hosNo: profile.hosNo });
-  //     if (preRecordsData.success) {
-  //       console.log('fetchData:aaaaaaaaaaaaaaaaaa');
-  //       console.info(preRecordsData);
-  //       this.setState({
-  //         data: preRecordsData.result ? preRecordsData.result : [],
-  //         // consumeRecords: consumeRecordsData.result ? consumeRecordsData.result : [],
-  //         balance: responseData.result ? responseData.result.balance : 0,
-  //         ctrlState: {
-  //           ...this.state.ctrlState,
-  //           refreshing: false,
-  //         },
-  //       });
-  //     } else {
-  //       this.handleRequestException({ msg: '获取消费记录出错！' });
-  //       this.setState({
-  //         ctrlState: {
-  //           ...this.state.ctrlState,
-  //           refreshing: false,
-  //         },
-  //       });
-  //     }
-  //   } catch (e) {
-  //     this.handleRequestException(e);
-  //     this.setState({
-  //       ctrlState: {
-  //         ...this.state.ctrlState,
-  //         refreshing: false,
-  //       },
-  //     });
-  //   }
-  // }
-  //
-  // preSettlementByMi() {
-  //   const selectIds = this.state.selectRecordIds;
-  //   const dataList = this.props.dataProps.chargeDetail;
-  //   const selectCharge = [];
-  //   if (selectIds && selectIds.length > 0) {
-  //     for (const d of dataList) {
-  //       const no = d.recordNo;
-  //       if (selectIds.indexOf(no) >= 0) {
-  //         selectCharge.push(d);
-  //       }
-  //     }
-  //     return (this.props.navigates('PreSettlement', selectCharge));
-  //   } else {
-  //     Toast.show('请选择数据后再进行结算');
-  //   }
-  // }
-
   renderSectionComp(info) {
-    // console.log('------- section:', info);
     const { value, key } = info.section;
     return (
       <View >
@@ -303,35 +240,54 @@ class PaymentChargeDetail extends Component {
   }
   render() {
     if (!this.state.doRenderScene) { return PaymentChargeDetail.renderPlaceholderView(); }
-    // const { currProfile } = this.props.base;
-    const value = PaymentChargeDetail.getSections(this.props.dataProps.chargeDetail ? this.props.dataProps.chargeDetail : []);
-    return (
-      <View style={Global.styles.CONTAINER}>
+    const { currProfile } = this.props.base;
+    const value = PaymentChargeDetail.getSections(this.state.chargeDetail ? this.state.chargeDetail : []);
+    let content = {};
+    if (!currProfile) {
+      content = this.renderEmptyView({
+        msg: '请选择就诊用户',
+        ctrlState: { refreshing: false },
+        style: { marginTop: 15 },
+      });
+    } else {
+      content = currProfile.type !== '1' ? (
+        this.renderEmptyView({
+          msg: '暂未开通非自费用户在线缴费服务',
+          ctrlState: {refreshing: false},
+          style: {marginTop: 15},
+        })
+        // <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY, padding: 15 }}>暂未开通非自费用户在线缴费服务</Text>
+      ) : (
         <ScrollView style={styles.scrollView}>
-          <View automaticallyAdjustContentInsets={false} >
+          <View automaticallyAdjustContentInsets={false}>
             <SectionList
               renderSectionHeader={this.renderSectionComp}
               renderItem={PaymentChargeDetail.renderItem}
               SectionSeparatorComponent={this.renderSectionSep}
               sections={value}
               keyExtractor={(item, index) => (1 + index + item)}
-              refreshing={this.props.dataProps.ctrlState.refreshing}
+              refreshing={this.state.ctrlState.refreshing}
               onRefresh={this.onSearch}
               ListEmptyComponent={() => {
                 return this.renderEmptyView({
                   msg: '暂无待缴费信息',
                   reloadMsg: '点击刷新按钮重新查询',
                   reloadCallback: this.onSearch,
-                  ctrlState: this.props.dataProps.ctrlState,
+                  ctrlState: this.state.ctrlState,
                 });
               }}
             />
           </View>
-          <View style={{ flexDirection: 'row', margin: 15, marginTop: 30, marginBottom: 40 }} >
-            {/*<Button text="自费结算" disabled={currProfile.type !== '1'} onPress={this.preSettlement} theme={Button.THEME.ORANGE} />*/}
-            <Button text="自费结算" onPress={this.prePay} theme={Button.THEME.ORANGE} />
+          <View style={{flexDirection: 'row', margin: 15, marginTop: 30, marginBottom: 40}}>
+            <Button text="自费结算" onPress={this.prePay} disabled={currProfile.type !== '1'} theme={Button.THEME.ORANGE}
+                    screenProps={this.props.screenProps}/>
           </View>
         </ScrollView>
+      );
+    }
+    return (
+      <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]}>
+        {content}
       </View>
     );
   }
@@ -409,5 +365,6 @@ PaymentChargeDetail.navigationOptions = {
 
 const mapStateToProps = state => ({
   base: state.base,
+  auth: state.auth,
 });
 export default connect(mapStateToProps)(PaymentChargeDetail);

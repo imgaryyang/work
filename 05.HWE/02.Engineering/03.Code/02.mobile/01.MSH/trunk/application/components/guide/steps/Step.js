@@ -10,7 +10,7 @@ export default class Step extends Component {
     return (
       <View style={styles.stepHolder} >
         <Text style={[styles.stepTime, { width: TIMELINE_WIDTH }]} >
-          {this.props.step.updateTime ? moment(this.props.step.updateTime).format('M月D日 hh:mm') : ''}
+          {this.props.step.updateTime ? moment(this.props.step.updateTime).format('M月D日 HH:mm') : ''}
         </Text>
         <View style={styles.step} >
           {this.props.children}

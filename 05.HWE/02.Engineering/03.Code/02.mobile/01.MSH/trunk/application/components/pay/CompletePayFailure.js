@@ -28,14 +28,14 @@ class CompletePayFailure extends Component {
 
     this.state = {
       doRenderScene: false,
-      data: [],
+      // data: [],
     };
   }
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => this.setState({ doRenderScene: true }));
     this.props.navigation.setParams({
-      title: '完成',
+      title: '支付失败',
     });
   }
 
@@ -58,8 +58,8 @@ class CompletePayFailure extends Component {
     return (
       <View style={Global.styles.CONTAINER}>
         <View style={styles.info}>
-          <Icon name="ios-checkmark-circle-outline" color={Global.colors.IOS_BLUE} size={175} width={175} height={175} />
-          <Text style={styles.infoText}>完成</Text>
+          <Icon name="ios-close-circle-outline" color={Global.colors.IOS_BLUE} size={175} width={175} height={175} />
+          <Text style={styles.infoText}>支付失败</Text>
           <Button
             text="返回首页"
             style={styles.button}

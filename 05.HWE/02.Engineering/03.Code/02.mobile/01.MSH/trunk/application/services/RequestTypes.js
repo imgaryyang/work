@@ -122,6 +122,7 @@ export const consultRecord = () => ({
 
 export const dept = () => ({
   select: `${Global.getHost()}treat/department/select`,
+  listBrief: `${Global.getHost()}treat/department/listBrief`,
 });
 
 export const doctor = () => ({
@@ -249,6 +250,6 @@ export const guide = () => ({
 export const inpatient = () => ({
   loadHisInpatientInfo: `${Global.getHost()}treat/his/inpatient/info`, // 查询患者住院单信息
   loadHisInpatientDailylist: `${Global.getHost()}treat/his/inpatient/dailyList`, // 查询患者住院日清单
-  loadHisInpatientPrepaidRecords: `${Global.getHost()}treat/his/deposit/list`, // 查询患者住院预缴记录
+  loadHisInpatientPrepaidRecords: `${Global.getHost()}treat/his/foregift/list`, // 查询患者住院预缴记录
 });
 

@@ -15,8 +15,9 @@ import Icon from 'rn-easy-icon';
 import { connect } from 'react-redux';
 import Toast from 'react-native-root-toast';
 import Global from '../../Global';
-import { select } from '../../services/hospital/DeptService';
+import { listBrief } from '../../services/hospital/DeptService';
 import ctrlState from '../../modules/ListState';
+import SearchInput from '../../modules/SearchInput';
 import { forDeptList } from '../../services/outpatient/AppointService';
 
 class HospitalDepts extends Component {
@@ -42,7 +43,7 @@ class HospitalDepts extends Component {
     this.pullToRefresh = this.pullToRefresh.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.renderRow = this.renderRow.bind(this);
-    // this.renderSectionHeader = this.renderSectionHeader.bind(this);
+    this.renderToolBar = this.renderToolBar.bind(this);
     this.renderSeparator = this.renderSeparator.bind(this);
     this.appendSectionData = this.appendSectionData.bind(this);
     this.onPressRegister = this.onPressRegister.bind(this);
@@ -58,6 +59,9 @@ class HospitalDepts extends Component {
       rowHasChanged: (row1, row2) => row1 !== row2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     }),
+    name: '',
+    deptList: [], // 全部科室
+
   };
 
   componentDidMount() {
@@ -142,14 +146,23 @@ class HospitalDepts extends Component {
   // 查询数据
   async fetchData() {
     // console.log('.......ctrlState in fetchData:', this.state.ctrlState);
+    const name = this.state.name;
+
     try {
-      const responseData = await select({ hosId: this.props.hosp.id });
-      // console.log('responseData in HospitalDepts.fetchData():', responseData);
+      let responseData = [];
+      if (name !== '') {
+        responseData = await listBrief({ hosId: this.props.hosp.id, name });
+      } else {
+        responseData = await listBrief({ hosId: this.props.hosp.id });
+      }
+
+      console.log('responseData in HospitalDepts.fetchData():', responseData);
       if (responseData.success) {
+        this.state.deptList = responseData.result;
         this.sectionIds = [];
         this.rowIds = [];
         this.sectionData = [];
-        this.appendSectionData(responseData.result.deptList);
+        this.appendSectionData(responseData.result);
       } else {
         this.setState({
           ctrlState: {
@@ -174,6 +187,7 @@ class HospitalDepts extends Component {
     }
     if (typeof this.props.onChildCompLoaded === 'function') this.props.onChildCompLoaded();
   }
+
 
   appendSectionData(data) {
     // console.log(data);
@@ -206,6 +220,7 @@ class HospitalDepts extends Component {
     });
   }
 
+
   /**
    * 渲染行数据
    */
@@ -232,6 +247,31 @@ class HospitalDepts extends Component {
     }
   }
 
+  /**
+   * 渲染顶端工具栏
+   */
+  renderToolBar() {
+    return (
+      <View style={[Global.styles.TOOL_BAR.FIXED_BAR]} >
+        <SearchInput
+          value={this.state.name}
+          onChangeText={(value) => {
+            this.state.name = value;
+            console.info(this.state.name);
+            this.fetchData();
+          }
+          }
+
+          onSearch={() => {
+            // console.log('before goto onSearch().......');
+            this.onSearch();
+          }}
+          placeholder="请输入科室名称"
+        />
+      </View>
+    );
+  }
+
   render() {
     const emptyView = this.renderEmptyView({
       msg: '暂无科室信息',
@@ -244,6 +284,7 @@ class HospitalDepts extends Component {
     });
     return (
       <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >
+        {this.renderToolBar()}
         {emptyView}
         <ListView
           automaticallyAdjustContentInsets={false} // 此参数保证在IOS的Tabbar中顶端不出现与statusBar等高的空隙

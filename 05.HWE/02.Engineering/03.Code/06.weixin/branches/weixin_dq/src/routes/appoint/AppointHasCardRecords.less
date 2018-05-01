@@ -1,7 +1,7 @@
 @import "../../utils/common";
 
 .container {
-  .scrolly;
+  overflow-y: scroll;
   background-color: @IOS_GRAY_BG;
   padding-top: 10px;
 }
@@ -13,6 +13,8 @@
 
 .noData {
   background-color: white;
-  .flexRow;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
 }

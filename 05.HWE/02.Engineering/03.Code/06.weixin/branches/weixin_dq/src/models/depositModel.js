@@ -44,14 +44,14 @@ export default {
         // accountBankCode: ''
         // tradeChannel:
         // tradeChannelCode:
-        terminalCode: '',
+        terminalCode: profile.mobile,
         batchNo: '',
         adFlag: query.adFlag,
         comment: '',
-        hisUser: profile.hisUser || user.id,
+        hisUser: Global.hisUser,
         appType: config.appType,
         appCode: config.appCode,
-        terminalUser: profile.hisUser || user.id,
+        terminalUser: profile.no,
         // no: his返回的交易号
         // balance:
         appChannel: query.appCode,
@@ -100,21 +100,20 @@ export default {
         // tradeNo: 第三方支付返回的结算单号
         // tradeTime: 第三方支付返回的结算单号
         userId: user.id,
-        account: profile.acctNo,
+        account: bill.account,
         accountName: profile.name,
         accountType: '9', // 其他
         // accountBankCode: '',
         tradeChannel: bill.tradeChannel,
         tradeChannelCode: bill.tradeChannelCode,
-        // terminalCode: '',
+        terminalCode: profile.mobile,
         // batchNo: '',
         adFlag: bill.adFlag,
         comment: bill.comment,
-        hisUser: profile.hisUser || user.id,
+        hisUser: Global.hisUser,
         appType: bill.appType, // 审计字段
         appCode: bill.appCode, // 审计字段
-        terminalUser: profile.hisUser || user.id,
-        // terminalCode: '',
+        terminalUser: profile.no,
         // no: his的结算单号，暂定在调用his的冻结接口的时候会返回回来
         // depositTime: 由后台生成
         // balance: his端扣款成功后，由his端返回
@@ -130,7 +129,12 @@ export default {
         // settleNo: bill.settleNo,
         tradeNo: bill.tradeNo,
         oriNo: bill.oriNo,
+        no: bill.no,
+        bankCodeZzj: Global.bankCode_zzj,
+        machineCode: Global.machineCode,
+        areaCode: Global.areaCode,
       };
+      Toast.loading('正在处理...');
       const { data } = yield call(refund, info);
       if (data && data.success) {
         yield put({
@@ -139,7 +143,6 @@ export default {
             refundResult: data || {},
           },
         });
-        if (callback) callback();
       } else {
         yield put({
           type: 'save',
@@ -148,6 +151,8 @@ export default {
           },
         });
       }
+      Toast.hide();
+      if (callback) callback();
     },
     *getPreStore({ profile, callback }, { call, put, select }) {
       const info = {};
@@ -162,12 +167,11 @@ export default {
       if (info.no === null || info.no === '' || info.no === undefined) {
         return;
       }
+      yield put(save({ data: {} }));
       const { data } = yield call(getPreStore, info);
-      console.info('getPreStore:data:', data);
       if (data && data.success) {
         const { result } = data || {};
         yield put(save({ data: result }));
-        console.info('getPreStore:', result);
         if (callback) callback();
       } else {
         Toast.info(data.msg, 3);

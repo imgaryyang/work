@@ -47,7 +47,7 @@ class InpatientPrepaidRecords extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      title: '住院预缴记录',
+      title: '住院预缴记录查询',
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
@@ -129,7 +129,7 @@ class InpatientPrepaidRecords extends Component {
       });
       const profileNo = profile.no;
       /* const query = { proNo: '900000000021', hosNo, startDate, endDate };*/
-      const query = { proNo: profileNo, hosNo, tradeChannel: "'Z','W'", type: '0', bizType: '04' };
+      const query = { proNo: profileNo, hosNo};
       // console.log('query=', query);
       const responseData = await loadHisInpatientPrepaidRecords(query);
       if (responseData.success) {
@@ -168,7 +168,7 @@ class InpatientPrepaidRecords extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    const map = { B: '银行卡预缴', C: '现金预缴', W: '微信预缴', Z: '支付宝预缴' };
+    const map = { B: '银行卡', C: '现金', W: '微信', Z: '支付宝' };
     return (
       <Item
         data={item}
@@ -200,7 +200,7 @@ class InpatientPrepaidRecords extends Component {
     // console.log('this.state.selectDate:', this.state.selectDate);
 
     const emptyView = !currProfile ? this.renderEmptyView({
-      msg: '未选择就诊人',
+      msg: '请选择就诊人',
       ctrlState: this.state.ctrlState,
       style: { marginTop: 15 },
     }) : this.renderEmptyView({
@@ -246,18 +246,18 @@ const styles = StyleSheet.create({
     // paddingLeft: 15,
   },
   tradeChannel: {
-    fontSize: 13,
-    color: 'black',
+    fontSize: 14,
+    color: Global.colors.FONT_GRAY,
   },
 
   date: {
     flex: 1,
-    fontSize: 12,
-    color: Global.colors.FONT_GRAY,
+    fontSize: 13,
+    color: Global.colors.FONT_LIGHT_GRAY,
   },
   amt: {
-    fontSize: 12,
-    color: '#000000',
+    fontSize: 14,
+    color: Global.colors.FONT_GRAY,
     textAlign: 'right',
   },
 });

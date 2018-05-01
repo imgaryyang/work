@@ -80,7 +80,7 @@ class Triage extends Component {
         hideNavBarBottomLine: false,
         headerRight: (
           <TouchableOpacity onPress={this.onRightButtonPress}>
-            <Icon name="settings" iconLib="Feather" />
+            <Icon name="settings" iconLib="Feather" size={20} />
           </TouchableOpacity>
         ),
       });
@@ -249,6 +249,8 @@ class Triage extends Component {
           animationType={this.state.animationType}
           transparent={this.state.transparent}
           visible={this.state.modalVisible}
+          onBackdropPress={() => this.setState({ modalVisible: false })}
+          animationIn="slideInDown"
           onRequestClose={() => { this._setModalVisible(false); }}
         >
           <View style={[modalStyles.container, modalBackgroundStyle]}>

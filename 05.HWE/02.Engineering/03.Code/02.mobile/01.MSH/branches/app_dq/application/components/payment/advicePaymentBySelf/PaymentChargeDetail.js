@@ -180,8 +180,8 @@ class PaymentChargeDetail extends Component {
     param.hisUser = currProfile.hisUser || user.id;
     param.appType = config.appType;
     param.appCode = config.appCode;
-    param.terminalUser = currProfile.terminalCode || user.id;
-    param.terminalCode = '';
+    param.terminalUser = currProfile.no;
+    param.terminalCode = currProfile.mobile;
     param.items = [];
     const data = this.state.chargeDetail
     for (let idx = 0; idx < data.length; idx += 1) {

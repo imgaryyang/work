@@ -15,6 +15,11 @@ export function forDeptList(cond) {
   return ajax.GET(`${hisAppoint}deptList`, cond);
 }
 
+// 3.4.3 可预约医生列表查询
+export function forDocList(cond) {
+  return ajax.GET(`${hisAppoint}docList`, cond);
+}
+
 // 3.4.5 患者预约
 export function forReserve(cond) {
   return ajax.POST(`${hisAppoint}reserve`, cond);

@@ -1,7 +1,8 @@
 import { Toast, ListView } from 'antd-mobile';
+import moment from 'moment/moment';
 import { getRecordList, getDiagnoseList, getDrugList } from '../services/recordService';
 import { getReport, getPacs } from '../services/reportService';
-import moment from "moment/moment";
+
 
 export default {
   namespace: 'record',
@@ -58,14 +59,15 @@ export default {
       } else if (data && data.msg) {
         yield put({ type: 'setState', payload: { data: [], isLoading: false } });
         // Toast.info('请求出错');
-        Toast.fail(`请求数据出错：${data.msg}`, 1);
+        Toast.fail(data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { data: [], isLoading: false } });
       }
     },
     *loadRecordDetail({ payload }, { call, put, select }) {
+      // console.log('loadRecordDetail....payload', payload);
       if (payload === null) {
-        Toast.info('请求出错');
+        Toast.info('请求出错!');
       }
       let diagnosesResult;
       let drugsResult;
@@ -80,19 +82,22 @@ export default {
       } else if (diagnoses.data && diagnoses.data.msg) {
         yield put({ type: 'setState', payload: { diagnoses: [], isLoading: false } });
         // Toast.info('请求诊断信息出错');
-        Toast.fail(`请求数据出错：${diagnoses.data.msg}`, 1);
+        Toast.fail(diagnoses.data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { diagnoses: [], isLoading: false } });
       }
       yield put({ type: 'setState', payload: { isLoading: true } });
-      const drugs = yield call(getDrugList, payload);
+
+      const drugsQuery = { ...payload, actId: payload.id };
+      const drugs = yield call(getDrugList, drugsQuery);
+      // console.log('drugs', drugs);
       if (drugs.data && drugs.data.success) {
         drugsResult = drugs.data.result;
         yield put({ type: 'setState', payload: { drugs: drugsResult, isLoading: false } });
       } else if (drugs.data && drugs.data.msg) {
         yield put({ type: 'setState', payload: { drugs: [], isLoading: false } });
         // Toast.info('处方信息请求出错')
-        Toast.fail(`请求数据出错：${drugs.data.msg}`, 1);
+        Toast.fail(drugs.data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { drugs: [], isLoading: false } });
       }
@@ -115,12 +120,13 @@ export default {
       } else if (tests.data && tests.data.msg) {
         yield put({ type: 'setState', payload: { tests: [], isLoading: false } });
         // Toast.info('请求检查列表出错');
-        Toast.fail(`请求数据出错：${drugs.data.msg}`, 1);
+        Toast.fail(tests.data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { tests: [], isLoading: false } });
       }
       yield put({ type: 'setState', payload: { isLoading: true } });
-      const pacs = yield call(getPacs, payload);
+      const pacsQuery = { ...payload, actId: payload.id };
+      const pacs = yield call(getPacs, pacsQuery);
       // console.log('pacs', pacs);
       if (pacs.data && pacs.data.success) {
         pacsResult = pacs.data.result;
@@ -135,7 +141,7 @@ export default {
       } else if (pacs.data && pacs.data.msg) {
         yield put({ type: 'setState', payload: { isLoading: false } });
         // Toast.info('请求特检列表出错');
-        Toast.fail(`请求数据出错：${pacs.data.msg}`, 1);
+        Toast.fail(pacs.data.msg, 1);
       } else {
         yield put({ type: 'setState', payload: { isLoading: false } });
       }

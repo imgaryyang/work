@@ -32,8 +32,8 @@ class Item extends PureComponent {
         <View style={{ flex: 2 }}>
           <Text style={[styles.result, { color: `${color}` }]}>{detail.result || ''}</Text>
         </View>
-        <View style={{ flex: 2 }}>
-          {detail.flag === '0' ? null : detail.flag === '1' ? (<Icon name="ios-arrow-round-up" size={33} color="red" />) :
+        <View style={{ flex: 2, alignItems: 'center' }}>
+          {!detail.flag ? (<Text>正常</Text>) : detail.flag === '↑' ? (<Icon name="ios-arrow-round-up" size={33} color="red" />) :
             (<Icon name="ios-arrow-round-down" size={33} color="#6CD809" />)}
         </View>
       </View>

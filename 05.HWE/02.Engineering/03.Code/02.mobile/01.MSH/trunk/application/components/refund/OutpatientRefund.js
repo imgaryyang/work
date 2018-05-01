@@ -16,13 +16,11 @@ import Sep from 'rn-easy-separator';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-navigation';
-import EasyIcon from 'rn-easy-icon';
 import Global from '../../Global';
 import ctrlState from '../../modules/ListState';
-
 import { filterMoney } from '../../utils/Filters';
-import { getPreStore } from "../../services/payment/AliPayService";
-import { getConsumeRecords, getPreRecords } from "../../services/consume/ConsumeRecordsService";
+import { getPreStore } from '../../services/payment/AliPayService';
+import { getPreRecords } from '../../services/consume/ConsumeRecordsService';
 import config from '../../../Config';
 
 
@@ -43,18 +41,15 @@ class Item extends PureComponent {
     }
     return (
       <TouchableOpacity
-        style={[Global.styles.CENTER, { flexDirection: 'row', paddingTop: 15, paddingBottom: 15 }]}
+        style={[Global.styles.CENTER, { flexDirection: 'row', paddingTop: 20, paddingBottom: 20 }]}
         onPress={() => { this.props.onPressItem(); }}
       >
-        <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15, marginRight: 15 }} >
-          <View style={{ flex: 3 }} >
-            <Text style={{ fontSize: 12, color: Global.colors.FONT_LIGHT_GRAY1 }}>{data.tradeTime ? moment(data.tradeTime).format('YYYY-MM-DD HH:mm') : '暂无日期' }</Text>
-            <Sep height={6} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{tradeChannel}</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1, textAlign: 'right' }}>{filterMoney(data.amt)}</Text>
-          </View>
+        <View style={{ flex: 1, marginLeft: 15, marginRight: 15 }} >
+          <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY }}>订单号   {data.tradeNo}</Text>
+          <Sep height={10} />
+          <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY }}>充值时间   {data.tradeTime ? moment(data.tradeTime).format('YYYY-MM-DD HH:mm') : '暂无日期' }</Text>
+          <Sep height={10} />
+          <Text style={{ fontSize: 13, color: Global.colors.FONT_GRAY }}>({tradeChannel})充值金额   {data.amt ? filterMoney(data.amt) : '0.00'}元       已退金额   {data.refunded ? filterMoney(data.refunded) : '0.00'}元</Text>
         </View>
       </TouchableOpacity>
     );
@@ -64,7 +59,7 @@ class Item extends PureComponent {
 
 class OutpatientRefund extends Component {
   static displayName = 'PreRecords';
-  static description = '门诊退费';
+  static description = '就诊卡预存退款';
 
   constructor(props) {
     super(props);
@@ -83,16 +78,9 @@ class OutpatientRefund extends Component {
   };
 
   componentDidMount() {
-    // InteractionManager.runAfterInteractions(() => {
-    //   this.setState({
-    //     ctrlState: {
-    //       ...this.state.ctrlState,
-    //       refreshing: false,
-    //     },
-    //   });
-    // });
+    InteractionManager.runAfterInteractions(() => this.setState({ doRenderScene: true }));
     this.props.navigation.setParams({
-      title: '门诊退费',
+      title: '就诊卡预存退款',
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
@@ -100,7 +88,6 @@ class OutpatientRefund extends Component {
       afterChoosePatient: this.afterChoosePatient,
       hideBottomLine: true,
     });
-    // const user = Global.getUser();
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
@@ -114,7 +101,6 @@ class OutpatientRefund extends Component {
     });
   }
   componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps begin:');
     if (props.base.currProfile !== this.props.base.currProfile) {
       this.fetchData(
         props.base.currHospital,
@@ -135,7 +121,6 @@ class OutpatientRefund extends Component {
     }, () => this.fetchData(this.props.base.currHospital, this.props.base.currPatient, this.props.base.currProfile));
   }
   async fetchData(hospital, patient, profile) {
-    console.log('fetchData11:');
     if (!profile) {
       this.setState({
         ctrlState: {
@@ -155,21 +140,20 @@ class OutpatientRefund extends Component {
           refreshing: true,
         },
       });
-      // const consumeRecordsData = await getConsumeRecords({ proNo: this.state.profile.no, hosNo: this.state.profile.hosNo });
+      const now = new Date();
       const preRecordsData = await getPreRecords({
         proNo: profile.no,
         hosNo: profile.hosNo,
         // tradeChannel: "'Z','W'",
         type: '0',
-        // bizType: '00', // 门诊
+        status: '0',
+        startDate: new Date(now - (24 * 60 * 60 * 1000 * 365)),
+        endDate: now,
       });
       const responseData = await getPreStore({ no: profile.no, hosNo: profile.hosNo });
       if (preRecordsData.success) {
-        console.log('fetchData:aaaaaaaaaaaaaaaaaa');
-        console.info(preRecordsData);
         this.setState({
           data: preRecordsData.result ? preRecordsData.result : [],
-          // consumeRecords: consumeRecordsData.result ? consumeRecordsData.result : [],
           balance: responseData.result ? responseData.result.balance : 0,
           ctrlState: {
             ...this.state.ctrlState,
@@ -177,7 +161,7 @@ class OutpatientRefund extends Component {
           },
         });
       } else {
-        this.handleRequestException({ msg: '获取消费数据出错！' });
+        this.handleRequestException({ msg: '获取数据出错！' });
         this.setState({
           ctrlState: {
             ...this.state.ctrlState,
@@ -211,8 +195,6 @@ class OutpatientRefund extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    console.log('renderItem111');
-    console.info(item);
     if (config.refundedChannelTypes.indexOf(item.tradeChannel) < 0) {
       return null;
     }
@@ -221,8 +203,7 @@ class OutpatientRefund extends Component {
         data={item}
         index={index}
         onPressItem={() => {
-          console.log('onPressItem:');
-          this.props.navigation.navigate('OutpatientRefundDetail', { title: '门诊退费', data: { ...item, balance: this.state.balance } });
+          this.props.navigation.navigate('OutpatientRefundDetail', { title: '就诊卡预存退款', data: { ...item, balance: this.state.balance } });
         }}
       />
     );
@@ -233,16 +214,24 @@ class OutpatientRefund extends Component {
     if (!this.state.doRenderScene) {
       return this.renderPlaceholderView();
     }
+    const { currProfile } = this.props.base;
+    if (!currProfile) {
+      return this.renderEmptyView({
+        msg: '请选择就诊人',
+        ctrlState: { refreshing: false },
+        style: { marginTop: 15 },
+      });
+    }
     return (
       <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >
         <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
         <View>
-          <View style={{ paddingTop: 19 / 2, paddingBottom: 19 / 2, flexDirection: 'row', marginLeft: 15, alignItems: 'center' }} >
-            <Text style={{ fontSize: 14, color: Global.colors.FONT }}>可用余额</Text>
+          <View style={{ paddingTop: 19 / 2, paddingBottom: 19 / 2, flexDirection: 'row', paddingLeft: 15, alignItems: 'center', backgroundColor: 'white' }} >
+            <Text style={{ fontSize: 14, color: Global.colors.FONT }}>当前余额</Text>
             <Sep width={10} />
             <Text style={{ fontSize: 16, fontWeight: '600', color: Global.colors.IOS_RED }}>
               { this.state.balance ? filterMoney(this.state.balance) : '0.00' }
-              </Text>
+            </Text>
           </View>
           <Sep width={19 / 2} />
         </View>
@@ -280,6 +269,7 @@ class OutpatientRefund extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+    backgroundColor: 'white',
   },
   list: {
     borderBottomWidth: 1,

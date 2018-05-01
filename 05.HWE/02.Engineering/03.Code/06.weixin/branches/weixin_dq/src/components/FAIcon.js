@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import styles from './FALess/font-awesome.less';
+import styles from './FALessMini/font-awesome.less';
 
 class Icon extends React.Component {
   render() {

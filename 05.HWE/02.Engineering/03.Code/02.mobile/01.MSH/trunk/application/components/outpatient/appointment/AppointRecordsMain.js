@@ -26,7 +26,7 @@ const fadeAnimation = new FadeAnimation({ animationDuration: 150 });
 
 class AppointRecordsMain extends Component {
   static displayName = 'AppointRecordsMain';
-  static description = '消费记录';
+  static description = '我的预约';
 
   constructor(props) {
     super(props);
@@ -47,7 +47,7 @@ class AppointRecordsMain extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      title: '预约记录',
+      title: '我的预约',
       showCurrHospitalAndPatient: true,
       // allowSwitchHospital: true, // 不同入口此参数不一样，故此处不设置
       allowSwitchPatient: true,

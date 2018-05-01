@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ListView, PullToRefresh } from 'antd-mobile';
+import { ListView } from 'antd-mobile';
 import style from './ReportDetail.less';
 import up from '../../assets/images/up.png';
 import down from '../../assets/images/down.png';
 import Config from '../../Config';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class ReportDetail extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class ReportDetail extends React.Component {
   refresh() {
     const data = this.props.report.rowData;
     const query = { testId: data.barcode };
-    console.log('refresh====', query);
+    // console.log('refresh====', query);
     this.props.dispatch({
       type: 'report/loadReportDetail',
       payload: query,
@@ -36,7 +36,7 @@ class ReportDetail extends React.Component {
   }
   render() {
     const { detail, dataSource, height, rowData, refreshing } = this.props.report;
-    console.log('detail', detail);
+    // console.log('detail', detail);
     const currProfile = this.props.base.currProfile;
     let itemDesc = '';
     if (rowData.itemName === '血常规') {
@@ -45,11 +45,13 @@ class ReportDetail extends React.Component {
       itemDesc = Config.LISDesc['liverFunction'];
     } else if (rowData.itemName === '尿常规') {
       itemDesc = Config.LISDesc['UrineRT'];
+    } else {
+      itemDesc = '暂无详细介绍';
     }
     if (detail.length === 0) {
       return (
-        <div className={commonStyles.emptyViewContainer}>
-          <div className={commonStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的检查明细信息！`}</div>
+        <div className={baseStyles.emptyViewContainer}>
+          <div className={baseStyles.emptyView}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的检查明细信息！`}</div>
         </div>
       );
     }
@@ -100,13 +102,13 @@ class ReportDetail extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
           // 下拉刷新
-          pullToRefresh={<PullToRefresh
-            refreshing={refreshing}
-            onRefresh={this.refresh}
-            style={{
-              borderBottomWidth: 0,
-            }}
-          />}
+          // pullToRefresh={<PullToRefresh
+          //   refreshing={refreshing}
+          //   onRefresh={this.refresh}
+          //   style={{
+          //     borderBottomWidth: 0,
+          //   }}
+          // />}
         />
         <div style={{ height: 40 }} />
       </div>

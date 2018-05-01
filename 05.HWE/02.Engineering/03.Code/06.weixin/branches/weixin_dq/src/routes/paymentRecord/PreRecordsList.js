@@ -6,7 +6,7 @@ import moment from 'moment';
 import style from './PaymentMain.less';
 
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import { filterMoney } from '../../utils/Filters';
 
 class PreRecordsList extends React.Component {
@@ -74,8 +74,8 @@ class PreRecordsList extends React.Component {
     if (isLoading) { return <ActivityIndicatorView />; }
     if (!currProfile.id) {
       return (
-        <div className={commonStyles.emptyViewContainer}>
-          <div className={commonStyles.emptyView}>请先选择就诊人！
+        <div className={baseStyles.emptyViewContainer}>
+          <div className={baseStyles.emptyView}>请先选择就诊人！
             <Button
               type="ghost"
               inline
@@ -90,12 +90,12 @@ class PreRecordsList extends React.Component {
 
     if (preRecordsData && preRecordsData.length === 0) {
       return (
-        <div className={commonStyles.emptyViewContainer}>
+        <div className={baseStyles.emptyViewContainer}>
           <Flex direction="row" align="start" className={style['firstLine']} style={{ height: 40 }}>
             <div className={style['title']} >可用余额:</div>
             <div className={style['content']}>{ balance }</div>
           </Flex>
-          <div className={commonStyles.emptyView} style={{ marginTop: 0 }}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的缴费信息！`}</div>
+          <div className={baseStyles.emptyView} style={{ marginTop: 0 }}>{`暂无${currProfile.name}（卡号：${currProfile.no}）的预存信息！`}</div>
         </div>
       );
     }

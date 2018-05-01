@@ -2,11 +2,11 @@ import React from 'react';
 // import { withRouter } from 'react-router';
 // import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { TabBar, Toast } from 'antd-mobile';
+import { TabBar } from 'antd-mobile';
 import classnames from 'classnames';
 
 import styles from './TabNavLayout.less';
-import commonStyles from '../utils/common.less';
+import baseStyles from '../utils/base.less';
 
 import Config from '../Config';
 import Global from '../Global';
@@ -57,12 +57,12 @@ class TabNavLayout extends React.Component {
       },
     });
     // TODO: 重载用户信息，测试用，正式环境需要删除
-    if (!this.props.base.user.id) {
-      dispatch({
-        type: 'base/reloadUserInfo',
-        callback: msg => (msg.id ? Toast.info('重新载入用户信息成功！', 2, null, false) : Toast.info(msg, 2, null, false)),
-      });
-    }
+    // if (!this.props.base.user.id) {
+    //   dispatch({
+    //     type: 'base/reloadUserInfo',
+    //     callback: msg => (msg.id ? Toast.info('重新载入用户信息成功！', 2, null, false) : Toast.info(msg, 2, null, false)),
+    //   });
+    // }
 
     this.pressTab = this.pressTab.bind(this);
     // this.toBind = this.toBind.bind(this);
@@ -109,13 +109,13 @@ class TabNavLayout extends React.Component {
         {/* <Prompt message={this.toBind} />*/}
         <TabBar unselectedTintColor="#888888" tintColor="#fe4d3d" >
           <TabBar.Item
-            title="医院"
+            title="首页"
             key="hfc"
             icon={<div
-              className={classnames(commonStyles.hosp, commonStyles.icon, styles.tabIcon)}
+              className={classnames(baseStyles.hosp, baseStyles.icon, styles.tabIcon)}
             />}
             selectedIcon={<div
-              className={classnames(commonStyles.hospActive, commonStyles.icon, styles.tabIcon)}
+              className={classnames(baseStyles.hospActive, baseStyles.icon, styles.tabIcon)}
             />}
             selected={selectedTab === 'hfc'}
             onPress={() => this.pressTab('hfc')}
@@ -127,10 +127,10 @@ class TabNavLayout extends React.Component {
             title="我的"
             key="me"
             icon={<div
-              className={classnames(commonStyles.me, commonStyles.icon, styles.tabIcon)}
+              className={classnames(baseStyles.me, baseStyles.icon, styles.tabIcon)}
             />}
             selectedIcon={<div
-              className={classnames(commonStyles.meActive, commonStyles.icon, styles.tabIcon)}
+              className={classnames(baseStyles.meActive, baseStyles.icon, styles.tabIcon)}
             />}
             selected={selectedTab === 'me'}
             onPress={() => this.pressTab('me')}

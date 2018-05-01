@@ -3,7 +3,7 @@
 .allContainer {
   width: 100%;
   height: 100%;
-  background-color: @IOS_GRAY_BG;
+  // background-color: @IOS_GRAY_BG;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -29,8 +29,8 @@
   height:20px;  /*设置div的大小*/
 }
 .diagRowTitle {
-  flex: 1;
-  margin-left: 10px;
+  width: 80px;
+  margin-left: 15px;
   font-size: 13px;
   height:20px;  /*设置div的大小*/
   justify-content: left;
@@ -39,7 +39,7 @@
   background-color: white;
 }
 .diagRowContent {
-  flex: 2;
+  flex: 1;
   font-size: 13px;
   height:20px;  /*设置div的大小*/
   justify-content: left;
@@ -137,7 +137,8 @@
 }
 .separator {
   height:10px;
-  //background-color: @IOS_GRAY_BG;
+  background-color: @IOS_GRAY_BG;
+  border-top: 1px solid @LINE;
 }
 .separator5 {
   height:5px;

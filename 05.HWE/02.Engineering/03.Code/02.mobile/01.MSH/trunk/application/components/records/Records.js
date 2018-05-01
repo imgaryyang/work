@@ -54,7 +54,7 @@ class Records extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      title: '就诊记录',
+      title: '就诊记录查询',
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
@@ -209,7 +209,7 @@ class Records extends Component {
       >
         <View style={{ flex: 1 }} >
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.date}>{moment(item.createTime).format('YYYY-MM-DD hh:mm')}</Text>
+            <Text style={styles.date}>{moment(item.createTime).format('YYYY-MM-DD HH:mm')}</Text>
             <Tags tags={tags} containerStyle={{ marginLeft: 10 }} />
           </View>
           <View style={{ flexDirection: 'row' }}>

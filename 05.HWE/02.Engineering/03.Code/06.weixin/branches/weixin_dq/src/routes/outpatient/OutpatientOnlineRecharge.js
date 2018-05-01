@@ -6,7 +6,7 @@ import style from './OutpatientOnlineRecharge.less';
 import config from '../../Config';
 import { testAmt } from '../../utils/validation';
 import { filterMoney } from '../../utils/Filters';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 
 class OutpatientOnlineRecharge extends React.Component {
   constructor(props) {
@@ -128,7 +128,7 @@ class OutpatientOnlineRecharge extends React.Component {
     if (!currProfile.id) {
       return (
         <div className={style.container}>
-          <div className={commonStyles.emptyView}>请先选择就诊人
+          <div className={baseStyles.emptyView}>请先选择就诊人
             <Button
               type="ghost"
               inline
@@ -148,7 +148,7 @@ class OutpatientOnlineRecharge extends React.Component {
           <div className={style.item}>
             <div className={style.label}>当前余额</div>
             <div className={style.value}>
-              {balance ? filterMoney(balance) : ''}
+              {balance ? filterMoney(balance) : '0.00'}
             </div>
           </div>
           <WhiteSpace size="lg" />

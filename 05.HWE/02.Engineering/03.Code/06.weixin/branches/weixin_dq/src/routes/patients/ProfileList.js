@@ -10,7 +10,7 @@ import { spaceAfterThreeLetters } from '../../utils/Filters';
 import SMSVerify from '../common/SMSVerify';
 
 import styles from './ProfileList.less';
-import commonStyles from '../../utils/common.less';
+import baseStyle from '../../utils/base.less';
 
 class ProfileList extends React.Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class ProfileList extends React.Component {
       submitDown: () => {
         dispatch({
           type: 'base/reloadUserInfo',
-          callback: (result) => {
+          reloadDown: (result) => {
             if (result.id) {
               this.props.dispatch({
                 type: 'patient/setState',
@@ -104,9 +104,9 @@ class ProfileList extends React.Component {
     const { profiles, allowBind, showPatientInfo, patient, base } = this.props;
     const { bindedProfiles } = patient;
     return profiles.map((item, idx) => {
-      const { id, hosId, hosName, no, name, idNo, mobile } = item;
+      const { id, hosId, /* hosName,*/ no, name, idNo, mobile } = item;
 
-      const key = `${hosId}${no}`;
+      const key = `${base.currHospital.id}${no}`;
       const bindBtn = allowBind ? (!bindedProfiles[key] ? (
         <div
           className={styles.bindBtn}
@@ -136,7 +136,7 @@ class ProfileList extends React.Component {
       return (
         <div key={`card_${id}_${idx + 1}`} className={styles.cardContainer}>
           <div className={styles.cardBody}>
-            <div className={classnames(commonStyles.flexRow, styles.hospitalContainer)}>
+            <div className={classnames(baseStyle.flexRow, styles.hospitalContainer)}>
               <span className={styles.hospName}>{base.currHospital.name}</span>
               {bindBtn}
             </div>

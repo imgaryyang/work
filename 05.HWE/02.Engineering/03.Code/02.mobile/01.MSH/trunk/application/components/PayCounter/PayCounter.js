@@ -202,7 +202,7 @@ class PayCounter extends Component {
       <View style={{ flex: 1, flexDirection: 'column' }} >
         <ScrollView style={styles.scrollView} >
           <Card>
-            <Text style={{ color: 'black', marginLeft: 10 }}>支付编号：{this.state.payInfo.settleTitle}</Text>
+            <Text style={{ color: 'black', marginLeft: 10 }}>支付编号：<Text style={{ fontSize: 12 }}>{this.state.payInfo.bizNo}</Text></Text>
             <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }}>订单类型：{orderMap[this.state.payInfo.bizType]}</Text>
             <Text style={{ color: 'black', marginLeft: 10, marginTop: 5 }} >需要支付金额：<Text style={{ color: 'red' }}>{this.state.payInfo.amt}元</Text><Text style={{ fontSize: 10 }} > ( 演示版将支付金额固定为 0.01 )</Text></Text>
           </Card>

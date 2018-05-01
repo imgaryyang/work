@@ -1,3 +1,9 @@
+@import "../../utils/common";
+
+.container {
+  background-color: @IOS_GRAY_BG;
+}
+
 .text {
  padding-left: 20px;
   font-size: 13px;
@@ -23,13 +29,24 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
   margin-bottom: 50px;
 }
 .title{
-  margin-top: 50px;
-  height: 20px;
-  text-align: center;
-  font-size: 16px;
+  font-Size: 20px;
+  font-Weight: 900;
   color: black;
-  font-weight: bold;
+  padding-Top: 10px;
+}
+
+.holder {
+  border-top: 1px solid @LINE;
+  border-bottom: 1px solid @LINE;
+  background-color: white;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 15px;
 }

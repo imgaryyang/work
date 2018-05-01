@@ -1,6 +1,6 @@
 import { Toast } from 'antd-mobile';
+import { routerRedux } from 'dva/router';
 import { submit } from '../services/feedBackService';
-import { initPage } from '../utils/common';
 
 
 export default {
@@ -27,13 +27,12 @@ export default {
     *submit({ payload }, { call, put }) {
       yield put({ type: 'setState', payload: { isLoading: true } });
       const { data } = yield call(submit, payload);
-      if (data.success) {
+      if (data && data.success) {
         Toast.info('保存成功');
+        yield put(routerRedux.goBack());
+      } else if (data && data.msg) {
+        Toast.info(data.msg);
       }
     },
-
-
   },
-
-
 };

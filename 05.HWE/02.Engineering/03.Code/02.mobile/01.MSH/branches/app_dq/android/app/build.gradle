@@ -95,7 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "27.0.3"
 
     dexOptions {
         incremental true
@@ -108,6 +108,11 @@ android {
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+                JPUSH_APPKEY: "",
+                APP_CHANNEL : "default"
+        ]
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -156,6 +161,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-camera')
+    compile project(':jcore-react-native')
+    compile project(':jpush-react-native')
     compile (project(':react-native-camera')) {
         exclude group: "com.google.android.gms"
     }

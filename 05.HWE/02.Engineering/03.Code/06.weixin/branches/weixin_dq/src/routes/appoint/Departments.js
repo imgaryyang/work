@@ -3,7 +3,8 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { Menu } from 'antd-mobile';
 import { isValidArray, action, clientHeight, navBarHeight } from '../../utils/common';
-import less from './Departments.less';
+// import less from './Departments.less';
+import baseStyles from '../../utils/base.less';
 
 class Departments extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Departments extends React.Component {
 
     if (dept) {
       dispatch(action('appoint/save', { cond: { ...dept, depNo: dept.no } }));
-      dispatch(routerRedux.push({ pathname: 'schedule', }));
+      dispatch(routerRedux.push({ pathname: 'schedule' }));
     }
   }
 
@@ -42,13 +43,13 @@ class Departments extends React.Component {
     const { deptTreeData } = this.props.appoint;
 
     return (
-      <div className={less.flexCol}>
+      <div className={baseStyles.flexCol}>
         <Menu
           data={deptTreeData}
           height={clientHeight - navBarHeight - 1}
           value={isValidArray(deptTreeData) ? [deptTreeData[0].value] : null}
           onChange={this.onSelectDept}
-          className={less.flexCol}
+          className={baseStyles.flexCol}
         />
       </div>
     );

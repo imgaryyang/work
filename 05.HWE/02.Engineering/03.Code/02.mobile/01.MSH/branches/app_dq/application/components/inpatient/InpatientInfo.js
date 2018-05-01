@@ -34,8 +34,6 @@ class InpatientInfo extends Component {
   constructor(props) {
     super(props);
     this.loadInpatientInfo = this.loadInpatientInfo.bind(this);
-    // this.afterChooseHospital = this.afterChooseHospital.bind(this);
-    // this.afterChoosePatient = this.afterChoosePatient.bind(this);
   }
 
   state = {
@@ -50,10 +48,7 @@ class InpatientInfo extends Component {
       showCurrHospitalAndPatient: true,
       allowSwitchHospital: true,
       allowSwitchPatient: true,
-      afterChooseHospital: this.afterChooseHospital,
-      afterChoosePatient: this.afterChoosePatient,
     });
-    // const user = Global.getUser();
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         doRenderScene: true,
@@ -78,7 +73,6 @@ class InpatientInfo extends Component {
   }
 
   async loadInpatientInfo(hospital, patient, profile) {
-    // const currProfile = profile || this.props.base.currProfile;
     if (!profile) {
       this.setState({
         ctrlState: {
@@ -94,14 +88,13 @@ class InpatientInfo extends Component {
     try {
       // 获得当前的医院Id
       const hosNo = profile.hosNo; // this.props.base.currHospital.no;
-      // 显示遮罩
-      // this.props.screenProps.showLoading();
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: true,
           requestErr: false,
           requestErrMsg: null,
+          data: {},
         },
       });
       const profileNo = profile.no; // this.state.profile.no;
@@ -115,36 +108,11 @@ class InpatientInfo extends Component {
           requestErrMsg: '',
         };
 
-        // 隐藏遮罩
-        // this.props.screenProps.hideLoading();
         this.setState({
           data: responseData.result,
           ctrlState: newCtrlState,
         });
       } else {
-        /* this.setState({
-          ctrlState: {
-            ...this.state.ctrlState,
-            refreshing: false,
-            infiniteLoading: false,
-            noMoreData: true,
-            requestErr: true,
-            requestErrMsg: { msg: responseData.msg },
-          },
-        });
-        this.handleRequestException({ msg: responseData.msg });*/
-        /* Alert.alert(
-          '提示',
-          responseData.msg,
-          [
-            {
-              text: '确定',
-              onPress: () => {
-              },
-            },
-          ],
-        );*/
-        console.log(responseData);
         const newCtrlState = {
           ...this.state.ctrlState,
           refreshing: false,
@@ -155,10 +123,8 @@ class InpatientInfo extends Component {
           data: {},
           ctrlState: newCtrlState,
         });
-        // Toast.show(responseData.msg);
       }
     } catch (e) {
-      console.log('InpatientInfo loadInpatientInfo() exception:', e);
       this.setState({
         ctrlState: {
           ...this.state.ctrlState,
@@ -180,21 +146,17 @@ class InpatientInfo extends Component {
     const { currProfile } = this.props.base;
     const { data } = this.state;
 
-    // console.log(data);
-    // console.log(this.state.ctrlState);
-    // console.log(currProfile);
-
     const emptyView = !currProfile ? this.renderEmptyView({
       msg: '未选择就诊人',
       ctrlState: this.state.ctrlState,
       style: { marginTop: 15 },
     }) : this.renderEmptyView({
-      msg: '未查询到住院信息',
+      msg: `暂无${currProfile.name}（卡号：${currProfile.no}）的住院信息！`,
       ctrlState: this.state.ctrlState,
       style: { marginTop: 15 },
     });
 
-    if (!data.proName) {
+    if (!data || !data.proName) {
       return (
         <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >
           {emptyView}
@@ -202,7 +164,7 @@ class InpatientInfo extends Component {
       );
     }
 
-    const genderText = { 1: '男', 2: '女', 3: '不详' };
+    // const genderText = { 1: '男', 2: '女', 3: '不详' };
     const status = { 0: '普通', 1: '挂账', 2: '呆账', 5: '特殊回归', 7: '普通回归', 9: '病区出院' };
 
     return (
@@ -214,35 +176,35 @@ class InpatientInfo extends Component {
         >
           <View style={[styles.row, styles.firstLine]}>
             <Text style={styles.label}>姓名：</Text>
-            <Text style={styles.value}>{data.proName === undefined ? '未知' : data.proName }</Text>
+            <Text style={styles.value}>{data.proName ? data.proName : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>床位号：</Text>
-            <Text style={styles.value}>{data.bedNo === undefined ? '暂无' : data.bedNo }</Text>
+            <Text style={styles.value}>{data.bedNo ? data.bedNo : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>病区名称：</Text>
-            <Text style={styles.value}>{data.areaName === undefined ? '暂无' : data.areaName }</Text>
+            <Text style={styles.value}>{data.areaName ? data.areaName : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>专科名称：</Text>
-            <Text style={styles.value}>{data.depName === undefined ? '暂无' : data.depName }</Text>
+            <Text style={styles.value}>{data.depName ? data.depName : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>入院时间：</Text>
-            <Text style={styles.value}>{data.inTime === undefined ? '暂无' : data.inTime }</Text>
+            <Text style={styles.value}>{data.inTime ? data.inTime : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>入院诊断：</Text>
-            <Text style={styles.value}>{data.inDiagnose === undefined ? '暂无' : data.inDiagnose }</Text>
+            <Text style={styles.value}>{data.inDiagnose ? data.inDiagnose : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>医生名称：</Text>
-            <Text style={styles.value}>{data.docName === undefined ? '暂无' : data.docName }</Text>
+            <Text style={styles.value}>{data.docName ? data.docName : '暂无' }</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>当前状态：</Text>
-            <Text style={[styles.value, { color: Global.colors.IOS_RED }]}>{data.status === undefined ? '暂无' : status[data.status] }</Text>
+            <Text style={[styles.value, { color: Global.colors.IOS_RED }]}>{data.status ? status[data.status] : '暂无' }</Text>
           </View>
         </ScrollView>
       </View>

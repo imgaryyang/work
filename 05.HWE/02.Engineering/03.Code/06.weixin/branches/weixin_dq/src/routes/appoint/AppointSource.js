@@ -5,6 +5,7 @@ import { routerRedux } from 'dva/router';
 import _ from 'lodash';
 import less from './AppointSource.less';
 import { action, clientWidth, isValidArray, chineseDate } from '../../utils/common';
+import baseStyles from '../../utils/base.less';
 
 class AppointSource extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class AppointSource extends React.Component {
     const date = chineseDate(clinicDate);
     const title = `${depName} > ${clinicTypeName} > ${date} > ${shiftName}`;
     return (
-      <div className={less.scrolly}>
+      <div className={baseStyles.scrolly}>
         <div className={less.title}>{title}</div>
         <Flex direction="row" wrap="wrap" >
           {

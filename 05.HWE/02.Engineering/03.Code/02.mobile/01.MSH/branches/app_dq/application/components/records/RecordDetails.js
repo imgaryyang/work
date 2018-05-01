@@ -15,6 +15,7 @@ import moment from 'moment';
 import Card from 'rn-easy-card';
 import Button from 'rn-easy-button';
 import Icon from 'rn-easy-icon';
+import Toast from 'react-native-root-toast';
 
 import Global from '../../Global';
 import TestItem from './TestItem';
@@ -22,6 +23,7 @@ import Item from '../../modules/PureListItem';
 
 import { diagnoseList, recordList } from '../../services/records/RecordService';
 import { hisTestList, hisPacsList } from '../../services/reports/TestService';
+import {connect} from "react-redux";
 
 class RecordDetails extends Component {
   static displayName = 'RecordDetails';
@@ -130,6 +132,10 @@ class RecordDetails extends Component {
       //   checkName: item.itemName,
       //   index,
       // });
+      if (item.detailUrl.indexOf('http') === -1) {
+        Toast.show('未找到对应的已报告检查信息');
+        return;
+      }
       this.props.navigation.navigate('PacsWebView', {
         barcode: item.barcode,
         data: item,
@@ -171,8 +177,8 @@ class RecordDetails extends Component {
 
 
   async fetchData() {
-    // console.log('fetchData====');
-
+    console.log('fetchData====', this.state.value);
+    const query = { ...this.state.value, actId: this.state.value.id };
     let diagResult = [];
     let recordResult = [];
     let lisResult = [];
@@ -194,7 +200,7 @@ class RecordDetails extends Component {
     });
     // diagData
     try {
-      diagData = await diagnoseList(this.state.value);
+      diagData = await diagnoseList(query);
       if (diagData.success) {
         diagResult = diagData.result ? diagData.result : [];
       } else {
@@ -214,7 +220,8 @@ class RecordDetails extends Component {
 
     // recordData
     try {
-      recordData = await recordList(this.state.value);
+      recordData = await recordList(query);
+      // console.log('recordData', recordData);
       if (recordData.success) {
         recordResult = recordData.result ? recordData.result : null;
       } else {
@@ -234,10 +241,15 @@ class RecordDetails extends Component {
     }
     // test
     try {
-      lisData = await hisTestList(this.state.value);
-      pacsData = await hisPacsList(this.state.value);
-      console.log('lisData', lisData);
-      console.log('pacsData', pacsData);
+      const { treatStart } = this.state.value;
+      const currProfile = this.props.base.currProfile;
+      const endDate = moment(treatStart).format('YYYY-MM-DD');
+      const startDate = moment(treatStart).subtract(1, 'days').format('YYYY-MM-DD');
+      const newQuery = { proNo: currProfile.no, startDate, endDate };
+      lisData = await hisTestList(newQuery);
+      pacsData = await hisPacsList(query);
+      // console.log('lisData', lisData);
+      // console.log('pacsData', pacsData);
       // lis
       if (lisData.success) {
         lisResult = lisData.result ? lisData.result : [];
@@ -256,12 +268,10 @@ class RecordDetails extends Component {
         for (let i = 0; i < pacstResult.length; i++) {
           pacstResult[i].testType = '0002';
           pacstResult[i].pkgName = '特检';
-          // pacsResult[i].reportTime = pacsResult[i].orderTime;
-          // pacsResult[i].itemName = pacsResult[i].name;
         }
         // Msg.concat
         testResult = testResult.concat(pacstResult);
-        console.log('testResult', testResult);
+        // console.log('testResult', testResult);
       } else {
         Msg = Msg.concat(pacsData.msg);
       }
@@ -329,6 +339,7 @@ class RecordDetails extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
+    const record = this.state.value;
     return (
       <Item
         data={item}
@@ -358,15 +369,7 @@ class RecordDetails extends Component {
               <Sep width={30} />
               <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>生</Text>
               <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.docName}</Text>
-            </View>
-            <Sep height={5} />
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>病</Text>
-              <Sep width={30} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>史</Text>
-              <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.diseaseType ? '无' : '无'}</Text>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{record && record.docName ? record.docName : ''}</Text>
             </View>
             <Sep height={5} />
             <View style={{ flexDirection: 'row' }}>
@@ -374,14 +377,22 @@ class RecordDetails extends Component {
               <Sep width={30} />
               <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>室</Text>
               <Sep width={10} />
-              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.depName}</Text>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{record && record.depName ? record.depName : ''}</Text>
             </View>
-            <Sep height={5} />
+            {/*<Sep height={5} />
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>病</Text>
+              <Sep width={30} />
+              <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>史</Text>
+              <Sep width={10} />
+              <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.diseaseType ? '无' : '无'}</Text>
+            </View>*/}
+            {/*<Sep height={5} />
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontSize: 15, color: Global.colors.FONT_LIGHT_GRAY1 }}>主要诊断</Text>
               <Sep width={10} />
               <Text style={{ fontSize: 15, color: Global.colors.FONT }}>{item.isCurrent === '1' ? '是' : '否'}</Text>
-            </View>
+            </View>*/}
           </View>
         </View>
       </Item>
@@ -397,19 +408,19 @@ class RecordDetails extends Component {
       >
         <View style={{ flex: 1, margin: 15, marginLeft: 0 }} >
           <View style={[styles.itemRowContainer, styles.mainItemRowContainer]} >
-            <Text style={{ flex: 1 }} >{item.name}{item.form ? ` ( ${item.form} )` : null}</Text>
+            <Text style={{ flex: 1 }} >{item.name}</Text>
             <Text style={styles.itemBarcode} >{item.barcode}</Text>
           </View>
           <View style={styles.itemRowContainer} >
-            <Text style={{ flex: 1 }} ><Text style={styles.normalLabel} >用量：</Text><Text style={styles.normalValue} >{item.dose}</Text></Text>
-            <Text style={{ flex: 1 }} ><Text style={styles.normalLabel} >频率：</Text><Text style={styles.normalValue} >{item.frequency}</Text></Text>
+            {/*<Text style={{ flex: 1 }} ><Text style={styles.normalLabel} >用量：</Text><Text style={styles.normalValue} >{item.dose}</Text></Text>*/}
+            <Text style={{ flex: 2 }} ><Text style={styles.normalLabel} >频率：</Text><Text style={styles.normalValue} >{item.frequency}</Text></Text>
             <Text style={{ flex: 1 }} ><Text style={styles.normalLabel} >用法：</Text><Text style={styles.normalValue} >{item.way}</Text></Text>
           </View>
           {
             item.specialWay ? (
               <View style={styles.itemRowContainer} >
                 <Text style={styles.normalLabel} >备注：</Text>
-                <Text style={styles.normalValue} >{item.specialWay}</Text>
+                <Text style={styles.normalValue} >{item.specialWay ? item.specialWay : '暂无'}</Text>
               </View>
             ) : null
           }
@@ -517,7 +528,7 @@ class RecordDetails extends Component {
           <View style={{ flexDirection: 'row-reverse', height: 10 }} />
           <Card fullWidth >
             <View style={{ backgroundColor: 'white' }}>
-              <Text style={styles.titleText}>化验医嘱</Text>
+              <Text style={styles.titleText}>化验/特检医嘱</Text>
               <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
               <FlatList
                 data={this.state.recordTestData}
@@ -638,4 +649,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecordDetails;
+const mapStateToProps = state => ({
+  base: state.base,
+});
+
+export default connect(mapStateToProps, null)(RecordDetails);

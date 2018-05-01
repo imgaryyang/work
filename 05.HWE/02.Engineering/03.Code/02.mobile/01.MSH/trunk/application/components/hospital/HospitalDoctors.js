@@ -11,13 +11,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Card from 'rn-easy-card';
+import Toast from 'react-native-root-toast';
 import Portrait from 'rn-easy-portrait';
+import Picker from 'rn-easy-picker';
+import Icon from 'rn-easy-icon';
 import Sep from 'rn-easy-separator';
 import { B } from 'rn-easy-text';
 
 import Global from '../../Global';
 import { listByHospital } from '../../services/hospital/DoctorService';
 import ctrlState from '../../modules/ListState';
+import { listBrief } from '../../services/hospital/DeptService';
 
 const initPage = { start: 0, limit: 1000 };
 class HospitalDoctors extends Component {
@@ -39,11 +43,15 @@ class HospitalDoctors extends Component {
     this.renderRow = this.renderRow.bind(this);
     this.onPressRegister = this.onPressRegister.bind(this);
     this.onPressDetail = this.onPressDetail.bind(this);
+    this.renderToolBar = this.renderToolBar.bind(this);
   }
 
   state = {
     page: initPage,
     ctrlState,
+    deptId: '',
+    deptName: null,
+    dept: [],
     dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
   };
 
@@ -61,7 +69,7 @@ class HospitalDoctors extends Component {
   /**
    * 导向到预约挂号
    */
-  onPressRegister(doctor) {
+  onPressRegister() {
   }
 
   data = [];
@@ -90,13 +98,27 @@ class HospitalDoctors extends Component {
 
   // 查询数据
   async fetchData() {
+    const deptId = this.state.deptId;
     // console.log('.......ctrlState in fetchData:', this.state.ctrlState);
     try {
-      const responseData = await listByHospital(
-        this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
-        this.state.page.limit,
-        { hosId: this.props.hosp.id },
-      );
+      let responseData = [];
+      if (deptId === '') {
+        responseData = await listByHospital(
+          this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
+          this.state.page.limit,
+          { hosId: this.props.hosp.id },
+        );
+      } else {
+        responseData = await listByHospital(
+          this.state.ctrlState.refreshing ? initPage.start : this.state.page.start,
+          this.state.page.limit,
+          { hosId: this.props.hosp.id, depId: this.state.deptId },
+        );
+      }
+
+      // 获取科室
+      const dept = await listBrief({ hosId: this.props.hosp.id });
+
       // console.log('responseData in HospitalDepts.fetchData():', responseData);
       if (responseData.success) {
         this.data = responseData.result;
@@ -107,6 +129,7 @@ class HospitalDoctors extends Component {
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(this.data),
           ctrlState: newCtrlState,
+          dept: dept.result,
         });
       } else {
         this.setState({
@@ -137,7 +160,6 @@ class HospitalDoctors extends Component {
    * 渲染行数据
    */
   renderRow(item, sectionId, rowId) {
-    console.log(item);
     const portraitSource = item.photo ?
       { uri: `${Global.getImageHost()}${item.photo}?timestamp=${new Date().getTime()}` } :
       Global.Config.defaultImgs.docPortrait;
@@ -172,6 +194,51 @@ class HospitalDoctors extends Component {
     );
   }
 
+  /**
+   * 渲染顶端工具栏
+   */
+  renderToolBar() {
+    const dept = this.state.dept;
+    const selectDept = [];
+    if (dept && dept.length > 0) {
+      const all = {};
+      all.value = '';
+      all.label = '全部';
+      selectDept.push(all);
+      dept.forEach((item) => {
+        const d = {};
+        d.value = item['id'];
+        d.label = item['name'];
+        selectDept.push(d);
+      });
+    } else {
+      Toast.show('该医院还没有科室！');
+      return;
+    }
+    return (
+      <View style={[Global.styles.TOOL_BAR.FIXED_BAR]} >
+        <TouchableOpacity
+          style={styles.dateBtn}
+          onPress={() => this.easyPicker2.toggle()}
+        >
+          <Text style={styles.picker} >{this.state.deptName ? this.state.deptName : '全部'}</Text>
+          <Icon name="ios-arrow-down" size={12} width={12} height={12} color={Global.colors.FONT_LIGHT_GRAY1} style={styles.switchIcon} />
+        </TouchableOpacity>
+        <Picker
+          ref={(c) => { this.easyPicker2 = c; }}
+          dataSource={selectDept}
+          selected={this.state.deptId}
+          onChange={(selected) => {
+            this.state.deptId = selected.value;
+            this.state.deptName = selected.label;
+            this.fetchData();
+          }}
+          center
+        />
+      </View>
+    );
+  }
+
   render() {
     const emptyView = this.renderEmptyView({
       msg: '暂无医生信息',
@@ -184,6 +251,7 @@ class HospitalDoctors extends Component {
     });
     return (
       <View style={[Global.styles.CONTAINER, { backgroundColor: Global.colors.IOS_GRAY_BG }]} >
+        {this.renderToolBar()}
         {emptyView}
         <ListView
           automaticallyAdjustContentInsets={false} // 此参数保证在IOS的Tabbar中顶端不出现与statusBar等高的空隙
@@ -211,6 +279,21 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'row',
     backgroundColor: 'white',
+  },
+  dateBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30,
+    // paddingLeft: 15,
+  },
+  picker: {
+    fontSize: 15,
+    lineHeight: 17,
+    textAlign: 'center',
+    color: '#000000',
+    fontWeight: '600',
   },
 });
 

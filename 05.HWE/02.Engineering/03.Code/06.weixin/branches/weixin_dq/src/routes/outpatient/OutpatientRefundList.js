@@ -1,10 +1,10 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { List, Toast, ActivityIndicator, Button } from 'antd-mobile';
+import { List, Toast, ActivityIndicator, Button, ListView } from 'antd-mobile';
 import moment from 'moment';
 import styles from './OutpatientRefundList.less';
-import commonStyles from '../../utils/common.less';
+import baseStyles from '../../utils/base.less';
 import { filterMoney, filterTextBreak } from '../../utils/Filters';
 
 const { Item } = List;
@@ -17,6 +17,8 @@ class OutpatientRefundList extends React.Component {
     this.gotoRefundDetail = this.gotoRefundDetail.bind(this);
     this.onItemClick = this.onItemClick.bind(this);
     this.loadOutpatientRefund = this.loadOutpatientRefund.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+    this.separator = this.separator.bind(this);
   }
   componentWillMount() {
     console.log('componentWillMount');
@@ -87,27 +89,57 @@ class OutpatientRefundList extends React.Component {
       type: '0', // 充值
       // bizType: '00', // 门诊充值
       status: '0', // 成功
-      startDate: new Date(now - (24 * 60 * 60 * 1000 * 365)),
-      endDate: now,
+      startDate: moment(new Date(now - (24 * 60 * 60 * 1000 * 365))).format('YYYY-MM-DD'),
+      endDate: moment(now).format('YYYY-MM-DD'),
     };
     this.props.dispatch({
       type: 'outpatientReturn/findChargeList',
       payload: { query },
     });
   }
+  separator() {
+    return (<div className={styles['separator']} />);
+  }
+  renderItem(item, idx) {
+    const map = { C: '现金', Z: '支付宝', W: '微信', B: '银行卡' };
+    return (
+      <div key={idx} className={styles['rowContainer']} >
+        <Item
+          key={idx}
+          onClick={() => { this.onItemClick(item); }}
+          align="top"
+          multipleLine
+          style={{ width: '100%' }}
+        >
+          <Brief><span className={styles.title}>订单号</span><span className={styles.content}>{item.tradeNo}</span></Brief>
+          <Brief>
+            <span className={styles.title}>充值时间</span>
+            <span className={styles.content}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss') : '' }</span>
+          </Brief>
+          <Brief>
+            <span className={styles.title}>({map[item.tradeChannel]})充值金额</span>
+            <span className={styles.content}>{item.amt ? item.amt.formatMoney() : ''}元 </span>&nbsp;
+            <span className={styles.title}>已退金额</span>
+            <span className={styles.content}>{item.refunded ? item.refunded.formatMoney() : '0.00'}元 </span>
+          </Brief>
+        </Item>
+      </div>
+    );
+  }
   render() {
     const { currProfile } = this.props.base;
     const { data: depositData } = this.props.deposit;
     const balance = depositData.balance ? depositData.balance : 0;
-    const itemList = [];
+    // let itemList = {};
     const { data, isLoading } = this.props.outpatientReturn;
-    const filterTradeChannel = this.props.base.openid ? 'W' : 'Z';
-    // const map = { C: '现金预存', Z: '支付宝预存', W: '微信预存', B: '银行卡预存' };
+    // let { height } = this.props.outpatientReturn;
+    // height = height - 20;
+    // const filterTradeChannel = this.props.base.openid ? 'W' : 'Z';
 
-    if (!currProfile.id) {
+    if (!currProfile.no) {
       return (
         <div className={styles.container}>
-          <div className={commonStyles.emptyView}>请先选择就诊人
+          <div className={baseStyles.emptyView}>请先选择就诊人
             <Button
               type="ghost"
               inline
@@ -131,47 +163,45 @@ class OutpatientRefundList extends React.Component {
       );
     }
 
-    if (data && data.length > 0) {
-      let i = 0;
-      for (const item of data) {
-        if (item.tradeChannel === filterTradeChannel) {
-          itemList.push(<Item
-            key={i}
-            arrow="horizontal"
-            onClick={() => { this.onItemClick(item); }}
-            align="top"
-            multipleLine
-          >
-            <Brief><span className={styles.title}>订单号</span><span className={styles.content}>{item.tradeNo}</span></Brief>
-            <Brief>
-              <span className={styles.title}>充值时间</span>
-              <span className={styles.content}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm:ss') : '' }</span>
-            </Brief>
-            <Brief>
-              <span className={styles.title}>支付金额</span>
-              <span className={styles.content}>{item.amt ? item.amt.formatMoney() : ''}元 </span>&nbsp;
-              <span className={styles.title}>已退金额</span>
-              <span className={styles.content}>{item.refunded ? item.refunded.formatMoney() : '0.00'}元 </span>
-            </Brief>
-          </Item>);
-        }
-        i += 1;
-      }
-    }
-
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
     const content = (
       data.length === 0 ? (
-        <div className={commonStyles.emptyView}>
-          {filterTextBreak(`暂无${currProfile.name}（卡号：${currProfile.no}）\n的门诊充值信息！`)}
+        <div className={baseStyles.emptyView}>
+          {filterTextBreak(`暂无${currProfile.name}（卡号：${currProfile.no}）\n的可退充值信息！`)}
         </div>
-      ) : itemList
+      ) : (
+        <div style={{ flex: 1, display: 'flex' }}>
+          <ListView
+            ref={(el) => { this.lv = el; }}
+            dataSource={dataSource.cloneWithRows(data)}
+            // renderSeparator={this.separator}
+            renderRow={this.renderItem}
+            style={{
+              overflow: 'auto',
+              flex: '1',
+            }}
+            pageSize={10}
+            onScroll={() => { console.log('scroll'); }}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={10}
+            // // 下拉刷新
+            // pullToRefresh={<PullToRefresh
+            //   refreshing={isLoading}
+            //   onRefresh={this.loadOutpatientRefund}
+            //   style={{
+            //     borderBottomWidth: 0,
+            //   }}
+            // />}
+          />
+        </div>
+      )
     );
     return (
       <div className={styles.container}>
         <div className={styles.header}>当前余额&nbsp;{filterMoney(balance)}元</div>
-        <div>
-          {content}
-        </div>
+        { content }
       </div>
     );
   }

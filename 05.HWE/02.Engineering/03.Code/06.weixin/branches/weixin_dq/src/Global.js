@@ -23,7 +23,10 @@ class Global extends Object {
   static edition = Global.EDITION_MULTI;
 
   // 当前hisUser
-  static hisUser = '0001';
+  static hisUser = '30000';
+  static bankCode_zzj = '0105';
+  static machineCode = 'APP01';
+  static areaCode = '01';
 
   static getEditionDesc() {
     return Global.edition === Global.EDITION_MULTI ? '多医院版' : '单医院版';

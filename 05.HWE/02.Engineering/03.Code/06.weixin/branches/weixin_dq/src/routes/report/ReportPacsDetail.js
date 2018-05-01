@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import Icon from '../../components/FAIcon';
+// import Icon from '../../components/FAIcon';
 import styles from './ReportPacsDetail.less';
 import ActivityIndicatorView from '../../components/ActivityIndicatorView';
-import { Toast } from 'antd-mobile/lib/index';
-import commonStyles from '../../utils/common.less';
+// import { Toast } from 'antd-mobile/lib/index';
+import baseStyles from '../../utils/base.less';
 import FAIcon from '../../components/FAIcon';
 
 class ReportPacsDetail extends React.Component {
@@ -27,10 +27,10 @@ class ReportPacsDetail extends React.Component {
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <div
               onClick={this.refresh}
-              className={commonStyles.navBtnContainer}
+              className={baseStyles.navBtnContainer}
             >
-              <FAIcon type="refresh" className={commonStyles.navBtnIcon} />
-              <div className={commonStyles.navBtnText}>刷新</div>
+              <FAIcon type="refresh" className={baseStyles.navBtnIcon} />
+              <div className={baseStyles.navBtnText}>刷新</div>
             </div>
           </div>
         ),

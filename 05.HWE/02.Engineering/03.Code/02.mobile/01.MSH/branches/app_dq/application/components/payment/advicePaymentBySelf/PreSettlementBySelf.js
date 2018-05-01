@@ -71,8 +71,8 @@ class PreSettlementBySelf extends Component {
     pro.hisUser = profile.hisUser || user.id;
     pro.appType = config.appType;
     pro.appCode = config.appCode;
-    pro.terminalUser = profile.terminalUser || user.id;
-    pro.terminalCode = '';
+    pro.terminalUser = profile.no;
+    pro.terminalCode = profile.mobile;
     // pro.chargeUser =
     pro.items = data.items;
     try {

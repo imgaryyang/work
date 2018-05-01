@@ -20,7 +20,7 @@ import Global from '../../Global';
 import ctrlState from '../../modules/ListState';
 import { filterMoney } from '../../utils/Filters';
 import { getPreStore } from '../../services/payment/AliPayService';
-import { getPreRecords, getChargeRecords } from '../../services/consume/ConsumeRecordsService';
+import { getChargeRecords } from '../../services/consume/ConsumeRecordsService';
 import config from '../../../Config';
 
 
@@ -141,20 +141,29 @@ class OutpatientRefund extends Component {
         },
       });
       const now = new Date();
-      const preRecordsData = await getPreRecords({
+      const responseData = await getPreStore({ no: profile.no, hosNo: profile.hosNo });
+      if (responseData.success) {
+        this.setState({
+          balance: responseData.result ? responseData.result.balance : 0,
+        });
+      } else {
+        this.handleRequestException({ msg: '获取数据出错！' });
+        this.setState({
+          balance: responseData.result ? responseData.result.balance : 0,
+        });
+      }
+      const preRecordsData = await getChargeRecords({
         proNo: profile.no,
         hosNo: profile.hosNo,
         // tradeChannel: "'Z','W'",
         type: '0',
         status: '0',
-        startDate: new Date(now - (24 * 60 * 60 * 1000 * 365)),
-        endDate: now,
+        startDate: moment(new Date(now - (24 * 60 * 60 * 1000 * 365))).format('YYYY-MM-DD'),
+        endDate: moment(now).format('YYYY-MM-DD'),
       });
-      const responseData = await getPreStore({ no: profile.no, hosNo: profile.hosNo });
       if (preRecordsData.success) {
         this.setState({
           data: preRecordsData.result ? preRecordsData.result : [],
-          balance: responseData.result ? responseData.result.balance : 0,
           ctrlState: {
             ...this.state.ctrlState,
             refreshing: false,
@@ -167,6 +176,7 @@ class OutpatientRefund extends Component {
             ...this.state.ctrlState,
             refreshing: false,
           },
+          data: [],
         });
       }
     } catch (e) {
@@ -175,6 +185,7 @@ class OutpatientRefund extends Component {
         ctrlState: {
           ...this.state.ctrlState,
           refreshing: false,
+          data: [],
         },
       });
     }
@@ -227,7 +238,7 @@ class OutpatientRefund extends Component {
         <Sep height={1 / Global.pixelRatio} bgColor={Global.colors.LINE} />
         <View>
           <View style={{ paddingTop: 19 / 2, paddingBottom: 19 / 2, flexDirection: 'row', paddingLeft: 15, alignItems: 'center', backgroundColor: 'white' }} >
-            <Text style={{ fontSize: 14, color: Global.colors.FONT }}>当前余额</Text>
+            <Text style={{ fontSize: 14, color: Global.colors.FONT_GRAY }}>当前余额</Text>
             <Sep width={10} />
             <Text style={{ fontSize: 16, fontWeight: '600', color: Global.colors.IOS_RED }}>
               { this.state.balance ? filterMoney(this.state.balance) : '0.00' }

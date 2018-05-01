@@ -188,19 +188,19 @@ class PreRecords extends Component {
    * 渲染行数据
    */
   renderItem({ item, index }) {
-    let tradeChannel = '';
-    if (item.tradeChannel === 'C') {
-      tradeChannel = '现金';
-    } else if (item.tradeChannel === 'Z') {
-      tradeChannel = '支付宝';
-    } else if (item.tradeChannel === 'W') {
-      tradeChannel = '微信';
-    } else if (item.tradeChannel === 'B') {
-      tradeChannel = '银行';
-    } else {
-      tradeChannel = '其他';
-    }
-    const typeMap = { 0: '充值', 1: '退款', 2: '冻结' };
+    // let tradeChannel = '';
+    // if (item.tradeChannel === 'C') {
+    //   tradeChannel = '现金';
+    // } else if (item.tradeChannel === 'Z') {
+    //   tradeChannel = '支付宝';
+    // } else if (item.tradeChannel === 'W') {
+    //   tradeChannel = '微信';
+    // } else if (item.tradeChannel === 'B') {
+    //   tradeChannel = '银行';
+    // } else {
+    //   tradeChannel = '其他';
+    // }
+    // const typeMap = { 0: '充值', 1: '退款', 2: '冻结' };
     const statusMap = { A: '未处理', 0: '交易成功', 1: '受理中', 9: '交易关闭' };
     return (
       <Item
@@ -213,7 +213,7 @@ class PreRecords extends Component {
           <View style={{ flex: 3 }} >
             <Text style={{ fontSize: 13, color: Global.colors.FONT_LIGHT_GRAY1 }}>{item.tradeTime ? moment(item.tradeTime).format('YYYY-MM-DD HH:mm') : '暂无日期' }</Text>
             <Sep height={6} />
-            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>{tradeChannel}_{typeMap[item.type]}</Text>
+            <Text style={{ fontSize: 15, color: Global.colors.FONT_GRAY }}>{item.type}</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 14, color: Global.colors.FONT_LIGHT_GRAY1, textAlign: 'right' }}>{filterMoney(item.amt)}</Text>

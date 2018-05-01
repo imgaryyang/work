@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Image, View, Text } from 'react-native';
 import _ from 'lodash';
 import Toast from 'react-native-root-toast';
-import Swiper from 'react-native-swiper';
+// import Swiper from 'react-native-swiper';
 
 import Global from '../../Global';
 
@@ -19,8 +19,8 @@ export default class AppFuncs extends Component {
     this.chooseHospitalForNext = this.chooseHospitalForNext.bind(this);
   }
 
-  onPressMenuItem(component, title, passProps, children) {
-    if (component) {
+  onPressMenuItem(component, title, passProps, children, state) {
+    if (component && state === '1') {
       if (component === 'AppSubFuncs') {
         this.props.navigate({
           component,
@@ -77,7 +77,7 @@ export default class AppFuncs extends Component {
         });
       }
     } else {
-      Toast.show(`${title}即将开通`);
+      Toast.show(`${title}即将开通${'\n'}敬请期待`);
     }
   }
 
@@ -94,30 +94,25 @@ export default class AppFuncs extends Component {
     const { services, imgIcons } = Global.Config;
     const mainServices = _.dropRight(services.hfc, services.hfc.length - 6);
     return mainServices.map(({
-      id, name, imgIcon, route, borderColor, passProps, children,
+      id, name, imgIcon, route, passProps, children, state,
     }, idx) => {
       // const bgColor = idx >= 6 ? this.bgColors[idx % 6] : this.bgColors[idx];
-      const content = idx < 6 ? (
+      const forbiddenItemIconStyle = !route || state !== '1' ? { tintColor: Global.colors.FONT_LIGHT_GRAY1 } : {};
+      const forbiddenItemTextStyle = !route || state !== '1' ? { color: Global.colors.FONT_LIGHT_GRAY1 } : {};
+      const content = (
         <View style={[styles.primaryItem, idx === 2 || idx === 5 ? { borderRightWidth: 0 } : null]} >
           <View style={[styles.primaryIconContainer]} >
-            <Image source={imgIcons[imgIcon]} resizeMode="contain" style={styles.primaryIcon} />
+            <Image source={imgIcons[imgIcon]} resizeMode="contain" style={[styles.primaryIcon, forbiddenItemIconStyle]} />
           </View>
-          <Text style={[styles.primaryText]}>{name}</Text>
-        </View>
-      ) : (
-        <View style={styles.item} >
-          <View style={[styles.iconContainer, (borderColor ? { borderColor } : null)]} >
-            <Image source={imgIcons[imgIcon]} resizeMode="contain" style={styles.icon} />
-          </View>
-          <Text style={[styles.text]}>{name}</Text>
+          <Text style={[styles.primaryText, forbiddenItemTextStyle]}>{name}</Text>
         </View>
       );
       return (
         <TouchableOpacity
           key={id}
-          style={idx < 6 ? styles.primaryItemContainer : styles.itemContainer}
+          style={styles.primaryItemContainer}
           onPress={() => {
-            this.onPressMenuItem(route, name, passProps, children);
+            this.onPressMenuItem(route, name, passProps, children, state);
           }}
         >
           {content}
@@ -245,42 +240,42 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  itemContainer: {
-    width: AppFuncs.itemWidth,
-  },
-  item: {
-    width: AppFuncs.itemWidth,
-    height: AppFuncs.itemWidth + 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'red',
-  },
-  iconContainer: {
-    width: AppFuncs.iconWidth,
-    height: AppFuncs.iconWidth,
-    // borderWidth: 1 / Global.pixelRatio,
-    borderRadius: AppFuncs.iconWidth / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 20,
-    // backgroundColor: 'green',
-  },
-  icon: {
-    width: AppFuncs.iconWidth / 2,
-    height: AppFuncs.iconWidth / 2,
-    backgroundColor: 'transparent',
-    tintColor: Global.colors.FONT_GRAY,
-  },
-  text: {
-    width: AppFuncs.itemWidth - 10,
-    fontSize: 12,
-    textAlign: 'center',
-    overflow: 'hidden',
-    marginTop: 0,
-    top: -8,
-    color: '#000000',
-    fontWeight: '600',
-  },
+  // itemContainer: {
+  //   width: AppFuncs.itemWidth,
+  // },
+  // item: {
+  //   width: AppFuncs.itemWidth,
+  //   height: AppFuncs.itemWidth + 10,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   // backgroundColor: 'red',
+  // },
+  // iconContainer: {
+  //   width: AppFuncs.iconWidth,
+  //   height: AppFuncs.iconWidth,
+  //   // borderWidth: 1 / Global.pixelRatio,
+  //   borderRadius: AppFuncs.iconWidth / 2,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   paddingBottom: 20,
+  //   // backgroundColor: 'green',
+  // },
+  // icon: {
+  //   width: AppFuncs.iconWidth / 2,
+  //   height: AppFuncs.iconWidth / 2,
+  //   backgroundColor: 'transparent',
+  //   tintColor: Global.colors.FONT_GRAY,
+  // },
+  // text: {
+  //   width: AppFuncs.itemWidth - 10,
+  //   fontSize: 12,
+  //   textAlign: 'center',
+  //   overflow: 'hidden',
+  //   marginTop: 0,
+  //   top: -8,
+  //   color: '#000000',
+  //   fontWeight: '600',
+  // },
 
   wrapper: {
     marginTop: 2,
